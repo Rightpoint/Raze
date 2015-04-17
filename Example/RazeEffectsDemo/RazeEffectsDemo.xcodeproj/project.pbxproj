@@ -1,0 +1,338 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D429EA501AE1863100B45527 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D429EA4B1AE1863100B45527 /* AppDelegate.m */; };
+		D429EA511AE1863100B45527 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D429EA4C1AE1863100B45527 /* Images.xcassets */; };
+		D429EA531AE1863100B45527 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D429EA4F1AE1863100B45527 /* ViewController.m */; };
+		D429EA5A1AE1864A00B45527 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D429EA581AE1864A00B45527 /* main.m */; };
+		D429EA6E1AE188CC00B45527 /* RazeCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D429EA681AE188C100B45527 /* RazeCore.framework */; };
+		D429EA6F1AE188CC00B45527 /* RazeCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D429EA681AE188C100B45527 /* RazeCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D429EA701AE188CC00B45527 /* RazeEffects.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D429EA691AE188C100B45527 /* RazeEffects.framework */; };
+		D429EA711AE188CC00B45527 /* RazeEffects.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D429EA691AE188C100B45527 /* RazeEffects.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D429EA721AE188CC00B45527 /* RazeUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D429EA6A1AE188C100B45527 /* RazeUIKit.framework */; };
+		D429EA731AE188CC00B45527 /* RazeUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D429EA6A1AE188C100B45527 /* RazeUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D429EA741AE188CC00B45527 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D429EA731AE188CC00B45527 /* RazeUIKit.framework in Embed Frameworks */,
+				D429EA6F1AE188CC00B45527 /* RazeCore.framework in Embed Frameworks */,
+				D429EA711AE188CC00B45527 /* RazeEffects.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		D41DB8161A681DDD00BFF5F9 /* RazeEffectsDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RazeEffectsDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D429EA4A1AE1863100B45527 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = RazeEffectsDemo/AppDelegate.h; sourceTree = SOURCE_ROOT; };
+		D429EA4B1AE1863100B45527 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = RazeEffectsDemo/AppDelegate.m; sourceTree = SOURCE_ROOT; };
+		D429EA4C1AE1863100B45527 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = RazeEffectsDemo/Images.xcassets; sourceTree = SOURCE_ROOT; };
+		D429EA4E1AE1863100B45527 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = RazeEffectsDemo/ViewController.h; sourceTree = SOURCE_ROOT; };
+		D429EA4F1AE1863100B45527 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = RazeEffectsDemo/ViewController.m; sourceTree = SOURCE_ROOT; };
+		D429EA551AE1863E00B45527 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = RazeEffectsDemo/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
+		D429EA571AE1864A00B45527 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = RazeEffectsDemo/Info.plist; sourceTree = SOURCE_ROOT; };
+		D429EA581AE1864A00B45527 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = RazeEffectsDemo/main.m; sourceTree = SOURCE_ROOT; };
+		D429EA5C1AE1865300B45527 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = RazeEffectsDemo/Base.lproj/LaunchScreen.xib; sourceTree = SOURCE_ROOT; };
+		D429EA681AE188C100B45527 /* RazeCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeCore.framework; path = ../../Raze/Products/RazeCore.framework; sourceTree = "<group>"; };
+		D429EA691AE188C100B45527 /* RazeEffects.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeEffects.framework; path = ../../Raze/Products/RazeEffects.framework; sourceTree = "<group>"; };
+		D429EA6A1AE188C100B45527 /* RazeUIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeUIKit.framework; path = ../../Raze/Products/RazeUIKit.framework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D41DB8131A681DDD00BFF5F9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D429EA6E1AE188CC00B45527 /* RazeCore.framework in Frameworks */,
+				D429EA721AE188CC00B45527 /* RazeUIKit.framework in Frameworks */,
+				D429EA701AE188CC00B45527 /* RazeEffects.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D41DB80D1A681DDD00BFF5F9 = {
+			isa = PBXGroup;
+			children = (
+				D429EA681AE188C100B45527 /* RazeCore.framework */,
+				D429EA691AE188C100B45527 /* RazeEffects.framework */,
+				D429EA6A1AE188C100B45527 /* RazeUIKit.framework */,
+				D41DB8181A681DDD00BFF5F9 /* RazeEffectsDemo */,
+				D41DB8171A681DDD00BFF5F9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D41DB8171A681DDD00BFF5F9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D41DB8161A681DDD00BFF5F9 /* RazeEffectsDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D41DB8181A681DDD00BFF5F9 /* RazeEffectsDemo */ = {
+			isa = PBXGroup;
+			children = (
+				D429EA4A1AE1863100B45527 /* AppDelegate.h */,
+				D429EA4B1AE1863100B45527 /* AppDelegate.m */,
+				D429EA4C1AE1863100B45527 /* Images.xcassets */,
+				D429EA5B1AE1865300B45527 /* LaunchScreen.xib */,
+				D429EA541AE1863E00B45527 /* Main.storyboard */,
+				D429EA4E1AE1863100B45527 /* ViewController.h */,
+				D429EA4F1AE1863100B45527 /* ViewController.m */,
+				D41DB8191A681DDD00BFF5F9 /* Supporting Files */,
+			);
+			path = RazeEffectsDemo;
+			sourceTree = "<group>";
+		};
+		D41DB8191A681DDD00BFF5F9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D429EA571AE1864A00B45527 /* Info.plist */,
+				D429EA581AE1864A00B45527 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D41DB8151A681DDD00BFF5F9 /* RazeEffectsDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D41DB8391A681DDD00BFF5F9 /* Build configuration list for PBXNativeTarget "RazeEffectsDemo" */;
+			buildPhases = (
+				D41DB8121A681DDD00BFF5F9 /* Sources */,
+				D41DB8131A681DDD00BFF5F9 /* Frameworks */,
+				D41DB8141A681DDD00BFF5F9 /* Resources */,
+				D429EA741AE188CC00B45527 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RazeEffectsDemo;
+			productName = RazeEffectsDemo;
+			productReference = D41DB8161A681DDD00BFF5F9 /* RazeEffectsDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D41DB80E1A681DDD00BFF5F9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = Raizlabs;
+				TargetAttributes = {
+					D41DB8151A681DDD00BFF5F9 = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+				};
+			};
+			buildConfigurationList = D41DB8111A681DDD00BFF5F9 /* Build configuration list for PBXProject "RazeEffectsDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D41DB80D1A681DDD00BFF5F9;
+			productRefGroup = D41DB8171A681DDD00BFF5F9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D41DB8151A681DDD00BFF5F9 /* RazeEffectsDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D41DB8141A681DDD00BFF5F9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D429EA511AE1863100B45527 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D41DB8121A681DDD00BFF5F9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D429EA531AE1863100B45527 /* ViewController.m in Sources */,
+				D429EA5A1AE1864A00B45527 /* main.m in Sources */,
+				D429EA501AE1863100B45527 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		D429EA541AE1863E00B45527 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D429EA551AE1863E00B45527 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		D429EA5B1AE1865300B45527 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D429EA5C1AE1865300B45527 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D41DB8371A681DDD00BFF5F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D41DB8381A681DDD00BFF5F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D41DB83A1A681DDD00BFF5F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../../**",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/RazeEffectsDemo/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D41DB83B1A681DDD00BFF5F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../../**",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/RazeEffectsDemo/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D41DB8111A681DDD00BFF5F9 /* Build configuration list for PBXProject "RazeEffectsDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D41DB8371A681DDD00BFF5F9 /* Debug */,
+				D41DB8381A681DDD00BFF5F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D41DB8391A681DDD00BFF5F9 /* Build configuration list for PBXNativeTarget "RazeEffectsDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D41DB83A1A681DDD00BFF5F9 /* Debug */,
+				D41DB83B1A681DDD00BFF5F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D41DB80E1A681DDD00BFF5F9 /* Project object */;
+}

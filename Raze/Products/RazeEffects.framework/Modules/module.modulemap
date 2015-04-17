@@ -1,0 +1,6 @@
+framework module RazeEffects {
+  umbrella header "RazeEffects.h"
+
+  export *
+  module * { export * }
+}
