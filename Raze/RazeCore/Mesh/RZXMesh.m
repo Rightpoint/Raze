@@ -77,12 +77,12 @@ static RZEffectContext *effectContext;
     return self;
 }
 
-- (NSString *)rzx_cacheKeyForContext:(RZEffectContext *)context
+- (NSString *)rzx_cacheKeyForContext:(RZXGLContext *)context
 {
     return [NSString stringWithFormat:@"%@%p",self.meshName,context];
 }
 
-- (RZXVertexObjectData *)rzx_generateVertexObjectDataForMeshWithFileName:(NSString *)fileName inContext:(RZEffectContext *)context
+- (RZXVertexObjectData *)rzx_generateVertexObjectDataForMeshWithFileName:(NSString *)fileName inContext:(RZXGLContext *)context
 {
     NSString* filepathname = [[NSBundle mainBundle] pathForResource:fileName ofType:@"mesh"];
     
