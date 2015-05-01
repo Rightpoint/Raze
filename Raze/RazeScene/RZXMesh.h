@@ -6,8 +6,7 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <RazeCore.h>
+#import <RazeCore/RazeCore.h>
 
 @interface RZXMesh : NSObject<RZXRenderable>
 

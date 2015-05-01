@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import "RZXNode.h"
+#import <RazeScene/RZXNode.h>
 
 @class RZXMesh;
 

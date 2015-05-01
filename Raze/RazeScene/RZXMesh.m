@@ -9,7 +9,7 @@
 #import "RZXMesh.h"
 
 #import <OpenGLES/ES2/glext.h>
-#import <RazeCore/RZXVertexObjectData.h>
+#import <RazeScene/RZXVertexObjectData.h>
 #import <RazeCore/RZXGLContext.h>
 
 static RZEffectContext *effectContext;
