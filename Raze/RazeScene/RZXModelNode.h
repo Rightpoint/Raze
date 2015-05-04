@@ -1,5 +1,5 @@
 //
-//  RZXModel.h
+//  RZXModeNodel.h
 //  RazeScene
 //
 //  Created by John Stricker on 4/17/15.
@@ -10,7 +10,7 @@
 
 @class RZXMesh;
 
-@interface RZXModel : RZXNode
+@interface RZXModelNode : RZXNode
 
 @property (strong, nonatomic) RZXMesh *mesh;
 @property (assign, nonatomic) GLuint texture0;
