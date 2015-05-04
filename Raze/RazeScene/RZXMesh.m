@@ -1,6 +1,6 @@
 //
 //  RZXMesh.m
-//  RZXSceneDemo
+//  RazeScene
 //
 //  Created by John Stricker on 3/19/15.
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
@@ -11,8 +11,6 @@
 #import <OpenGLES/ES2/glext.h>
 #import <RazeScene/RZXVertexObjectData.h>
 #import <RazeCore/RZXGLContext.h>
-
-static RZEffectContext *effectContext;
 
 @interface RZXMesh()
 
