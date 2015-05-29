@@ -7,8 +7,32 @@
 //
 
 #import "RZXSceneView.h"
+#import <RazeScene/RazeScene.h>
+
+@interface RZXSceneView(RZProtected)
+
+- (void)createBuffers;
+- (void)destroyBuffers;
+
+@end
+
+@interface RZXSceneView() <RZXUpdateable, RZXRenderable>
+
+@property (strong, nonatomic) IBOutlet UIView *sourceView;
+
+@end
 
 @implementation RZXSceneView
+
+- (instancetype)initWithSourceView:(UIView *)view scene:(RZXScene *)scene
+{
+    self = [super initWithFrame:view.bounds];
+    if (self) {
+        _sourceView = view;
+    }
+    return self;
+}
+
 
 /*
 // Only override drawRect: if you perform custom drawing.

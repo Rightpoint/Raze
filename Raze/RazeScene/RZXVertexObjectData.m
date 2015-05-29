@@ -87,7 +87,8 @@
 #pragma mark - RZOpenGLObject
 
 - (void)setupGL
-{    NSString* filepathname = [[NSBundle mainBundle] pathForResource:self.fileName ofType:@"mesh"];
+{
+    NSString* filepathname = [[NSBundle mainBundle] pathForResource:self.fileName ofType:@"mesh"];
     
     if(!filepathname)
     {

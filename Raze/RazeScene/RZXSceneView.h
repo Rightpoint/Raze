@@ -14,4 +14,12 @@
 
 @property (strong, nonatomic) RZXScene *scene;
 
+- (instancetype)initWithSourceView:(UIView *)view scene:(RZXScene *)scene;
+
+@end
+
+@interface RZXSceneView (RZUnavailable)
+
+- (instancetype)initWithFrame:(CGRect)frame __attribute__((unavailable("Use -initWithSourceView: instead.")));
+
 @end
