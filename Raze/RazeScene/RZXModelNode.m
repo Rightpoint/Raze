@@ -10,4 +10,20 @@
 
 @implementation RZXModelNode
 
++ (instancetype)modelNodeWithMesh:(RZXMesh *)mesh texture0:(GLuint)texture0
+{
+    return [[self alloc] initWithMesh:mesh texture0:texture0];
+}
+
+- (instancetype)initWithMesh:(RZXMesh *)mesh texture0:(GLuint)texture0
+{
+    self = [super init];
+    if (self) {
+        _mesh = mesh;
+        _texture0 = texture0;
+    }
+    return self;
+}
+
+
 @end

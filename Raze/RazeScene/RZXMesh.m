@@ -81,6 +81,4 @@
     return [NSString stringWithFormat:@"%@%p",self.meshName,context];
 }
 
-
-
 @end

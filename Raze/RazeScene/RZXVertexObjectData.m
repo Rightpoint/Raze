@@ -40,6 +40,8 @@
         RZXVertexObjectData *vod = cache[key];
         [vod deleteCachedObjectData];
     }
+    
+    [cache removeAllObjects];
 }
 
 + (NSMutableDictionary *)cachedVertexObjects
