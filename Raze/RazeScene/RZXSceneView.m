@@ -18,13 +18,6 @@
 @end
 
 @implementation RZXSceneView {
-    GLint _backingWidth;
-    GLint _backingHeight;
-    
-    GLuint _viewColorRenderbuffer;
-    GLuint _viewFramebuffer;
-    GLuint _viewDepthRenderbuffer;
-    
     GLuint _sampleFramebuffer;
     GLuint _sampleColorRenderbuffer;
     GLuint _sampleDepthRenderbuffer;
@@ -39,17 +32,6 @@
     return self;
 }
 
-- (void)setFrame:(CGRect)frame
-{
-    [super setFrame:frame];
-    [self updateAfterViewRectChange];
-}
-
-- (void)setBounds:(CGRect)bounds
-{
-    [super setBounds:bounds];
-    [self updateAfterViewRectChange];
-}
 
 - (void)setScene:(RZXScene *)scene
 {
@@ -64,19 +46,15 @@
     return _context;
 }
 
-- (void)prepareLayerAndBuffers
+- (void)createBuffers
 {
-    // clear old buffer objects
-    [self destroyBuffers];
+    [super createBuffers];
     
-    // can't create buffers with width or height of 0
-    if ( CGRectIsEmpty(self.bounds) ) {
-        return;
-    }
-    
-    [self.context runBlock:^(RZXGLContext *context) {
+    // TODO multisampling in the superclass
+
+        /*
         // drawing and multisample formats are hard coded for now
-        GLuint numberOfSamples = 4;
+        GLuint numberOfSamples = 1;
         GLuint depthFormat = GL_DEPTH_COMPONENT16;
         
         CAEAGLLayer *glLayer = (CAEAGLLayer *)self.layer;
@@ -119,40 +97,7 @@
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _sampleDepthRenderbuffer);
         
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-            NSLog(@"Failed to make complete multisample framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
-    }];
-}
-
-- (void)destroyBuffers
-{
-    if ( _viewFramebuffer != 0 ) {
-        glDeleteFramebuffers(1, &_viewFramebuffer);
-        glDeleteRenderbuffers(1,&_viewColorRenderbuffer);
-        glDeleteRenderbuffers(1, &_viewDepthRenderbuffer);
-        
-        if ( _sampleFramebuffer != 0 ) {
-            glDeleteFramebuffers(1, &_sampleFramebuffer);
-            glDeleteRenderbuffers(1, &_sampleColorRenderbuffer);
-            glDeleteRenderbuffers(1, &_sampleDepthRenderbuffer);
-        }
-    }
-}
-
-- (void)recreateLayerAndBuffersIfNeeded
-{
-    CGSize currentSize = self.bounds.size;
-    CGFloat scale = [UIScreen mainScreen].scale;
-    
-    CGSize frameSize = CGSizeMake(_backingWidth / scale, _backingHeight / scale );
-    
-    if ( !CGSizeEqualToSize(currentSize, frameSize) ) {
-        [self prepareLayerAndBuffers];
-    }
-}
-
-- (void)updateAfterViewRectChange
-{
-    [self recreateLayerAndBuffersIfNeeded];
+            NSLog(@"Failed to make complete multisample framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));*/
 }
 
 #pragma mark - drawing
@@ -163,9 +108,25 @@
     [self.scene update:dt];
 }
 
-- (void)display
+// TODO: handle multisampling here in the superclass
+
+/*- (void)display
 {
     [self.context runBlock:^(RZXGLContext *context) {
+        glBindFramebuffer(GL_FRAMEBUFFER, _viewFramebuffer);
+        glViewport(0, 0, _backingWidth, _backingHeight);
+        
+        [self bindGL];
+        
+        [self.scene render];
+        
+        glBindRenderbuffer(GL_RENDERBUFFER, _viewColorRenderbuffer);
+        [context presentRenderbuffer:GL_RENDERBUFFER];
+        
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glBindRenderbuffer(GL_RENDERBUFFER, 0);
+
+        /*
         glBindFramebuffer(GL_FRAMEBUFFER, _sampleFramebuffer);
         glViewport(0, 0, _backingWidth, _backingHeight);
         
@@ -185,7 +146,8 @@
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glBindRenderbuffer(GL_RENDERBUFFER, 0);
+ 
     }];
 }
-
+*/
 @end
