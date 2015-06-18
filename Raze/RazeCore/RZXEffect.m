@@ -9,7 +9,7 @@
 #import <RazeCore/RZXEffect.h>
 #import <RazeCore/RZXGLContext.h>
 
-NSString* const kRZEffectDefaultVSH2D = RZX_SHADER_SRC(
+NSString* const kRZXEffectDefaultVSH2D = RZX_SHADER_SRC(
 attribute vec4 a_position;
 attribute vec2 a_texCoord0;
                                                   
@@ -21,7 +21,7 @@ void main(void)
     gl_Position = a_position;
 });
 
-NSString* const kRZEffectDefaultVSH3D = RZX_SHADER_SRC(
+NSString* const kRZXEffectDefaultVSH3D = RZX_SHADER_SRC(
 uniform mat4 u_MVPMatrix;
 
 attribute vec4 a_position;
@@ -35,7 +35,7 @@ void main(void)
     gl_Position = u_MVPMatrix * a_position;
 });
 
-NSString* const kRZEffectDefaultFSH = RZX_SHADER_SRC(
+NSString* const kRZXEffectDefaultFSH = RZX_SHADER_SRC(
 uniform lowp sampler2D u_Texture;
                                                     
 varying highp vec2 v_texCoord0;

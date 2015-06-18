@@ -8,7 +8,7 @@
 
 #import <RazeCore/RazeCore.h>
 
-@interface RZXMesh : NSObject<RZXRenderable>
+@interface RZXMesh : NSObject <RZXRenderable>
 
 + (instancetype)meshWithName:(NSString *)name meshFileName:(NSString *)meshFileName;
 

@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8A2A767E1B3349F300A09C11 /* confettiTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A2A767D1B3349F300A09C11 /* confettiTexture.png */; };
-		8A2A767F1B334A1300A09C11 /* cube.mesh in Resources */ = {isa = PBXBuildFile; fileRef = 8A2A767C1B3349EA00A09C11 /* cube.mesh */; };
+		8A2A76801B3359C400A09C11 /* cube.mesh in Resources */ = {isa = PBXBuildFile; fileRef = 8A2A767C1B3349EA00A09C11 /* cube.mesh */; };
 		8A63B4311AF3E14B00E86B66 /* RazeCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A63B42D1AF3E14B00E86B66 /* RazeCore.framework */; };
 		8A63B4321AF3E14B00E86B66 /* RazeCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A63B42D1AF3E14B00E86B66 /* RazeCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8A63B4331AF3E14C00E86B66 /* RazeEffects.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A63B42E1AF3E14B00E86B66 /* RazeEffects.framework */; };
@@ -243,8 +243,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8A2A767F1B334A1300A09C11 /* cube.mesh in Resources */,
 				8AE987501AE19C550058F441 /* Main.storyboard in Resources */,
+				8A2A76801B3359C400A09C11 /* cube.mesh in Resources */,
 				8AE987551AE19C550058F441 /* LaunchScreen.xib in Resources */,
 				8AE987521AE19C550058F441 /* Images.xcassets in Resources */,
 				8A2A767E1B3349F300A09C11 /* confettiTexture.png in Resources */,

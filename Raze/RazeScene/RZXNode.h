@@ -6,19 +6,31 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <RazeCore/RazeCore.h>
+#import <GLKit/GLKMatrix4.h>
 
-@class RZTransform3D;
-@class RZEffect;
-@class RZCamera;
+#import <RazeCore/RZXRenderable.h>
+#import <RazeCore/RZXUpdateable.h>
+
+@class RZXTransform3D;
+@class RZXEffect;
+@class RZXCamera;
 
 @interface RZXNode : NSObject <RZXRenderable, RZXUpdateable>
-@property (strong, nonatomic) RZTransform3D *transform;
-@property (strong, nonatomic) RZEffect *effect;
-@property (strong, nonatomic) RZCamera *camera;
 
-@property (strong, nonatomic) NSMutableArray *children;
+@property (strong, nonatomic) RZXTransform3D *transform;
+@property (strong, nonatomic) RZXEffect *effect;
+@property (strong, nonatomic) RZXCamera *camera;
+
+@property (copy, nonatomic, readonly) NSArray *children;
 @property (weak, nonatomic, readonly) RZXNode *parent;
 
+- (void)addChild:(RZXNode *)child;
+- (void)insertChild:(RZXNode *)child atIndex:(NSUInteger)index;
+
+- (void)removeFromParent;
+
+- (GLKMatrix4)modelMatrix;
+- (GLKMatrix4)viewMatrix;
+- (GLKMatrix4)projectionMatrix;
 
 @end

@@ -58,7 +58,7 @@
 {
     self = [super init];
     if ( self ) {
-        _fileName = fileName;
+        _fileName = [fileName stringByDeletingPathExtension];
         _context = context;
     }
     return self;
@@ -103,14 +103,14 @@
     fread(&indexCount, sizeof(GLushort), 1, meshFile);
     
     GLushort *indexArray = (GLushort*)malloc(indexCount * sizeof(GLushort));
-    fread(&indexArray, sizeof(GLushort), indexCount, meshFile);
+    fread(indexArray, sizeof(GLushort), indexCount, meshFile);
     
-    GLushort *uniqueVertexCount;
+    GLushort uniqueVertexCount;
     fread(&uniqueVertexCount, sizeof(GLushort), 1, meshFile);
     
     int uniqueVertexArraySize = (int)uniqueVertexCount * 8 * sizeof(GLfloat);
     GLfloat *uniqueVertexArray = (GLfloat*)malloc(uniqueVertexArraySize);
-    fread(&uniqueVertexArray, 1, uniqueVertexArraySize, meshFile);
+    fread(uniqueVertexArray, 1, uniqueVertexArraySize, meshFile);
     
     fclose(meshFile);
     
@@ -121,7 +121,7 @@
     
     glGenBuffers(1, &vio);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vio);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLint)*indexCount, indexArray, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort)*indexCount, indexArray, GL_STATIC_DRAW);
     
     glGenBuffers(1,&vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -143,7 +143,8 @@
     obd.vertexCount = indexCount;
     
     free(indexArray);
-    free(uniqueVertexArray);}
+    free(uniqueVertexArray);
+}
 
 - (void)bindGL
 {

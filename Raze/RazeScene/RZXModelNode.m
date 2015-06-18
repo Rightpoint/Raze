@@ -42,23 +42,26 @@
 
 - (void)setupGL
 {
-    [super setupGL];
     [_texture setupGL];
     [_mesh setupGL];
+    
+    [super setupGL];
 }
 
 - (void)bindGL
 {
-    [super bindGL];
     [_texture bindGL];
     [_mesh bindGL];
+    
+    [super bindGL];
 }
 
 - (void)teardownGL
 {
-    [super teardownGL];
     [_texture teardownGL];
     [_mesh teardownGL];
+    
+    [super teardownGL];
 }
 
 @end
