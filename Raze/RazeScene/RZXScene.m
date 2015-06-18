@@ -10,4 +10,9 @@
 
 @implementation RZXScene
 
+- (void)update:(NSTimeInterval)dt
+{
+    
+}
+
 @end

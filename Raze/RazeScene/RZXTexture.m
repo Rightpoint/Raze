@@ -23,22 +23,6 @@
     return [[self alloc] initWithFileName:fileName useMipMapping:useMipMapping useCache:useCache];
 }
 
-+ (NSNumber *)fetchCachedTextureIndexWithKey:(NSString *)keyString
-{
-    NSMutableDictionary *cache = [RZXTexture cachedTextureIdentifiers];
-    return cache[keyString];
-}
-
-+ (NSMutableDictionary *)cachedTextureIdentifiers
-{
-    static NSMutableDictionary *cacheDictionary;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        cacheDictionary = [[NSMutableDictionary alloc] init];
-    });
-    return cacheDictionary;
-}
-
 + (void)deleteAllTexturesFromCache
 {
     NSMutableDictionary *cache = [self cachedTextureIdentifiers];
@@ -59,10 +43,28 @@
 {
     glDeleteTextures(1, &_identifier);
     
-    if ( _cacheRequested ) {
+    if (_cacheRequested) {
         NSMutableDictionary *cache = [RZXTexture cachedTextureIdentifiers];
         [cache removeObjectForKey:_fileName];
     }
+}
+
+#pragma mark - private methods
+
++ (NSNumber *)fetchCachedTextureIndexWithKey:(NSString *)keyString
+{
+    NSMutableDictionary *cache = [RZXTexture cachedTextureIdentifiers];
+    return cache[keyString];
+}
+
++ (NSMutableDictionary *)cachedTextureIdentifiers
+{
+    static NSMutableDictionary *cacheDictionary;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        cacheDictionary = [[NSMutableDictionary alloc] init];
+    });
+    return cacheDictionary;
 }
 
 - (instancetype)initWithFileName:(NSString *)fileName useMipMapping:(BOOL)useMipMapping useCache:(BOOL)useCache
@@ -92,7 +94,6 @@
             cache[_fileName] = @(_identifier);
         }
     }
-        
 }
 
 - (GLuint)createNewTextureWithFileName:(NSString *)fileName

@@ -15,6 +15,6 @@
 @property (strong, nonatomic) RZXMesh *mesh;
 @property (assign, nonatomic) GLuint texture0;
 
-+(instancetype)modelNodeWithMesh:(RZXMesh *)mesh texture0:(GLuint)texture0;
++ (instancetype)modelNodeWithMesh:(RZXMesh *)mesh texture0:(GLuint)texture0;
 
 @end

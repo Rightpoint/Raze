@@ -7,6 +7,7 @@
 //
 
 #import "RZXModelNode.h"
+#import "RZXMesh.h"
 
 @implementation RZXModelNode
 
@@ -23,6 +24,23 @@
         _texture0 = texture0;
     }
     return self;
+}
+
+- (void)setupGL
+{
+    [super setupGL];
+    [_mesh setupGL];
+    
+}
+
+- (void)update:(NSTimeInterval)dt
+{
+    
+}
+
+- (void)render
+{
+    
 }
 
 
