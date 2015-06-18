@@ -140,7 +140,7 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
         _subdivisions = subdivisions;
     }
     return self;
-}
+}   
 
 void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numVerts, GLvoid **indices, GLuint *numIdxs)
 {

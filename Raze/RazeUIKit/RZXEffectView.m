@@ -22,7 +22,7 @@
 
 @end
 
-@interface RZXEffectView () <RZXUpdateable, RZXRenderable>
+@interface RZXEffectView ()
 
 @property (nonatomic, readonly) RZXGLContext *context;
 

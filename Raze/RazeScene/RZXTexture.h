@@ -6,17 +6,13 @@
 //
 //
 
-#import <Foundation/Foundation.h>
-#import <RazeCore/RazeCore.h>
+#import <RazeCore/RZXOpenGLObject.h>
 
-@interface RZXTexture : NSObject
+@interface RZXTexture : NSObject <RZXOpenGLObject>
 
-@property (assign, readonly, nonatomic) GLuint identifier;
 @property (copy, readonly, nonatomic) NSString *fileName;
 
 + (instancetype)textureWithFileName:(NSString *)fileName useMipMapping:(BOOL)useMipMapping useCache:(BOOL)useCache;
 + (void)deleteAllTexturesFromCache;
-
-- (void)deleteTexture;
 
 @end

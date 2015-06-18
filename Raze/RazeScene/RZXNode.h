@@ -13,11 +13,12 @@
 @class RZCamera;
 
 @interface RZXNode : NSObject <RZXRenderable, RZXUpdateable>
-
-@property (strong, nonatomic) NSMutableArray *children;
-@property (strong, nonatomic) RZXNode *parent;
 @property (strong, nonatomic) RZTransform3D *transform;
 @property (strong, nonatomic) RZEffect *effect;
 @property (strong, nonatomic) RZCamera *camera;
+
+@property (strong, nonatomic) NSMutableArray *children;
+@property (weak, nonatomic, readonly) RZXNode *parent;
+
 
 @end

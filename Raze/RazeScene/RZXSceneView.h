@@ -12,14 +12,9 @@
 
 @interface RZXSceneView : RZXGLView
 
+// TODO: elimineate confusion between two seperate core renderables (scene here and model in RZXGLView)
 @property (strong, nonatomic) RZXScene *scene;
 
-- (instancetype)initWithSourceView:(UIView *)view scene:(RZXScene *)scene;
-
-@end
-
-@interface RZXSceneView (RZUnavailable)
-
-- (instancetype)initWithFrame:(CGRect)frame __attribute__((unavailable("Use -initWithSourceView: instead.")));
+- (instancetype)initWithFrame:(CGRect)frame scene:(RZXScene *)scene;
 
 @end

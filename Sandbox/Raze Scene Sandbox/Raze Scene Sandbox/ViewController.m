@@ -7,24 +7,24 @@
 //
 
 #import "ViewController.h"
-@import RazeCore;
+@import RazeScene;
 
 @interface ViewController ()
+
+@property (nonatomic, readonly) RZXSceneView *sceneView;
 
 @end
 
 @implementation ViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    RZXQuadMesh *quad = [RZXQuadMesh quad];
-    
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (RZXSceneView *)sceneView
+{
+    return (RZXSceneView *)self.view;
 }
 
 @end

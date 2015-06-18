@@ -10,15 +10,14 @@
 #import <RazeScene/RazeScene.h>
 #import <OpenGLES/ES2/glext.h>
 
-@interface RZXSceneView(RZProtected)
+@interface RZXGLView(RZProtected)
 
 - (void)createBuffers;
 - (void)destroyBuffers;
 
 @end
 
-@interface RZXSceneView() <RZXUpdateable, RZXRenderable>
-{
+@implementation RZXSceneView {
     GLint _backingWidth;
     GLint _backingHeight;
     
@@ -31,17 +30,11 @@
     GLuint _sampleDepthRenderbuffer;
 }
 
-@property (strong, nonatomic) IBOutlet UIView *sourceView;
-
-@end
-
-@implementation RZXSceneView
-
-- (instancetype)initWithSourceView:(UIView *)view scene:(RZXScene *)scene
+- (instancetype)initWithFrame:(CGRect)frame scene:(RZXScene *)scene
 {
-    self = [super initWithFrame:view.bounds];
+    self = [self initWithFrame:frame];
     if (self) {
-        _sourceView = view;
+        self.scene = scene;
     }
     return self;
 }
@@ -58,6 +51,12 @@
     [self updateAfterViewRectChange];
 }
 
+- (void)setScene:(RZXScene *)scene
+{
+    _scene = scene;
+    self.model = scene;
+}
+
 #pragma mark - private methods
 
 - (RZXGLContext *)context
@@ -68,7 +67,7 @@
 - (void)prepareLayerAndBuffers
 {
     // clear old buffer objects
-    [self deleteBuffers];
+    [self destroyBuffers];
     
     // can't create buffers with width or height of 0
     if ( CGRectIsEmpty(self.bounds) ) {
@@ -104,7 +103,7 @@
         if ( glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
             NSLog(@"Failed to make complete framebuffer object %i", glCheckFramebufferStatus(GL_FRAMEBUFFER));
         }
-        
+       
         // multisampling
         glGenFramebuffers(1, &_sampleFramebuffer);
         glBindFramebuffer(GL_FRAMEBUFFER, _sampleFramebuffer);
@@ -124,7 +123,7 @@
     }];
 }
 
-- (void)deleteBuffers
+- (void)destroyBuffers
 {
     if ( _viewFramebuffer != 0 ) {
         glDeleteFramebuffers(1, &_viewFramebuffer);
@@ -169,6 +168,10 @@
     [self.context runBlock:^(RZXGLContext *context) {
         glBindFramebuffer(GL_FRAMEBUFFER, _sampleFramebuffer);
         glViewport(0, 0, _backingWidth, _backingHeight);
+        
+        [self bindGL];
+        
+        [self.scene render];
     
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER_APPLE, _viewFramebuffer);
         glBindFramebuffer(GL_READ_FRAMEBUFFER_APPLE, _sampleFramebuffer);

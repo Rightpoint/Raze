@@ -6,17 +6,17 @@
 //
 //
 
-#import "RZXTexture.h"
 #import <GLKit/GLKit.h>
+#import <RazeCore/RZXGLContext.h>
 
-@interface RZXTexture()
-{
+#import "RZXTexture.h"
+
+@implementation RZXTexture {
+    GLuint _identifier;
+    
     BOOL _cacheRequested;
     BOOL _useMipMapping;
 }
-@end
-
-@implementation RZXTexture
 
 + (instancetype)textureWithFileName:(NSString *)fileName useMipMapping:(BOOL)useMipMapping useCache:(BOOL)useCache
 {
@@ -39,7 +39,20 @@
     [cache removeAllObjects];
 }
 
-- (void)deleteTexture
+#pragma mark - RZXOpenGLObject
+
+- (void)setupGL
+{
+    [self assignIdentifer];
+}
+
+- (void)bindGL
+{
+    [RZXGLContext currentContext].activeTexture = GL_TEXTURE0;
+    glBindTexture(GL_TEXTURE_2D, _identifier);
+}
+
+- (void)teardownGL
 {
     glDeleteTextures(1, &_identifier);
     
@@ -74,7 +87,6 @@
         _fileName = fileName;
         _cacheRequested = useCache;
         _useMipMapping = useMipMapping;
-        [self assignIdentifer];
     }
     return self;
 }
