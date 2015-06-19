@@ -168,7 +168,9 @@ static GLuint RZXCompileShader(const GLchar *source, GLenum type)
             }
         }];
 
+        CGColorRelease(_clearColor);
         _clearColor = clearColor;
+        CGColorRetain(_clearColor);
     }
 }
 

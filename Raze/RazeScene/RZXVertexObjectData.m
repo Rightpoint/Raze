@@ -96,85 +96,65 @@
         return;
     }
 
-    NSString* filepathname = [[NSBundle mainBundle] pathForResource:self.fileName ofType:@"mesh"];
-    
-    if(!filepathname)
-    {
-        NSLog(@"UNABLE TO LOCATE MODEL DATA for %@",self.fileName);
-    }
-    
-    FILE *meshFile = fopen([filepathname cStringUsingEncoding:NSASCIIStringEncoding], "r");
-    
-    GLint indexCount;
-    fread(&indexCount, sizeof(GLint), 1, meshFile);
-    
-    GLushort *indexArray = (GLushort *)malloc(indexCount * sizeof(GLushort));
-    fread(indexArray, 1, indexCount*sizeof(GLushort), meshFile);
-    
-    GLint uniqueVertexCount;
-    fread(&uniqueVertexCount, sizeof(GLint), 1, meshFile);
-    
-    GLint uniqueVertexArraySize = uniqueVertexCount * 8 * sizeof(GLfloat);
-    GLfloat *uniqueVertexArray = (GLfloat *)malloc(uniqueVertexArraySize);
-    fread(uniqueVertexArray, 1, uniqueVertexArraySize, meshFile);
-    
-    fclose(meshFile);
-    
-    int arraySize = uniqueVertexCount * 8 * sizeof(GLfloat);
-    
-    GLuint vao, vbo, vio;
-    
-    glGenVertexArraysOES(1,&vao);
-    glBindVertexArrayOES(vao);
-    
-    glGenBuffers(1, &vio);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vio);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort)*indexCount, indexArray, GL_STATIC_DRAW);
-    
-    glGenBuffers(1,&vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, arraySize, uniqueVertexArray, GL_STATIC_DRAW);
-    
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 32, (char*)NULL + 0);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 32, (char*)NULL + 12);
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 32, (char*)NULL + 24);
+    RZXGLContext *currentContext = [RZXGLContext currentContext];
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    _vaoIndex = vao;
-    _vboIndex = vbo;
-    _vioIndex = vio;
-    _indexCount = indexCount;
-    
-    //used for testing model output
-    
-    printf("indexes:\n");
-    for (int i = 0; i < indexCount; ++i) {
-        printf("%d ", indexArray[i]);
-    }
-    
-    int colCount = 0;
-    printf("\nVert data \n");
-    for(int i = 0; i < uniqueVertexCount; ++i)
-    {
-        printf("%f",uniqueVertexArray[i]);
-        if(++colCount == 8)
-        {
-            printf("\n");
-            colCount = 0;
+    if ( currentContext != nil ) {
+        NSString* filepathname = [[NSBundle mainBundle] pathForResource:self.fileName ofType:@"mesh"];
+        
+        if( !filepathname ) {
+            NSLog(@"UNABLE TO LOCATE MODEL DATA for %@", self.fileName);
         }
-        else
-        {
-            printf(", ");
-        }
-    }
+        
+        FILE *meshFile = fopen([filepathname cStringUsingEncoding:NSASCIIStringEncoding], "r");
+        
+        GLint indexCount;
+        fread(&indexCount, sizeof(GLint), 1, meshFile);
+        
+        GLushort *indexArray = (GLushort *)malloc(indexCount * sizeof(GLushort));
+        fread(indexArray, 1, indexCount*sizeof(GLushort), meshFile);
+        
+        GLint uniqueVertexCount;
+        fread(&uniqueVertexCount, sizeof(GLint), 1, meshFile);
+        
+        GLint uniqueVertexArraySize = uniqueVertexCount * 8 * sizeof(GLfloat);
+        GLfloat *uniqueVertexArray = (GLfloat *)malloc(uniqueVertexArraySize);
+        fread(uniqueVertexArray, 1, uniqueVertexArraySize, meshFile);
+        
+        fclose(meshFile);
 
-    
-    free(indexArray);
-    free(uniqueVertexArray);
+        GLuint vao, vbo, vio;
+        
+        glGenVertexArraysOES(1,&vao);
+        [currentContext bindVertexArray:vao];
+
+        glGenBuffers(1,&vbo);
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+        glBufferData(GL_ARRAY_BUFFER, uniqueVertexArraySize, uniqueVertexArray, GL_STATIC_DRAW);
+
+        glGenBuffers(1, &vio);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vio);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort)*indexCount, indexArray, GL_STATIC_DRAW);
+        
+        glEnableVertexAttribArray(kRZXVertexAttribPosition);
+        glVertexAttribPointer(kRZXVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 32, (char*)NULL + 0);
+        glEnableVertexAttribArray(kRZXVertexAttribNormal);
+        glVertexAttribPointer(kRZXVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 32, (char*)NULL + 12);
+        glEnableVertexAttribArray(kRZXVertexAttribTexCoord);
+        glVertexAttribPointer(kRZXVertexAttribTexCoord, 2, GL_FLOAT, GL_FALSE, 32, (char*)NULL + 24);
+
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+        _vaoIndex = vao;
+        _vboIndex = vbo;
+        _vioIndex = vio;
+        _indexCount = indexCount;
+        
+        free(indexArray);
+        free(uniqueVertexArray);
+    }
+    else {
+        NSLog(@"Failed to setup %@: No active context!", NSStringFromClass([self class]));
+    }
 }
 
 - (void)bindGL

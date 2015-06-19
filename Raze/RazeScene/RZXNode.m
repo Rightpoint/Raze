@@ -65,7 +65,7 @@
 
 - (GLKMatrix4)modelMatrix
 {
-    GLKMatrix4 modelMatrix = self.transform.modelMatrix;
+    GLKMatrix4 modelMatrix = self.transform ? self.transform.modelMatrix : GLKMatrix4Identity;
     
     if ( self.parent != nil ) {
         modelMatrix = GLKMatrix4Multiply([self.parent modelMatrix], modelMatrix);
@@ -76,7 +76,7 @@
 
 - (GLKMatrix4)viewMatrix
 {
-    GLKMatrix4 viewMatrix = self.camera.viewMatrix;
+    GLKMatrix4 viewMatrix = self.camera ? self.camera.viewMatrix : GLKMatrix4Identity;
     
     if ( self.parent != nil ) {
         viewMatrix = GLKMatrix4Multiply([self.parent viewMatrix], viewMatrix);
@@ -87,7 +87,7 @@
 
 - (GLKMatrix4)projectionMatrix
 {
-    GLKMatrix4 projectionMatrix = self.camera.projectionMatrix;
+    GLKMatrix4 projectionMatrix = self.camera ? self.camera.projectionMatrix : GLKMatrix4Identity;
     
     if ( self.parent != nil ) {
         projectionMatrix = GLKMatrix4Multiply([self.parent projectionMatrix], projectionMatrix);
@@ -126,10 +126,6 @@
     }
 
     [self.effect prepareToDraw];
-    
-    for ( RZXNode *child in self.children ) {
-        [child bindGL];
-    }
 }
 
 - (void)teardownGL
@@ -153,6 +149,7 @@
 - (void)render
 {
     for ( RZXNode *child in self.children ) {
+        [child bindGL];
         [child render];
     }
 }

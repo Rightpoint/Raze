@@ -20,4 +20,9 @@
     return self;
 }
 
+- (void)bindGL
+{
+    // no-op. The scene object itself isn't renderable
+}
+
 @end
