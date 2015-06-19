@@ -7,14 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D4D7EF121B33B46D003F4DA1 /* RazeCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D7EF0E1B33B46D003F4DA1 /* RazeCore.framework */; };
-		D4D7EF131B33B46D003F4DA1 /* RazeCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D4D7EF0E1B33B46D003F4DA1 /* RazeCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		D4D7EF141B33B46D003F4DA1 /* RazeEffects.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D7EF0F1B33B46D003F4DA1 /* RazeEffects.framework */; };
-		D4D7EF151B33B46D003F4DA1 /* RazeEffects.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D4D7EF0F1B33B46D003F4DA1 /* RazeEffects.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		D4D7EF161B33B46D003F4DA1 /* RazeScene.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D7EF101B33B46D003F4DA1 /* RazeScene.framework */; };
-		D4D7EF171B33B46D003F4DA1 /* RazeScene.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D4D7EF101B33B46D003F4DA1 /* RazeScene.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		D4D7EF181B33B46D003F4DA1 /* RazeUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D7EF111B33B46D003F4DA1 /* RazeUIKit.framework */; };
-		D4D7EF191B33B46D003F4DA1 /* RazeUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D4D7EF111B33B46D003F4DA1 /* RazeUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D4E3DB921AE688F4003360EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E3DB911AE688F4003360EC /* main.m */; };
 		D4E3DB951AE688F4003360EC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E3DB941AE688F4003360EC /* AppDelegate.m */; };
 		D4E3DB981AE688F4003360EC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E3DB971AE688F4003360EC /* ViewController.m */; };
@@ -41,10 +33,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				D4D7EF131B33B46D003F4DA1 /* RazeCore.framework in Embed Frameworks */,
-				D4D7EF151B33B46D003F4DA1 /* RazeEffects.framework in Embed Frameworks */,
-				D4D7EF171B33B46D003F4DA1 /* RazeScene.framework in Embed Frameworks */,
-				D4D7EF191B33B46D003F4DA1 /* RazeUIKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -52,10 +40,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D4D7EF0E1B33B46D003F4DA1 /* RazeCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeCore.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Sandbox-enkrdnqulxllcwejvxtxxaeacvek/Build/Products/Debug-iphoneos/RazeCore.framework"; sourceTree = "<group>"; };
-		D4D7EF0F1B33B46D003F4DA1 /* RazeEffects.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeEffects.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Sandbox-enkrdnqulxllcwejvxtxxaeacvek/Build/Products/Debug-iphoneos/RazeEffects.framework"; sourceTree = "<group>"; };
-		D4D7EF101B33B46D003F4DA1 /* RazeScene.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeScene.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Sandbox-enkrdnqulxllcwejvxtxxaeacvek/Build/Products/Debug-iphoneos/RazeScene.framework"; sourceTree = "<group>"; };
-		D4D7EF111B33B46D003F4DA1 /* RazeUIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeUIKit.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Sandbox-enkrdnqulxllcwejvxtxxaeacvek/Build/Products/Debug-iphoneos/RazeUIKit.framework"; sourceTree = "<group>"; };
 		D4E3DB8C1AE688F4003360EC /* Raze Animation Sandbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Raze Animation Sandbox.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4E3DB901AE688F4003360EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4E3DB911AE688F4003360EC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -76,10 +60,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4D7EF121B33B46D003F4DA1 /* RazeCore.framework in Frameworks */,
-				D4D7EF141B33B46D003F4DA1 /* RazeEffects.framework in Frameworks */,
-				D4D7EF161B33B46D003F4DA1 /* RazeScene.framework in Frameworks */,
-				D4D7EF181B33B46D003F4DA1 /* RazeUIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,10 +76,6 @@
 		D4E3DB831AE688F4003360EC = {
 			isa = PBXGroup;
 			children = (
-				D4D7EF0E1B33B46D003F4DA1 /* RazeCore.framework */,
-				D4D7EF0F1B33B46D003F4DA1 /* RazeEffects.framework */,
-				D4D7EF101B33B46D003F4DA1 /* RazeScene.framework */,
-				D4D7EF111B33B46D003F4DA1 /* RazeUIKit.framework */,
 				D4E3DB8E1AE688F4003360EC /* Raze Animation Sandbox */,
 				D4E3DBA81AE688F4003360EC /* Raze Animation SandboxTests */,
 				D4E3DB8D1AE688F4003360EC /* Products */,
@@ -385,11 +361,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/rob/Projects/Raze/Raze/build/Debug-iphoneos",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Sandbox-enkrdnqulxllcwejvxtxxaeacvek/Build/Products/Debug-iphoneos",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Raze Animation Sandbox/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -400,11 +372,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/rob/Projects/Raze/Raze/build/Debug-iphoneos",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Sandbox-enkrdnqulxllcwejvxtxxaeacvek/Build/Products/Debug-iphoneos",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Raze Animation Sandbox/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
