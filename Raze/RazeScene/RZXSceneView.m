@@ -126,7 +126,6 @@
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
-        /*
         glBindFramebuffer(GL_FRAMEBUFFER, _sampleFramebuffer);
         glViewport(0, 0, _backingWidth, _backingHeight);
         

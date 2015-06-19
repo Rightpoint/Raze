@@ -115,7 +115,7 @@
     self.effect.modelViewMatrix = GLKMatrix4Multiply([self viewMatrix], [self modelMatrix]);
     self.effect.projectionMatrix = [self projectionMatrix];
     
-    // can use modelView instead if only uniform scaling occurs
+    // can use modelView matrix for normal matrix if only uniform scaling occurs
     GLKVector3 scale = self.transform.scale;
     
     if ( scale.x == scale.y && scale.y == scale.z ) {
@@ -124,7 +124,7 @@
     else {
         self.effect.normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(self.effect.modelViewMatrix), NULL);
     }
-    
+
     [self.effect prepareToDraw];
     
     for ( RZXNode *child in self.children ) {

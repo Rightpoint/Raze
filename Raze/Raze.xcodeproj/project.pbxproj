@@ -81,6 +81,8 @@
 		D4D00EA41AE1545B00D007E4 /* RZXRenderLoop.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D00EA21AE1545B00D007E4 /* RZXRenderLoop.m */; };
 		D4D00EA91AE15B3700D007E4 /* RazeCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D00E0F1AE14CB900D007E4 /* RazeCore.framework */; };
 		D4D00EAA1AE15BFF00D007E4 /* RazeCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D00E0F1AE14CB900D007E4 /* RazeCore.framework */; };
+		D4D7EF1D1B33CBB7003F4DA1 /* RZXPassthroughEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = D4D7EF1B1B33CBB7003F4DA1 /* RZXPassthroughEffect.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D4D7EF1E1B33CBB7003F4DA1 /* RZXPassthroughEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D7EF1C1B33CBB7003F4DA1 /* RZXPassthroughEffect.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -202,6 +204,8 @@
 		D4D00E9B1AE14D4D00D007E4 /* RZXEffectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXEffectView.m; sourceTree = "<group>"; };
 		D4D00EA11AE1545B00D007E4 /* RZXRenderLoop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXRenderLoop.h; sourceTree = "<group>"; };
 		D4D00EA21AE1545B00D007E4 /* RZXRenderLoop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXRenderLoop.m; sourceTree = "<group>"; };
+		D4D7EF1B1B33CBB7003F4DA1 /* RZXPassthroughEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXPassthroughEffect.h; sourceTree = "<group>"; };
+		D4D7EF1C1B33CBB7003F4DA1 /* RZXPassthroughEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXPassthroughEffect.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -404,6 +408,8 @@
 			isa = PBXGroup;
 			children = (
 				D4D00E581AE14D1300D007E4 /* RazeEffects.h */,
+				D4D7EF1B1B33CBB7003F4DA1 /* RZXPassthroughEffect.h */,
+				D4D7EF1C1B33CBB7003F4DA1 /* RZXPassthroughEffect.m */,
 				D4D00E6D1AE14D2600D007E4 /* RZXBlurEffect.h */,
 				D4D00E6E1AE14D2600D007E4 /* RZXBlurEffect.m */,
 				D4D00E6F1AE14D2600D007E4 /* RZXClothEffect.h */,
@@ -538,6 +544,7 @@
 			files = (
 				D4D00E731AE14D2600D007E4 /* RZXBlurEffect.h in Headers */,
 				D4D00E771AE14D2600D007E4 /* RZXCompositeEffect.h in Headers */,
+				D4D7EF1D1B33CBB7003F4DA1 /* RZXPassthroughEffect.h in Headers */,
 				D4D00E591AE14D1300D007E4 /* RazeEffects.h in Headers */,
 				D4D00E751AE14D2600D007E4 /* RZXClothEffect.h in Headers */,
 			);
@@ -934,6 +941,7 @@
 			files = (
 				D4D00E781AE14D2600D007E4 /* RZXCompositeEffect.m in Sources */,
 				D4D00E741AE14D2600D007E4 /* RZXBlurEffect.m in Sources */,
+				D4D7EF1E1B33CBB7003F4DA1 /* RZXPassthroughEffect.m in Sources */,
 				D4D00E761AE14D2600D007E4 /* RZXClothEffect.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

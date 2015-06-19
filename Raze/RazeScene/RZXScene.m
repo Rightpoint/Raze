@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <RazeCore/RZXEffect.h>
+#import <RazeEffects/RZXPassthroughEffect.h>
 
 #import "RZXScene.h"
 
@@ -15,7 +15,7 @@
 - (instancetype)init
 {
     if ( (self = [super init]) ) {
-        self.effect = [RZXEffect effectWithVertexShader:kRZXEffectDefaultVSH3D fragmentShader:kRZXEffectDefaultFSH];
+        self.effect = [RZXPassthroughEffect effect3D];
     }
     return self;
 }

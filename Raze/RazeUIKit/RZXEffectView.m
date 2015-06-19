@@ -86,17 +86,8 @@
 
         [effect setupGL];
 
-        if ( [effect link] ) {
-            _effect = effect;
-
-            self.model = [RZXQuadMesh quadWithSubdivisionLevel:effect.preferredLevelOfDetail];
-
-        }
-        else {
-            _effect = nil;
-            
-            self.model = nil;
-        }
+        _effect = effect;
+        self.model = [RZXQuadMesh quadWithSubdivisionLevel:effect.preferredLevelOfDetail];
     }];
 }
 

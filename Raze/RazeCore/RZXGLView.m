@@ -126,6 +126,9 @@
     static const GLenum s_GLDiscards[] = {GL_DEPTH_ATTACHMENT, GL_COLOR_ATTACHMENT0};
 
     [self.context runBlock:^(RZXGLContext *context) {
+        context.viewport = CGRectMake(0.0f, 0.0f, self->_backingWidth, self->_backingHeight);
+        context.depthTestEnabled = YES;
+
         glBindFramebuffer(GL_FRAMEBUFFER, self->_fbo);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

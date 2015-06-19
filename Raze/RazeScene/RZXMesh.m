@@ -14,10 +14,10 @@
 
 @interface RZXMesh()
 
-@property (copy, nonatomic)NSString *meshName;
-@property (copy, nonatomic)NSString *meshFileName;
+@property (copy, nonatomic) NSString *meshName;
+@property (copy, nonatomic) NSString *meshFileName;
 
-@property (strong, nonatomic)RZXVertexObjectData *vertexObjectData;
+@property (strong, nonatomic) RZXVertexObjectData *vertexObjectData;
 
 @end
 
@@ -33,17 +33,21 @@
 - (void)setupGL
 {
     RZXGLContext *currentContext = [RZXGLContext currentContext];
+
     if ( currentContext != nil ) {
-        NSString *cacheKey = [self rzx_cacheKeyForContext:currentContext];
-        RZXVertexObjectData *vod = [RZXVertexObjectData fetchCachedObjectDataWithKey:cacheKey];
-        if ( vod == nil ) {
-            vod = [[RZXVertexObjectData alloc] initWithFileName:_meshFileName RZXGLContext:currentContext];
-            [vod setupGL];
-            [vod cacheObjectDataWithKey:cacheKey];
-        }
-        else {
+        if ( self.vertexObjectData == nil ) {
+            NSString *cacheKey = [self rzx_cacheKeyForContext:currentContext];
+            RZXVertexObjectData *vod = [RZXVertexObjectData fetchCachedObjectDataWithKey:cacheKey];
+
+            if ( vod == nil ) {
+                vod = [[RZXVertexObjectData alloc] initWithFileName:_meshFileName RZXGLContext:currentContext];
+                [vod cacheObjectDataWithKey:cacheKey];
+            }
+
             self.vertexObjectData = vod;
         }
+
+        [self.vertexObjectData setupGL];
     }
 }
 
@@ -55,13 +59,14 @@
 - (void)teardownGL
 {
     [self.vertexObjectData teardownGL];
+    self.vertexObjectData = nil;
 }
 
 #pragma mark - RZRenderable
 
 - (void)render
 {
-    glDrawElements(GL_TRIANGLES, self.vertexObjectData.vertexCount, GL_UNSIGNED_INT, NULL);
+    [self.vertexObjectData render];
 }
 
 #pragma mark - private methods
@@ -78,7 +83,7 @@
 
 - (NSString *)rzx_cacheKeyForContext:(RZXGLContext *)context
 {
-    return [NSString stringWithFormat:@"%@%p",self.meshName,context];
+    return [NSString stringWithFormat:@"%@%p",self.meshName, context];
 }
 
 @end
