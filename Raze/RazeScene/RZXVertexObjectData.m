@@ -105,14 +105,14 @@
     
     FILE *meshFile = fopen([filepathname cStringUsingEncoding:NSASCIIStringEncoding], "r");
     
-    GLushort indexCount;
-    fread(&indexCount, sizeof(GLushort), 1, meshFile);
+    GLint indexCount;
+    fread(&indexCount, sizeof(GLint), 1, meshFile);
     
     GLushort *indexArray = (GLushort *)malloc(indexCount * sizeof(GLushort));
-    fread(indexArray, sizeof(GLushort), indexCount, meshFile);
+    fread(indexArray, 1, indexCount*sizeof(GLushort), meshFile);
     
-    GLushort uniqueVertexCount;
-    fread(&uniqueVertexCount, sizeof(GLushort), 1, meshFile);
+    GLint uniqueVertexCount;
+    fread(&uniqueVertexCount, sizeof(GLint), 1, meshFile);
     
     GLint uniqueVertexArraySize = uniqueVertexCount * 8 * sizeof(GLfloat);
     GLfloat *uniqueVertexArray = (GLfloat *)malloc(uniqueVertexArraySize);
@@ -120,27 +120,27 @@
     
     fclose(meshFile);
     
+    int arraySize = uniqueVertexCount * 8 * sizeof(GLfloat);
+    
     GLuint vao, vbo, vio;
     
-    glGenVertexArraysOES(1, &vao);
+    glGenVertexArraysOES(1,&vao);
     glBindVertexArrayOES(vao);
-
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, uniqueVertexArraySize, uniqueVertexArray, GL_STATIC_DRAW);
-
+    
     glGenBuffers(1, &vio);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vio);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * indexCount, indexArray, GL_STATIC_DRAW);
-
-    glEnableVertexAttribArray(kRZXVertexAttribPosition);
-    glVertexAttribPointer(kRZXVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (const GLvoid *)0);
-
-    glEnableVertexAttribArray(kRZXVertexAttribNormal);
-    glVertexAttribPointer(kRZXVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (const GLvoid *)12);
-
-    glEnableVertexAttribArray(kRZXVertexAttribTexCoord);
-    glVertexAttribPointer(kRZXVertexAttribTexCoord, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (const GLvoid *)24);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort)*indexCount, indexArray, GL_STATIC_DRAW);
+    
+    glGenBuffers(1,&vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, arraySize, uniqueVertexArray, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 32, (char*)NULL + 0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 32, (char*)NULL + 12);
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 32, (char*)NULL + 24);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -148,6 +148,30 @@
     _vboIndex = vbo;
     _vioIndex = vio;
     _indexCount = indexCount;
+    
+    //used for testing model output
+    
+    printf("indexes:\n");
+    for (int i = 0; i < indexCount; ++i) {
+        printf("%d ", indexArray[i]);
+    }
+    
+    int colCount = 0;
+    printf("\nVert data \n");
+    for(int i = 0; i < uniqueVertexCount; ++i)
+    {
+        printf("%f",uniqueVertexArray[i]);
+        if(++colCount == 8)
+        {
+            printf("\n");
+            colCount = 0;
+        }
+        else
+        {
+            printf(", ");
+        }
+    }
+
     
     free(indexArray);
     free(uniqueVertexArray);

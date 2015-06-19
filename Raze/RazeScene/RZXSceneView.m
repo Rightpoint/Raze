@@ -108,7 +108,7 @@
     [self.scene update:dt];
 }
 
-// TODO: handle multisampling here in the superclass
+// TODO: handle multisampling in the superclass
 
 /*- (void)display
 {

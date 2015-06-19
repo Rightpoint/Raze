@@ -28,7 +28,7 @@
     scene.camera = [RZXCamera cameraWithFieldOfView:GLKMathDegreesToRadians(35) aspectRatio:1.0 nearClipping:0.001 farClipping:50];
     scene.camera.transform.translation = GLKVector3Make(0.0f, 0.0f, 2.0f);
 
-    RZXMesh *mesh = [RZXMesh meshWithName:@"cube" meshFileName:@"cube.mesh"];
+    RZXMesh *mesh = [RZXMesh meshWithName:@"disk" meshFileName:@"disk.mesh"];
     RZXTexture *texture = [RZXTexture textureWithFileName:@"confettiTexture.png" useMipMapping:NO useCache:YES];
     
     RZXModelNode *modelNode = [RZXModelNode modelNodeWithMesh:mesh texture:texture];
@@ -37,6 +37,7 @@
     [scene addChild:modelNode];
 
     self.sceneView.scene = scene;
+    self.view.backgroundColor = [UIColor blueColor];
 }
 
 - (RZXSceneView *)sceneView
