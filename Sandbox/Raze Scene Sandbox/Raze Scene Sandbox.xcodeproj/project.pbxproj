@@ -9,14 +9,6 @@
 /* Begin PBXBuildFile section */
 		8A2A767E1B3349F300A09C11 /* confettiTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A2A767D1B3349F300A09C11 /* confettiTexture.png */; };
 		8A2A76821B3360A400A09C11 /* cube.mesh in Resources */ = {isa = PBXBuildFile; fileRef = 8A2A76811B3360A400A09C11 /* cube.mesh */; };
-		8A63B4311AF3E14B00E86B66 /* RazeCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A63B42D1AF3E14B00E86B66 /* RazeCore.framework */; };
-		8A63B4321AF3E14B00E86B66 /* RazeCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A63B42D1AF3E14B00E86B66 /* RazeCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8A63B4331AF3E14C00E86B66 /* RazeEffects.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A63B42E1AF3E14B00E86B66 /* RazeEffects.framework */; };
-		8A63B4341AF3E14C00E86B66 /* RazeEffects.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A63B42E1AF3E14B00E86B66 /* RazeEffects.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8A63B4351AF3E14C00E86B66 /* RazeScene.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A63B42F1AF3E14B00E86B66 /* RazeScene.framework */; };
-		8A63B4361AF3E14C00E86B66 /* RazeScene.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A63B42F1AF3E14B00E86B66 /* RazeScene.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8A63B4371AF3E14C00E86B66 /* RazeUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A63B4301AF3E14B00E86B66 /* RazeUIKit.framework */; };
-		8A63B4381AF3E14C00E86B66 /* RazeUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A63B4301AF3E14B00E86B66 /* RazeUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8AE987471AE19C550058F441 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE987461AE19C550058F441 /* main.m */; };
 		8AE9874A1AE19C550058F441 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE987491AE19C550058F441 /* AppDelegate.m */; };
 		8AE9874D1AE19C550058F441 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE9874C1AE19C550058F441 /* ViewController.m */; };
@@ -24,6 +16,14 @@
 		8AE987521AE19C550058F441 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AE987511AE19C550058F441 /* Images.xcassets */; };
 		8AE987551AE19C550058F441 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AE987531AE19C550058F441 /* LaunchScreen.xib */; };
 		8AE987611AE19C550058F441 /* Raze_Scene_SandboxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE987601AE19C550058F441 /* Raze_Scene_SandboxTests.m */; };
+		D4D7EEFE1B33B3BE003F4DA1 /* RazeCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D4D7EEFA1B33B3BE003F4DA1 /* RazeCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D4D7EEFF1B33B3BE003F4DA1 /* RazeEffects.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D4D7EEFB1B33B3BE003F4DA1 /* RazeEffects.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D4D7EF001B33B3BE003F4DA1 /* RazeScene.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D4D7EEFC1B33B3BE003F4DA1 /* RazeScene.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D4D7EF011B33B3BE003F4DA1 /* RazeUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D4D7EEFD1B33B3BE003F4DA1 /* RazeUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D4D7EF021B33B3CD003F4DA1 /* RazeCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D7EEFA1B33B3BE003F4DA1 /* RazeCore.framework */; };
+		D4D7EF031B33B3CD003F4DA1 /* RazeEffects.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D7EEFB1B33B3BE003F4DA1 /* RazeEffects.framework */; };
+		D4D7EF041B33B3CD003F4DA1 /* RazeScene.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D7EEFC1B33B3BE003F4DA1 /* RazeScene.framework */; };
+		D4D7EF051B33B3CD003F4DA1 /* RazeUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D7EEFD1B33B3BE003F4DA1 /* RazeUIKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,10 +43,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8A63B4321AF3E14B00E86B66 /* RazeCore.framework in Embed Frameworks */,
-				8A63B4341AF3E14C00E86B66 /* RazeEffects.framework in Embed Frameworks */,
-				8A63B4361AF3E14C00E86B66 /* RazeScene.framework in Embed Frameworks */,
-				8A63B4381AF3E14C00E86B66 /* RazeUIKit.framework in Embed Frameworks */,
+				D4D7EEFE1B33B3BE003F4DA1 /* RazeCore.framework in Embed Frameworks */,
+				D4D7EEFF1B33B3BE003F4DA1 /* RazeEffects.framework in Embed Frameworks */,
+				D4D7EF001B33B3BE003F4DA1 /* RazeScene.framework in Embed Frameworks */,
+				D4D7EF011B33B3BE003F4DA1 /* RazeUIKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -56,10 +56,6 @@
 /* Begin PBXFileReference section */
 		8A2A767D1B3349F300A09C11 /* confettiTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = confettiTexture.png; sourceTree = "<group>"; };
 		8A2A76811B3360A400A09C11 /* cube.mesh */ = {isa = PBXFileReference; lastKnownFileType = file; path = cube.mesh; sourceTree = "<group>"; };
-		8A63B42D1AF3E14B00E86B66 /* RazeCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeCore.framework; path = ../../Raze/Products/RazeCore.framework; sourceTree = "<group>"; };
-		8A63B42E1AF3E14B00E86B66 /* RazeEffects.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeEffects.framework; path = ../../Raze/Products/RazeEffects.framework; sourceTree = "<group>"; };
-		8A63B42F1AF3E14B00E86B66 /* RazeScene.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeScene.framework; path = ../../Raze/Products/RazeScene.framework; sourceTree = "<group>"; };
-		8A63B4301AF3E14B00E86B66 /* RazeUIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeUIKit.framework; path = ../../Raze/Products/RazeUIKit.framework; sourceTree = "<group>"; };
 		8AE987411AE19C550058F441 /* Raze Scene Sandbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Raze Scene Sandbox.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AE987451AE19C550058F441 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8AE987461AE19C550058F441 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -73,6 +69,10 @@
 		8AE9875A1AE19C550058F441 /* Raze Scene SandboxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Raze Scene SandboxTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AE9875F1AE19C550058F441 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8AE987601AE19C550058F441 /* Raze_Scene_SandboxTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Raze_Scene_SandboxTests.m; sourceTree = "<group>"; };
+		D4D7EEFA1B33B3BE003F4DA1 /* RazeCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeCore.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Sandbox-enkrdnqulxllcwejvxtxxaeacvek/Build/Products/Debug-iphoneos/RazeCore.framework"; sourceTree = "<group>"; };
+		D4D7EEFB1B33B3BE003F4DA1 /* RazeEffects.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeEffects.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Sandbox-enkrdnqulxllcwejvxtxxaeacvek/Build/Products/Debug-iphoneos/RazeEffects.framework"; sourceTree = "<group>"; };
+		D4D7EEFC1B33B3BE003F4DA1 /* RazeScene.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeScene.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Sandbox-enkrdnqulxllcwejvxtxxaeacvek/Build/Products/Debug-iphoneos/RazeScene.framework"; sourceTree = "<group>"; };
+		D4D7EEFD1B33B3BE003F4DA1 /* RazeUIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeUIKit.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Sandbox-enkrdnqulxllcwejvxtxxaeacvek/Build/Products/Debug-iphoneos/RazeUIKit.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,10 +80,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8A63B4311AF3E14B00E86B66 /* RazeCore.framework in Frameworks */,
-				8A63B4331AF3E14C00E86B66 /* RazeEffects.framework in Frameworks */,
-				8A63B4351AF3E14C00E86B66 /* RazeScene.framework in Frameworks */,
-				8A63B4371AF3E14C00E86B66 /* RazeUIKit.framework in Frameworks */,
+				D4D7EF021B33B3CD003F4DA1 /* RazeCore.framework in Frameworks */,
+				D4D7EF031B33B3CD003F4DA1 /* RazeEffects.framework in Frameworks */,
+				D4D7EF041B33B3CD003F4DA1 /* RazeScene.framework in Frameworks */,
+				D4D7EF051B33B3CD003F4DA1 /* RazeUIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,10 +100,10 @@
 		8AE987381AE19C550058F441 = {
 			isa = PBXGroup;
 			children = (
-				8A63B42D1AF3E14B00E86B66 /* RazeCore.framework */,
-				8A63B42E1AF3E14B00E86B66 /* RazeEffects.framework */,
-				8A63B42F1AF3E14B00E86B66 /* RazeScene.framework */,
-				8A63B4301AF3E14B00E86B66 /* RazeUIKit.framework */,
+				D4D7EEFA1B33B3BE003F4DA1 /* RazeCore.framework */,
+				D4D7EEFB1B33B3BE003F4DA1 /* RazeEffects.framework */,
+				D4D7EEFC1B33B3BE003F4DA1 /* RazeScene.framework */,
+				D4D7EEFD1B33B3BE003F4DA1 /* RazeUIKit.framework */,
 				8AE987431AE19C550058F441 /* Raze Scene Sandbox */,
 				8AE9875D1AE19C550058F441 /* Raze Scene SandboxTests */,
 				8AE987421AE19C550058F441 /* Products */,
@@ -395,7 +395,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/johnstricker/Developer/Raze/Raze/Products,
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Sandbox-enkrdnqulxllcwejvxtxxaeacvek/Build/Products/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = "Raze Scene Sandbox/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -409,7 +409,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/johnstricker/Developer/Raze/Raze/Products,
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Sandbox-enkrdnqulxllcwejvxtxxaeacvek/Build/Products/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = "Raze Scene Sandbox/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
