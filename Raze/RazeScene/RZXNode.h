@@ -24,6 +24,8 @@
 @property (copy, nonatomic, readonly) NSArray *children;
 @property (weak, nonatomic, readonly) RZXNode *parent;
 
+@property (copy, nonatomic) void(^updateBlock)(NSTimeInterval dt);
+
 - (void)addChild:(RZXNode *)child;
 - (void)insertChild:(RZXNode *)child atIndex:(NSUInteger)index;
 

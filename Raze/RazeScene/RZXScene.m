@@ -12,12 +12,11 @@
 
 @implementation RZXScene
 
-- (instancetype)init
++ (instancetype)sceneWithEffect:(RZXEffect *)effect
 {
-    if ( (self = [super init]) ) {
-        self.effect = [RZXPassthroughEffect effect3D];
-    }
-    return self;
+    RZXScene *scene = [[RZXScene alloc] init];
+    scene.effect = effect;
+    return scene;
 }
 
 - (void)bindGL

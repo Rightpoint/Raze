@@ -141,6 +141,10 @@
 
 - (void)update:(NSTimeInterval)dt
 {
+    if (self.updateBlock != nil) {
+        self.updateBlock(dt);
+    }
+    
     for ( RZXNode *child in self.children ) {
         [child update:dt];
     }
