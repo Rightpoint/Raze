@@ -22,10 +22,11 @@ static NSString* const kRZXADSPhongVSH = RZX_SHADER_SRC(
                                                         
                                                         void main()
                                                         {
+                                                            vec4 position = u_MVPMatrix * a_position;
                                                             v_normal = normalize(u_normalMatrix * a_normal);
-                                                            v_position = vec3(u_MVPMatrix * a_position);
+                                                            v_position = vec3(position);
                                                             v_texCoord0 = a_texCoord0;
-                                                            gl_Position = vec4(v_position, 1.0);
+                                                            gl_Position = position; 
                                                         }
 );
 
@@ -37,7 +38,7 @@ static NSString* const kRZXADSPhongFSH = RZX_SHADER_SRC(
                                                         uniform vec3 u_diffuseReflection;
                                                         uniform vec3 u_specularReflection;
                                                         uniform float u_specularShininess;
-                                                        uniform sampler2D u_colorMap;
+                                                        uniform sampler2D u_Texture;
                                                         
                                                         varying vec3 v_position;
                                                         varying vec3 v_normal;
@@ -54,9 +55,8 @@ static NSString* const kRZXADSPhongFSH = RZX_SHADER_SRC(
                                                         
                                                         void main()
                                                         {
-                                                            gl_FragColor = texture2D(u_colorMap, v_texCoord0) * vec4(ads(),1.0);
+                                                            gl_FragColor = texture2D(u_Texture, v_texCoord0) * vec4(ads(),1.0);
                                                         }
-
 );
 
 @implementation RZXADSPhongEffect
@@ -65,7 +65,41 @@ static NSString* const kRZXADSPhongFSH = RZX_SHADER_SRC(
 {
     RZXADSPhongEffect *effect = [super effectWithVertexShader:kRZXADSPhongVSH fragmentShader:kRZXADSPhongFSH];
     
+    effect.lightPosition = GLKVector4Make(1.0f, 0.0f, 0.0f, 0.0f);
+    effect.lightIntensity = GLKVector3Make(1.0f, 1.0f, 1.0f);
+    effect.ambientReflection = GLKVector3Make(0.5f, 0.5f, 0.5f);
+    effect.diffuseReflection = GLKVector3Make(0.5f, 0.5f, 0.5f);
+    effect.specularReflection = GLKVector3Make(0.5f, 0.5f, 0.5f);
+    effect.specularShininess = 1.0f;
+
+    effect.mvpUniform = @"u_MVPMatrix";
+    effect.normalMatrixUniform = @"u_normalMatrix";
+    
     return effect;
+}
+
+
+- (BOOL)link
+{
+    [self bindAttribute:@"a_position" location:kRZXVertexAttribPosition];
+    [self bindAttribute:@"a_normal" location:kRZXVertexAttribNormal];
+    [self bindAttribute:@"a_texCoord0" location:kRZXVertexAttribTexCoord];
+    
+    return [super link];
+}
+
+- (BOOL)prepareToDraw
+{
+    [super prepareToDraw];
+    
+    [self setFloatUniform:@"u_lightPosition" value:_lightPosition.v length:4 count:1];
+    [self setFloatUniform:@"u_lightIntensity" value:_lightIntensity.v length:3 count:1];
+    [self setFloatUniform:@"u_ambientReflection" value:_ambientReflection.v length:3 count:1];
+    [self setFloatUniform:@"u_diffuseReflection" value:_diffuseReflection.v length:3 count:1];
+    [self setFloatUniform:@"u_specularReflection" value:_specularReflection.v length:3 count:1];
+    [self setFloatUniform:@"u_specularShininess" value:&_specularShininess length:1 count:1];
+
+     return NO;
 }
 
 @end
