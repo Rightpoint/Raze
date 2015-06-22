@@ -8,6 +8,7 @@
 
 #import "RZXExampleSceneviewController.h"
 @import RazeScene;
+@import RazeEffects;
 
 @interface RZXExampleSceneviewController ()
 
@@ -23,7 +24,7 @@
     
     self.sceneView.backgroundColor = [UIColor whiteColor];
     
-    RZXScene *scene = [[RZXScene alloc] init];
+    RZXScene *scene = [RZXScene sceneWithEffect: [RZXADSPhongEffect effect]];
     RZXMesh *mesh = [RZXMesh meshWithName:@"firstMesh" meshFileName:@"cube.mesh"];
     RZXTexture *texture = [RZXTexture textureWithFileName:@"gridTexture.png" useMipMapping:YES useCache:YES];
     
@@ -48,7 +49,5 @@
 {
     return (RZXSceneView *)self.view;
 }
-
-
 
 @end

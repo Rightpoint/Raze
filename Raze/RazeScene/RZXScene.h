@@ -10,4 +10,6 @@
 
 @interface RZXScene : RZXNode
 
++ (instancetype)sceneWithEffect:(RZXEffect *)effect;
+
 @end

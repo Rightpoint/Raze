@@ -14,18 +14,18 @@ static NSString* const kRZXADSPhongVSH = RZX_SHADER_SRC(
                                                         
                                                         attribute vec4 a_position;
                                                         attribute vec3 a_normal;
-                                                        attribute vec3 a_textCoord0;
+                                                        attribute vec2 a_texCoord0;
                                                         
                                                         varying vec3 v_position;
                                                         varying vec3 v_normal;
-                                                        varying vec2 v_textCoord0;
+                                                        varying vec2 v_texCoord0;
                                                         
                                                         void main()
                                                         {
                                                             v_normal = normalize(u_normalMatrix * a_normal);
-                                                            v_position = u_MVPMatrix * a_position;
-                                                            v_textCoord0 = a_textCoord0;
-                                                            gl_Position = v_position;
+                                                            v_position = vec3(u_MVPMatrix * a_position);
+                                                            v_texCoord0 = a_texCoord0;
+                                                            gl_Position = vec4(v_position, 1.0);
                                                         }
 );
 
@@ -41,6 +41,7 @@ static NSString* const kRZXADSPhongFSH = RZX_SHADER_SRC(
                                                         
                                                         varying vec3 v_position;
                                                         varying vec3 v_normal;
+                                                        varying vec2 v_texCoord0;
                                                         
                                                         vec3 ads()
                                                         {
@@ -53,7 +54,7 @@ static NSString* const kRZXADSPhongFSH = RZX_SHADER_SRC(
                                                         
                                                         void main()
                                                         {
-                                                            gl_FragColor = texture2D(u_colorMap, v_textCoord0) * ads();
+                                                            gl_FragColor = texture2D(u_colorMap, v_texCoord0) * vec4(ads(),1.0);
                                                         }
 
 );
@@ -62,7 +63,9 @@ static NSString* const kRZXADSPhongFSH = RZX_SHADER_SRC(
 
 + (instancetype)effect
 {
-    return nil;
+    RZXADSPhongEffect *effect = [super effectWithVertexShader:kRZXADSPhongVSH fragmentShader:kRZXADSPhongFSH];
+    
+    return effect;
 }
 
 @end
