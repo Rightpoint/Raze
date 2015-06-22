@@ -10,6 +10,7 @@
 FOUNDATION_EXPORT double RazeEffectsVersionNumber;
 FOUNDATION_EXPORT const unsigned char RazeEffectsVersionString[];
 
+#import <RazeEffects/RZXPassthroughEffect.h>
 #import <RazeEffects/RZXBlurEffect.h>
 #import <RazeEffects/RZXClothEffect.h>
 #import <RazeEffects/RZXCompositeEffect.h>

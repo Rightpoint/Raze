@@ -6,16 +6,11 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <RazeCore/RZXEffect.h>
+#import <RazeCore/RZXRenderable.h>
 
 @class RZXGLContext;
 
-@interface RZXVertexObjectData : NSObject<RZXOpenGLObject>
-
-@property (assign, nonatomic) GLuint vaoIndex;
-@property (assign, nonatomic) GLuint vboIndex;
-@property (assign, nonatomic) GLuint vioIndex;
-@property (assign, nonatomic) GLuint vertexCount;
+@interface RZXVertexObjectData : NSObject <RZXRenderable>
 
 + (RZXVertexObjectData *)fetchCachedObjectDataWithKey:(NSString *)keyString;
 + (void)deleteAllCachedObjects;
