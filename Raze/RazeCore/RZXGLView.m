@@ -131,20 +131,24 @@
         context.depthTestEnabled = YES;
 
         [self bindGL];
-
-        glBindFramebuffer(GL_FRAMEBUFFER, _msFbo);
+        
+        GLuint targetFbo = self.multisampleLevel > 0 ? _msFbo : _fbo;
+        glBindFramebuffer(GL_FRAMEBUFFER, targetFbo);
         
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         [self.model render];
         
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _fbo);
-        glBindFramebuffer(GL_READ_FRAMEBUFFER, _msFbo);
-        glBlitFramebuffer(0, 0, _backingWidth, _backingHeight, 0, 0, _backingWidth, _backingHeight, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+        if (self.multisampleLevel > 0) {
+            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _fbo);
+            glBindFramebuffer(GL_READ_FRAMEBUFFER, _msFbo);
+            
+            //TODO: distinguish between openGL 2.0 and 3.0 calls here. For 2.0 glBlitFrameBuffer is replaced by appleResolveMultiSample
+            glBlitFramebuffer(0, 0, _backingWidth, _backingHeight, 0, 0, _backingWidth, _backingHeight, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+            glInvalidateFramebuffer(GL_DRAW_FRAMEBUFFER, 1, &s_GLDiscards[1]);
+            glInvalidateFramebuffer(GL_READ_FRAMEBUFFER, 1, s_GLDiscards);
+        }
         
-        
-        glInvalidateFramebuffer(GL_DRAW_FRAMEBUFFER, 1, &s_GLDiscards[1]);
-        glInvalidateFramebuffer(GL_READ_FRAMEBUFFER, 1, s_GLDiscards);
         glInvalidateFramebuffer(GL_FRAMEBUFFER, 1, s_GLDiscards);
 
         glBindRenderbuffer(GL_RENDERBUFFER, self->_crb);
@@ -255,23 +259,26 @@
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, _backingWidth, _backingHeight);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _drb);
     
-    glGenFramebuffers(1, &_msFbo);
-    glGenRenderbuffers(1, &_msCrb);
-    
-    glBindFramebuffer(GL_FRAMEBUFFER, _msFbo);
-    glBindRenderbuffer(GL_RENDERBUFFER, _msCrb);
-    
-    glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_RGBA8, _backingWidth, _backingHeight);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, _msCrb);
-    
-    glGenRenderbuffers(1, &_msDrb);
-    glBindRenderbuffer(GL_RENDERBUFFER, _msDrb);
-    glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH_COMPONENT16, _backingWidth, _backingHeight);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _msDrb);
- 
-    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-        NSLog(@"Failed to make complete multisample framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
-
+    if ( self.multisampleLevel > 0 )
+    {
+        glGenFramebuffers(1, &_msFbo);
+        glGenRenderbuffers(1, &_msCrb);
+        
+        glBindFramebuffer(GL_FRAMEBUFFER, _msFbo);
+        glBindRenderbuffer(GL_RENDERBUFFER, _msCrb);
+        
+        glRenderbufferStorageMultisample(GL_RENDERBUFFER, self.multisampleLevel, GL_RGBA8, _backingWidth, _backingHeight);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, _msCrb);
+        
+        glGenRenderbuffers(1, &_msDrb);
+        glBindRenderbuffer(GL_RENDERBUFFER, _msDrb);
+        glRenderbufferStorageMultisample(GL_RENDERBUFFER, self.multisampleLevel, GL_DEPTH_COMPONENT16, _backingWidth, _backingHeight);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _msDrb);
+     
+        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+            NSLog(@"Failed to make complete multisample framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
+        }
+    }
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glBindRenderbuffer(GL_RENDERBUFFER, 0);
 }
@@ -288,6 +295,17 @@
     _crb = 0;
     _drb = 0;
 
+    
+    if ( _msFbo != 0 ) {
+        glDeleteFramebuffers(1, &_msFbo);
+        glDeleteFramebuffers(1, &_msCrb);
+        glDeleteFramebuffers(1, &_msDrb);
+    }
+    
+    _msFbo = 0;
+    _msCrb = 0;
+    _msDrb = 0;
+    
     _backingWidth = 0;
     _backingHeight = 0;
 }

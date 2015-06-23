@@ -24,6 +24,7 @@
     
     self.sceneView.backgroundColor = [UIColor whiteColor];
     self.sceneView.framesPerSecond = 60;
+    self.sceneView.multisampleLevel = 0;
     
     RZXScene *scene = [RZXScene sceneWithEffect: [RZXADSPhongEffect effect]];
     RZXMesh *mesh = [RZXMesh meshWithName:@"firstMesh" meshFileName:@"cube.mesh"];
