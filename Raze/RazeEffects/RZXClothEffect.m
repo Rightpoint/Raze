@@ -10,28 +10,28 @@
 #import <RazeEffects/RZXClothEffect.h>
 
 static NSString* const kRZXClothVSH = RZX_SHADER_SRC(
-                                                     uniform mat4 u_MVPMatrix;
-                                                     uniform mat4 u_MVMatrix;
-                                                     
-                                                     uniform vec2 u_Anchors;
-                                                     
-                                                     uniform float u_Waves;
-                                                     uniform float u_Amplitude;
-                                                     uniform float u_Velocity;
-                                                     
-                                                     uniform vec3 u_LightOffset;
-                                                     uniform float u_Time;
-                                                     
-                                                     attribute vec4 a_position;
-                                                     attribute vec2 a_texCoord0;
-                                                     
-                                                     varying vec4 v_position;
-                                                     varying vec3 v_normal;
-                                                     varying vec2 v_texCoord0;
-                                                     
-                                                     varying vec3 v_lightPosition;
-                                                     
-                                                     void main(void)
+uniform mat4 u_MVPMatrix;
+uniform mat4 u_MVMatrix;
+
+uniform vec2 u_Anchors;
+
+uniform float u_Waves;
+uniform float u_Amplitude;
+uniform float u_Velocity;
+
+uniform vec3 u_LightOffset;
+uniform float u_Time;
+
+attribute vec4 a_position;
+attribute vec2 a_texCoord0;
+
+varying vec4 v_position;
+varying vec3 v_normal;
+varying vec2 v_texCoord0;
+
+varying vec3 v_lightPosition;
+
+void main(void)
 {
     vec4 pos = a_position;
     
@@ -50,24 +50,24 @@ static NSString* const kRZXClothVSH = RZX_SHADER_SRC(
 });
 
 static NSString* const kRZXClothFSH = RZX_SHADER_SRC(
-                                                     precision mediump float;
-                                                     
-                                                     const float c_Shininess = 10.0;
-                                                     const vec3 c_Attenuation = vec3(1.0, 0.02, 0.017);
-                                                     
-                                                     uniform vec3 u_Ambient;
-                                                     uniform vec3 u_Diffuse;
-                                                     uniform vec3 u_Specular;
-                                                     
-                                                     uniform lowp sampler2D u_Texture;
-                                                     
-                                                     varying vec4 v_position;
-                                                     varying vec3 v_normal;
-                                                     varying highp vec2 v_texCoord0;
-                                                     
-                                                     varying vec3 v_lightPosition;
-                                                     
-                                                     void main(void)
+precision mediump float;
+
+const float c_Shininess = 10.0;
+const vec3 c_Attenuation = vec3(1.0, 0.02, 0.017);
+
+uniform vec3 u_Ambient;
+uniform vec3 u_Diffuse;
+uniform vec3 u_Specular;
+
+uniform lowp sampler2D u_Texture;
+
+varying vec4 v_position;
+varying vec3 v_normal;
+varying highp vec2 v_texCoord0;
+
+varying vec3 v_lightPosition;
+ 
+ void main(void)
 {
     vec4 tex = texture2D(u_Texture, v_texCoord0);
     
