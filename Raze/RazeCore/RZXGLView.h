@@ -31,7 +31,7 @@
 }
 
 @property (assign, nonatomic) IBInspectable NSInteger framesPerSecond;
-@property (assign, nonatomic) GLsizei multisampleLevel;
+@property (assign, nonatomic) IBInspectable GLsizei multisampleLevel;
 @property (assign, nonatomic, getter=isPaused) BOOL paused;
 
 @property (strong, nonatomic) id<RZXRenderable> model;
