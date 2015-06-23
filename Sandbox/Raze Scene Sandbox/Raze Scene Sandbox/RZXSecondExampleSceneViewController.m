@@ -1,22 +1,23 @@
 //
-//  RZXExampleSceneviewController.m
+//  RZXSecondExampleSceneViewController.m
 //  Raze Scene Sandbox
 //
-//  Created by John Stricker on 6/22/15.
+//  Created by John Stricker on 6/23/15.
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import "RZXExampleSceneviewController.h"
+#import "RZXSecondExampleSceneViewController.h"
+
 @import RazeScene;
 @import RazeEffects;
 
-@interface RZXExampleSceneviewController ()
+@interface RZXSecondExampleSceneViewController ()
 
 @property (nonatomic, readonly) RZXSceneView *sceneView;
 
 @end
 
-@implementation RZXExampleSceneviewController
+@implementation RZXSecondExampleSceneViewController
 
 - (void)viewDidLoad
 {
@@ -24,10 +25,10 @@
     
     self.sceneView.backgroundColor = [UIColor whiteColor];
     self.sceneView.framesPerSecond = 60;
-    self.sceneView.multisampleLevel = 0;
+    self.sceneView.multisampleLevel = 4;
     
     RZXScene *scene = [RZXScene sceneWithEffect: [RZXADSPhongEffect effect]];
-    RZXMesh *mesh = [RZXMesh meshWithName:@"firstMesh" meshFileName:@"cube.mesh"];
+    RZXMesh *mesh = [RZXMesh meshWithName:@"secondMesh" meshFileName:@"torus.mesh"];
     RZXTexture *texture = [RZXTexture textureWithFileName:@"gridTexture.png" useMipMapping:YES useCache:YES];
     
     __block RZXModelNode *modelNode = [RZXModelNode modelNodeWithMesh:mesh texture:texture];
@@ -37,7 +38,7 @@
     
     modelNode.updateBlock = ^(NSTimeInterval dt){
         weakModelNode.transform.rotation = GLKQuaternionMultiply(weakModelNode.transform.rotation, GLKQuaternionMakeWithVector3(rotation, dt));
-
+        
     };
     
     [scene addChild:modelNode];
@@ -50,7 +51,7 @@
 {
     float ratio = CGRectGetWidth(self.view.bounds) / CGRectGetHeight(self.view.bounds);
     self.sceneView.scene.camera = [RZXCamera cameraWithFieldOfView:GLKMathDegreesToRadians(30) aspectRatio:ratio nearClipping:0.001 farClipping:50];
-
+    
 }
 
 - (RZXSceneView *)sceneView
