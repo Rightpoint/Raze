@@ -27,8 +27,12 @@
     self.sceneView.backgroundColor = [UIColor whiteColor];
     self.sceneView.framesPerSecond = 60;
     self.sceneView.multisampleLevel = 4;
-    
-    RZXScene *scene = [RZXScene sceneWithEffect: [RZXADSPhongEffect effect]];
+
+    RZXADSPhongEffect *effect = [RZXADSPhongEffect effect];
+    effect.lightPosition = GLKVector4Make(3.0f, 5.0f, 20.0f, 0.0f);
+
+    RZXScene *scene = [RZXScene sceneWithEffect: effect];
+
     RZXMesh *mesh = [RZXMesh meshWithName:@"secondMesh" meshFileName:@"cube.mesh"];
     RZXTexture *texture = [RZXTexture textureWithFileName:@"rzMetal256.png" useMipMapping:YES useCache:YES];
     
