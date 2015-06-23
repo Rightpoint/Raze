@@ -65,7 +65,7 @@ void main()
 {
     RZXADSPhongEffect *effect = [super effectWithVertexShader:kRZXADSPhongVSH fragmentShader:kRZXADSPhongFSH];
     
-    effect.lightPosition = GLKVector4Make(1.0f, 0.0f, 0.0f, 0.0f);
+    effect.lightPosition = GLKVector4Make(3.0f, 5.0f, 20.0f, 0.0f);
     effect.lightIntensity = GLKVector3Make(1.0f, 1.0f, 1.0f);
     effect.ambientReflection = GLKVector3Make(0.5f, 0.5f, 0.5f);
     effect.diffuseReflection = GLKVector3Make(0.5f, 0.5f, 0.5f);

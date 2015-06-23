@@ -24,23 +24,21 @@
     [super viewDidLoad];
     
     self.sceneView.backgroundColor = [UIColor whiteColor];
-    self.sceneView.framesPerSecond = 60;
+    self.sceneView.framesPerSecond = 30;
     self.sceneView.multisampleLevel = 0;
     
     RZXScene *scene = [RZXScene sceneWithEffect: [RZXADSPhongEffect effect]];
     RZXMesh *mesh = [RZXMesh meshWithName:@"firstMesh" meshFileName:@"cube.mesh"];
-    RZXTexture *texture = [RZXTexture textureWithFileName:@"gridTexture.png" useMipMapping:YES useCache:YES];
+    RZXTexture *texture = [RZXTexture textureWithFileName:@"rzMetal256.png" useMipMapping:YES useCache:YES];
     
-    __block RZXModelNode *modelNode = [RZXModelNode modelNodeWithMesh:mesh texture:texture];
-    modelNode.transform.translation = GLKVector3Make(0.0f, 0.0f, -6.0f);
-    GLKVector3 rotation = GLKVector3Make(0.0f, 6.0f, 0.0f);
+    RZXModelNode *modelNode = [RZXModelNode modelNodeWithMesh:mesh texture:texture];
+    modelNode.transform.translation = GLKVector3Make(0.0f, 0.0f, -8.0f);
     __block __weak RZXModelNode *weakModelNode = modelNode;
-    
-    modelNode.updateBlock = ^(NSTimeInterval dt){
-        weakModelNode.transform.rotation = GLKQuaternionMultiply(weakModelNode.transform.rotation, GLKQuaternionMakeWithVector3(rotation, dt));
 
+    modelNode.updateBlock = ^(NSTimeInterval dt){
+        weakModelNode.transform.rotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndAxis(dt, 0.0f, 1.0f, 0.0f), weakModelNode.transform.rotation);
     };
-    
+
     [scene addChild:modelNode];
     
     self.sceneView.scene = scene;

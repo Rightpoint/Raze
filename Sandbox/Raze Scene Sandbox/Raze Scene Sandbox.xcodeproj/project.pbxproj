@@ -9,7 +9,9 @@
 /* Begin PBXBuildFile section */
 		8A0C6E551B39AEC400E22ACF /* RZXSecondExampleSceneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A0C6E541B39AEC400E22ACF /* RZXSecondExampleSceneViewController.m */; };
 		8A0C6E571B39C11E00E22ACF /* torus.mesh in Resources */ = {isa = PBXBuildFile; fileRef = 8A0C6E561B39C11E00E22ACF /* torus.mesh */; };
-		8A2A76821B3360A400A09C11 /* cube.mesh in Resources */ = {isa = PBXBuildFile; fileRef = 8A2A76811B3360A400A09C11 /* cube.mesh */; };
+		8A0C6E591B39D2AE00E22ACF /* rzMetal256.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A0C6E581B39D2AE00E22ACF /* rzMetal256.png */; };
+		8A0C6E5B1B39DA5600E22ACF /* darth.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A0C6E5A1B39DA5600E22ACF /* darth.png */; };
+		8A0C6E5D1B39E1E700E22ACF /* cube.mesh in Resources */ = {isa = PBXBuildFile; fileRef = 8A0C6E5C1B39E1E700E22ACF /* cube.mesh */; };
 		8A6ECFC41B34611D00743DBF /* RazeCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A6ECFC11B34611D00743DBF /* RazeCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8A6ECFC51B34611D00743DBF /* RazeEffects.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A6ECFC21B34611D00743DBF /* RazeEffects.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8A6ECFC61B34611D00743DBF /* RazeScene.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A6ECFC31B34611D00743DBF /* RazeScene.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -54,7 +56,9 @@
 		8A0C6E531B39AEC400E22ACF /* RZXSecondExampleSceneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXSecondExampleSceneViewController.h; sourceTree = "<group>"; };
 		8A0C6E541B39AEC400E22ACF /* RZXSecondExampleSceneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXSecondExampleSceneViewController.m; sourceTree = "<group>"; };
 		8A0C6E561B39C11E00E22ACF /* torus.mesh */ = {isa = PBXFileReference; lastKnownFileType = file; path = torus.mesh; sourceTree = "<group>"; };
-		8A2A76811B3360A400A09C11 /* cube.mesh */ = {isa = PBXFileReference; lastKnownFileType = file; path = cube.mesh; sourceTree = "<group>"; };
+		8A0C6E581B39D2AE00E22ACF /* rzMetal256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rzMetal256.png; sourceTree = "<group>"; };
+		8A0C6E5A1B39DA5600E22ACF /* darth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = darth.png; sourceTree = "<group>"; };
+		8A0C6E5C1B39E1E700E22ACF /* cube.mesh */ = {isa = PBXFileReference; lastKnownFileType = file; path = cube.mesh; sourceTree = "<group>"; };
 		8A6ECFC11B34611D00743DBF /* RazeCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeCore.framework; path = "$(TARGET_BUILD_DIR)/RazeCore.framework"; sourceTree = "<group>"; };
 		8A6ECFC21B34611D00743DBF /* RazeEffects.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeEffects.framework; path = "$(TARGET_BUILD_DIR)/RazeEffects.framework"; sourceTree = "<group>"; };
 		8A6ECFC31B34611D00743DBF /* RazeScene.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeScene.framework; path = "$(TARGET_BUILD_DIR)/RazeScene.framework"; sourceTree = "<group>"; };
@@ -118,8 +122,10 @@
 		8AE987431AE19C550058F441 /* Raze Scene Sandbox */ = {
 			isa = PBXGroup;
 			children = (
+				8A0C6E5C1B39E1E700E22ACF /* cube.mesh */,
+				8A0C6E5A1B39DA5600E22ACF /* darth.png */,
+				8A0C6E581B39D2AE00E22ACF /* rzMetal256.png */,
 				8ADE4C6A1B384B8E0082E00B /* gridTexture.png */,
-				8A2A76811B3360A400A09C11 /* cube.mesh */,
 				8A0C6E561B39C11E00E22ACF /* torus.mesh */,
 				8AE987481AE19C550058F441 /* AppDelegate.h */,
 				8AE987491AE19C550058F441 /* AppDelegate.m */,
@@ -246,10 +252,12 @@
 			files = (
 				8AE987501AE19C550058F441 /* Main.storyboard in Resources */,
 				8ADE4C6B1B384B8E0082E00B /* gridTexture.png in Resources */,
-				8A2A76821B3360A400A09C11 /* cube.mesh in Resources */,
+				8A0C6E591B39D2AE00E22ACF /* rzMetal256.png in Resources */,
+				8A0C6E5D1B39E1E700E22ACF /* cube.mesh in Resources */,
 				8AE987551AE19C550058F441 /* LaunchScreen.xib in Resources */,
 				8A0C6E571B39C11E00E22ACF /* torus.mesh in Resources */,
 				8AE987521AE19C550058F441 /* Images.xcassets in Resources */,
+				8A0C6E5B1B39DA5600E22ACF /* darth.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

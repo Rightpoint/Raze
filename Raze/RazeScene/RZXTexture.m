@@ -113,6 +113,10 @@
     NSString *name = [fileName stringByDeletingPathExtension];
     NSString *extension = [fileName pathExtension];
     NSString *path = [[NSBundle mainBundle] pathForResource:name ofType:extension];
+
+    if ( path == nil ) {
+        NSLog(@"error, text file not found: %@",fileName);
+    }
     
     NSMutableDictionary *options= [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:GLKTextureLoaderOriginBottomLeft];
     if (_useMipMapping) {

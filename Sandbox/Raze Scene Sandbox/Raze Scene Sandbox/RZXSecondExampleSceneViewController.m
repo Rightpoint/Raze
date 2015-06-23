@@ -8,6 +8,7 @@
 
 #import "RZXSecondExampleSceneViewController.h"
 
+@import RazeCore;
 @import RazeScene;
 @import RazeEffects;
 
@@ -28,17 +29,15 @@
     self.sceneView.multisampleLevel = 4;
     
     RZXScene *scene = [RZXScene sceneWithEffect: [RZXADSPhongEffect effect]];
-    RZXMesh *mesh = [RZXMesh meshWithName:@"secondMesh" meshFileName:@"torus.mesh"];
-    RZXTexture *texture = [RZXTexture textureWithFileName:@"gridTexture.png" useMipMapping:YES useCache:YES];
+    RZXMesh *mesh = [RZXMesh meshWithName:@"secondMesh" meshFileName:@"cube.mesh"];
+    RZXTexture *texture = [RZXTexture textureWithFileName:@"rzMetal256.png" useMipMapping:YES useCache:YES];
     
-    __block RZXModelNode *modelNode = [RZXModelNode modelNodeWithMesh:mesh texture:texture];
-    modelNode.transform.translation = GLKVector3Make(0.0f, 0.0f, -6.0f);
-    GLKVector3 rotation = GLKVector3Make(0.0f, 6.0f, 0.0f);
+    RZXModelNode *modelNode = [RZXModelNode modelNodeWithMesh:mesh texture:texture];
+    modelNode.transform.translation = GLKVector3Make(0.0f, 0.0f, -8.0f);
     __block __weak RZXModelNode *weakModelNode = modelNode;
     
     modelNode.updateBlock = ^(NSTimeInterval dt){
-        weakModelNode.transform.rotation = GLKQuaternionMultiply(weakModelNode.transform.rotation, GLKQuaternionMakeWithVector3(rotation, dt));
-        
+        weakModelNode.transform.rotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndAxis(dt, 0.0f, 1.0f, 0.0f), weakModelNode.transform.rotation);
     };
     
     [scene addChild:modelNode];
