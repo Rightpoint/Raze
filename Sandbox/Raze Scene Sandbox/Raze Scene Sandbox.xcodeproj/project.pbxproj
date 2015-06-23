@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8A2A76821B3360A400A09C11 /* cube.mesh in Resources */ = {isa = PBXBuildFile; fileRef = 8A2A76811B3360A400A09C11 /* cube.mesh */; };
+		8A6ECFC41B34611D00743DBF /* RazeCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A6ECFC11B34611D00743DBF /* RazeCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8A6ECFC51B34611D00743DBF /* RazeEffects.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A6ECFC21B34611D00743DBF /* RazeEffects.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8A6ECFC61B34611D00743DBF /* RazeScene.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A6ECFC31B34611D00743DBF /* RazeScene.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8A6ECFC81B346B4700743DBF /* plane.mesh in Resources */ = {isa = PBXBuildFile; fileRef = 8A6ECFC71B346B4700743DBF /* plane.mesh */; };
+		8A6ECFCA1B34799C00743DBF /* disk.mesh in Resources */ = {isa = PBXBuildFile; fileRef = 8A6ECFC91B34799C00743DBF /* disk.mesh */; };
+		8ADE4C691B3839F60082E00B /* RZXExampleSceneviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ADE4C681B3839F60082E00B /* RZXExampleSceneviewController.m */; };
+		8ADE4C6B1B384B8E0082E00B /* gridTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = 8ADE4C6A1B384B8E0082E00B /* gridTexture.png */; };
 		8AE987471AE19C550058F441 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE987461AE19C550058F441 /* main.m */; };
 		8AE9874A1AE19C550058F441 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE987491AE19C550058F441 /* AppDelegate.m */; };
 		8AE9874D1AE19C550058F441 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE9874C1AE19C550058F441 /* ViewController.m */; };
@@ -14,15 +22,6 @@
 		8AE987521AE19C550058F441 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AE987511AE19C550058F441 /* Images.xcassets */; };
 		8AE987551AE19C550058F441 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AE987531AE19C550058F441 /* LaunchScreen.xib */; };
 		8AE987611AE19C550058F441 /* Raze_Scene_SandboxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE987601AE19C550058F441 /* Raze_Scene_SandboxTests.m */; };
-		D4E3DBC81AE68910003360EC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E3DBB81AE68910003360EC /* AppDelegate.m */; };
-		D4E3DBC91AE68910003360EC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4E3DBB91AE68910003360EC /* LaunchScreen.xib */; };
-		D4E3DBCA1AE68910003360EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4E3DBBB1AE68910003360EC /* Main.storyboard */; };
-		D4E3DBCB1AE68910003360EC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4E3DBBD1AE68910003360EC /* Images.xcassets */; };
-		D4E3DBCC1AE68910003360EC /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D4E3DBBE1AE68910003360EC /* Info.plist */; };
-		D4E3DBCD1AE68910003360EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E3DBBF1AE68910003360EC /* main.m */; };
-		D4E3DBCE1AE68910003360EC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E3DBC11AE68910003360EC /* ViewController.m */; };
-		D4E3DBCF1AE68910003360EC /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D4E3DBC61AE68910003360EC /* Info.plist */; };
-		D4E3DBD01AE68910003360EC /* Raze_Animation_SandboxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E3DBC71AE68910003360EC /* Raze_Animation_SandboxTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,7 +34,32 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		8A63B4391AF3E14C00E86B66 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8A6ECFC41B34611D00743DBF /* RazeCore.framework in Embed Frameworks */,
+				8A6ECFC51B34611D00743DBF /* RazeEffects.framework in Embed Frameworks */,
+				8A6ECFC61B34611D00743DBF /* RazeScene.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		8A2A76811B3360A400A09C11 /* cube.mesh */ = {isa = PBXFileReference; lastKnownFileType = file; path = cube.mesh; sourceTree = "<group>"; };
+		8A6ECFC11B34611D00743DBF /* RazeCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeCore.framework; path = "$(TARGET_BUILD_DIR)/RazeCore.framework"; sourceTree = "<group>"; };
+		8A6ECFC21B34611D00743DBF /* RazeEffects.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeEffects.framework; path = "$(TARGET_BUILD_DIR)/RazeEffects.framework"; sourceTree = "<group>"; };
+		8A6ECFC31B34611D00743DBF /* RazeScene.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeScene.framework; path = "$(TARGET_BUILD_DIR)/RazeScene.framework"; sourceTree = "<group>"; };
+		8A6ECFC71B346B4700743DBF /* plane.mesh */ = {isa = PBXFileReference; lastKnownFileType = file; path = plane.mesh; sourceTree = "<group>"; };
+		8A6ECFC91B34799C00743DBF /* disk.mesh */ = {isa = PBXFileReference; lastKnownFileType = file; path = disk.mesh; sourceTree = "<group>"; };
+		8ADE4C671B3839F60082E00B /* RZXExampleSceneviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXExampleSceneviewController.h; sourceTree = "<group>"; };
+		8ADE4C681B3839F60082E00B /* RZXExampleSceneviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXExampleSceneviewController.m; sourceTree = "<group>"; };
+		8ADE4C6A1B384B8E0082E00B /* gridTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gridTexture.png; sourceTree = "<group>"; };
 		8AE987411AE19C550058F441 /* Raze Scene Sandbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Raze Scene Sandbox.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AE987451AE19C550058F441 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8AE987461AE19C550058F441 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -49,17 +73,6 @@
 		8AE9875A1AE19C550058F441 /* Raze Scene SandboxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Raze Scene SandboxTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AE9875F1AE19C550058F441 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8AE987601AE19C550058F441 /* Raze_Scene_SandboxTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Raze_Scene_SandboxTests.m; sourceTree = "<group>"; };
-		D4E3DBB71AE68910003360EC /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		D4E3DBB81AE68910003360EC /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		D4E3DBBA1AE68910003360EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		D4E3DBBC1AE68910003360EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D4E3DBBD1AE68910003360EC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		D4E3DBBE1AE68910003360EC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D4E3DBBF1AE68910003360EC /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		D4E3DBC01AE68910003360EC /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		D4E3DBC11AE68910003360EC /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		D4E3DBC61AE68910003360EC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D4E3DBC71AE68910003360EC /* Raze_Animation_SandboxTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Raze_Animation_SandboxTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,7 +96,9 @@
 		8AE987381AE19C550058F441 = {
 			isa = PBXGroup;
 			children = (
-				D4E3DBB51AE68910003360EC /* Raze Animation Sandbox */,
+				8A6ECFC11B34611D00743DBF /* RazeCore.framework */,
+				8A6ECFC21B34611D00743DBF /* RazeEffects.framework */,
+				8A6ECFC31B34611D00743DBF /* RazeScene.framework */,
 				8AE987431AE19C550058F441 /* Raze Scene Sandbox */,
 				8AE9875D1AE19C550058F441 /* Raze Scene SandboxTests */,
 				8AE987421AE19C550058F441 /* Products */,
@@ -102,10 +117,16 @@
 		8AE987431AE19C550058F441 /* Raze Scene Sandbox */ = {
 			isa = PBXGroup;
 			children = (
+				8ADE4C6A1B384B8E0082E00B /* gridTexture.png */,
+				8A6ECFC91B34799C00743DBF /* disk.mesh */,
+				8A6ECFC71B346B4700743DBF /* plane.mesh */,
+				8A2A76811B3360A400A09C11 /* cube.mesh */,
 				8AE987481AE19C550058F441 /* AppDelegate.h */,
 				8AE987491AE19C550058F441 /* AppDelegate.m */,
 				8AE9874B1AE19C550058F441 /* ViewController.h */,
 				8AE9874C1AE19C550058F441 /* ViewController.m */,
+				8ADE4C671B3839F60082E00B /* RZXExampleSceneviewController.h */,
+				8ADE4C681B3839F60082E00B /* RZXExampleSceneviewController.m */,
 				8AE9874E1AE19C550058F441 /* Main.storyboard */,
 				8AE987511AE19C550058F441 /* Images.xcassets */,
 				8AE987531AE19C550058F441 /* LaunchScreen.xib */,
@@ -140,41 +161,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		D4E3DBB51AE68910003360EC /* Raze Animation Sandbox */ = {
-			isa = PBXGroup;
-			children = (
-				D4E3DBB61AE68910003360EC /* Raze Animation Sandbox */,
-				D4E3DBC51AE68910003360EC /* Raze Animation SandboxTests */,
-			);
-			name = "Raze Animation Sandbox";
-			path = "../Raze Animation Sandbox";
-			sourceTree = "<group>";
-		};
-		D4E3DBB61AE68910003360EC /* Raze Animation Sandbox */ = {
-			isa = PBXGroup;
-			children = (
-				D4E3DBB71AE68910003360EC /* AppDelegate.h */,
-				D4E3DBB81AE68910003360EC /* AppDelegate.m */,
-				D4E3DBB91AE68910003360EC /* LaunchScreen.xib */,
-				D4E3DBBB1AE68910003360EC /* Main.storyboard */,
-				D4E3DBBD1AE68910003360EC /* Images.xcassets */,
-				D4E3DBBE1AE68910003360EC /* Info.plist */,
-				D4E3DBBF1AE68910003360EC /* main.m */,
-				D4E3DBC01AE68910003360EC /* ViewController.h */,
-				D4E3DBC11AE68910003360EC /* ViewController.m */,
-			);
-			path = "Raze Animation Sandbox";
-			sourceTree = "<group>";
-		};
-		D4E3DBC51AE68910003360EC /* Raze Animation SandboxTests */ = {
-			isa = PBXGroup;
-			children = (
-				D4E3DBC61AE68910003360EC /* Info.plist */,
-				D4E3DBC71AE68910003360EC /* Raze_Animation_SandboxTests.m */,
-			);
-			path = "Raze Animation SandboxTests";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -185,6 +171,7 @@
 				8AE9873D1AE19C550058F441 /* Sources */,
 				8AE9873E1AE19C550058F441 /* Frameworks */,
 				8AE9873F1AE19C550058F441 /* Resources */,
+				8A63B4391AF3E14C00E86B66 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -255,14 +242,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4E3DBCF1AE68910003360EC /* Info.plist in Resources */,
-				D4E3DBC91AE68910003360EC /* LaunchScreen.xib in Resources */,
-				D4E3DBCA1AE68910003360EC /* Main.storyboard in Resources */,
 				8AE987501AE19C550058F441 /* Main.storyboard in Resources */,
-				D4E3DBCB1AE68910003360EC /* Images.xcassets in Resources */,
+				8ADE4C6B1B384B8E0082E00B /* gridTexture.png in Resources */,
+				8A6ECFC81B346B4700743DBF /* plane.mesh in Resources */,
+				8A2A76821B3360A400A09C11 /* cube.mesh in Resources */,
 				8AE987551AE19C550058F441 /* LaunchScreen.xib in Resources */,
+				8A6ECFCA1B34799C00743DBF /* disk.mesh in Resources */,
 				8AE987521AE19C550058F441 /* Images.xcassets in Resources */,
-				D4E3DBCC1AE68910003360EC /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,13 +266,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4E3DBD01AE68910003360EC /* Raze_Animation_SandboxTests.m in Sources */,
-				D4E3DBCE1AE68910003360EC /* ViewController.m in Sources */,
-				D4E3DBCD1AE68910003360EC /* main.m in Sources */,
-				D4E3DBC81AE68910003360EC /* AppDelegate.m in Sources */,
 				8AE9874D1AE19C550058F441 /* ViewController.m in Sources */,
 				8AE9874A1AE19C550058F441 /* AppDelegate.m in Sources */,
 				8AE987471AE19C550058F441 /* main.m in Sources */,
+				8ADE4C691B3839F60082E00B /* RZXExampleSceneviewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,22 +306,6 @@
 				8AE987541AE19C550058F441 /* Base */,
 			);
 			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-		D4E3DBB91AE68910003360EC /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D4E3DBBA1AE68910003360EC /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-		D4E3DBBB1AE68910003360EC /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D4E3DBBC1AE68910003360EC /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -428,10 +395,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/johnstricker/Developer/Raze/Raze/build/Debug-iphoneos",
-				);
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Raze Scene Sandbox/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -442,10 +407,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/johnstricker/Developer/Raze/Raze/build/Debug-iphoneos",
-				);
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Raze Scene Sandbox/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

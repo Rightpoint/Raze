@@ -93,7 +93,7 @@
 
 - (void)setRotation:(GLKQuaternion)rotation
 {
-    _rotation = rotation;
+    _rotation = GLKQuaternionNormalize(rotation);
     [self invalidateModelMatrixCache];
 }
 

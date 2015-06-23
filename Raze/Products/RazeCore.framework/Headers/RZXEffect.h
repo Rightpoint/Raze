@@ -8,11 +8,6 @@
 #import <GLKit/GLKMath.h>
 #import <RazeCore/RZXBase.h>
 
-OBJC_EXTERN NSString* const kRZXEffectDefaultVSH2D;
-OBJC_EXTERN NSString* const kRZXEffectDefaultVSH3D;
-
-OBJC_EXTERN NSString* const kRZXEffectDefaultFSH;
-
 #define RZX_EFFECT_MAX_DOWNSAMPLE 4
 
 #define RZX_SHADER_SRC(src) (@#src)

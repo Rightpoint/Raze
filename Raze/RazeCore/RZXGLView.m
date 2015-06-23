@@ -126,10 +126,14 @@
     static const GLenum s_GLDiscards[] = {GL_DEPTH_ATTACHMENT, GL_COLOR_ATTACHMENT0};
 
     [self.context runBlock:^(RZXGLContext *context) {
-        glBindFramebuffer(GL_FRAMEBUFFER, self->_fbo);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        context.clearColor = self.backgroundColor.CGColor;
+        context.viewport = CGRectMake(0.0f, 0.0f, self->_backingWidth, self->_backingHeight);
+        context.depthTestEnabled = YES;
 
         [self bindGL];
+
+        glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         [self.model render];
 
@@ -233,6 +237,7 @@
     glBindRenderbuffer(GL_RENDERBUFFER, _crb);
 
     [context renderbufferStorage:GL_RENDERBUFFER fromDrawable:(CAEAGLLayer *)self.layer];
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, _crb);
 
     glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &_backingWidth);
     glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &_backingHeight);

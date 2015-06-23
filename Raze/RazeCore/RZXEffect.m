@@ -9,42 +9,6 @@
 #import <RazeCore/RZXEffect.h>
 #import <RazeCore/RZXGLContext.h>
 
-NSString* const kRZEffectDefaultVSH2D = RZX_SHADER_SRC(
-attribute vec4 a_position;
-attribute vec2 a_texCoord0;
-                                                  
-varying vec2 v_texCoord0;
-                                                  
-void main(void)
-{
-    v_texCoord0 = a_texCoord0;
-    gl_Position = a_position;
-});
-
-NSString* const kRZEffectDefaultVSH3D = RZX_SHADER_SRC(
-uniform mat4 u_MVPMatrix;
-
-attribute vec4 a_position;
-attribute vec2 a_texCoord0;
-
-varying vec2 v_texCoord0;
-
-void main(void)
-{
-    v_texCoord0 = a_texCoord0;
-    gl_Position = u_MVPMatrix * a_position;
-});
-
-NSString* const kRZEffectDefaultFSH = RZX_SHADER_SRC(
-uniform lowp sampler2D u_Texture;
-                                                    
-varying highp vec2 v_texCoord0;
-                                         
-void main()
-{
-    gl_FragColor = texture2D(u_Texture, v_texCoord0);
-});
-
 @interface RZXEffect ()
 
 @property (strong, nonatomic) NSString *vshSrc;
@@ -150,8 +114,7 @@ void main()
 {
     [self bindGL];
     
-    if ( self.mvpUniform != nil )
-    {
+    if ( self.mvpUniform != nil ) {
         GLKMatrix4 mvpMatrix = GLKMatrix4Multiply(_projectionMatrix, _modelViewMatrix);
         [self setMatrix4Uniform:self.mvpUniform value:&mvpMatrix transpose:GL_FALSE count:1];
     }
@@ -160,8 +123,7 @@ void main()
         [self setMatrix4Uniform:self.mvUniform value:&_modelViewMatrix transpose:GL_FALSE count:1];
     }
     
-    if ( self.normalMatrixUniform != nil )
-    {
+    if ( self.normalMatrixUniform != nil ) {
         [self setMatrix3Uniform:self.normalMatrixUniform value:&_normalMatrix transpose:GL_FALSE count:1];
     }
     
@@ -177,7 +139,7 @@ void main()
 
 - (GLint)uniformLoc:(NSString *)uniformName
 {
-    GLuint loc;
+    GLint loc;
     NSNumber *cachedLoc = [self.uniforms objectForKey:uniformName];
     
     if ( cachedLoc != nil ) {
@@ -313,6 +275,8 @@ void main()
         
         glAttachShader(_name, vs);
         glAttachShader(_name, fs);
+
+        [self link];
     }
     else {
         NSLog(@"Failed to setup %@: No active RZXGLContext.", NSStringFromClass([self class]));
@@ -340,7 +304,7 @@ void main()
     if ( self ) {
         _vshSrc = vsh;
         _fshSrc = fsh;
-        
+
         _modelViewMatrix = GLKMatrix4Identity;
         _projectionMatrix = GLKMatrix4Identity;
         _normalMatrix = GLKMatrix3Identity;
