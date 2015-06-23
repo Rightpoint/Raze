@@ -21,6 +21,10 @@
     GLuint _fbo;
     GLuint _crb;
     GLuint _drb;
+    
+    GLuint _msFbo;
+    GLuint _msCrb;
+    GLuint _msDrb;
 
     GLint _backingWidth;
     GLint _backingHeight;

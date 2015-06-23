@@ -132,13 +132,18 @@
 
         [self bindGL];
 
-        glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
+        glBindFramebuffer(GL_FRAMEBUFFER, _msFbo);
+        
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         [self.model render];
-
         
-        glInvalidateFramebuffer(GL_FRAMEBUFFER, 1, s_GLDiscards);
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _fbo);
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, _msFbo);
+        glBlitFramebuffer(0, 0, _backingWidth, _backingHeight, 0, 0, _backingWidth, _backingHeight, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+        
+        
+        //glInvalidateFramebuffer(GL_FRAMEBUFFER, 1, s_GLDiscards);
 
         glBindRenderbuffer(GL_RENDERBUFFER, self->_crb);
         [context presentRenderbuffer:GL_RENDERBUFFER];
@@ -245,9 +250,30 @@
 
     glGenRenderbuffers(1, &_drb);
     glBindRenderbuffer(GL_RENDERBUFFER, _drb);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, _backingWidth, _backingHeight);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _drb);
+    
+    glGenFramebuffers(1, &_msFbo);
+    glGenRenderbuffers(1, &_msCrb);
+    
+    glBindFramebuffer(GL_FRAMEBUFFER, _msFbo);
+    glBindRenderbuffer(GL_RENDERBUFFER, _msCrb);
+    
+    glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_RGB5_A1, _backingWidth, _backingHeight);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, _msCrb);
+    
+    glGenRenderbuffers(1, &_msDrb);
+    glBindRenderbuffer(GL_RENDERBUFFER, _msDrb);
+    glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH_COMPONENT16, _backingWidth, _backingHeight);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _msDrb);
+    
+    
+    /*
+    glGenRenderbuffers(1, &_drb);
+    glBindRenderbuffer(GL_RENDERBUFFER, _drb);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, _backingWidth, _backingHeight);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _drb);
-
+    */
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glBindRenderbuffer(GL_RENDERBUFFER, 0);
 }
