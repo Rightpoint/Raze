@@ -15,7 +15,6 @@
 
 @property (copy, nonatomic) NSString *cacheKey;
 @property (copy, nonatomic, readonly) NSString *fileName;
-@property (strong, nonatomic) RZXGLContext *context;
 
 @end
 
@@ -26,7 +25,17 @@
     GLuint _indexCount;
 }
 
-+ (RZXVertexObjectData *)fetchCachedObjectDataWithKey:(NSString *)keyString
++ (RZXVertexObjectData *)vertexObjectDataWithFileName:(NSString *)fileName
+{
+    NSString *key = [NSString stringWithFormat:@"%@%p",fileName,[RZXGLContext currentContext]];
+    RZXVertexObjectData *vod = [RZXVertexObjectData cachedObjectDataForKey:key];
+    if (vod == nil) {
+        vod = [[RZXVertexObjectData alloc] initWithFileName:fileName];
+    }
+    return vod;
+}
+
++ (RZXVertexObjectData *)cachedObjectDataForKey:(NSString *)keyString
 {
     NSMutableDictionary *cache = [RZXVertexObjectData cachedVertexObjects];
     return cache[keyString];
@@ -58,12 +67,11 @@
     return cacheDictionary;
 }
 
-- (instancetype)initWithFileName:(NSString *)fileName RZXGLContext:(RZXGLContext *)context
+- (instancetype)initWithFileName:(NSString *)fileName
 {
     self = [super init];
     if ( self ) {
         _fileName = [fileName stringByDeletingPathExtension];
-        _context = context;
     }
     return self;
 }

@@ -7,6 +7,7 @@
 //
 
 #import "RZXExampleSceneviewController.h"
+@import RazeCore;
 @import RazeScene;
 @import RazeEffects;
 

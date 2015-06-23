@@ -32,23 +32,11 @@
 
 - (void)setupGL
 {
-    RZXGLContext *currentContext = [RZXGLContext currentContext];
-
-    if ( currentContext != nil ) {
-        if ( self.vertexObjectData == nil ) {
-            NSString *cacheKey = [self rzx_cacheKeyForContext:currentContext];
-            RZXVertexObjectData *vod = [RZXVertexObjectData fetchCachedObjectDataWithKey:cacheKey];
-
-            if ( vod == nil ) {
-                vod = [[RZXVertexObjectData alloc] initWithFileName:_meshFileName RZXGLContext:currentContext];
-                [vod cacheObjectDataWithKey:cacheKey];
-            }
-
-            self.vertexObjectData = vod;
-        }
-
-        [self.vertexObjectData setupGL];
+    if ( self.vertexObjectData == nil ) {
+        self.vertexObjectData = [RZXVertexObjectData vertexObjectDataWithFileName:_meshFileName];
     }
+
+    [self.vertexObjectData setupGL];
 }
 
 - (void)bindGL
@@ -81,7 +69,7 @@
     return self;
 }
 
-- (NSString *)rzx_cacheKeyForContext:(RZXGLContext *)context
+- (NSString *)cacheKeyForContext:(RZXGLContext *)context
 {
     return [NSString stringWithFormat:@"%@%p",self.meshName, context];
 }

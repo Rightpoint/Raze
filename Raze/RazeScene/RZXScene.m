@@ -14,9 +14,21 @@
 
 + (instancetype)sceneWithEffect:(RZXEffect *)effect
 {
-    RZXScene *scene = [[RZXScene alloc] init];
-    scene.effect = effect;
-    return scene;
+    return [[RZXScene alloc] initWithEffect:effect];
+}
+
+- (instancetype)init
+{
+    return [self initWithEffect:[RZXPassthroughEffect effect3D]];
+}
+
+- (instancetype)initWithEffect:(RZXEffect *)effect
+{
+    self = [super init];
+    if (self) {
+        self.effect = effect;
+    }
+    return self;
 }
 
 - (void)bindGL

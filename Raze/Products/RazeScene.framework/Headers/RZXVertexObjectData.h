@@ -8,15 +8,11 @@
 
 #import <RazeCore/RZXRenderable.h>
 
-@class RZXGLContext;
-
 @interface RZXVertexObjectData : NSObject <RZXRenderable>
 
-+ (RZXVertexObjectData *)fetchCachedObjectDataWithKey:(NSString *)keyString;
++ (RZXVertexObjectData *)vertexObjectDataWithFileName:(NSString *)fileName;
 + (void)deleteAllCachedObjects;
 
-- (instancetype)initWithFileName:(NSString *)fileName RZXGLContext:(RZXGLContext *)context;
-- (void)cacheObjectDataWithKey:(NSString *)keyString;
 - (void)deleteCachedObjectData;
 
 @end

@@ -64,7 +64,7 @@
 
 #pragma mark - private methods
 
-+ (NSNumber *)fetchCachedTextureIndexWithKey:(NSString *)keyString
++ (NSNumber *)cachedTextureIndexForKey:(NSString *)keyString
 {
     NSMutableDictionary *cache = [RZXTexture cachedTextureIdentifiers];
     return cache[keyString];
