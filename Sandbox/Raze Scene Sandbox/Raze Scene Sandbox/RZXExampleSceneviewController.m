@@ -30,10 +30,8 @@
     RZXTexture *texture = [RZXTexture textureWithFileName:@"gridTexture.png" useMipMapping:YES useCache:YES];
     
     __block RZXModelNode *modelNode = [RZXModelNode modelNodeWithMesh:mesh texture:texture];
-    modelNode.transform.translation = GLKVector3Make(0.0f, 0.0f, -10.0f);
-//    modelNode.transform.rotation = GLKQuaternionMakeWithAngleAndAxis(M_PI_4, 1.0f, 1.0f, 1.0f);
+    modelNode.transform.translation = GLKVector3Make(0.0f, 0.0f, -5.0f);
     GLKVector3 rotation = GLKVector3Make(0.0f, 6.0f, 0.0f);
-    
     __block __weak RZXModelNode *weakModelNode = modelNode;
     
     modelNode.updateBlock = ^(NSTimeInterval dt){
@@ -47,11 +45,11 @@
     self.view.backgroundColor = [UIColor blueColor];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewWillLayoutSubviews
 {
-    [super viewWillAppear:animated];
-    
-    self.sceneView.scene.camera = [RZXCamera cameraWithFieldOfView:GLKMathDegreesToRadians(30) aspectRatio:9.0 / 16.0 nearClipping:0.001 farClipping:50];
+    float ratio = CGRectGetWidth([UIScreen mainScreen].bounds) / CGRectGetHeight([UIScreen mainScreen].bounds);
+    self.sceneView.scene.camera = [RZXCamera cameraWithFieldOfView:GLKMathDegreesToRadians(90) aspectRatio:ratio nearClipping:0.001 farClipping:50];
+
 }
 
 - (RZXSceneView *)sceneView

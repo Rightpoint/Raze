@@ -5,7 +5,7 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <OpenGLES/ES2/glext.h>
+#import <OpenGLES/ES3/gl.h>
 #import <RazeCore/RZXGLView.h>
 #import <RazeCore/RZXGLContext.h>
 #import <RazeCore/RZXRenderLoop.h>
@@ -137,12 +137,13 @@
 
         [self.model render];
 
-        glDiscardFramebufferEXT(GL_FRAMEBUFFER, 1, s_GLDiscards);
+        
+        glInvalidateFramebuffer(GL_FRAMEBUFFER, 1, s_GLDiscards);
 
         glBindRenderbuffer(GL_RENDERBUFFER, self->_crb);
         [context presentRenderbuffer:GL_RENDERBUFFER];
 
-        glDiscardFramebufferEXT(GL_FRAMEBUFFER, 1, &s_GLDiscards[1]);
+        glInvalidateFramebuffer(GL_FRAMEBUFFER, 1, &s_GLDiscards[1]);
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glBindRenderbuffer(GL_RENDERBUFFER, 0);
@@ -244,7 +245,7 @@
 
     glGenRenderbuffers(1, &_drb);
     glBindRenderbuffer(GL_RENDERBUFFER, _drb);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24_OES, _backingWidth, _backingHeight);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, _backingWidth, _backingHeight);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _drb);
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
