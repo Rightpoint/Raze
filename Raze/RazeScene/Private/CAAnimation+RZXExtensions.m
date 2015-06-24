@@ -1,5 +1,5 @@
 //
-//  CAAnimation+RZXExtensions.m
+//  CAAnimation+RZXPrivateExtensions.m
 //  RazeScene
 //
 //  Created by Rob Visentin on 6/24/15.
@@ -27,7 +27,7 @@
 
 @end
 
-@implementation CAAnimation (RZXExtensions)
+@implementation CAAnimation (RZXPrivateExtensions)
 
 - (BOOL)isFinished
 {

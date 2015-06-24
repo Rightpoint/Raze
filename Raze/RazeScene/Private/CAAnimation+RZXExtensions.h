@@ -1,5 +1,5 @@
 //
-//  CAAnimation+RZXExtensions.h
+//  CAAnimation+RZXPrivateExtensions.h
 //  RazeScene
 //
 //  Created by Rob Visentin on 6/24/15.
@@ -10,7 +10,7 @@
 
 @class RZXAnimationState;
 
-@interface CAAnimation (RZXExtensions) <RZXUpdateable>
+@interface CAAnimation (RZXPrivateExtensions) <RZXUpdateable>
 
 @property (assign, nonatomic, readonly, getter=isFinished) BOOL finished;
 
