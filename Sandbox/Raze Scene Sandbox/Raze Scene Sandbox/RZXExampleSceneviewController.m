@@ -24,15 +24,15 @@
     [super viewDidLoad];
     
     self.sceneView.backgroundColor = [UIColor whiteColor];
-    self.sceneView.framesPerSecond = 30;
-    self.sceneView.multisampleLevel = 0;
+    self.sceneView.framesPerSecond = 60;
+    self.sceneView.multisampleLevel = 4;
 
     RZXADSPhongEffect *effect = [RZXADSPhongEffect effect];
-    effect.lightPosition = GLKVector4Make(3.0f, 5.0f, 20.0f, 0.0f);
+    effect.lightPosition = GLKVector4Make(0.0f, 10.0f, 20.0f, 0.0f);
 
     RZXScene *scene = [RZXScene sceneWithEffect: effect];
 
-    RZXMesh *mesh = [RZXMesh meshWithName:@"firstMesh" meshFileName:@"cube.mesh"];
+    RZXMesh *mesh = [RZXMesh meshWithName:@"firstMesh" meshFileName:@"marshmellow.mesh"];
     RZXTexture *texture = [RZXTexture textureWithFileName:@"rzMetal256.png" useMipMapping:YES useCache:YES];
     
     RZXModelNode *modelNode = [RZXModelNode modelNodeWithMesh:mesh texture:texture];
