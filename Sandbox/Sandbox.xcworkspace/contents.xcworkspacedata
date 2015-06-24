@@ -5,9 +5,6 @@
       location = "group:Raze Scene Sandbox/../../Raze/Raze.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Raze Animation Sandbox/Raze Animation Sandbox.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:Raze Scene Sandbox/Raze Scene Sandbox.xcodeproj">
    </FileRef>
 </Workspace>

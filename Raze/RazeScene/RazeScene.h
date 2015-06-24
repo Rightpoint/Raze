@@ -6,7 +6,6 @@
 //
 //
 
-
 #import <Foundation/Foundation.h>
 
 FOUNDATION_EXPORT double RazeSceneVersionNumber;
@@ -20,4 +19,3 @@ FOUNDATION_EXPORT const unsigned char RazeSceneVersionString[];
 #import <RazeScene/RZXScene.h>
 #import <RazeScene/RZXSceneView.h>
 #import <RazeScene/RZXVertexObjectData.h>
-

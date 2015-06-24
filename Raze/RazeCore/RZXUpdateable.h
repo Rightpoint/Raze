@@ -9,6 +9,7 @@
 
 @protocol RZXUpdateable <NSObject>
 
+#warning Prefix with rzx_
 - (void)update:(NSTimeInterval)dt;
 
 @end

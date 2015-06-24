@@ -6,6 +6,8 @@
 //
 
 #import <RazeCore/RZXTransform3D.h>
+#import <RazeCore/RZXInterpolationFunction.h>
+#import <RazeCore/NSValue+RZXExtensions.h>
 
 @implementation RZXTransform3D {
     GLKMatrix4 *_cachedModelMatrix;
@@ -97,6 +99,42 @@
     [self invalidateModelMatrixCache];
 }
 
+- (id)valueForKey:(NSString *)key
+{
+    id value = nil;
+
+    if ( [key isEqualToString:@"translation"] ) {
+        value = [NSValue rzx_valueWithVec3:self.translation];
+    }
+    else if ( [key isEqualToString:@"rotation"] ) {
+        value = [NSValue rzx_valueWithQuaternion:self.rotation];
+    }
+    else if ( [key isEqualToString:@"scale"] ) {
+        value = [NSValue rzx_valueWithVec3:self.scale];
+    }
+    else {
+        value = [super valueForKey:key];
+    }
+
+    return value;
+}
+
+- (void)setValue:(id)value forKey:(NSString *)key
+{
+    if ( [key isEqualToString:@"translation"] ) {
+        self.translation = [value rzx_vec3Value];
+    }
+    else if ( [key isEqualToString:@"rotation"] ) {
+        self.rotation = [value rzx_quaternionValue];
+    }
+    else if ( [key isEqualToString:@"scale"] ) {
+        self.scale = [value rzx_vec3Value];
+    }
+    else {
+        [super setValue:value forKey:key];
+    }
+}
+
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone
@@ -108,6 +146,28 @@
     copy.scale = _scale;
     
     return copy;
+}
+
+#pragma mark - RZXAnimatable
+
++ (RZXInterpolationFunction *)interpolationFunctionForKey:(NSString *)key
+{
+    // TODO: use awesome RZDataBinding keypath generator
+    // TODO: also think about supporting translation.x, translation.y, etc.
+
+    RZXInterpolationFunction *function = nil;
+
+    if ( [key isEqualToString:@"translation"] ) {
+        function = [RZXInterpolationFunction vec3Interpolator];
+    }
+    else if ( [key isEqualToString:@"rotation"] ) {
+        function = [RZXInterpolationFunction quaternionInterpolator];
+    }
+    else if ( [key isEqualToString:@"scale"] ) {
+        function = [RZXInterpolationFunction vec3Interpolator];
+    }
+
+    return function;
 }
 
 #pragma mark - private methods

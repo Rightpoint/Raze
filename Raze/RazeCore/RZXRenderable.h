@@ -9,6 +9,7 @@
 
 @protocol RZXRenderable <RZXOpenGLObject>
 
+#warning Prefix with rzx_
 - (void)render;
 
 @end

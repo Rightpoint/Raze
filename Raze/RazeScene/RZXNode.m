@@ -7,6 +7,7 @@
 //
 
 #import <RazeCore/RazeCore.h>
+#import <RazeScene/CAAnimation+RZXExtensions.h>
 
 #import "RZXNode.h"
 
@@ -14,6 +15,8 @@
 
 @property (strong, nonatomic) NSMutableArray *mutableChildren;
 @property (weak, nonatomic, readwrite) RZXNode *parent;
+
+@property (strong, nonatomic) NSMutableDictionary *mutableAnimations;
 
 @end
 
@@ -23,6 +26,7 @@
 {
     if ( (self = [super init]) ) {
         _mutableChildren = [NSMutableArray array];
+        _mutableAnimations = [NSMutableDictionary dictionary];
         _transform = [RZXTransform3D transform];
     }
     return self;
@@ -96,6 +100,22 @@
     return projectionMatrix;
 }
 
+- (void)addAnimation:(CAAnimation *)animation forKey:(NSString *)key
+{
+    key = key ?: [NSString stringWithFormat:@"%p", animation];
+    self.mutableAnimations[key] = animation;
+}
+
+- (CAAnimation *)animationForKey:(NSString *)key
+{
+    return [self.mutableAnimations[key] copy];
+}
+
+- (void)removeAnimationForKey:(NSString *)key
+{
+    [self.mutableAnimations removeObjectForKey:key];
+}
+
 #pragma mark - RZXOpenGLObject
 
 - (void)setupGL
@@ -141,10 +161,17 @@
 
 - (void)update:(NSTimeInterval)dt
 {
-    if (self.updateBlock != nil) {
-        self.updateBlock(dt);
+    for ( NSString *key in self.mutableAnimations.allKeys ) {
+        CAAnimation *animation = self.mutableAnimations[key];
+
+        [animation update:dt];
+        [animation rzx_applyToObject:self];
+
+        if ( animation.isFinished ) {
+            [self.mutableAnimations removeObjectForKey:key];
+        }
     }
-    
+
     for ( RZXNode *child in self.children ) {
         [child update:dt];
     }
