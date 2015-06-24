@@ -38,11 +38,6 @@
     
     RZXModelNode *modelNode = [RZXModelNode modelNodeWithMesh:mesh texture:texture];
     modelNode.transform.translation = GLKVector3Make(0.0f, 0.0f, -8.0f);
-    __block __weak RZXModelNode *weakModelNode = modelNode;
-    
-    modelNode.updateBlock = ^(NSTimeInterval dt){
-        weakModelNode.transform.rotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndAxis(dt, 0.0f, 1.0f, 0.0f), weakModelNode.transform.rotation);
-    };
     
     [scene addChild:modelNode];
     

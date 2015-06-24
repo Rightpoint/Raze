@@ -29,10 +29,10 @@
 
 #pragma mark - drawing
 
-- (void)update:(NSTimeInterval)dt
+- (void)rzx_update:(NSTimeInterval)dt
 {
-    [super update:dt];
-    [self.scene update:dt];
+    [super rzx_update:dt];
+    [self.scene rzx_update:dt];
 }
 
 @end

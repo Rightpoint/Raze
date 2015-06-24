@@ -82,9 +82,9 @@
 - (void)setEffect:(RZXEffect *)effect
 {
     [self.context runBlock:^(RZXGLContext *context){
-        [_effect teardownGL];
+        [_effect rzx_teardownGL];
 
-        [effect setupGL];
+        [effect rzx_setupGL];
 
         _effect = effect;
         self.model = [RZXQuadMesh quadWithSubdivisionLevel:effect.preferredLevelOfDetail];
@@ -102,7 +102,7 @@
         context.activeTexture = GL_TEXTURE0;
         context.clearColor = self.backgroundColor.CGColor;
 
-        [self bindGL];
+        [self rzx_bindGL];
 
         int fbo = 0;
 
@@ -116,7 +116,7 @@
             glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, self->_auxTex[fbo][downsample], 0);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            [self.model render];
+            [self.model rzx_render];
 
             glDiscardFramebufferEXT(GL_FRAMEBUFFER, 1, s_GLDiscards);
             glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, 0, 0);
@@ -138,7 +138,7 @@
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, _crb);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        [self.model render];
+        [self.model rzx_render];
 
         glDiscardFramebufferEXT(GL_FRAMEBUFFER, 1, s_GLDiscards);
 
@@ -237,9 +237,9 @@
 {
     if ( self.sourceView != nil ) {
         [self.context runBlock:^(RZXGLContext *context) {
-            [self->_viewTexture teardownGL];
+            [self->_viewTexture rzx_teardownGL];
             self->_viewTexture = [RZXViewTexture textureWithSize:self.sourceView.bounds.size];
-            [self->_viewTexture setupGL];
+            [self->_viewTexture rzx_setupGL];
 
             self.textureLoaded = NO;
         }];
@@ -273,9 +273,9 @@
 
 #pragma mark - RZUpdateable
 
-- (void)update:(NSTimeInterval)dt
+- (void)rzx_update:(NSTimeInterval)dt
 {
-    [super update:dt];
+    [super rzx_update:dt];
 
     if ( self.isDynamic || !self.textureLoaded ) {
         [self.viewTexture updateWithView:self.sourceView synchronous:self.synchronousUpdate];
@@ -285,31 +285,31 @@
 
 #pragma mark - RZRenderable
 
-- (void)setupGL
+- (void)rzx_setupGL
 {
     [self.context runBlock:^(RZXGLContext *context){
-        [super setupGL];
+        [super rzx_setupGL];
 
         [self setEffect:self.effect];
         [self createTexture];
     }];
 }
 
-- (void)bindGL
+- (void)rzx_bindGL
 {
-    [super bindGL];
+    [super rzx_bindGL];
 
     [self congfigureEffect];
-    [self.viewTexture bindGL];
+    [self.viewTexture rzx_bindGL];
 }
 
-- (void)teardownGL
+- (void)rzx_teardownGL
 {
     [self.context runBlock:^(RZXGLContext *context){
-        [super teardownGL];
+        [super rzx_teardownGL];
 
-        [self.effect teardownGL];
-        [self.viewTexture teardownGL];
+        [self.effect rzx_teardownGL];
+        [self.viewTexture rzx_teardownGL];
     }];
 }
 

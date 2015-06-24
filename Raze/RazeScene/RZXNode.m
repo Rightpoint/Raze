@@ -7,6 +7,7 @@
 //
 
 #import <RazeCore/RazeCore.h>
+#import <RazeScene/CAAnimation+RZXExtensions.h>
 
 #import "RZXNode.h"
 
@@ -14,6 +15,8 @@
 
 @property (strong, nonatomic) NSMutableArray *mutableChildren;
 @property (weak, nonatomic, readwrite) RZXNode *parent;
+
+@property (strong, nonatomic) NSMutableDictionary *mutableAnimations;
 
 @end
 
@@ -23,6 +26,7 @@
 {
     if ( (self = [super init]) ) {
         _mutableChildren = [NSMutableArray array];
+        _mutableAnimations = [NSMutableDictionary dictionary];
         _transform = [RZXTransform3D transform];
     }
     return self;
@@ -96,18 +100,34 @@
     return projectionMatrix;
 }
 
+- (void)addAnimation:(CAAnimation *)animation forKey:(NSString *)key
+{
+    key = key ?: [NSString stringWithFormat:@"%p", animation];
+    self.mutableAnimations[key] = animation;
+}
+
+- (CAAnimation *)animationForKey:(NSString *)key
+{
+    return [self.mutableAnimations[key] copy];
+}
+
+- (void)removeAnimationForKey:(NSString *)key
+{
+    [self.mutableAnimations removeObjectForKey:key];
+}
+
 #pragma mark - RZXOpenGLObject
 
-- (void)setupGL
+- (void)rzx_setupGL
 {
-    [self.effect setupGL];
+    [self.effect rzx_setupGL];
     
     for ( RZXNode *child in self.children ) {
-        [child setupGL];
+        [child rzx_setupGL];
     }
 }
 
-- (void)bindGL
+- (void)rzx_bindGL
 {
 // TODO: get resolution somehow
 //    self.effect.resolution = GLKVector2Make(_backingWidth, _backingHeight);
@@ -128,33 +148,40 @@
     [self.effect prepareToDraw];
 }
 
-- (void)teardownGL
+- (void)rzx_teardownGL
 {
-    [self.effect teardownGL];
+    [self.effect rzx_teardownGL];
     
     for ( RZXNode *child in self.children ) {
-        [child teardownGL];
+        [child rzx_teardownGL];
     }
 }
 
 #pragma mark - RZXRenderable
 
-- (void)update:(NSTimeInterval)dt
+- (void)rzx_update:(NSTimeInterval)dt
 {
-    if (self.updateBlock != nil) {
-        self.updateBlock(dt);
+    for ( NSString *key in self.mutableAnimations.allKeys ) {
+        CAAnimation *animation = self.mutableAnimations[key];
+
+        [animation rzx_update:dt];
+        [animation rzx_applyToObject:self];
+
+        if ( animation.isFinished ) {
+            [self.mutableAnimations removeObjectForKey:key];
+        }
     }
-    
+
     for ( RZXNode *child in self.children ) {
-        [child update:dt];
+        [child rzx_update:dt];
     }
 }
 
-- (void)render
+- (void)rzx_render
 {
     for ( RZXNode *child in self.children ) {
-        [child bindGL];
-        [child render];
+        [child rzx_bindGL];
+        [child rzx_render];
     }
 }
 

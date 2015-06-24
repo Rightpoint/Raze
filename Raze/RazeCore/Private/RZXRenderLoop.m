@@ -114,9 +114,9 @@ static const NSInteger kRZRenderLoopDefaultFPS = 30;
 {
     CFTimeInterval dt = displayLink.timestamp - self.lastRender;
     
-    [self.updateTarget update:dt];
+    [self.updateTarget rzx_update:dt];
 
-    [self.renderTarget render];
+    [self.renderTarget rzx_render];
     
     self.lastRender = displayLink.timestamp;
 }

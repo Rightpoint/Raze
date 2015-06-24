@@ -187,21 +187,21 @@ void RZXGetGaussianBlurOffsets(GLfloat **offsets, GLint *n, const GLfloat *weigh
 
 #pragma mark - RZOpenGLObject
 
-- (void)setupGL
+- (void)rzx_setupGL
 {
-    [self.horizontal setupGL];
-    [self.vertical setupGL];
+    [self.horizontal rzx_setupGL];
+    [self.vertical rzx_setupGL];
 }
 
-- (void)bindGL
+- (void)rzx_bindGL
 {
-    [self.currentBlur bindGL];
+    [self.currentBlur rzx_bindGL];
 }
 
-- (void)teardownGL
+- (void)rzx_teardownGL
 {
-    [self.horizontal teardownGL];
-    [self.vertical teardownGL];
+    [self.horizontal rzx_teardownGL];
+    [self.vertical rzx_teardownGL];
 }
 
 #pragma mark - private methods
@@ -274,12 +274,12 @@ void RZXGetGaussianBlurOffsets(GLfloat **offsets, GLint *n, const GLfloat *weigh
 
 #pragma mark - RZXOpenGLObject
 
-- (void)setupGL
+- (void)rzx_setupGL
 {
     // empty implementation
 }
 
-- (void)teardownGL
+- (void)rzx_teardownGL
 {
     // empty implementation
 }

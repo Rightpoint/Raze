@@ -97,7 +97,7 @@
 
 #pragma mark - RZOpenGLObject
 
-- (void)setupGL
+- (void)rzx_setupGL
 {
     if ( _vaoIndex != 0 ) {
         // already setup
@@ -165,19 +165,19 @@
     }
 }
 
-- (void)bindGL
+- (void)rzx_bindGL
 {
     [[RZXGLContext currentContext] bindVertexArray:_vaoIndex];
 }
 
-- (void)teardownGL
+- (void)rzx_teardownGL
 {
     [self deleteCachedObjectData];
 }
 
 #pragma mark - RZXRenderable
 
-- (void)render
+- (void)rzx_render
 {
     glDrawElements(GL_TRIANGLES, _indexCount, GL_UNSIGNED_SHORT, NULL);
 }

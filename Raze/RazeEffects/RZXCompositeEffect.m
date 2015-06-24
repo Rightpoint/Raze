@@ -117,21 +117,21 @@
 
 #pragma mark - RZXOpenGLObject
 
-- (void)setupGL
+- (void)rzx_setupGL
 {
-    [self.firstEffect setupGL];
-    [self.secondEffect setupGL];
+    [self.firstEffect rzx_setupGL];
+    [self.secondEffect rzx_setupGL];
 }
 
-- (void)bindGL
+- (void)rzx_bindGL
 {
-    [self.currentEffect bindGL];
+    [self.currentEffect rzx_bindGL];
 }
 
-- (void)teardownGL
+- (void)rzx_teardownGL
 {
-    [self.firstEffect teardownGL];
-    [self.secondEffect teardownGL];
+    [self.firstEffect rzx_teardownGL];
+    [self.secondEffect rzx_teardownGL];
 }
 
 @end

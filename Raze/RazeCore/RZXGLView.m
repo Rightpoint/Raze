@@ -63,7 +63,7 @@
 - (void)dealloc
 {
     [self.context runBlock:^(RZXGLContext *context) {
-        [self teardownGL];
+        [self rzx_teardownGL];
     }];
 }
 
@@ -110,9 +110,9 @@
 - (void)setModel:(id<RZXRenderable>)model
 {
     [self.context runBlock:^(RZXGLContext *context) {
-        [self->_model teardownGL];
+        [self->_model rzx_teardownGL];
         self->_model = model;
-        [self->_model setupGL];
+        [self->_model rzx_setupGL];
     }];
 }
 
@@ -130,14 +130,14 @@
         context.viewport = CGRectMake(0.0f, 0.0f, self->_backingWidth, self->_backingHeight);
         context.depthTestEnabled = YES;
 
-        [self bindGL];
+        [self rzx_bindGL];
         
         GLuint targetFbo = self.multisampleLevel > 0 ? _msFbo : _fbo;
         glBindFramebuffer(GL_FRAMEBUFFER, targetFbo);
         
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        [self.model render];
+        [self.model rzx_render];
         
         if (self.multisampleLevel > 0) {
             glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _fbo);
@@ -163,17 +163,17 @@
 
 #pragma mark - RZUpdateable
 
-- (void)update:(NSTimeInterval)dt
+- (void)rzx_update:(NSTimeInterval)dt
 {
     // subclass override
 }
 
 #pragma mark - RZRenderable
 
-- (void)setupGL
+- (void)rzx_setupGL
 {
     [self.context runBlock:^(RZXGLContext *context){
-        [self teardownGL];
+        [self rzx_teardownGL];
 
         self.renderLoop = [RZXRenderLoop renderLoop];
         [self.renderLoop setUpdateTarget:self];
@@ -187,23 +187,23 @@
     }];
 }
 
-- (void)bindGL
+- (void)rzx_bindGL
 {
-    [self.model bindGL];
+    [self.model rzx_bindGL];
 }
 
-- (void)teardownGL
+- (void)rzx_teardownGL
 {
     [self.context runBlock:^(RZXGLContext *context){
         [self.renderLoop stop];
         self.renderLoop = nil;
 
         [self destroyBuffers];
-        [self.model teardownGL];
+        [self.model rzx_teardownGL];
     }];
 }
 
-- (void)render
+- (void)rzx_render
 {
     [self display];
 }
@@ -224,7 +224,7 @@
 
     self.context = [RZXGLContext defaultContext];
 
-    [self setupGL];
+    [self rzx_setupGL];
 }
 
 - (void)updateBuffersWithSize:(CGSize)size

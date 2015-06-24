@@ -31,7 +31,7 @@
     return self;
 }
 
-- (void)bindGL
+- (void)rzx_bindGL
 {
     // no-op. The scene object itself isn't renderable
 }

@@ -30,31 +30,31 @@
 
 #pragma mark - RZOpenGLObject
 
-- (void)setupGL
+- (void)rzx_setupGL
 {
     if ( self.vertexObjectData == nil ) {
         self.vertexObjectData = [RZXVertexObjectData vertexObjectDataWithFileName:_meshFileName];
     }
 
-    [self.vertexObjectData setupGL];
+    [self.vertexObjectData rzx_setupGL];
 }
 
-- (void)bindGL
+- (void)rzx_bindGL
 {
-    [self.vertexObjectData bindGL];
+    [self.vertexObjectData rzx_bindGL];
 }
 
-- (void)teardownGL
+- (void)rzx_teardownGL
 {
-    [self.vertexObjectData teardownGL];
+    [self.vertexObjectData rzx_teardownGL];
     self.vertexObjectData = nil;
 }
 
 #pragma mark - RZRenderable
 
-- (void)render
+- (void)rzx_render
 {
-    [self.vertexObjectData render];
+    [self.vertexObjectData rzx_render];
 }
 
 #pragma mark - private methods

@@ -37,11 +37,13 @@
     
     RZXModelNode *modelNode = [RZXModelNode modelNodeWithMesh:mesh texture:texture];
     modelNode.transform.translation = GLKVector3Make(0.0f, 0.0f, -8.0f);
-    __block __weak RZXModelNode *weakModelNode = modelNode;
 
-    modelNode.updateBlock = ^(NSTimeInterval dt){
-        weakModelNode.transform.rotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndAxis(dt, 0.0f, 1.0f, 0.0f), weakModelNode.transform.rotation);
-    };
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+    animation.fromValue = [NSValue rzx_valueWithQuaternion:GLKQuaternionIdentity];
+    animation.toValue = [NSValue rzx_valueWithQuaternion:GLKQuaternionMakeWithAngleAndAxis(M_PI, 0.0f, 1.0f, 0.0f)];
+    animation.duration = 3.0;
+
+    [modelNode addAnimation:animation forKey:@"rotation"];
 
     [scene addChild:modelNode];
     
