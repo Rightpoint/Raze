@@ -41,7 +41,7 @@
 
 #pragma mark - RZXUpdateable
 
-- (void)update:(NSTimeInterval)dt
+- (void)rzx_update:(NSTimeInterval)dt
 {
     self.rzx_state.currentTime += dt;
 }
@@ -100,8 +100,8 @@
     RZXInterpolationFunction *cachedFunction = functionCache[key];
 
     if ( cachedFunction == nil ) {
-        if ( [self respondsToSelector:@selector(interpolationFunctionForKey:)] ) {
-            cachedFunction = [(id<RZXAnimatable>)self interpolationFunctionForKey:key];
+        if ( [self respondsToSelector:@selector(rzx_interpolationFunctionForKey:)] ) {
+            cachedFunction = [(id<RZXAnimatable>)self rzx_interpolationFunctionForKey:key];
 
             functionCache[key] = cachedFunction ?: [NSNull null];
         }

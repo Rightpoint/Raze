@@ -112,7 +112,7 @@
 
 - (BOOL)prepareToDraw
 {
-    [self bindGL];
+    [self rzx_bindGL];
     
     if ( self.mvpUniform != nil ) {
         GLKMatrix4 mvpMatrix = GLKMatrix4Multiply(_projectionMatrix, _modelViewMatrix);
@@ -261,12 +261,12 @@
 
 #pragma mark - RZXOpenGLObject
 
-- (void)setupGL
+- (void)rzx_setupGL
 {
     RZXGLContext *currentContext = [RZXGLContext currentContext];
 
     if ( currentContext != nil ) {
-        [self teardownGL];
+        [self rzx_teardownGL];
         
         GLuint vs = [currentContext vertexShaderWithSource:self.vshSrc];
         GLuint fs = [currentContext fragmentShaderWithSource:self.fshSrc];
@@ -283,12 +283,12 @@
     }
 }
 
-- (void)bindGL
+- (void)rzx_bindGL
 {
     [[RZXGLContext currentContext] useProgram:_name];
 }
 
-- (void)teardownGL
+- (void)rzx_teardownGL
 {
     if ( _name != 0 ) {
         glDeleteProgram(_name);

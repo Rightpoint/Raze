@@ -11,7 +11,6 @@
 
 @protocol RZXAnimatable <NSObject>
 
-#warning Prefix with rzx_
-+ (RZXInterpolationFunction *)interpolationFunctionForKey:(NSString *)key;
++ (RZXInterpolationFunction *)rzx_interpolationFunctionForKey:(NSString *)key;
 
 @end

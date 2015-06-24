@@ -150,7 +150,7 @@
 
 #pragma mark - RZXAnimatable
 
-+ (RZXInterpolationFunction *)interpolationFunctionForKey:(NSString *)key
++ (RZXInterpolationFunction *)rzx_interpolationFunctionForKey:(NSString *)key
 {
     // TODO: use awesome RZDataBinding keypath generator
     // TODO: also think about supporting translation.x, translation.y, etc.

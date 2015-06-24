@@ -41,18 +41,18 @@
 
 #pragma mark - RZXOpenGLObject
 
-- (void)setupGL
+- (void)rzx_setupGL
 {
     [self assignIdentifer];
 }
 
-- (void)bindGL
+- (void)rzx_bindGL
 {
     [RZXGLContext currentContext].activeTexture = GL_TEXTURE0;
     glBindTexture(GL_TEXTURE_2D, _identifier);
 }
 
-- (void)teardownGL
+- (void)rzx_teardownGL
 {
     glDeleteTextures(1, &_identifier);
     

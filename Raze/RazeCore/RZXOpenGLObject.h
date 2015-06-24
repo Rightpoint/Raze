@@ -9,9 +9,8 @@
 
 @protocol RZXOpenGLObject <NSObject>
 
-#warning Prefix with rzx_
-- (void)setupGL;
-- (void)bindGL;
-- (void)teardownGL;
+- (void)rzx_setupGL;
+- (void)rzx_bindGL;
+- (void)rzx_teardownGL;
 
 @end

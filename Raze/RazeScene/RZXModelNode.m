@@ -31,37 +31,37 @@
 
 #pragma mark - RZXRenderable
 
-- (void)render
+- (void)rzx_render
 {
-    [self.mesh render];
+    [self.mesh rzx_render];
     
-    [super render];
+    [super rzx_render];
 }
 
 #pragma mark - RZXOpenGLObject
 
-- (void)setupGL
+- (void)rzx_setupGL
 {
-    [super setupGL];
+    [super rzx_setupGL];
 
-    [_texture setupGL];
-    [_mesh setupGL];
+    [_texture rzx_setupGL];
+    [_mesh rzx_setupGL];
 }
 
-- (void)bindGL
+- (void)rzx_bindGL
 {
-    [super bindGL];
+    [super rzx_bindGL];
 
-    [_texture bindGL];
-    [_mesh bindGL];
+    [_texture rzx_bindGL];
+    [_mesh rzx_bindGL];
 }
 
-- (void)teardownGL
+- (void)rzx_teardownGL
 {
-    [super teardownGL];
+    [super rzx_teardownGL];
 
-    [_texture teardownGL];
-    [_mesh teardownGL];
+    [_texture rzx_teardownGL];
+    [_mesh rzx_teardownGL];
 }
 
 @end

@@ -77,12 +77,12 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
 
 #pragma mark - RZXOpenGLObject
 
-- (void)setupGL
+- (void)rzx_setupGL
 {
     RZXGLContext *currentContext = [RZXGLContext currentContext];
 
     if ( currentContext != nil ) {
-        [self teardownGL];
+        [self rzx_teardownGL];
         
         glGenVertexArraysOES(1, &_vao);
         glGenBuffers(2, &_bufferSet.vbo);
@@ -108,12 +108,12 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
     }
 }
 
-- (void)bindGL
+- (void)rzx_bindGL
 {
     [[RZXGLContext currentContext] bindVertexArray:_vao];
 }
 
-- (void)teardownGL
+- (void)rzx_teardownGL
 {
     if ( _vao != 0 ) {
         glDeleteVertexArraysOES(1, &_vao);
@@ -123,7 +123,7 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
 
 #pragma mark - RZXRenderable
 
-- (void)render
+- (void)rzx_render
 {
     glDrawElements(GL_TRIANGLES, _indexCount, GL_UNSIGNED_SHORT, NULL);
 }

@@ -118,16 +118,16 @@
 
 #pragma mark - RZXOpenGLObject
 
-- (void)setupGL
+- (void)rzx_setupGL
 {
-    [self.effect setupGL];
+    [self.effect rzx_setupGL];
     
     for ( RZXNode *child in self.children ) {
-        [child setupGL];
+        [child rzx_setupGL];
     }
 }
 
-- (void)bindGL
+- (void)rzx_bindGL
 {
 // TODO: get resolution somehow
 //    self.effect.resolution = GLKVector2Make(_backingWidth, _backingHeight);
@@ -148,23 +148,23 @@
     [self.effect prepareToDraw];
 }
 
-- (void)teardownGL
+- (void)rzx_teardownGL
 {
-    [self.effect teardownGL];
+    [self.effect rzx_teardownGL];
     
     for ( RZXNode *child in self.children ) {
-        [child teardownGL];
+        [child rzx_teardownGL];
     }
 }
 
 #pragma mark - RZXRenderable
 
-- (void)update:(NSTimeInterval)dt
+- (void)rzx_update:(NSTimeInterval)dt
 {
     for ( NSString *key in self.mutableAnimations.allKeys ) {
         CAAnimation *animation = self.mutableAnimations[key];
 
-        [animation update:dt];
+        [animation rzx_update:dt];
         [animation rzx_applyToObject:self];
 
         if ( animation.isFinished ) {
@@ -173,15 +173,15 @@
     }
 
     for ( RZXNode *child in self.children ) {
-        [child update:dt];
+        [child rzx_update:dt];
     }
 }
 
-- (void)render
+- (void)rzx_render
 {
     for ( RZXNode *child in self.children ) {
-        [child bindGL];
-        [child render];
+        [child rzx_bindGL];
+        [child rzx_render];
     }
 }
 

@@ -46,13 +46,13 @@
 
 #pragma mark - RZOpenGLObject
 
-- (void)setupGL
+- (void)rzx_setupGL
 {
     @synchronized (self) {
         RZXGLContext *currentContext = [RZXGLContext currentContext];
 
         if ( currentContext != nil ) {
-            [self teardownGL];
+            [self rzx_teardownGL];
             
             NSDictionary *buffersAttrs = @{(__bridge NSString *)kCVPixelBufferIOSurfacePropertiesKey : [NSDictionary dictionary]};
             
@@ -83,14 +83,14 @@
     }
 }
 
-- (void)bindGL
+- (void)rzx_bindGL
 {
     @synchronized (self) {
         glBindTexture(CVOpenGLESTextureGetTarget(_tex), CVOpenGLESTextureGetName(_tex));
     }
 }
 
-- (void)teardownGL
+- (void)rzx_teardownGL
 {
     @synchronized (self) {
         CGContextRelease(_context);
