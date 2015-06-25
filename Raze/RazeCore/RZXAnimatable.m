@@ -50,7 +50,6 @@ static inline id rzx_valueForGLKProperty(id self, RZXObjcProperty *p)
 
     RZXValueProxy *wrappedVal = [[RZXValueProxy alloc] initWithBytes:ret objCType:p.typeEncoding.UTF8String];
 
-
     wrappedVal.proxyOwner = self;
     wrappedVal.proxiedKey = p.name;
 
@@ -77,41 +76,43 @@ static inline void rzx_setValueForGLKProperty(id self, id value, RZXObjcProperty
 
 + (void)rzx_addKVCComplianceForGLKTypes
 {
-    if ( [objc_getAssociatedObject(self, _cmd) boolValue] ) {
-        return;
+    @synchronized (self) {
+        if ( [objc_getAssociatedObject(self, _cmd) boolValue] ) {
+            return;
+        }
+
+        objc_setAssociatedObject(self, _cmd, @(YES), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
+        Method valueForKey = class_getInstanceMethod(self, @selector(valueForKey:));
+        Method setValueForKey = class_getInstanceMethod(self, @selector(setValue:forKey:));
+
+        IMP valueForKeyImp = method_getImplementation(valueForKey);
+        class_replaceMethod(self, method_getName(valueForKey), imp_implementationWithBlock(^id (id self, NSString *key) {
+            id value = nil;
+            RZXObjcProperty *prop = [[self class] rzx_propertyForKey:key];
+
+            if ( prop.isGLKType ) {
+                value = rzx_valueForGLKProperty(self, prop);
+            }
+            else {
+                value = ((id(*)(id, SEL, NSString*))valueForKeyImp)(self, @selector(valueForKey:), key);
+            }
+
+            return value;
+        }), method_getTypeEncoding(valueForKey));
+
+        IMP setValueForKeyImp = method_getImplementation(setValueForKey);
+        class_replaceMethod(self, method_getName(setValueForKey), imp_implementationWithBlock(^void (id self, id value, NSString *key) {
+            RZXObjcProperty *prop = [[self class] rzx_propertyForKey:key];
+
+            if ( prop.isGLKType && prop.setter != NULL ) {
+                rzx_setValueForGLKProperty(self, value, prop);
+            }
+            else {
+                ((void(*)(id, SEL, id, NSString*))setValueForKeyImp)(self, @selector(setValue:forKey:), value, key);
+            }
+        }), method_getTypeEncoding(setValueForKey));
     }
-
-    objc_setAssociatedObject(self, _cmd, @(YES), OBJC_ASSOCIATION_RETAIN);
-
-    Method valueForKey = class_getInstanceMethod(self, @selector(valueForKey:));
-    Method setValueForKey = class_getInstanceMethod(self, @selector(setValue:forKey:));
-
-    IMP valueForKeyImp = method_getImplementation(valueForKey);
-    class_replaceMethod(self, method_getName(valueForKey), imp_implementationWithBlock(^id (id self, NSString *key) {
-        id value = nil;
-        RZXObjcProperty *prop = [[self class] rzx_propertyForKey:key];
-
-        if ( prop.isGLKType ) {
-            value = rzx_valueForGLKProperty(self, prop);
-        }
-        else {
-            value = ((id(*)(id, SEL, NSString*))valueForKeyImp)(self, @selector(valueForKey:), key);
-        }
-
-        return value;
-    }), method_getTypeEncoding(valueForKey));
-
-    IMP setValueForKeyImp = method_getImplementation(setValueForKey);
-    class_replaceMethod(self, method_getName(setValueForKey), imp_implementationWithBlock(^void (id self, id value, NSString *key) {
-        RZXObjcProperty *prop = [[self class] rzx_propertyForKey:key];
-
-        if ( prop.isGLKType && prop.setter != NULL ) {
-            rzx_setValueForGLKProperty(self, value, prop);
-        }
-        else {
-            ((void(*)(id, SEL, id, NSString*))setValueForKeyImp)(self, @selector(setValue:forKey:), value, key);
-        }
-    }), method_getTypeEncoding(setValueForKey));
 }
 
 + (RZXInterpolationFunction *)rzx_interpolationFunctionForKey:(NSString *)key
@@ -152,11 +153,13 @@ static inline void rzx_setValueForGLKProperty(id self, id value, RZXObjcProperty
 
 + (void)rzx_loadProperties
 {
-    if ( [objc_getAssociatedObject(self, _cmd) boolValue] ) {
-        return;
-    }
+    @synchronized (self) {
+        if ( [objc_getAssociatedObject(self, _cmd) boolValue] ) {
+            return;
+        }
 
-    objc_setAssociatedObject(self, _cmd, @(YES), OBJC_ASSOCIATION_RETAIN);
+        objc_setAssociatedObject(self, _cmd, @(YES), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
 
     NSMutableDictionary *propertiesByKey = [NSMutableDictionary dictionary];
 
