@@ -68,7 +68,7 @@
         BOOL quat = strcmp(type, @encode(GLKQuaternion)) == 0;
 
         _typeKeys.x = vec2 || vec3 || vec4 || quat;
-        _typeKeys.y = _typeKeys.y;
+        _typeKeys.y = _typeKeys.x;
         _typeKeys.z = vec3 || vec4 || quat;
         _typeKeys.w = vec4 || quat;
         _typeKeys.s = quat;
