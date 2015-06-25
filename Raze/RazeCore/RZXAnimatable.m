@@ -5,11 +5,11 @@
 //  Created by Rob Visentin on 6/24/15.
 //
 
-#import <objc/runtime.h>
-#import <objc/message.h>
+#import <objc/objc-runtime.h>
 #import <GLKit/GLKMathTypes.h>
 #import <RazeCore/RZXAnimatable.h>
 #import <RazeCore/RZXInterpolationFunction.h>
+#import <RazeCore/RZXValueProxy.h>
 
 #pragma mark - private interface
 
@@ -19,7 +19,7 @@
 @property (nonatomic, readonly) NSString *typeEncoding;
 @property (nonatomic, readonly) NSUInteger typeSize;
 
-@property (assign, nonatomic, readonly) BOOL isGLKType;
+@property (nonatomic, readonly) BOOL isGLKType;
 
 @property (nonatomic, readonly) SEL getter;
 @property (nonatomic, readonly) SEL setter;
@@ -27,16 +27,13 @@
 @property (nonatomic, readonly) NSMethodSignature *getterMethodSig;
 @property (nonatomic, readonly) NSMethodSignature *setterMethodSig;
 
-+ (instancetype)propertyWithObjCProperty:(objc_property_t)prop;
++ (instancetype)propertyWithObjCProperty:(objc_property_t)prop ofClass:(Class)class;
 
 @end
 
 @interface NSObject (RZXProperties)
 
-+ (CFDictionaryRef)rzx_propertiesBySelector;
 + (NSDictionary *)rzx_propertiesByKey;
-
-+ (RZXObjcProperty *)rzx_propertyForSelector:(SEL)selector;
 + (RZXObjcProperty *)rzx_propertyForKey:(NSString *)key;
 
 @end
@@ -51,7 +48,12 @@ static inline id rzx_valueForGLKProperty(id self, RZXObjcProperty *p)
     void *ret = malloc(p.typeSize);
     [invocation getReturnValue:ret];
 
-    NSValue *wrappedVal = [NSValue valueWithBytes:ret objCType:p.typeEncoding.UTF8String];
+    RZXValueProxy *wrappedVal = [[RZXValueProxy alloc] initWithBytes:ret objCType:p.typeEncoding.UTF8String];
+
+
+    wrappedVal.proxyOwner = self;
+    wrappedVal.proxiedKey = p.name;
+
     free(ret);
 
     return wrappedVal;
@@ -103,7 +105,7 @@ static inline void rzx_setValueForGLKProperty(id self, id value, RZXObjcProperty
     class_replaceMethod(self, method_getName(setValueForKey), imp_implementationWithBlock(^void (id self, id value, NSString *key) {
         RZXObjcProperty *prop = [[self class] rzx_propertyForKey:key];
 
-        if ( prop.isGLKType ) {
+        if ( prop.isGLKType && prop.setter != NULL ) {
             rzx_setValueForGLKProperty(self, value, prop);
         }
         else {
@@ -156,35 +158,22 @@ static inline void rzx_setValueForGLKProperty(id self, id value, RZXObjcProperty
 
     objc_setAssociatedObject(self, _cmd, @(YES), OBJC_ASSOCIATION_RETAIN);
 
-    CFMutableDictionaryRef propertiesBySel = CFDictionaryCreateMutable(NULL, 0, NULL, &kCFTypeDictionaryValueCallBacks);
-
     NSMutableDictionary *propertiesByKey = [NSMutableDictionary dictionary];
 
     unsigned int n;
     objc_property_t *properties = class_copyPropertyList(self, &n);
 
     for ( unsigned int i = 0; i < n; i++ ) {
-        RZXObjcProperty *property = [RZXObjcProperty propertyWithObjCProperty:properties[i]];
+        RZXObjcProperty *property = [RZXObjcProperty propertyWithObjCProperty:properties[i] ofClass:self];
 
         if ( property != nil ) {
-            CFDictionaryAddValue(propertiesBySel, property.getter, (__bridge const void *)(property));
-            CFDictionaryAddValue(propertiesBySel, property.setter, (__bridge const void *)(property));
-
             propertiesByKey[property.name] = property;
         }
     }
 
     free(properties);
 
-    objc_setAssociatedObject(self, @selector(rzx_propertiesBySelector), (__bridge NSDictionary *)propertiesBySel, OBJC_ASSOCIATION_COPY);
     objc_setAssociatedObject(self, @selector(rzx_propertiesByKey), propertiesByKey, OBJC_ASSOCIATION_COPY);
-}
-
-+ (CFDictionaryRef)rzx_propertiesBySelector
-{
-    [self rzx_loadProperties];
-
-    return (__bridge CFDictionaryRef)objc_getAssociatedObject(self, _cmd);
 }
 
 + (NSDictionary *)rzx_propertiesByKey
@@ -192,20 +181,6 @@ static inline void rzx_setValueForGLKProperty(id self, id value, RZXObjcProperty
     [self rzx_loadProperties];
 
     return objc_getAssociatedObject(self, _cmd);
-}
-
-+ (RZXObjcProperty *)rzx_propertyForSelector:(SEL)selector
-{
-    RZXObjcProperty *property = nil;
-
-    for ( Class cls = self; property == nil && cls != nil; cls = class_getSuperclass(cls) ) {
-        CFDictionaryRef properties = [cls rzx_propertiesBySelector];
-        if ( properties != nil ) {
-            property = CFDictionaryGetValue([cls rzx_propertiesBySelector], selector);
-        }
-    }
-
-    return property;
 }
 
 + (RZXObjcProperty *)rzx_propertyForKey:(NSString *)key
@@ -223,7 +198,7 @@ static inline void rzx_setValueForGLKProperty(id self, id value, RZXObjcProperty
 
 @implementation RZXObjcProperty
 
-+ (instancetype)propertyWithObjCProperty:(objc_property_t)prop
++ (instancetype)propertyWithObjCProperty:(objc_property_t)prop ofClass:(__unsafe_unretained Class)class
 {
     RZXObjcProperty *property = [[RZXObjcProperty alloc] init];
 
@@ -261,19 +236,21 @@ static inline void rzx_setValueForGLKProperty(id self, id value, RZXObjcProperty
         property->_getter = NSSelectorFromString(property.name);
     }
 
-    const char *setterPtr = strstr(attributes, ",S");
+    if ( strstr(attributes, ",R") == NULL ) {
+        const char *setterPtr = strstr(attributes, ",S");
 
-    if ( setterPtr != NULL ) {
-        property->_setter = [self selectorAt:setterPtr + 2];
-    }
-    else {
-        NSString *capName = [[property.name substringToIndex:1] uppercaseString];
-
-        if ( property.name.length > 0 ) {
-            capName = [capName stringByAppendingString:[property.name substringFromIndex:1]];
+        if ( setterPtr != NULL ) {
+            property->_setter = [self selectorAt:setterPtr + 2];
         }
+        else {
+            NSString *capName = [[property.name substringToIndex:1] uppercaseString];
 
-        property->_setter = NSSelectorFromString([NSString stringWithFormat:@"set%@:", capName]);
+            if ( property.name.length > 0 ) {
+                capName = [capName stringByAppendingString:[property.name substringFromIndex:1]];
+            }
+
+            property->_setter = NSSelectorFromString([NSString stringWithFormat:@"set%@:", capName]);
+        }
     }
 
     NSString *typeSig = nil;
@@ -293,22 +270,24 @@ static inline void rzx_setValueForGLKProperty(id self, id value, RZXObjcProperty
 
     property->_getterMethodSig = [NSMethodSignature signatureWithObjCTypes:typeSig.UTF8String];
 
-    if ( property.isGLKType ) {
-        NSMutableString *sig = [NSMutableString stringWithFormat:@"%s%s%s%c?=", @encode(void), @encode(id), @encode(SEL), _C_STRUCT_B];
+    if ( property.setter != NULL ) {
+        if ( property.isGLKType ) {
+            NSMutableString *sig = [NSMutableString stringWithFormat:@"%s%s%s%c?=", @encode(void), @encode(id), @encode(SEL), _C_STRUCT_B];
 
-        for ( NSUInteger i = 0; i < property.typeSize; i += sizeof(float) ) {
-            [sig appendFormat:@"%c", _C_FLT];
+            for ( NSUInteger i = 0; i < property.typeSize; i += sizeof(float) ) {
+                [sig appendFormat:@"%c", _C_FLT];
+            }
+
+            [sig appendFormat:@"%c", _C_STRUCT_E];
+
+            typeSig = sig;
+        }
+        else {
+            typeSig = [NSString stringWithFormat:@"%s%s%s%s", @encode(void), @encode(id), @encode(SEL), property.typeEncoding.UTF8String];
         }
 
-        [sig appendFormat:@"%c", _C_STRUCT_E];
-
-        typeSig = sig;
+        property->_setterMethodSig = [NSMethodSignature signatureWithObjCTypes:typeSig.UTF8String];
     }
-    else {
-        typeSig = [NSString stringWithFormat:@"%s%s%s%s", @encode(void), @encode(id), @encode(SEL), property.typeEncoding.UTF8String];
-    }
-
-    property->_setterMethodSig = [NSMethodSignature signatureWithObjCTypes:typeSig.UTF8String];
 
     return property;
 }
