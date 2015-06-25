@@ -133,37 +133,37 @@
 
 - (void)setValue:(id)value forKey:(NSString *)key
 {
-        size_t offset = ~0ul;
-    
-        if ( [value isKindOfClass:[NSNumber class]] ) {
-            if ( _typeKeys.s && [key isEqualToString:@"s"] ) {
-                offset = offsetof(GLKQuaternion, s);
-            }
-            else if ( _typeKeys.w && [key isEqualToString:@"w"] ) {
-                offset = offsetof(GLKVector4, w);
-            }
-            else if ( _typeKeys.z && [key isEqualToString:@"z"] ) {
-                offset = offsetof(GLKVector4, z);
-            }
-            else if ( _typeKeys.y && [key isEqualToString:@"y"] ) {
-                offset = offsetof(GLKVector4, y);
-            }
-            else if ( _typeKeys.x && [key isEqualToString:@"x"] ) {
-                offset = offsetof(GLKVector4, x);
-            }
-        }
-    
-        if ( offset != ~0ul ) {
-            float *floatVal = (float *)((char *)_bytes + offset);
-            *floatVal = [value floatValue];
+    size_t offset = ~0ul;
 
-            _backingValue = [NSValue valueWithBytes:_bytes objCType:_backingValue.objCType];
+    if ( [value isKindOfClass:[NSNumber class]] ) {
+        if ( _typeKeys.s && [key isEqualToString:@"s"] ) {
+            offset = offsetof(GLKQuaternion, s);
+        }
+        else if ( _typeKeys.w && [key isEqualToString:@"w"] ) {
+            offset = offsetof(GLKVector4, w);
+        }
+        else if ( _typeKeys.z && [key isEqualToString:@"z"] ) {
+            offset = offsetof(GLKVector4, z);
+        }
+        else if ( _typeKeys.y && [key isEqualToString:@"y"] ) {
+            offset = offsetof(GLKVector4, y);
+        }
+        else if ( _typeKeys.x && [key isEqualToString:@"x"] ) {
+            offset = offsetof(GLKVector4, x);
+        }
+    }
 
-            [self.proxyOwner setValue:_backingValue forKey:self.proxiedKey];
-        }
-        else {
-            [super setValue:value forKey:key];
-        }
+    if ( offset != ~0ul ) {
+        float *floatVal = (float *)((char *)_bytes + offset);
+        *floatVal = [value floatValue];
+
+        _backingValue = [NSValue valueWithBytes:_bytes objCType:_backingValue.objCType];
+
+        [self.proxyOwner setValue:_backingValue forKey:self.proxiedKey];
+    }
+    else {
+        [super setValue:value forKey:key];
+    }
 }
 
 - (id)copyWithZone:(NSZone *)zone

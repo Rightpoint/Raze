@@ -117,7 +117,9 @@
 
 - (void)addAnimation:(CAAnimation *)animation forKey:(NSString *)key
 {
+    animation = [animation copy];
     key = key ?: [NSString stringWithFormat:@"%p", animation];
+    [self removeAnimationForKey:key];
     self.mutableAnimations[key] = animation;
 }
 
@@ -128,6 +130,7 @@
 
 - (void)removeAnimationForKey:(NSString *)key
 {
+    [self.mutableAnimations[key] rzx_interrupt];
     [self.mutableAnimations removeObjectForKey:key];
 }
 

@@ -15,5 +15,6 @@
 @property (assign, nonatomic, readonly, getter=isFinished) BOOL finished;
 
 - (void)rzx_applyToObject:(NSObject *)object;
+- (void)rzx_interrupt;
 
 @end

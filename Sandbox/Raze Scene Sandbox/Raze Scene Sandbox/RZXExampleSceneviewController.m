@@ -38,17 +38,20 @@
     RZXModelNode *modelNode = [RZXModelNode modelNodeWithMesh:mesh texture:texture];
     modelNode.transform.translation = GLKVector3Make(0.0f, 0.0f, -8.0f);
 
-//    NSValue *trans = [modelNode.transform valueForKey:@"translation"];
-//    GLKVector3 vec = [trans rzx_vec3Value];
-
-    
-
-    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.translation.x"];
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:RZX_KP(RZXModelNode, transform.translation.x)];
     animation.fromValue = @(0.0f);
     animation.toValue = @(1.0f);
     animation.duration = 3.0;
 
-    [modelNode addAnimation:animation forKey:@"rotation"];
+    [modelNode addAnimation:animation forKey:@"trans"];
+
+    CABasicAnimation *anim2 = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+    anim2.fromValue = [NSValue rzx_valueWithQuaternion:GLKQuaternionIdentity];
+    anim2.toValue = [NSValue rzx_valueWithQuaternion:GLKQuaternionMakeWithAngleAndAxis(M_PI, 0.0f, 1.0f, 0.0f)];
+    anim2.duration = 2.0;
+    anim2.repeatDuration = HUGE_VALF;
+
+    [modelNode addAnimation:anim2 forKey:@"rot"];
 
     [scene addChild:modelNode];
     
