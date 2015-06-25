@@ -5,7 +5,7 @@
 //  Created by Rob Visentin on 6/24/15.
 //
 
-#import <objc/objc-runtime.h>
+#import <objc/runtime.h>
 #import <GLKit/GLKMathTypes.h>
 #import <RazeCore/RZXAnimatable.h>
 #import <RazeCore/RZXInterpolationFunction.h>
