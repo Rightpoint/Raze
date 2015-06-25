@@ -9,9 +9,9 @@
 #import <GLKit/GLKit.h>
 #import <RazeCore/RZXGLContext.h>
 
-#import "RZXTexture.h"
+#import "RZXStaticTexture.h"
 
-@implementation RZXTexture {
+@implementation RZXStaticTexture {
     GLuint _identifier;
     
     BOOL _cacheRequested;
@@ -57,7 +57,7 @@
     glDeleteTextures(1, &_identifier);
     
     if (_cacheRequested) {
-        NSMutableDictionary *cache = [RZXTexture cachedTextureIdentifiers];
+        NSMutableDictionary *cache = [RZXStaticTexture cachedTextureIdentifiers];
         [cache removeObjectForKey:_fileName];
     }
 }
@@ -66,7 +66,7 @@
 
 + (NSNumber *)cachedTextureIndexForKey:(NSString *)keyString
 {
-    NSMutableDictionary *cache = [RZXTexture cachedTextureIdentifiers];
+    NSMutableDictionary *cache = [RZXStaticTexture cachedTextureIdentifiers];
     return cache[keyString];
 }
 
@@ -97,7 +97,7 @@
         _identifier = [self createNewTextureWithFileName:_fileName];
     }
     else {
-        NSMutableDictionary *cache = [RZXTexture cachedTextureIdentifiers];
+        NSMutableDictionary *cache = [RZXStaticTexture cachedTextureIdentifiers];
         if ( cache[_fileName] != nil ) {
             _identifier = [cache[_fileName] unsignedIntValue];
         }

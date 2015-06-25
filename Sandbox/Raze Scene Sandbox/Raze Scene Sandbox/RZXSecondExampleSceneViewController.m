@@ -34,7 +34,7 @@
     RZXScene *scene = [RZXScene sceneWithEffect: effect];
 
     RZXMesh *mesh = [RZXMesh meshWithName:@"secondMesh" meshFileName:@"cube.mesh"];
-    RZXTexture *texture = [RZXTexture textureWithFileName:@"rzMetal256.png" useMipMapping:YES useCache:YES];
+    RZXStaticTexture *texture = [RZXStaticTexture textureWithFileName:@"rzMetal256.png" useMipMapping:YES useCache:YES];
     
     RZXModelNode *modelNode = [RZXModelNode modelNodeWithMesh:mesh texture:texture];
     modelNode.transform.translation = GLKVector3Make(0.0f, 0.0f, -8.0f);

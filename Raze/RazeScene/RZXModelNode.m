@@ -10,16 +10,16 @@
 
 #import "RZXModelNode.h"
 #import "RZXMesh.h"
-#import "RZXTexture.h"
+#import "RZXStaticTexture.h"
 
 @implementation RZXModelNode
 
-+ (instancetype)modelNodeWithMesh:(RZXMesh *)mesh texture:(RZXTexture *)texture
++ (instancetype)modelNodeWithMesh:(RZXMesh *)mesh texture:(RZXStaticTexture *)texture
 {
     return [[self alloc] initWithMesh:mesh texture:texture];
 }
 
-- (instancetype)initWithMesh:(RZXMesh *)mesh texture:(RZXTexture *)texture
+- (instancetype)initWithMesh:(RZXMesh *)mesh texture:(RZXStaticTexture *)texture
 {
     self = [super init];
     if (self) {

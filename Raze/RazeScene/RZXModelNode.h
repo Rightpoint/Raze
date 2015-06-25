@@ -9,13 +9,13 @@
 #import <RazeScene/RZXNode.h>
 
 @class RZXMesh;
-@class RZXTexture;
+@class RZXBaseTexture;
 
 @interface RZXModelNode : RZXNode
 
 @property (strong, nonatomic) RZXMesh *mesh;
-@property (strong, nonatomic) RZXTexture *texture;
+@property (strong, nonatomic) RZXBaseTexture *texture;
 
-+ (instancetype)modelNodeWithMesh:(RZXMesh *)mesh texture:(RZXTexture *)texture;
++ (instancetype)modelNodeWithMesh:(RZXMesh *)mesh texture:(RZXBaseTexture *)texture;
 
 @end

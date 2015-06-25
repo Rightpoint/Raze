@@ -15,7 +15,9 @@ FOUNDATION_EXPORT const unsigned char RazeSceneVersionString[];
 #import <RazeScene/RZXMesh.h>
 #import <RazeScene/RZXNode.h>
 #import <RazeScene/RZXModelNode.h>
-#import <RazeScene/RZXTexture.h>
+#import <RazeScene/RZXBaseTexture.h>
+#import <RazeScene/RZXStaticTexture.h>
+#import <RazeScene/RZXDynamicTexture.h>
 #import <RazeScene/RZXScene.h>
 #import <RazeScene/RZXSceneView.h>
 #import <RazeScene/RZXVertexObjectData.h>

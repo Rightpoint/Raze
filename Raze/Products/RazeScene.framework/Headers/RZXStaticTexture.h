@@ -6,9 +6,9 @@
 //
 //
 
-#import <RazeCore/RZXOpenGLObject.h>
+#import <RazeScene/RZXBaseTexture.h> 
 
-@interface RZXTexture : NSObject <RZXOpenGLObject>
+@interface RZXStaticTexture : RZXBaseTexture
 
 @property (copy, readonly, nonatomic) NSString *fileName;
 
