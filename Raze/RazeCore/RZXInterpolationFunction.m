@@ -1,6 +1,6 @@
 //
 //  RZXInterpolationFunction.m
-//  RazeScene
+//  RazeCore
 //
 //  Created by Rob Visentin on 6/24/15.
 //
@@ -52,7 +52,7 @@
     return [[RZXQuaternionInterpolationFunction alloc] init];
 }
 
-- (id)interpolatedValueFrom:(id)fromValue to:(id)toValue t:(CGFloat)t
+- (id)interpolatedValueFrom:(id)fromValue to:(id)toValue t:(float)t
 {
     return nil;
 }
@@ -61,16 +61,16 @@
 
 @implementation RZXFloatInterpolationFunction
 
-- (id)interpolatedValueFrom:(NSNumber *)fromValue to:(NSNumber *)toValue t:(CGFloat)t
+- (id)interpolatedValueFrom:(NSNumber *)fromValue to:(NSNumber *)toValue t:(float)t
 {
-    return @(fromValue.doubleValue + t * (toValue.doubleValue - fromValue.doubleValue));
+    return @(fromValue.floatValue + t * (toValue.floatValue - fromValue.floatValue));
 }
 
 @end
 
 @implementation RZXVec2InterpolationFunction
 
-- (id)interpolatedValueFrom:(id)fromValue to:(id)toValue t:(CGFloat)t
+- (id)interpolatedValueFrom:(id)fromValue to:(id)toValue t:(float)t
 {
     GLKVector2 from = [fromValue rzx_vec2Value];
     GLKVector2 to = [toValue rzx_vec2Value];
@@ -82,7 +82,7 @@
 
 @implementation RZXVec3InterpolationFunction
 
-- (id)interpolatedValueFrom:(id)fromValue to:(id)toValue t:(CGFloat)t
+- (id)interpolatedValueFrom:(id)fromValue to:(id)toValue t:(float)t
 {
     GLKVector3 from = [fromValue rzx_vec3Value];
     GLKVector3 to = [toValue rzx_vec3Value];
@@ -94,7 +94,7 @@
 
 @implementation RZXVec4InterpolationFunction
 
-- (id)interpolatedValueFrom:(id)fromValue to:(id)toValue t:(CGFloat)t
+- (id)interpolatedValueFrom:(id)fromValue to:(id)toValue t:(float)t
 {
     GLKVector4 from = [fromValue rzx_vec4Value];
     GLKVector4 to = [toValue rzx_vec4Value];
@@ -106,7 +106,7 @@
 
 @implementation RZXQuaternionInterpolationFunction
 
-- (id)interpolatedValueFrom:(id)fromValue to:(id)toValue t:(CGFloat)t
+- (id)interpolatedValueFrom:(id)fromValue to:(id)toValue t:(float)t
 {
     GLKQuaternion from = [fromValue rzx_quaternionValue];
     GLKQuaternion to = [toValue rzx_quaternionValue];

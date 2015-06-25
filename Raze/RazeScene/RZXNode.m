@@ -8,6 +8,7 @@
 
 #import <RazeCore/RazeCore.h>
 #import <RazeScene/CAAnimation+RZXExtensions.h>
+#import <RazeCore/RZXAnimatable.h>
 
 #import "RZXNode.h"
 
@@ -21,6 +22,20 @@
 @end
 
 @implementation RZXNode
+
+#pragma mark - lifecycle
+
++ (void)load
+{
+    @autoreleasepool {
+        [self rzx_addKVCComplianceForGLKTypes];
+    }
+}
+
++ (instancetype)node
+{
+    return [[self alloc] init];
+}
 
 - (instancetype)init
 {

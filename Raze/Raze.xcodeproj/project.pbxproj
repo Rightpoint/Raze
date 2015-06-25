@@ -52,6 +52,7 @@
 		D40C6CC01B3B3D110093FD69 /* RZXInterpolationFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = D40C6CBE1B3B3D110093FD69 /* RZXInterpolationFunction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D40C6CC11B3B3D110093FD69 /* RZXInterpolationFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = D40C6CBF1B3B3D110093FD69 /* RZXInterpolationFunction.m */; };
 		D40C6CC31B3B3D1B0093FD69 /* RZXAnimatable.h in Headers */ = {isa = PBXBuildFile; fileRef = D40C6CC21B3B3D1B0093FD69 /* RZXAnimatable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D40C6CC91B3B7C180093FD69 /* RZXAnimatable.m in Sources */ = {isa = PBXBuildFile; fileRef = D40C6CC81B3B7C180093FD69 /* RZXAnimatable.m */; };
 		D4D00E1B1AE14CB900D007E4 /* RazeCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D00E0F1AE14CB900D007E4 /* RazeCore.framework */; };
 		D4D00E221AE14CB900D007E4 /* RazeCoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D00E211AE14CB900D007E4 /* RazeCoreTests.m */; };
 		D4D00E3C1AE14CE700D007E4 /* RazeCore.h in Headers */ = {isa = PBXBuildFile; fileRef = D4D00E291AE14CE700D007E4 /* RazeCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -184,6 +185,7 @@
 		D40C6CBE1B3B3D110093FD69 /* RZXInterpolationFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXInterpolationFunction.h; sourceTree = "<group>"; };
 		D40C6CBF1B3B3D110093FD69 /* RZXInterpolationFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXInterpolationFunction.m; sourceTree = "<group>"; };
 		D40C6CC21B3B3D1B0093FD69 /* RZXAnimatable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXAnimatable.h; sourceTree = "<group>"; };
+		D40C6CC81B3B7C180093FD69 /* RZXAnimatable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXAnimatable.m; sourceTree = "<group>"; };
 		D4D00E0F1AE14CB900D007E4 /* RazeCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RazeCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4D00E131AE14CB900D007E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4D00E1A1AE14CB900D007E4 /* RazeCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RazeCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -395,6 +397,7 @@
 			children = (
 				D4D00E291AE14CE700D007E4 /* RazeCore.h */,
 				D40C6CC21B3B3D1B0093FD69 /* RZXAnimatable.h */,
+				D40C6CC81B3B7C180093FD69 /* RZXAnimatable.m */,
 				D4D00E2A1AE14CE700D007E4 /* RZXCamera.h */,
 				D4D00E2B1AE14CE700D007E4 /* RZXCamera.m */,
 				D4D00E2C1AE14CE700D007E4 /* RZXEffect.h */,
@@ -970,6 +973,7 @@
 			files = (
 				D4D00EA41AE1545B00D007E4 /* RZXRenderLoop.m in Sources */,
 				D40C6CC11B3B3D110093FD69 /* RZXInterpolationFunction.m in Sources */,
+				D40C6CC91B3B7C180093FD69 /* RZXAnimatable.m in Sources */,
 				D4D00E421AE14CE700D007E4 /* RZXGLContext.m in Sources */,
 				D4D00E401AE14CE700D007E4 /* RZXEffect.m in Sources */,
 				D4D00E481AE14CE700D007E4 /* RZXQuadMesh.m in Sources */,
