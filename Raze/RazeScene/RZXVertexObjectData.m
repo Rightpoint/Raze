@@ -95,7 +95,7 @@
     [RZXVertexObjectData cachedVertexObjects][keyString] = self;
 }
 
-#pragma mark - RZOpenGLObject
+#pragma mark - RZXOpenGLObject
 
 - (void)rzx_setupGL
 {

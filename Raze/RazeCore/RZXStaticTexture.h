@@ -1,14 +1,13 @@
 //
-//  RZXTexture.h
-//  Raze
+//  RZXStaticTexture.h
+//  RazeCore
 //
-//  Created by John Stricker on 6/17/15.
-//
+//  Created by Rob Visentin on 6/29/15.
 //
 
-#import <RazeScene/RZXBaseTexture.h> 
+#import <RazeCore/RZXTexture.h>
 
-@interface RZXStaticTexture : RZXBaseTexture
+@interface RZXStaticTexture : RZXTexture
 
 @property (copy, readonly, nonatomic) NSString *fileName;
 

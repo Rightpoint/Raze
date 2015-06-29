@@ -44,7 +44,7 @@
     }
 }
 
-#pragma mark - RZOpenGLObject
+#pragma mark - RZXOpenGLObject
 
 - (void)rzx_setupGL
 {

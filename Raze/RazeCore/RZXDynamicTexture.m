@@ -1,9 +1,8 @@
 //
 //  RZXDynamicTexture.m
-//  Raze
+//  RazeCore
 //
-//  Created by John Stricker on 6/25/15.
-//
+//  Created by Rob Visentin on 6/29/15.
 //
 
 #import "RZXDynamicTexture.h"

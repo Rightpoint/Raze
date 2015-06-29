@@ -28,7 +28,7 @@
     return [[self alloc] initWithName:name meshFileName:meshFileName];
 }
 
-#pragma mark - RZOpenGLObject
+#pragma mark - RZXOpenGLObject
 
 - (void)rzx_setupGL
 {
@@ -50,7 +50,7 @@
     self.vertexObjectData = nil;
 }
 
-#pragma mark - RZRenderable
+#pragma mark - RZXRenderable
 
 - (void)rzx_render
 {
