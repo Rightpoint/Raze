@@ -95,9 +95,9 @@
 		D4EDE0561B41C351003AEB98 /* RZXTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EDE0541B41C351003AEB98 /* RZXTexture.m */; };
 		D4EDE0591B41C6F8003AEB98 /* RZXStaticTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = D4EDE0571B41C6F8003AEB98 /* RZXStaticTexture.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4EDE05A1B41C6F8003AEB98 /* RZXStaticTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EDE0581B41C6F8003AEB98 /* RZXStaticTexture.m */; };
-		D4EDE05D1B41C906003AEB98 /* RZXCache.h in Headers */ = {isa = PBXBuildFile; fileRef = D4EDE05B1B41C906003AEB98 /* RZXCache.h */; };
+		D4EDE05D1B41C906003AEB98 /* RZXCache.h in Headers */ = {isa = PBXBuildFile; fileRef = D4EDE05B1B41C906003AEB98 /* RZXCache.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		D4EDE05E1B41C906003AEB98 /* RZXCache.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EDE05C1B41C906003AEB98 /* RZXCache.m */; };
-		D4EDE0611B41CEE6003AEB98 /* RZXDynamicTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = D4EDE05F1B41CEE6003AEB98 /* RZXDynamicTexture.h */; };
+		D4EDE0611B41CEE6003AEB98 /* RZXDynamicTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = D4EDE05F1B41CEE6003AEB98 /* RZXDynamicTexture.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4EDE0621B41CEE6003AEB98 /* RZXDynamicTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EDE0601B41CEE6003AEB98 /* RZXDynamicTexture.m */; };
 /* End PBXBuildFile section */
 
@@ -1112,6 +1112,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1168,6 +1169,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1526,6 +1528,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1582,6 +1585,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1726,6 +1730,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1782,6 +1787,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;

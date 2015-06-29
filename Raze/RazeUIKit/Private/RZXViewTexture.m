@@ -5,29 +5,13 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <OpenGLES/ES2/glext.h>
-
 #import "RZXViewTexture.h"
-#import "RZXGLContext.h"
 
-@implementation RZXViewTexture {
-    GLsizei _texWidth;
-    GLsizei _texHeight;
-
-    CVPixelBufferRef _pixBuffer;
-    CVOpenGLESTextureRef _tex;
-
-    CGContextRef _context;
-}
+@implementation RZXViewTexture
 
 + (instancetype)textureWithSize:(CGSize)size
 {
     return [self textureWithSize:size scale:[UIScreen mainScreen].scale];
-}
-
-+ (instancetype)textureWithSize:(CGSize)size scale:(CGFloat)scale
-{
-    return [[[self class] alloc] initWithSize:size scale:scale];
 }
 
 - (void)updateWithView:(UIView *)view synchronous:(BOOL)synchronous
@@ -44,68 +28,6 @@
     }
 }
 
-#pragma mark - RZXOpenGLObject
-
-- (void)rzx_setupGL
-{
-    @synchronized (self) {
-        RZXGLContext *currentContext = [RZXGLContext currentContext];
-
-        if ( currentContext != nil ) {
-            [self rzx_teardownGL];
-            
-            NSDictionary *buffersAttrs = @{(__bridge NSString *)kCVPixelBufferIOSurfacePropertiesKey : [NSDictionary dictionary]};
-            
-            CVPixelBufferCreate(NULL, _texWidth, _texHeight, kCVPixelFormatType_32BGRA, (__bridge CFDictionaryRef)(buffersAttrs), &_pixBuffer);
-            
-            CVPixelBufferLockBaseAddress(_pixBuffer, 0);
-
-            _tex = [currentContext textureWithPixelBuffer:_pixBuffer];
-            
-            glBindTexture(CVOpenGLESTextureGetTarget(_tex), CVOpenGLESTextureGetName(_tex));
-            
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-            
-            glBindTexture(GL_TEXTURE_2D, 0);
-            
-            CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-            _context = CGBitmapContextCreate(CVPixelBufferGetBaseAddress(_pixBuffer), _texWidth, _texHeight, 8, CVPixelBufferGetBytesPerRow(_pixBuffer), colorSpace, (CGBitmapInfo)kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host);
-            CGColorSpaceRelease(colorSpace);
-            
-            CGContextScaleCTM(_context, _scale, _scale);
-            
-            CVPixelBufferUnlockBaseAddress(_pixBuffer, 0);
-        }
-        else {
-            NSLog(@"Failed to setup %@: No active RZEffectContext.", NSStringFromClass([self class]));
-        }
-    }
-}
-
-- (void)rzx_bindGL
-{
-    @synchronized (self) {
-        glBindTexture(CVOpenGLESTextureGetTarget(_tex), CVOpenGLESTextureGetName(_tex));
-    }
-}
-
-- (void)rzx_teardownGL
-{
-    @synchronized (self) {
-        CGContextRelease(_context);
-        CVPixelBufferRelease(_pixBuffer);
-
-        if ( _tex != nil ) {
-            CFRelease(_tex);
-        }
-
-        _context = NULL;
-        _pixBuffer = NULL;
-        _tex = NULL;
-    }
-}
-
 #pragma mark - private methods
 
 + (dispatch_queue_t)renderQueue
@@ -114,7 +36,7 @@
 
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_RenderQueue = dispatch_queue_create("com.rzeffects.view-texture-render", DISPATCH_QUEUE_SERIAL);
+        s_RenderQueue = dispatch_queue_create("com.razeeffects.view-texture-render", DISPATCH_QUEUE_SERIAL);
         dispatch_set_target_queue(s_RenderQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0));
     });
 
@@ -133,29 +55,14 @@
     return s_RenderSemaphore;
 }
 
-- (instancetype)initWithSize:(CGSize)size scale:(CGFloat)scale
-{
-    self = [super init];
-    if ( self ) {
-        _size = size;
-        _scale = scale;
-        
-        _texWidth = size.width * scale;
-        _texHeight = size.height * scale;
-    }
-    return self;
-}
-
 - (void)rz_renderView:(UIView *)view
 {
     @autoreleasepool {
-        CVPixelBufferLockBaseAddress(_pixBuffer, 0);
-        
-        UIGraphicsPushContext(_context);
-        [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:NO];
-        UIGraphicsPopContext();
-        
-        CVPixelBufferUnlockBaseAddress(_pixBuffer, 0);
+        [self updateWithBlock:^(RZXTexture *self, CGContextRef ctx) {
+            UIGraphicsPushContext(ctx);
+            [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:NO];
+            UIGraphicsPopContext();
+        }];
     }
 }
 

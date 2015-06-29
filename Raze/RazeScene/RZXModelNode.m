@@ -7,19 +7,18 @@
 //
 
 #import <OpenGLES/ES2/glext.h>
-
-#import "RZXModelNode.h"
-#import "RZXMesh.h"
-#import "RZXStaticTexture.h"
+#import <RazeCore/RZXTexture.h>
+#import <RazeScene/RZXMesh.h>
+#import <RazeScene/RZXModelNode.h>
 
 @implementation RZXModelNode
 
-+ (instancetype)modelNodeWithMesh:(RZXMesh *)mesh texture:(RZXStaticTexture *)texture
++ (instancetype)modelNodeWithMesh:(RZXMesh *)mesh texture:(RZXTexture *)texture
 {
     return [[self alloc] initWithMesh:mesh texture:texture];
 }
 
-- (instancetype)initWithMesh:(RZXMesh *)mesh texture:(RZXStaticTexture *)texture
+- (instancetype)initWithMesh:(RZXMesh *)mesh texture:(RZXTexture *)texture
 {
     self = [super init];
     if (self) {
