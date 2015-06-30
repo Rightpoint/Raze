@@ -114,7 +114,11 @@
         }
         
         FILE *meshFile = fopen([filepathname cStringUsingEncoding:NSASCIIStringEncoding], "r");
-        
+
+        fread(&_dimensions.x, sizeof(GLfloat), 1, meshFile);
+        fread(&_dimensions.y, sizeof(GLfloat), 1, meshFile);
+        fread(&_dimensions.z, sizeof(GLfloat), 1, meshFile);
+
         GLint indexCount;
         fread(&indexCount, sizeof(GLint), 1, meshFile);
         
