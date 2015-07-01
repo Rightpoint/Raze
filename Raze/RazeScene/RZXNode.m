@@ -8,6 +8,7 @@
 
 #import <RazeCore/RazeCore.h>
 #import <RazeScene/CAAnimation+RZXExtensions.h>
+#import <RazeCore/RZXAnimatable.h>
 
 #import "RZXNode.h"
 
@@ -21,6 +22,20 @@
 @end
 
 @implementation RZXNode
+
+#pragma mark - lifecycle
+
++ (void)load
+{
+    @autoreleasepool {
+        [self rzx_addKVCComplianceForGLKTypes];
+    }
+}
+
++ (instancetype)node
+{
+    return [[self alloc] init];
+}
 
 - (instancetype)init
 {
@@ -102,7 +117,9 @@
 
 - (void)addAnimation:(CAAnimation *)animation forKey:(NSString *)key
 {
+    animation = [animation copy];
     key = key ?: [NSString stringWithFormat:@"%p", animation];
+    [self removeAnimationForKey:key];
     self.mutableAnimations[key] = animation;
 }
 
@@ -113,6 +130,7 @@
 
 - (void)removeAnimationForKey:(NSString *)key
 {
+    [self.mutableAnimations[key] rzx_interrupt];
     [self.mutableAnimations removeObjectForKey:key];
 }
 
@@ -131,18 +149,20 @@
 {
 // TODO: get resolution somehow
 //    self.effect.resolution = GLKVector2Make(_backingWidth, _backingHeight);
-    
-    self.effect.modelViewMatrix = GLKMatrix4Multiply([self viewMatrix], [self modelMatrix]);
+
+    GLKMatrix4 modelViewMatrix = GLKMatrix4Multiply([self viewMatrix], [self modelMatrix]);
+
+    self.effect.modelViewMatrix = modelViewMatrix;
     self.effect.projectionMatrix = [self projectionMatrix];
     
     // can use modelView matrix for normal matrix if only uniform scaling occurs
     GLKVector3 scale = self.transform.scale;
     
     if ( scale.x == scale.y && scale.y == scale.z ) {
-        self.effect.normalMatrix = GLKMatrix4GetMatrix3(self.effect.modelViewMatrix);
+        self.effect.normalMatrix = GLKMatrix4GetMatrix3(modelViewMatrix);
     }
     else {
-        self.effect.normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(self.effect.modelViewMatrix), NULL);
+        self.effect.normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
     }
 
     [self.effect prepareToDraw];

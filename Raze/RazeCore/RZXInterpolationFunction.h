@@ -1,12 +1,11 @@
 //
 //  RZXInterpolationFunction.h
-//  RazeScene
+//  RazeCore
 //
 //  Created by Rob Visentin on 6/24/15.
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreGraphics/CGBase.h>
 
 @interface RZXInterpolationFunction : NSObject
 
@@ -16,6 +15,6 @@
 + (instancetype)vec4Interpolator;
 + (instancetype)quaternionInterpolator;
 
-- (id)interpolatedValueFrom:(id)fromValue to:(id)toValue t:(CGFloat)t;
+- (id)interpolatedValueFrom:(id)fromValue to:(id)toValue t:(float)t;
 
 @end

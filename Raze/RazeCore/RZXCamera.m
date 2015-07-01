@@ -6,9 +6,17 @@
 //
 
 #import <RazeCore/RZXCamera.h>
+#import <RazeCore/RZXAnimatable.h>
 
 @implementation RZXCamera {
     GLKMatrix4 *_cachedProjectionMatrix;
+}
+
++ (void)load
+{
+    @autoreleasepool {
+        [self rzx_addKVCComplianceForGLKTypes];
+    }
 }
 
 + (instancetype)cameraWithFieldOfView:(float)fov aspectRatio:(float)aspectRatio nearClipping:(float)near farClipping:(float)far

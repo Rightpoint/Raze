@@ -42,6 +42,7 @@
     animation.fromValue = [NSValue rzx_valueWithQuaternion:GLKQuaternionIdentity];
     animation.toValue = [NSValue rzx_valueWithQuaternion:GLKQuaternionMakeWithAngleAndAxis(M_PI, 0.0f, 1.0f, 0.0f)];
     animation.duration = 3.0;
+    animation.repeatCount = 2;
     [modelNode addAnimation:animation forKey:@"rotation"];
 
     RZXTextNode *textNode = [RZXTextNode nodeWithText:@"This is a test"];
