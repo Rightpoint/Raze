@@ -128,6 +128,10 @@ def do_export(context, props, filepath):
     file = open(filepath, "wb") 
     
     print('writing file...')
+# export the bounding box
+    print("Exporting dimensions...")
+    file.write(struct.pack('fff',bpy.context.active_object.dimensions.x, bpy.context.active_object.dimensions.y, bpy.context.active_object.dimensions.z))
+
     #number of indexes and then print them out
     file.write(struct.pack('i',len(indexes)))
     for index in indexes :
