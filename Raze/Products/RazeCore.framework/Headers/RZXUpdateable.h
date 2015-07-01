@@ -9,6 +9,6 @@
 
 @protocol RZXUpdateable <NSObject>
 
-- (void)update:(NSTimeInterval)dt;
+- (void)rzx_update:(NSTimeInterval)dt;
 
 @end

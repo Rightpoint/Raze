@@ -283,7 +283,7 @@
     }
 }
 
-#pragma mark - RZRenderable
+#pragma mark - RZXRenderable
 
 - (void)rzx_setupGL
 {

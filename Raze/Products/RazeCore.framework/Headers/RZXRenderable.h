@@ -9,6 +9,6 @@
 
 @protocol RZXRenderable <RZXOpenGLObject>
 
-- (void)render;
+- (void)rzx_render;
 
 @end

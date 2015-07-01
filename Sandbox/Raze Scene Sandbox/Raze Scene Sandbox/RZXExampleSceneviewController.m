@@ -24,26 +24,31 @@
     [super viewDidLoad];
     
     self.sceneView.backgroundColor = [UIColor whiteColor];
-    self.sceneView.framesPerSecond = 30;
-    self.sceneView.multisampleLevel = 0;
+    self.sceneView.framesPerSecond = 60;
+    self.sceneView.multisampleLevel = 4;
 
     RZXADSPhongEffect *effect = [RZXADSPhongEffect effect];
-    effect.lightPosition = GLKVector4Make(3.0f, 5.0f, 20.0f, 0.0f);
+    effect.lightPosition = GLKVector4Make(0.0f, 10.0f, 20.0f, 0.0f);
 
     RZXScene *scene = [RZXScene sceneWithEffect: effect];
 
     RZXMesh *mesh = [RZXMesh meshWithName:@"firstMesh" meshFileName:@"cube.mesh"];
-    RZXTexture *texture = [RZXTexture textureWithFileName:@"rzMetal256.png" useMipMapping:YES useCache:YES];
+    RZXStaticTexture *texture = [RZXStaticTexture textureWithFileName:@"gridTexture.png" useMipMapping:YES useCache:YES];
     
     RZXModelNode *modelNode = [RZXModelNode modelNodeWithMesh:mesh texture:texture];
-    modelNode.transform.translation = GLKVector3Make(0.0f, 0.0f, -8.0f);
+    modelNode.transform.translation = GLKVector3Make(0.0f, 0.0f, -9.0f);
 
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
     animation.fromValue = [NSValue rzx_valueWithQuaternion:GLKQuaternionIdentity];
     animation.toValue = [NSValue rzx_valueWithQuaternion:GLKQuaternionMakeWithAngleAndAxis(M_PI, 0.0f, 1.0f, 0.0f)];
     animation.duration = 3.0;
-
     [modelNode addAnimation:animation forKey:@"rotation"];
+
+    RZXTextNode *textNode = [RZXTextNode nodeWithText:@"This is a test"];
+    textNode.font = [RZXFont systemFontOfSize:150.0f];
+    textNode.textColor = [RZXColor purpleColor];
+    textNode.transform.translation = GLKVector3Make(0.0f, 0.0f, 0.34f);
+    [modelNode addChild:textNode];
 
     [scene addChild:modelNode];
     

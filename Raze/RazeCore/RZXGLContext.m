@@ -8,6 +8,7 @@
 #import <OpenGLES/ES2/glext.h>
 #import <OpenGLES/EAGL.h>
 #import <objc/runtime.h>
+#import <RazeCore/RZXCache.h>
 #import <RazeCore/RZXGLContext.h>
 
 static GLuint RZXCompileShader(const GLchar *source, GLenum type)
@@ -41,12 +42,14 @@ static GLuint RZXCompileShader(const GLchar *source, GLenum type)
 
 @interface RZXGLContext ()
 
-@property (strong, nonatomic, readwrite) dispatch_queue_t contextQueue;
-@property (strong, nonatomic) EAGLContext *glContext;
+@property (strong, nonatomic, readonly) dispatch_queue_t contextQueue;
+@property (strong, nonatomic, readonly) EAGLContext *glContext;
 
-@property (strong, nonatomic) NSMutableDictionary *compiledShaders;
+@property (strong, nonatomic, readonly) NSMutableDictionary *compiledShaders;
 
-@property (assign, nonatomic) CVOpenGLESTextureCacheRef textureCache;
+@property (assign, nonatomic, readonly) CVOpenGLESTextureCacheRef textureCache;
+
+@property (strong, nonatomic, readonly) RZXCache *cache;
 
 @end
 
@@ -92,6 +95,8 @@ static GLuint RZXCompileShader(const GLchar *source, GLenum type)
         }
 
         _compiledShaders = [NSMutableDictionary dictionary];
+
+        _cache = [[RZXCache alloc] init];
 
         CVOpenGLESTextureCacheCreate(NULL, NULL, _glContext, NULL, &_textureCache);
 
@@ -236,6 +241,18 @@ static GLuint RZXCompileShader(const GLchar *source, GLenum type)
 }
 
 #pragma mark - public methods
+
+- (RZXCache *)cacheForClass:(Class)objectClass
+{
+    RZXCache *classCache = [self.cache objectForKey:(id<NSCopying>)objectClass];
+
+    if ( classCache == nil ) {
+        classCache = [[RZXCache alloc] init];
+        [self.cache cacheObject:classCache forKey:(id<NSCopying>)objectClass];
+    }
+
+    return classCache;
+}
 
 - (BOOL)renderbufferStorage:(NSUInteger)target fromDrawable:(id<EAGLDrawable>)drawable
 {
