@@ -65,13 +65,6 @@
 
         _name = CVOpenGLESTextureGetName(_tex);
 
-        glBindTexture(GL_TEXTURE_2D, _name);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-        glBindTexture(GL_TEXTURE_2D, 0);
-
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
         _context = CGBitmapContextCreate(CVPixelBufferGetBaseAddress(_pixBuffer), _texWidth, _texHeight, 8, CVPixelBufferGetBytesPerRow(_pixBuffer), colorSpace, (CGBitmapInfo)kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host);
         CGColorSpaceRelease(colorSpace);

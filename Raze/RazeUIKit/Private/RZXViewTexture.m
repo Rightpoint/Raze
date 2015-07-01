@@ -5,7 +5,8 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import "RZXViewTexture.h"
+#import <OpenGLES/ES2/gl.h>
+#import <RazeUIKit/RZXViewTexture.h>
 
 @implementation RZXViewTexture
 
@@ -26,6 +27,14 @@
             dispatch_semaphore_signal([[self class] renderSemaphore]);
         });
     }
+}
+
+- (void)rzx_setupGL
+{
+    [super rzx_setupGL];
+
+    [self applyOptions:@{ kRZXTextureSWrapKey : @(GL_CLAMP_TO_EDGE),
+                          kRZXTextureTWrapKey : @(GL_CLAMP_TO_EDGE) }];
 }
 
 #pragma mark - private methods
