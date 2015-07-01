@@ -19,19 +19,6 @@
 
 #pragma mark - lifecycle
 
-+ (instancetype)cacheForClass:(Class)objectClass
-{
-    RZXCache *globalCache = [self globalCache];
-    RZXCache *classCache = [globalCache objectForKey:(id<NSCopying>)objectClass];
-
-    if ( classCache == nil ) {
-        classCache = [[self alloc] init];
-        [globalCache cacheObject:classCache forKey:(id<NSCopying>)objectClass];
-    }
-
-    return classCache;
-}
-
 - (instancetype)init
 {
     if ( (self = [super init]) ) {
@@ -108,16 +95,6 @@
 }
 
 #pragma mark - private methods
-
-+ (instancetype)globalCache
-{
-    static id s_Cache = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        s_Cache = [[self alloc] init];
-    });
-    return s_Cache;
-}
 
 - (void)retainObjectImmediatelyForKey:(id<NSCopying>)key
 {

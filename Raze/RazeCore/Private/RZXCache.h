@@ -9,8 +9,6 @@
 
 @interface RZXCache : NSObject
 
-+ (instancetype)cacheForClass:(Class)objectClass;
-
 - (void)cacheObject:(id)object forKey:(id<NSCopying>)key;
 
 // These are not "true" -retain, -release calls, but rather used for the cache's

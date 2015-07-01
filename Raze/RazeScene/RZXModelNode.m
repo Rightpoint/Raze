@@ -8,7 +8,7 @@
 
 #import <OpenGLES/ES2/glext.h>
 #import <RazeCore/RZXTexture.h>
-#import <RazeScene/RZXMesh.h>
+#import <RazeCore/RZXMesh.h>
 #import <RazeScene/RZXModelNode.h>
 
 @implementation RZXModelNode
@@ -43,24 +43,24 @@
 {
     [super rzx_setupGL];
 
-    [_texture rzx_setupGL];
-    [_mesh rzx_setupGL];
+    [self.texture rzx_setupGL];
+    [self.mesh rzx_setupGL];
 }
 
 - (void)rzx_bindGL
 {
     [super rzx_bindGL];
 
-    [_texture rzx_bindGL];
-    [_mesh rzx_bindGL];
+    [self.texture rzx_bindGL];
+    [self.mesh rzx_bindGL];
 }
 
 - (void)rzx_teardownGL
 {
     [super rzx_teardownGL];
 
-    [_texture rzx_teardownGL];
-    [_mesh rzx_teardownGL];
+    [self.texture rzx_teardownGL];
+    [self.mesh rzx_teardownGL];
 }
 
 @end

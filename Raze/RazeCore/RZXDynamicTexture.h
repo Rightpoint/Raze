@@ -8,6 +8,9 @@
 #import <CoreGraphics/CGGeometry.h>
 #import <RazeCore/RZXTexture.h>
 
+// !!!: This doesn't currently work in the simulator;
+// TODO: provide simulator support
+
 typedef void (^RZXTextureRenderBlock)(RZXTexture *self, CGContextRef ctx);
 
 @interface RZXDynamicTexture : RZXTexture

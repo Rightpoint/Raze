@@ -1,6 +1,6 @@
 //
 //  RZXMesh.m
-//  RazeScene
+//  RazeCore
 //
 //  Created by John Stricker on 3/19/15.
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
@@ -9,7 +9,7 @@
 #import "RZXMesh.h"
 
 #import <OpenGLES/ES2/glext.h>
-#import <RazeScene/RZXVertexObjectData.h>
+#import <RazeCore/RZXVertexObjectData.h>
 #import <RazeCore/RZXGLContext.h>
 
 @interface RZXMesh()
@@ -26,6 +26,11 @@
 + (instancetype)meshWithName:(NSString *)name meshFileName:(NSString *)meshFileName
 {
     return [[self alloc] initWithName:name meshFileName:meshFileName];
+}
+
+- (GLKVector3)bounds
+{
+    return self.vertexObjectData.dimensions;
 }
 
 #pragma mark - RZXOpenGLObject
@@ -67,11 +72,6 @@
         _meshFileName = meshFileName;
     }
     return self;
-}
-
-- (NSString *)cacheKeyForContext:(RZXGLContext *)context
-{
-    return [NSString stringWithFormat:@"%@%p",self.meshName, context];
 }
 
 @end

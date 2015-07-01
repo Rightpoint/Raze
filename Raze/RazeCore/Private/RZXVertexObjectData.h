@@ -13,9 +13,6 @@
 
 @property (assign, readonly) GLKVector3 dimensions;
 
-+ (RZXVertexObjectData *)vertexObjectDataWithFileName:(NSString *)fileName;
-+ (void)deleteAllCachedObjects;
-
-- (void)deleteCachedObjectData;
++ (instancetype)vertexObjectDataWithFileName:(NSString *)fileName;
 
 @end
