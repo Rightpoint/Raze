@@ -1,12 +1,12 @@
 //
 //  RZXQuadMesh.m
+//  RazeCore
 //
 //  Created by Rob Visentin on 1/10/15.
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
 #import <OpenGLES/ES2/glext.h>
-
 #import "RZXQuadMesh.h"
 #import "RZXGLContext.h"
 
@@ -15,12 +15,6 @@ typedef struct _RZXBufferSet {
 } RZXBufferSet;
 
 NSInteger const kRZXQuadMeshMaxSubdivisions = 8;
-
-static const GLfloat *s_CachedVertices[kRZXQuadMeshMaxSubdivisions];
-static const GLushort *s_CachedIndexes[kRZXQuadMeshMaxSubdivisions];
-static GLint s_RefCounts[kRZXQuadMeshMaxSubdivisions];
-
-static dispatch_semaphore_t s_Semaphore;
 
 void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numVerts, GLvoid **indices, GLuint *numIdxs);
 
@@ -43,11 +37,6 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
 
 #pragma mark - lifecycle
 
-+ (void)load
-{
-    s_Semaphore = dispatch_semaphore_create(1);
-}
-
 + (instancetype)quad
 {
     return [self quadWithSubdivisionLevel:0];
@@ -55,24 +44,22 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
 
 + (instancetype)quadWithSubdivisionLevel:(NSInteger)subdivisons
 {
+    // TODO: caching
     return [[self alloc] initWithSubdivisionLevel:subdivisons];
 }
 
 - (void)dealloc
 {
-    dispatch_semaphore_wait(s_Semaphore, DISPATCH_TIME_FOREVER);
-    
-    s_RefCounts[_subdivisions]--;
-    
-    if ( s_RefCounts[_subdivisions] <= 0 ) {
-        free((void *)s_CachedVertices[_subdivisions]);
-        s_CachedVertices[_subdivisions] = NULL;
-        
-        free((void *)s_CachedIndexes[_subdivisions]);
-        s_CachedIndexes[_subdivisions] = NULL;
-    }
-    
-    dispatch_semaphore_signal(s_Semaphore);
+    // TODO: ideally this memory would only live in the GPU
+    free(_vertexData);
+    free(_indexData);
+}
+
+#pragma mark - getters
+
+- (GLKVector3)bounds
+{
+    return (GLKVector3){2.0f, 2.0f, 0.0f};
 }
 
 #pragma mark - RZXOpenGLObject
@@ -153,47 +140,33 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
     *numVerts = pts * pts;
     *numIdxs = 6 * subs * subs;
     
-    if ( s_CachedVertices[subdivisions] == NULL ) {
-        GLfloat *verts = (GLfloat *)malloc(5 * *numVerts * sizeof(GLfloat));
-        GLushort *idxs = (GLushort *)malloc(*numIdxs * sizeof(GLushort));
-        
-        int v = 0;
-        int i = 0;
-        
-        for ( int y = 0; y < pts; y++ ) {
-            for ( int x = 0; x < pts; x++ ) {
-                verts[v++] = -1.0f + ptStep * x;
-                verts[v++] = 1.0f - ptStep * y;
-                verts[v++] = 0.0f;
-                verts[v++] = texStep * x;
-                verts[v++] = 1.0f - texStep * y;
-                
-                if ( x < subs && y < subs ) {
-                    idxs[i++] = y * pts + x;
-                    idxs[i++] = (y + 1) * pts + x;
-                    idxs[i++] = y * pts + x + 1;
-                    idxs[i++] = y * pts + x + 1;
-                    idxs[i++] = (y + 1) * pts + x;
-                    idxs[i++] = (y + 1) * pts + x + 1;
-                }
+    GLfloat *verts = (GLfloat *)malloc(5 * *numVerts * sizeof(GLfloat));
+    GLushort *idxs = (GLushort *)malloc(*numIdxs * sizeof(GLushort));
+    
+    int v = 0;
+    int i = 0;
+    
+    for ( int y = 0; y < pts; y++ ) {
+        for ( int x = 0; x < pts; x++ ) {
+            verts[v++] = -1.0f + ptStep * x;
+            verts[v++] = 1.0f - ptStep * y;
+            verts[v++] = 0.0f;
+            verts[v++] = texStep * x;
+            verts[v++] = 1.0f - texStep * y;
+            
+            if ( x < subs && y < subs ) {
+                idxs[i++] = y * pts + x;
+                idxs[i++] = (y + 1) * pts + x;
+                idxs[i++] = y * pts + x + 1;
+                idxs[i++] = y * pts + x + 1;
+                idxs[i++] = (y + 1) * pts + x;
+                idxs[i++] = (y + 1) * pts + x + 1;
             }
         }
-        
-        dispatch_semaphore_wait(s_Semaphore, DISPATCH_TIME_FOREVER);
-        
-        s_CachedVertices[subdivisions] = verts;
-        s_CachedIndexes[subdivisions] = idxs;
-    }
-    else {
-        dispatch_semaphore_wait(s_Semaphore, DISPATCH_TIME_FOREVER);
     }
 
-    *vertices = (GLvoid *)s_CachedVertices[subdivisions];
-    *indices = (GLvoid *)s_CachedIndexes[subdivisions];
-    
-    s_RefCounts[subdivisions]++;
-    
-    dispatch_semaphore_signal(s_Semaphore);
+    *vertices = verts;
+    *indices = idxs;
 }
 
 @end

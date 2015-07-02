@@ -11,60 +11,26 @@
 
 #import "RZXVertexObjectData.h"
 
+typedef struct _RZXBufferSet {
+    GLuint vbo, ibo;
+} RZXBufferSet;
+
 @interface RZXVertexObjectData()
 
-@property (copy, nonatomic) NSString *cacheKey;
-@property (copy, nonatomic, readonly) NSString *fileName;
+@property (copy, nonatomic) NSString *fileName;
 
 @end
 
 @implementation RZXVertexObjectData {
     GLuint _vaoIndex;
-    GLuint _vboIndex;
-    GLuint _vioIndex;
+    RZXBufferSet _bufferSet;
     GLuint _indexCount;
 }
 
-+ (RZXVertexObjectData *)vertexObjectDataWithFileName:(NSString *)fileName
++ (instancetype)vertexObjectDataWithFileName:(NSString *)fileName
 {
-    NSString *key = [NSString stringWithFormat:@"%@%p",fileName,[RZXGLContext currentContext]];
-    RZXVertexObjectData *vod = [RZXVertexObjectData cachedObjectDataForKey:key];
-    if (vod == nil) {
-        vod = [[RZXVertexObjectData alloc] initWithFileName:fileName];
-    }
-    return vod;
-}
-
-+ (RZXVertexObjectData *)cachedObjectDataForKey:(NSString *)keyString
-{
-    NSMutableDictionary *cache = [RZXVertexObjectData cachedVertexObjects];
-    return cache[keyString];
-}
-
-+ (void)deleteAllCachedObjects
-{
-    NSMutableDictionary *cache = [RZXVertexObjectData cachedVertexObjects];
-    NSMutableArray *keys = [[NSMutableArray alloc] init];
-    for ( NSString *key in cache ) {
-        [keys addObject:key];
-    }
-    
-    for ( NSString *key in keys ) {
-        RZXVertexObjectData *vod = cache[key];
-        [vod deleteCachedObjectData];
-    }
-    
-    [cache removeAllObjects];
-}
-
-+ (NSMutableDictionary *)cachedVertexObjects
-{
-    static NSMutableDictionary *cacheDictionary;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        cacheDictionary = [[NSMutableDictionary alloc] init];
-    });
-    return cacheDictionary;
+    // TODO: caching
+    return [[self alloc] initWithFileName:fileName];
 }
 
 - (instancetype)initWithFileName:(NSString *)fileName
@@ -76,26 +42,7 @@
     return self;
 }
 
-- (void)deleteCachedObjectData
-{
-    RZXVertexObjectData *cachedData = [RZXVertexObjectData cachedVertexObjects][self.cacheKey];
-    
-    if ( cachedData != nil ) {
-        glDeleteVertexArraysOES(1, &_vaoIndex);
-        glDeleteBuffers(1, &_vboIndex);
-        glDeleteBuffers(1, &_vioIndex);
-        
-        [[RZXVertexObjectData cachedVertexObjects] removeObjectForKey:self.cacheKey];
-    }
-}
-
-- (void)cacheObjectDataWithKey:(NSString *)keyString
-{
-    self.cacheKey = keyString;
-    [RZXVertexObjectData cachedVertexObjects][keyString] = self;
-}
-
-#pragma mark - RZOpenGLObject
+#pragma mark - RZXOpenGLObject
 
 - (void)rzx_setupGL
 {
@@ -114,7 +61,11 @@
         }
         
         FILE *meshFile = fopen([filepathname cStringUsingEncoding:NSASCIIStringEncoding], "r");
-        
+
+        fread(&_dimensions.x, sizeof(GLfloat), 1, meshFile);
+        fread(&_dimensions.y, sizeof(GLfloat), 1, meshFile);
+        fread(&_dimensions.z, sizeof(GLfloat), 1, meshFile);
+
         GLint indexCount;
         fread(&indexCount, sizeof(GLint), 1, meshFile);
         
@@ -153,8 +104,8 @@
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         _vaoIndex = vao;
-        _vboIndex = vbo;
-        _vioIndex = vio;
+        _bufferSet.vbo = vbo;
+        _bufferSet.ibo = vio;
         _indexCount = indexCount;
         
         free(indexArray);
@@ -172,7 +123,14 @@
 
 - (void)rzx_teardownGL
 {
-    [self deleteCachedObjectData];
+    if ( _vaoIndex != 0 ) {
+        glDeleteVertexArraysOES(1, &_vaoIndex);
+        _vaoIndex = 0;
+
+        glDeleteBuffers(2, &_bufferSet.vbo);
+        _bufferSet.vbo = 0;
+        _bufferSet.ibo = 0;
+    }
 }
 
 #pragma mark - RZXRenderable

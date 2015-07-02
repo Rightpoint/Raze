@@ -18,4 +18,10 @@ FOUNDATION_EXPORT const unsigned char RazeCoreVersionString[];
 #import <RazeCore/RZXGLContext.h>
 #import <RazeCore/RZXQuadMesh.h>
 #import <RazeCore/RZXTransform3D.h>
+#import <RazeCore/RZXTexture.h>
+#import <RazeCore/RZXStaticTexture.h>
+#import <RazeCore/RZXDynamicTexture.h>
 #import <RazeCore/RZXGLView.h>
+#import <RazeCore/RZXInterpolationFunction.h>
+#import <RazeCore/RZXAnimatable.h>
+#import <RazeCore/NSValue+RZXExtensions.h>

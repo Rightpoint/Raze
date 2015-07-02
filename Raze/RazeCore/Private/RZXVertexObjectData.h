@@ -7,12 +7,12 @@
 //
 
 #import <RazeCore/RZXRenderable.h>
+#import <GLKit/GLKMathTypes.h>
 
 @interface RZXVertexObjectData : NSObject <RZXRenderable>
 
-+ (RZXVertexObjectData *)vertexObjectDataWithFileName:(NSString *)fileName;
-+ (void)deleteAllCachedObjects;
+@property (assign, readonly) GLKVector3 dimensions;
 
-- (void)deleteCachedObjectData;
++ (instancetype)vertexObjectDataWithFileName:(NSString *)fileName;
 
 @end

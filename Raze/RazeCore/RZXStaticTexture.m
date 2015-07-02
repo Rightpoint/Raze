@@ -1,19 +1,15 @@
 //
-//  RZXTexture.m
-//  Raze
+//  RZXStaticTexture.m
+//  RazeCore
 //
-//  Created by John Stricker on 6/17/15.
-//
+//  Created by Rob Visentin on 6/29/15.
 //
 
-#import <GLKit/GLKit.h>
-#import <RazeCore/RZXGLContext.h>
+#import <OpenGLES/ES2/gl.h>
+#import <GLKit/GLKTextureLoader.h>
+#import <RazeCore/RZXStaticTexture.h>
 
-#import "RZXTexture.h"
-
-@implementation RZXTexture {
-    GLuint _identifier;
-    
+@implementation RZXStaticTexture {
     BOOL _cacheRequested;
     BOOL _useMipMapping;
 }
@@ -30,12 +26,12 @@
     for (NSString *key in cache) {
         [keys addObject:key];
     }
-    
+
     for (NSString *key in keys) {
         GLuint textureID = [cache[key] unsignedIntValue];
         glDeleteTextures(1, &textureID);
     }
-    
+
     [cache removeAllObjects];
 }
 
@@ -46,18 +42,12 @@
     [self assignIdentifer];
 }
 
-- (void)rzx_bindGL
-{
-    [RZXGLContext currentContext].activeTexture = GL_TEXTURE0;
-    glBindTexture(GL_TEXTURE_2D, _identifier);
-}
-
 - (void)rzx_teardownGL
 {
-    glDeleteTextures(1, &_identifier);
-    
+    [super rzx_teardownGL];
+
     if (_cacheRequested) {
-        NSMutableDictionary *cache = [RZXTexture cachedTextureIdentifiers];
+        NSMutableDictionary *cache = [RZXStaticTexture cachedTextureIdentifiers];
         [cache removeObjectForKey:_fileName];
     }
 }
@@ -66,7 +56,7 @@
 
 + (NSNumber *)cachedTextureIndexForKey:(NSString *)keyString
 {
-    NSMutableDictionary *cache = [RZXTexture cachedTextureIdentifiers];
+    NSMutableDictionary *cache = [RZXStaticTexture cachedTextureIdentifiers];
     return cache[keyString];
 }
 
@@ -94,16 +84,16 @@
 - (void)assignIdentifer
 {
     if (!_cacheRequested) {
-        _identifier = [self createNewTextureWithFileName:_fileName];
+        _name = [self createNewTextureWithFileName:_fileName];
     }
     else {
-        NSMutableDictionary *cache = [RZXTexture cachedTextureIdentifiers];
+        NSMutableDictionary *cache = [RZXStaticTexture cachedTextureIdentifiers];
         if ( cache[_fileName] != nil ) {
-            _identifier = [cache[_fileName] unsignedIntValue];
+            _name = [cache[_fileName] unsignedIntValue];
         }
         else {
-            _identifier = [self createNewTextureWithFileName:_fileName];
-            cache[_fileName] = @(_identifier);
+            _name = [self createNewTextureWithFileName:_fileName];
+            cache[_fileName] = @(_name);
         }
     }
 }
@@ -117,14 +107,14 @@
     if ( path == nil ) {
         NSLog(@"error, text file not found: %@",fileName);
     }
-    
+
     NSMutableDictionary *options= [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:GLKTextureLoaderOriginBottomLeft];
     if (_useMipMapping) {
         [options setObject:[NSNumber numberWithBool:YES] forKey:GLKTextureLoaderGenerateMipmaps];
     }
     NSError *error;
     GLKTextureInfo *textureInfo = [GLKTextureLoader textureWithContentsOfFile:path options:options error:&error];
-    
+
     if ( error != nil ) {
         NSLog(@"error loading texture: %@", error);
         return 0;

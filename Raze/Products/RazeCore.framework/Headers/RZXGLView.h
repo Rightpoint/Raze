@@ -21,12 +21,17 @@
     GLuint _fbo;
     GLuint _crb;
     GLuint _drb;
+    
+    GLuint _msFbo;
+    GLuint _msCrb;
+    GLuint _msDrb;
 
     GLint _backingWidth;
     GLint _backingHeight;
 }
 
 @property (assign, nonatomic) IBInspectable NSInteger framesPerSecond;
+@property (assign, nonatomic) IBInspectable GLsizei multisampleLevel;
 @property (assign, nonatomic, getter=isPaused) BOOL paused;
 
 @property (strong, nonatomic) id<RZXRenderable> model;

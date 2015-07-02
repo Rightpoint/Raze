@@ -1,13 +1,13 @@
 bl_info = {
     "name": "Export Binary Raze Mesh Indexed (.mesh)",
-    "author": "John Stricker (modified from Jeff LaMarche's C Header script",
+    "author": "John Stricker",
     "location": "File > Export",
     "description": "Export Model Verts, Norms, & Texture Coords to Binary File with unique values and an indexed array",
     "category": "Import-Export"}
 
 import bpy
 from bpy.props import *
-import mathutils, math, struct, time
+import mathutils, math, struct, time, sys
 import bpy_extras
 from bpy_extras.io_utils import ExportHelper
 
@@ -25,15 +25,27 @@ def mDataEQ(md1, md2):
     return False
 
 #determine if an equal model object appears earlier than its given position in a list
-#return True or False and the index at which it first appears
 def mDataAppearsEarlierInList(m, mList, mPosInList):
     for i in range (0, len(mList)):
         if ( i < mPosInList and mDataEQ(mList[i],m) ):
-            return [False, i]
-    return [True, mPosInList]
+            return False
+    return True
+
+#determine if a matching model exists in a list and if so return the index
+def indexOfMatchingInList( v, vList ):
+    for i in range (0, len(vList)):
+        if ( mDataEQ(v, vList[i]) ):
+            return i
+    return 0
+
+#determine if a matching model exists in a list and return True or False and its index
+def mDataAppearsInList(m, mList):
+    for i in range(0, len(mList)):
+        if (mDataEQ(m, mList[i])):
+            return (True, i)
+    return (False, 0)
 
 def do_export(context, props, filepath):
-
     scene = bpy.context.scene
     bpy.ops.object.mode_set(mode='OBJECT')
     obj = bpy.context.active_object
@@ -59,13 +71,17 @@ def do_export(context, props, filepath):
     bpy.ops.object.mode_set(mode='OBJECT')
 
     obj.data.update(calc_tessface = True)
-        #make sure that UV's have been applied
+
+#make sure that UV's have been applied
     if len(obj.data.tessface_uv_textures) < 1:
         print("UV coordinates were not found! Did you unwrap your mesh?")
         return False
 
+# build the raw vertex data
     dataList = [];
-
+    print("building list of vertex data...")
+    
+    start_time = time.time()
     if len(obj.data.tessface_uv_textures) > 0:  
         #for face in uv: loop through the faces
         uv_layer = obj.data.tessface_uv_textures.active
@@ -88,28 +104,42 @@ def do_export(context, props, filepath):
                     
                     dataList.append(md)
 
-                    i+=1
+                    i+=1         
     indexes = []
     qData = []
+    print('finished in %.2f seconds\n' %((time.time() - start_time)))
 
+# first run through the list and get all unique vertices
+    start_time = time.time()
+    dataLength = len(dataList)
+    print('finding and indexing unique vertices out of %i' %dataLength)
     for i in range (0, len(dataList)) :
-        qResult = mDataAppearsEarlierInList(dataList[i], dataList, i)
+        qResult = mDataAppearsInList(dataList[i], qData)
         if qResult[0] == True :
-            qData.append(dataList[i])
-            indexes.append(i)
-        else :
             indexes.append(qResult[1])
+        else :
+            qData.append(dataList[i])
+            indexes.append(len(qData) - 1)
+        sys.stdout.write('\r%.2f%% complete              ' %(i / dataLength * 100))
+        sys.stdout.flush()
+    print('\rfinished in %.2f seconds' %((time.time() - start_time)))
+    print('%i unique verts found\n' %len(qData))
 
     file = open(filepath, "wb") 
     
+    print('writing file...')
+# export the bounding box
+    print("Exporting dimensions...")
+    file.write(struct.pack('fff',bpy.context.active_object.dimensions.x, bpy.context.active_object.dimensions.y, bpy.context.active_object.dimensions.z))
+
     #number of indexes and then print them out
-    file.write(struct.pack('<i',len(indexes)))
+    file.write(struct.pack('i',len(indexes)))
     for index in indexes :
-        file.write(struct.pack('<i',index))
+        file.write(struct.pack('H',index))
     #number of unique verts and then print them out
-    file.write(struct.pack('<i',len(qData)))
+    file.write(struct.pack('i',len(qData)))
     for md in qData :
-        data = struct.pack('<ffffffff', md.v[0], md.v[1], md.v[2], md.n[0], md.n[1], md.n[2], md.u[0], md.u[1])
+        data = struct.pack('ffffffff', md.v[0], md.v[1], md.v[2], md.n[0], md.n[1], md.n[2], md.u[0], md.u[1])
         file.write(data)     
 
     file.flush()
@@ -156,7 +186,7 @@ class Export_objc(bpy.types.Operator, ExportHelper):
         exported = do_export(context, props, filepath)
         
         if exported:
-            print('finished export in %s seconds' %((time.time() - start_time)))
+            print('finished export in %.2f seconds' %((time.time() - start_time)))
             print(filepath)
             
         return {'FINISHED'}
