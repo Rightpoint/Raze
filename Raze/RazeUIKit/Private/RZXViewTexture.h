@@ -6,15 +6,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <RazeCore/RZXBase.h>
+#import <RazeCore/RZXDynamicTexture.h>
 
-@interface RZXViewTexture : NSObject <RZXOpenGLObject>
-
-@property (assign, nonatomic, readonly) CGSize size;
-@property (assign, nonatomic, readonly) CGFloat scale;
+@interface RZXViewTexture : RZXDynamicTexture
 
 + (instancetype)textureWithSize:(CGSize)size;
-+ (instancetype)textureWithSize:(CGSize)size scale:(CGFloat)scale;
 
 - (void)updateWithView:(UIView *)view synchronous:(BOOL)synchronous;
 

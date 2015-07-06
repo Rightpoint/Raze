@@ -25,6 +25,8 @@
 @property (copy, nonatomic, readonly) NSArray *children;
 @property (weak, nonatomic, readonly) RZXNode *parent;
 
++ (instancetype)node;
+
 - (void)addChild:(RZXNode *)child;
 - (void)insertChild:(RZXNode *)child atIndex:(NSUInteger)index;
 

@@ -185,7 +185,7 @@ void RZXGetGaussianBlurOffsets(GLfloat **offsets, GLint *n, const GLfloat *weigh
     return -1;
 }
 
-#pragma mark - RZOpenGLObject
+#pragma mark - RZXOpenGLObject
 
 - (void)rzx_setupGL
 {

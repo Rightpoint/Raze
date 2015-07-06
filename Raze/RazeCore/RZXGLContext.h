@@ -11,6 +11,8 @@
 #import <CoreVideo/CVOpenGLESTextureCache.h>
 #import <RazeCore/RZXBase.h>
 
+@class RZXCache;
+
 @interface RZXGLContext : NSObject
 
 @property (nonatomic, readonly) BOOL isCurrentContext;
@@ -30,6 +32,8 @@
 + (RZXGLContext *)currentContext;
 
 - (instancetype)initWithSharedContext:(RZXGLContext *)shareContext NS_DESIGNATED_INITIALIZER;
+
+- (RZXCache *)cacheForClass:(Class)objectClass;
 
 - (BOOL)renderbufferStorage:(NSUInteger)target fromDrawable:(id<EAGLDrawable>)drawable;
 - (BOOL)presentRenderbuffer:(NSUInteger)target;
