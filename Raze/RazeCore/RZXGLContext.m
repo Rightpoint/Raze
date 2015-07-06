@@ -366,7 +366,8 @@ static GLuint RZXCompileShader(const GLchar *source, GLenum type)
             }
         }
         else {
-            void (^innerBlock)() = ^{
+            dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+            dispatch_block_t innerBlock = ^{
                 if ( !self.isCurrentContext ) {
                     [EAGLContext setCurrentContext:self.glContext];
                 }
@@ -374,13 +375,14 @@ static GLuint RZXCompileShader(const GLchar *source, GLenum type)
                 @autoreleasepool {
                     block(self);
                 }
+
+                dispatch_semaphore_signal(semaphore);
             };
 
+            dispatch_async(self.contextQueue, innerBlock);
+
             if ( wait ) {
-                dispatch_sync(self.contextQueue, innerBlock);
-            }
-            else {
-                dispatch_async(self.contextQueue, innerBlock);
+                dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
             }
         }
     }
