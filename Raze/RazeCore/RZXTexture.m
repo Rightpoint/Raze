@@ -17,6 +17,8 @@ NSString* const kRZXTextureTWrapKey     = @"RZXTextureTWrap";
 
 @implementation RZXTexture
 
+@synthesize size = _size;
+
 #pragma mark - public methods
 
 - (void)applyOptions:(NSDictionary *)options

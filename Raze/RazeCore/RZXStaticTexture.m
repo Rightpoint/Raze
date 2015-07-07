@@ -120,6 +120,8 @@
         return 0;
     }
     else {
+        _size.width = textureInfo.width;
+        _size.height = textureInfo.height;
         return textureInfo.name;
     }
 }

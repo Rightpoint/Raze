@@ -11,11 +11,10 @@
 // !!!: This doesn't currently work in the simulator;
 // TODO: provide simulator support
 
-typedef void (^RZXTextureRenderBlock)(RZXTexture *self, CGContextRef ctx);
+typedef void (^RZXTextureRenderBlock)(id self, CGContextRef ctx);
 
 @interface RZXDynamicTexture : RZXTexture
 
-@property (assign, nonatomic, readonly) CGSize size;
 @property (assign, nonatomic, readonly) CGFloat scale;
 
 + (instancetype)textureWithSize:(CGSize)size scale:(CGFloat)scale;

@@ -20,7 +20,10 @@ OBJC_EXTERN NSString* const kRZXTextureTWrapKey;     /** Default GL_REPEAT */
 @interface RZXTexture : NSObject <RZXOpenGLObject> {
     @protected
     GLuint _name;
+    CGSize _size;
 }
+
+@property (assign, nonatomic, readonly) CGSize size;
 
 - (void)applyOptions:(NSDictionary *)options;
 
