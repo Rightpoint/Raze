@@ -46,7 +46,10 @@
 {
     if ( (self = [super init]) ) {
         _textColor = [RZXColor blackColor];
+        _lineBreakMode = NSLineBreakByWordWrapping;
+        _textAlignment = NSTextAlignmentLeft;
         _textTransform = [RZXTransform3D transform];
+        _boundingSize = CGSizeMake(HUGE_VALF, HUGE_VALF);
 
         self.mesh = [RZXQuadMesh quad];
     }
@@ -97,6 +100,12 @@
 
         attribs[NSForegroundColorAttributeName] = _textColor ?: [UIColor clearColor];
 
+        NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        paragraphStyle.lineBreakMode = self.lineBreakMode;
+        paragraphStyle.alignment = self.textAlignment;
+
+        attribs[NSParagraphStyleAttributeName] = paragraphStyle;
+
         _attributedText = [[NSAttributedString alloc] initWithString:_text attributes:attribs];
     }
 
@@ -124,7 +133,10 @@
 
     // TODO: there is probably a better way to determine the required scale
     CGRect viewport = [RZXGLContext currentContext].viewport;
-    self.textTransform.scale = GLKVector3Make(self.textTexture.size.width / viewport.size.width, self.textTexture.size.height / viewport.size.height, 1.0f);
+    CGSize texSize = self.textTexture.size;
+    CGFloat texScale = self.textTexture.scale;
+
+    self.textTransform.scale = GLKVector3Make(texSize.width * texScale / viewport.size.width, texSize.height * texScale / viewport.size.height, 1.0f);
 }
 
 - (void)rzx_render
@@ -154,8 +166,7 @@
         NSAttributedString *attributedText = self.attributedText;
 
         if ( attributedText.length > 0 ) {
-            // TODO: determine constraining sizes and handle word wrapping
-            CGRect textRect = [attributedText boundingRectWithSize:CGSizeMake(HUGE_VALF, HUGE_VALF) options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading) context:nil];
+            CGRect textRect = [attributedText boundingRectWithSize:self.boundingSize options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading) context:nil];
 
             textRect.size.width = ceil(textRect.size.width);
             textRect.size.height = ceil(textRect.size.height);
@@ -163,12 +174,15 @@
             _textTexture = [RZXDynamicTexture textureWithSize:textRect.size scale:[UIScreen mainScreen].scale];
             [_textTexture rzx_setupGL];
 
-            [_textTexture applyOptions:@{ kRZXTextureSWrapKey : @(GL_CLAMP_TO_EDGE),
+            [_textTexture applyOptions:@{ kRZXTextureMinFilterKey : @(GL_LINEAR),
+                                          kRZXTextureSWrapKey : @(GL_CLAMP_TO_EDGE),
                                           kRZXTextureTWrapKey : @(GL_CLAMP_TO_EDGE) }];
 
             [_textTexture updateWithBlock:^(RZXTexture *self, CGContextRef ctx) {
+                CGRect contextRect = CGRectMake(0.0f, 0.0f, self.size.width, self.size.height);
+
                 UIGraphicsPushContext(ctx);
-                [attributedText drawAtPoint:CGPointZero];
+                [attributedText drawWithRect:contextRect options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading) context:nil];
                 UIGraphicsPopContext();
             }];
         }
