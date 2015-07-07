@@ -127,21 +127,26 @@
     return GLKMatrix4Multiply([super modelMatrix], self.textTransform.modelMatrix);
 }
 
-- (void)rzx_bindGL
+- (void)rzx_render
 {
-    [super rzx_bindGL];
+    [self updateTextureIfNeeded];
 
-    // TODO: there is probably a better way to determine the required scale
+    // TODO: use better conversion from points -> OpenGL coords
     CGRect viewport = [RZXGLContext currentContext].viewport;
     CGSize texSize = self.textTexture.size;
     CGFloat texScale = self.textTexture.scale;
 
-    self.textTransform.scale = GLKVector3Make(texSize.width * texScale / viewport.size.width, texSize.height * texScale / viewport.size.height, 1.0f);
-}
+    CGFloat aspectRatio = texSize.width / texSize.height;
 
-- (void)rzx_render
-{
-    [self updateTextureIfNeeded];
+    float xScale = texSize.width * texScale / viewport.size.width;
+    float yScale = texSize.height * texScale / viewport.size.height;
+
+    if ( xScale < yScale ) {
+        self.textTransform.scale = GLKVector3Make(xScale, xScale / aspectRatio, 1.0f);
+    }
+    else {
+        self.textTransform.scale = GLKVector3Make(aspectRatio * yScale, yScale, 1.0f);
+    }
 
     // TODO: make this part of the context
     glEnable(GL_BLEND);
