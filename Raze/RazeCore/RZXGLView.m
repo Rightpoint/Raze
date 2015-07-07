@@ -166,7 +166,7 @@
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glBindRenderbuffer(GL_RENDERBUFFER, 0);
-    }];
+    } wait:NO];
 }
 
 #pragma mark - RZUpdateable
