@@ -80,8 +80,6 @@
 		D4D00E831AE14D3B00D007E4 /* RazeUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D4D00E821AE14D3B00D007E4 /* RazeUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4D00E891AE14D3B00D007E4 /* RazeUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D00E7E1AE14D3B00D007E4 /* RazeUIKit.framework */; };
 		D4D00E901AE14D3B00D007E4 /* RazeUIKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D00E8F1AE14D3B00D007E4 /* RazeUIKitTests.m */; };
-		D4D00E9C1AE14D4D00D007E4 /* RZXViewTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = D4D00E981AE14D4D00D007E4 /* RZXViewTexture.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		D4D00E9D1AE14D4D00D007E4 /* RZXViewTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D00E991AE14D4D00D007E4 /* RZXViewTexture.m */; };
 		D4D00E9E1AE14D4D00D007E4 /* RZXEffectView.h in Headers */ = {isa = PBXBuildFile; fileRef = D4D00E9A1AE14D4D00D007E4 /* RZXEffectView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4D00E9F1AE14D4D00D007E4 /* RZXEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D00E9B1AE14D4D00D007E4 /* RZXEffectView.m */; };
 		D4D00EA31AE1545B00D007E4 /* RZXRenderLoop.h in Headers */ = {isa = PBXBuildFile; fileRef = D4D00EA11AE1545B00D007E4 /* RZXRenderLoop.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -104,6 +102,8 @@
 		D4EDE0621B41CEE6003AEB98 /* RZXDynamicTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EDE0601B41CEE6003AEB98 /* RZXDynamicTexture.m */; };
 		D4EDE0711B41F8EC003AEB98 /* RZXTextNode.h in Headers */ = {isa = PBXBuildFile; fileRef = D4EDE06F1B41F8EC003AEB98 /* RZXTextNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4EDE0721B41F8EC003AEB98 /* RZXTextNode.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EDE0701B41F8EC003AEB98 /* RZXTextNode.m */; };
+		D4EF0ECF1B4EE30D001EA85F /* RZXViewTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = D4EF0ECD1B4EE30D001EA85F /* RZXViewTexture.h */; };
+		D4EF0ED01B4EE30D001EA85F /* RZXViewTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EF0ECE1B4EE30D001EA85F /* RZXViewTexture.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -232,8 +232,6 @@
 		D4D00E881AE14D3B00D007E4 /* RazeUIKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RazeUIKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4D00E8E1AE14D3B00D007E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4D00E8F1AE14D3B00D007E4 /* RazeUIKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RazeUIKitTests.m; sourceTree = "<group>"; };
-		D4D00E981AE14D4D00D007E4 /* RZXViewTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXViewTexture.h; sourceTree = "<group>"; };
-		D4D00E991AE14D4D00D007E4 /* RZXViewTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXViewTexture.m; sourceTree = "<group>"; };
 		D4D00E9A1AE14D4D00D007E4 /* RZXEffectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXEffectView.h; sourceTree = "<group>"; };
 		D4D00E9B1AE14D4D00D007E4 /* RZXEffectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXEffectView.m; sourceTree = "<group>"; };
 		D4D00EA11AE1545B00D007E4 /* RZXRenderLoop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXRenderLoop.h; sourceTree = "<group>"; };
@@ -254,6 +252,8 @@
 		D4EDE0601B41CEE6003AEB98 /* RZXDynamicTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXDynamicTexture.m; sourceTree = "<group>"; };
 		D4EDE06F1B41F8EC003AEB98 /* RZXTextNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXTextNode.h; sourceTree = "<group>"; };
 		D4EDE0701B41F8EC003AEB98 /* RZXTextNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXTextNode.m; sourceTree = "<group>"; };
+		D4EF0ECD1B4EE30D001EA85F /* RZXViewTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXViewTexture.h; sourceTree = "<group>"; };
+		D4EF0ECE1B4EE30D001EA85F /* RZXViewTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXViewTexture.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -523,7 +523,8 @@
 				D4D00E821AE14D3B00D007E4 /* RazeUIKit.h */,
 				D4D00E9A1AE14D4D00D007E4 /* RZXEffectView.h */,
 				D4D00E9B1AE14D4D00D007E4 /* RZXEffectView.m */,
-				D4D00E971AE14D4D00D007E4 /* Private */,
+				D4EF0ECD1B4EE30D001EA85F /* RZXViewTexture.h */,
+				D4EF0ECE1B4EE30D001EA85F /* RZXViewTexture.m */,
 				D4D00E801AE14D3B00D007E4 /* Supporting Files */,
 			);
 			path = RazeUIKit;
@@ -552,15 +553,6 @@
 				D4D00E8E1AE14D3B00D007E4 /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		D4D00E971AE14D4D00D007E4 /* Private */ = {
-			isa = PBXGroup;
-			children = (
-				D4D00E981AE14D4D00D007E4 /* RZXViewTexture.h */,
-				D4D00E991AE14D4D00D007E4 /* RZXViewTexture.m */,
-			);
-			path = Private;
 			sourceTree = "<group>";
 		};
 		D4D00EA01AE1545B00D007E4 /* Private */ = {
@@ -642,7 +634,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4D00E831AE14D3B00D007E4 /* RazeUIKit.h in Headers */,
-				D4D00E9C1AE14D4D00D007E4 /* RZXViewTexture.h in Headers */,
+				D4EF0ECF1B4EE30D001EA85F /* RZXViewTexture.h in Headers */,
 				D4D00E9E1AE14D4D00D007E4 /* RZXEffectView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1056,8 +1048,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4D00E9D1AE14D4D00D007E4 /* RZXViewTexture.m in Sources */,
 				D4D00E9F1AE14D4D00D007E4 /* RZXEffectView.m in Sources */,
+				D4EF0ED01B4EE30D001EA85F /* RZXViewTexture.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

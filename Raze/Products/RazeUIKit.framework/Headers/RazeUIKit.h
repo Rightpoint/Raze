@@ -11,3 +11,4 @@ FOUNDATION_EXPORT double RazeUIKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char RazeUIKitVersionString[];
 
 #import <RazeUIKit/RZXEffectView.h>
+#import <RazeUIKit/RZXViewTexture.h>

@@ -8,7 +8,7 @@
 #import <GLKit/GLKMath.h>
 #import <RazeCore/RZXAnimatable.h>
 
-@interface RZXTransform3D : NSObject <NSCopying, RZXAnimatable>
+@interface RZXTransform3D : NSObject <NSCopying>
 
 @property (nonatomic, assign) GLKVector3 translation;
 @property (nonatomic, assign) GLKQuaternion rotation;
