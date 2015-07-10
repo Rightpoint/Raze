@@ -29,8 +29,6 @@
 
 @property (nonatomic, readonly) NSInteger preferredLevelOfDetail;
 
-+ (instancetype)effectWithVertexShaderNamed:(NSString *)vshName fragmentShaderNamed:(NSString *)fshName;
-
 + (instancetype)effectWithVertexShader:(NSString *)vsh fragmentShader:(NSString *)fsh;
 
 - (BOOL)link;
