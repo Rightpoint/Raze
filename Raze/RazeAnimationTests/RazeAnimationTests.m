@@ -1,19 +1,19 @@
 //
-//  Raze_Animation_SandboxTests.m
-//  Raze Animation SandboxTests
+//  RazeAnimationTests.m
+//  RazeAnimationTests
 //
-//  Created by Rob Visentin on 4/21/15.
-//  Copyright (c) 2015 Raizlabs. All rights reserved.
+//  Created by Rob Visentin on 7/10/15.
+//
 //
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
-@interface Raze_Animation_SandboxTests : XCTestCase
+@interface RazeAnimationTests : XCTestCase
 
 @end
 
-@implementation Raze_Animation_SandboxTests
+@implementation RazeAnimationTests
 
 - (void)setUp {
     [super setUp];

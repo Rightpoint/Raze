@@ -1,17 +1,17 @@
 //
 //  RZXAnimatable.h
-//  RazeCore
+//  RazeAnimation
 //
 //  Created by Rob Visentin on 6/24/15.
 //
 
 #import <Foundation/Foundation.h>
 
-@class RZXInterpolationFunction;
+@class RZXInterpolator;
 
 @protocol RZXAnimatable <NSObject>
 
-+ (RZXInterpolationFunction *)rzx_interpolationFunctionForKey:(NSString *)key;
++ (RZXInterpolator *)rzx_interpolatorForKey:(NSString *)key;
 
 @end
 

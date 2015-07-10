@@ -6,7 +6,6 @@
 //
 
 #import <GLKit/GLKMath.h>
-#import <RazeCore/RZXAnimatable.h>
 
 @interface RZXTransform3D : NSObject <NSCopying>
 

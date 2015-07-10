@@ -6,22 +6,13 @@
 //
 
 #import <RazeCore/RZXTransform3D.h>
-#import <RazeCore/RZXInterpolationFunction.h>
 #import <RazeCore/NSValue+RZXExtensions.h>
-#import <RazeCore/RZXAnimatable.h>
 
 @implementation RZXTransform3D {
     GLKMatrix4 *_cachedModelMatrix;
 }
 
 #pragma mark - lifecycle
-
-+ (void)load
-{
-    @autoreleasepool {
-        [self rzx_addKVCComplianceForGLKTypes];
-    }
-}
 
 + (instancetype)transform
 {

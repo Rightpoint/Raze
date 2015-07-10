@@ -9,7 +9,6 @@
 #import <RazeCore/RZXGLView.h>
 #import <RazeCore/RZXGLContext.h>
 #import <RazeCore/RZXRenderLoop.h>
-#import <RazeCore/RZXAnimatable.h>
 
 @interface RZXGLView ()
 
@@ -23,13 +22,6 @@
 @synthesize context = _context;
 
 #pragma mark - lifecycle
-
-+ (void)load
-{
-    @autoreleasepool {
-        [self rzx_addKVCComplianceForGLKTypes];
-    }
-}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {

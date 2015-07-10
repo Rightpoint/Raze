@@ -22,6 +22,7 @@
 		8AE987521AE19C550058F441 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AE987511AE19C550058F441 /* Images.xcassets */; };
 		8AE987551AE19C550058F441 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AE987531AE19C550058F441 /* LaunchScreen.xib */; };
 		8AE987611AE19C550058F441 /* Raze_Scene_SandboxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE987601AE19C550058F441 /* Raze_Scene_SandboxTests.m */; };
+		D4EF0FA01B505D3F001EA85F /* RazeAnimation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D4EF0F9E1B505D3F001EA85F /* RazeAnimation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				8A6ECFC41B34611D00743DBF /* RazeCore.framework in Embed Frameworks */,
+				D4EF0FA01B505D3F001EA85F /* RazeAnimation.framework in Embed Frameworks */,
 				8A6ECFC51B34611D00743DBF /* RazeEffects.framework in Embed Frameworks */,
 				8A6ECFC61B34611D00743DBF /* RazeScene.framework in Embed Frameworks */,
 			);
@@ -74,6 +76,7 @@
 		8AE9875A1AE19C550058F441 /* Raze Scene SandboxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Raze Scene SandboxTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AE9875F1AE19C550058F441 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8AE987601AE19C550058F441 /* Raze_Scene_SandboxTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Raze_Scene_SandboxTests.m; sourceTree = "<group>"; };
+		D4EF0F9E1B505D3F001EA85F /* RazeAnimation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeAnimation.framework; path = "$(TARGET_BUILD_DIR)/RazeAnimation.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +100,7 @@
 		8AE987381AE19C550058F441 = {
 			isa = PBXGroup;
 			children = (
+				D4EF0F9E1B505D3F001EA85F /* RazeAnimation.framework */,
 				8A6ECFC11B34611D00743DBF /* RazeCore.framework */,
 				8A6ECFC21B34611D00743DBF /* RazeEffects.framework */,
 				8A6ECFC31B34611D00743DBF /* RazeScene.framework */,
@@ -244,13 +248,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8AE8E2F21B3B5563003C0918 /* cube.mesh in Resources */,
 				8AE987501AE19C550058F441 /* Main.storyboard in Resources */,
 				8A73175F1B4306340030763D /* gridTexture.png in Resources */,
 				8A73175D1B4306080030763D /* cube.mesh in Resources */,
 				8AE987551AE19C550058F441 /* LaunchScreen.xib in Resources */,
 				8AE987521AE19C550058F441 /* Images.xcassets in Resources */,
-				8AE8E2F41B3B5632003C0918 /* marshmellow.mesh in Resources */,
 				8A0C6E5B1B39DA5600E22ACF /* darth.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -400,7 +402,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Sandbox-enkrdnqulxllcwejvxtxxaeacvek/Build/Products/Debug-iphoneos",
+				);
 				INFOPLIST_FILE = "Raze Scene Sandbox/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -412,7 +417,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Sandbox-enkrdnqulxllcwejvxtxxaeacvek/Build/Products/Debug-iphoneos",
+				);
 				INFOPLIST_FILE = "Raze Scene Sandbox/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
