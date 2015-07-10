@@ -35,27 +35,6 @@
     }
 }
 
-+ (instancetype)effectWithVertexShaderNamed:(NSString *)vshName fragmentShaderNamed:(NSString *)fshName
-{
-    NSString *vshPath = [[NSBundle mainBundle] pathForResource:vshName ofType:@"vsh"];
-    NSString *fshPath = [[NSBundle mainBundle] pathForResource:fshName ofType:@"fsh"];
-    
-    NSString *vsh = [NSString stringWithContentsOfFile:vshPath encoding:NSASCIIStringEncoding error:nil];
-    NSString *fsh = [NSString stringWithContentsOfFile:fshPath encoding:NSASCIIStringEncoding error:nil];
-    
-#if DEBUG
-    if ( vsh == nil ) {
-        NSLog(@"%@ failed to load vertex shader %@.vsh", NSStringFromClass(self), vshName);
-    }
-    
-    if ( fsh == nil ) {
-        NSLog(@"%@ failed to load fragment shader %@.fsh", NSStringFromClass(self), fshName);
-    }
-#endif
-
-    return [self effectWithVertexShader:vsh fragmentShader:fsh];
-}
-
 + (instancetype)effectWithVertexShader:(NSString *)vsh fragmentShader:(NSString *)fsh
 {
     RZXEffect *effect = nil;
