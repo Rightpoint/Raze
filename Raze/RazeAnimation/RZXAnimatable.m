@@ -1,15 +1,15 @@
 //
 //  RZXAnimatable.m
-//  RazeCore
+//  RazeAnimation
 //
 //  Created by Rob Visentin on 6/24/15.
 //
 
 #import <objc/runtime.h>
 #import <GLKit/GLKMathTypes.h>
-#import <RazeCore/RZXAnimatable.h>
-#import <RazeCore/RZXInterpolationFunction.h>
-#import <RazeCore/RZXValueProxy.h>
+#import <RazeAnimation/RZXAnimatable.h>
+#import <RazeAnimation/RZXInterpolator.h>
+#import <RazeAnimation/RZXValueProxy.h>
 
 #pragma mark - private interface
 
@@ -115,9 +115,9 @@ static inline void rzx_setValueForGLKProperty(id self, id value, RZXObjcProperty
     }
 }
 
-+ (RZXInterpolationFunction *)rzx_interpolationFunctionForKey:(NSString *)key
++ (RZXInterpolator *)rzx_interpolatorForKey:(NSString *)key
 {
-    RZXInterpolationFunction *function = nil;
+    RZXInterpolator *function = nil;
 
     RZXObjcProperty *property = [self rzx_propertyForKey:key];
 
@@ -126,19 +126,19 @@ static inline void rzx_setValueForGLKProperty(id self, id value, RZXObjcProperty
 
         if ( strcmp(encoding, @encode(float)) == 0 ||
             strcmp(encoding, @encode(double)) == 0 ) {
-            function = [RZXInterpolationFunction floatInterpolator];
+            function = [RZXInterpolator floatInterpolator];
         }
         else if ( property.typeSize == sizeof(GLKVector2) ) {
-            function = [RZXInterpolationFunction vec2Interpolator];
+            function = [RZXInterpolator vec2Interpolator];
         }
         else if ( property.typeSize == sizeof(GLKVector3) ) {
-            function = [RZXInterpolationFunction vec3Interpolator];
+            function = [RZXInterpolator vec3Interpolator];
         }
         else if ( strcmp(encoding, @encode(GLKVector4)) == 0 ) {
-            function = [RZXInterpolationFunction vec4Interpolator];
+            function = [RZXInterpolator vec4Interpolator];
         }
         else if ( strcmp(encoding, @encode(GLKQuaternion)) == 0 ) {
-            function = [RZXInterpolationFunction quaternionInterpolator];
+            function = [RZXInterpolator quaternionInterpolator];
         }
     }
 

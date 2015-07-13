@@ -8,7 +8,6 @@
 #import <OpenGLES/ES2/gl.h>
 #import <RazeCore/RZXEffect.h>
 #import <RazeCore/RZXGLContext.h>
-#import <RazeCore/RZXAnimatable.h>
 
 @interface RZXEffect ()
 
@@ -27,13 +26,6 @@
 }
 
 #pragma mark - lifecycle
-
-+ (void)load
-{
-    @autoreleasepool {
-        [self rzx_addKVCComplianceForGLKTypes];
-    }
-}
 
 + (instancetype)effectWithVertexShader:(NSString *)vsh fragmentShader:(NSString *)fsh
 {

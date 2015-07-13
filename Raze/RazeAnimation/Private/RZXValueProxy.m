@@ -6,15 +6,15 @@
 //
 
 #import <GLKit/GLKMathTypes.h>
-#import <RazeCore/RZXValueProxy.h>
-#import <RazeCore/RZXAnimatable.h>
-#import <RazeCore/RZXInterpolationFunction.h>
+#import <RazeAnimation/RZXValueProxy.h>
+#import <RazeAnimation/RZXAnimatable.h>
+#import <RazeAnimation/RZXInterpolator.h>
 
 @implementation NSValue (RZXAnimatable)
 
-+ (RZXInterpolationFunction *)rzx_interpolationFunctionForKey:(NSString *)key
++ (RZXInterpolator *)rzx_interpolatorForKey:(NSString *)key
 {
-    return [RZXInterpolationFunction floatInterpolator];
+    return [RZXInterpolator floatInterpolator];
 }
 
 @end
@@ -47,9 +47,9 @@
     return YES;
 }
 
-+ (RZXInterpolationFunction *)rzx_interpolationFunctionForKey:(NSString *)key
++ (RZXInterpolator *)rzx_interpolatorForKey:(NSString *)key
 {
-    return [NSValue rzx_interpolationFunctionForKey:key];
+    return [NSValue rzx_interpolatorForKey:key];
 }
 
 - (instancetype)initWithBytes:(const void *)value objCType:(const char *)type

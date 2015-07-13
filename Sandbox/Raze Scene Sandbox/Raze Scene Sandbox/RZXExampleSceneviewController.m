@@ -39,14 +39,13 @@
     modelNode.transform.translation = GLKVector3Make(0.0f, 0.0f, -9.0f);
 
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
-    animation.fromValue = [NSValue rzx_valueWithQuaternion:GLKQuaternionIdentity];
-    animation.toValue = [NSValue rzx_valueWithQuaternion:GLKQuaternionMakeWithAngleAndAxis(M_PI, 0.0f, 1.0f, 0.0f)];
+    animation.byValue = [NSValue rzx_valueWithQuaternion:GLKQuaternionMakeWithAngleAndAxis(M_PI, 0.0f, 1.0f, 0.0f)];
     animation.duration = 3.0;
-    animation.repeatCount = 2;
+    animation.repeatCount = 1;
     [modelNode addAnimation:animation forKey:@"rotation"];
 
     RZXTextNode *textNode = [RZXTextNode nodeWithText:@"This is a test"];
-    textNode.font = [RZXFont systemFontOfSize:150.0f];
+    textNode.font = [RZXFont systemFontOfSize:50.0f];
     textNode.textColor = [RZXColor purpleColor];
     textNode.transform.translation = GLKVector3Make(0.0f, 0.0f, 0.34f);
     [modelNode addChild:textNode];

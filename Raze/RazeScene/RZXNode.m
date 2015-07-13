@@ -7,10 +7,10 @@
 //
 
 #import <RazeCore/RazeCore.h>
-#import <RazeScene/CAAnimation+RZXExtensions.h>
-#import <RazeCore/RZXAnimatable.h>
+#import <RazeAnimation/CAAnimation+RZXExtensions.h>
+#import <RazeAnimation/RZXAnimatable.h>
 
-#import "RZXNode.h"
+#import <RazeScene/RZXNode.h>
 
 @interface RZXNode ()
 
@@ -187,7 +187,7 @@
         [animation rzx_update:dt];
         [animation rzx_applyToObject:self];
 
-        if ( animation.isFinished ) {
+        if ( animation.rzx_isFinished ) {
             [self.mutableAnimations removeObjectForKey:key];
         }
     }
