@@ -98,6 +98,98 @@
     [self invalidateModelMatrixCache];
 }
 
+- (void)translateXBy:(float)dx
+{
+    _translation.x += dx;
+    [self invalidateModelMatrixCache];
+}
+
+- (void)translateYBy:(float)dy
+{
+    _translation.y += dy;
+    [self invalidateModelMatrixCache];
+}
+
+- (void)translateZBy:(float)dz
+{
+    _translation.z += dz;
+    [self invalidateModelMatrixCache];
+}
+
+- (void)translateXTo:(float)tx
+{
+    _translation.x = tx;
+    [self invalidateModelMatrixCache];
+}
+
+- (void)translateYTo:(float)ty
+{
+    _translation.y = ty;
+    [self invalidateModelMatrixCache];
+}
+
+- (void)translateZTo:(float)tz
+{
+    _translation.z = tz;
+    [self invalidateModelMatrixCache];
+}
+
+- (void)scaleXBy:(float)dx
+{
+    _scale.x *= dx;
+    [self invalidateModelMatrixCache];
+}
+
+- (void)scaleYBy:(float)dy
+{
+    _scale.y *= dy;
+    [self invalidateModelMatrixCache];
+}
+
+- (void)scaleZBy:(float)dz
+{
+    _scale.z *= dz;
+    [self invalidateModelMatrixCache];
+}
+
+- (void)scaleXTo:(float)sx
+{
+    _scale.x = sx;
+    [self invalidateModelMatrixCache];
+}
+
+- (void)scaleYTo:(float)sy
+{
+    _scale.y = sy;
+    [self invalidateModelMatrixCache];
+}
+
+- (void)scaleZTo:(float)sz
+{
+    _scale.z = sz;
+    [self invalidateModelMatrixCache];
+}
+
+- (void)rotateXBy:(float)angle
+{
+    [self rotateBy:GLKQuaternionMakeWithAngleAndAxis(angle, 1.0f, 0.0f, 0.0f)];
+}
+
+- (void)rotateYBy:(float)angle
+{
+    [self rotateBy:GLKQuaternionMakeWithAngleAndAxis(angle, 0.0f, 1.0f, 0.0f)];
+}
+
+- (void)rotateZBy:(float)angle
+{
+    [self rotateBy:GLKQuaternionMakeWithAngleAndAxis(angle, 0.0f, 0.0f, 1.0f)];
+}
+
+- (void)rotateBy:(GLKQuaternion)rotation
+{
+    self.rotation = GLKQuaternionMultiply(rotation, _rotation);
+}
+
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone

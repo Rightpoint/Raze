@@ -15,15 +15,15 @@
 #endif
 
 typedef NS_ENUM(NSUInteger, RZXHorizontalAlignment) {
-    kRZXHorizontalAlignmentCenter,
-    kRZXHorizontalAlignmentLeft,
-    kRZXHorizontalAlignmentRight
+    RZXHorizontalAlignmentCenter,
+    RZXHorizontalAlignmentLeft,
+    RZXHorizontalAlignmentRight
 };
 
 typedef NS_ENUM(NSUInteger, RZXVerticalAlignment) {
-    kRZXVerticalAlignmentCenter,
-    kRZXVerticalAlignmentTop,
-    kRZXVerticalAlignmentBottom
+    RZXVerticalAlignmentCenter,
+    RZXVerticalAlignmentTop,
+    RZXVerticalAlignmentBottom
 };
 
 @class RZXFont;

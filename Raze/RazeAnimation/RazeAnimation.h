@@ -13,6 +13,7 @@ FOUNDATION_EXPORT double RazeAnimationVersionNumber;
 //! Project version string for RazeAnimation.
 FOUNDATION_EXPORT const unsigned char RazeAnimationVersionString[];
 
+#import <RazeAnimation/RZXAnimationBase.h>
 #import <RazeAnimation/RZXAnimatable.h>
 #import <RazeAnimation/RZXInterpolator.h>
 #import <RazeAnimation/CAAnimation+RZXExtensions.h>

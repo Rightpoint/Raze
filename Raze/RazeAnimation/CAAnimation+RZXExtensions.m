@@ -9,7 +9,30 @@
 #import <RazeAnimation/CAAnimation+RZXPrivateExtensions.h>
 #import <RazeAnimation/RZXAnimationState.h>
 
+static NSString* const kRZXAnimationStartBlockKey = @"_RZXAnimationStartBlock";
+static NSString* const kRZXAnimationCompletionBlockKey = @"_RZXAnimationCompletionBlock";
+
 @implementation CAAnimation (RZXExtensions)
+
+- (RZXAnimationStartBlock)rzx_startBlock
+{
+    return [self valueForKey:kRZXAnimationStartBlockKey];
+}
+
+- (void)rzx_setStartBlock:(RZXAnimationStartBlock)rzx_startBlock
+{
+    [self setValue:rzx_startBlock forKey:kRZXAnimationStartBlockKey];
+}
+
+- (RZXAnimationCompletionBlock)rzx_completionBlock
+{
+    return [self valueForKey:kRZXAnimationCompletionBlockKey];
+}
+
+- (void)rzx_setCompletionBlock:(RZXAnimationCompletionBlock)rzx_completion
+{
+    [self setValue:[rzx_completion copy] forKey:kRZXAnimationCompletionBlockKey];
+}
 
 - (BOOL)rzx_isFinished
 {
@@ -34,6 +57,10 @@
     if ( state.isStarted && !state.isFinished && [self.delegate respondsToSelector:@selector(animationDidStop:finished:)] ) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.delegate animationDidStop:self finished:NO];
+
+            if ( self.rzx_completionBlock != nil ) {
+                self.rzx_completionBlock(self, NO);
+            }
         });
     }
 }

@@ -18,4 +18,30 @@
 + (instancetype)transform;
 + (instancetype)transformWithTranslation:(GLKVector3)trans rotation:(GLKQuaternion)rot scale:(GLKVector3)scale;
 
+// delta is added to current value
+- (void)translateXBy:(float)dx;
+- (void)translateYBy:(float)dy;
+- (void)translateZBy:(float)dz;
+
+// current value is set to given value
+- (void)translateXTo:(float)tx;
+- (void)translateYTo:(float)ty;
+- (void)translateZTo:(float)tz;
+
+// current value is multiplied by delta
+- (void)scaleXBy:(float)dx;
+- (void)scaleYBy:(float)dy;
+- (void)scaleZBy:(float)dz;
+
+// current value is set to given value
+- (void)scaleXTo:(float)sx;
+- (void)scaleYTo:(float)sy;
+- (void)scaleZTo:(float)sz;
+
+// current rotation is multiplied by given quaternion
+- (void)rotateXBy:(float)angle;
+- (void)rotateYBy:(float)angle;
+- (void)rotateZBy:(float)angle;
+- (void)rotateBy:(GLKQuaternion)rotation;
+
 @end
