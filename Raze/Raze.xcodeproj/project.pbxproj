@@ -45,7 +45,7 @@
 		D46EDCF31B5455A2002AD0B7 /* RZXNode+RZXAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = D46EDCF11B5455A2002AD0B7 /* RZXNode+RZXAnimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D46EDCF41B5455A2002AD0B7 /* RZXNode+RZXAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = D46EDCF21B5455A2002AD0B7 /* RZXNode+RZXAnimation.m */; };
 		D46EDCF61B545874002AD0B7 /* RZXAnimationBase.h in Headers */ = {isa = PBXBuildFile; fileRef = D46EDCF51B545874002AD0B7 /* RZXAnimationBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D46EDCFD1B545B30002AD0B7 /* RZXBasicAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = D46EDCFB1B545B30002AD0B7 /* RZXBasicAnimation.h */; };
+		D46EDCFD1B545B30002AD0B7 /* RZXBasicAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = D46EDCFB1B545B30002AD0B7 /* RZXBasicAnimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D46EDCFE1B545B30002AD0B7 /* RZXBasicAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = D46EDCFC1B545B30002AD0B7 /* RZXBasicAnimation.m */; };
 		D4D00E1B1AE14CB900D007E4 /* RazeCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D00E0F1AE14CB900D007E4 /* RazeCore.framework */; };
 		D4D00E221AE14CB900D007E4 /* RazeCoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D00E211AE14CB900D007E4 /* RazeCoreTests.m */; };

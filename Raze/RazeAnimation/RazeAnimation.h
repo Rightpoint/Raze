@@ -16,5 +16,6 @@ FOUNDATION_EXPORT const unsigned char RazeAnimationVersionString[];
 #import <RazeAnimation/RZXAnimationBase.h>
 #import <RazeAnimation/RZXAnimatable.h>
 #import <RazeAnimation/RZXInterpolator.h>
+#import <RazeAnimation/RZXBasicAnimation.h>
 #import <RazeAnimation/CAAnimation+RZXExtensions.h>
 #import <RazeAnimation/RazeCore+RZXAnimation.h>

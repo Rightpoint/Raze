@@ -54,9 +54,11 @@ static NSString* const kRZXAnimationCompletionBlockKey = @"_RZXAnimationCompleti
 {
     RZXAnimationState *state = [self rzx_state];
 
-    if ( state.isStarted && !state.isFinished && [self.delegate respondsToSelector:@selector(animationDidStop:finished:)] ) {
+    if ( state.isStarted && !state.isFinished ) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate animationDidStop:self finished:NO];
+            if ( [self.delegate respondsToSelector:@selector(animationDidStop:finished:)] ) {
+                [self.delegate animationDidStop:self finished:NO];
+            }
 
             if ( self.rzx_completionBlock != nil ) {
                 self.rzx_completionBlock(self, NO);

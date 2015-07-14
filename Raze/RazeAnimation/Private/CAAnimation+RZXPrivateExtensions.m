@@ -81,9 +81,11 @@
         state.finished = YES;
     }
 
-    if ( !previouslyStarted && state.isStarted && [self.delegate respondsToSelector:@selector(animationDidStart:)] ) {
+    if ( !previouslyStarted && state.isStarted ) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate animationDidStart:self];
+            if ( [self.delegate respondsToSelector:@selector(animationDidStart:)] ) {
+                [self.delegate animationDidStart:self];
+            }
 
             if ( self.rzx_startBlock != nil ) {
                 self.rzx_startBlock(self);
@@ -91,12 +93,14 @@
         });
     }
 
-    if ( state.isStarted && state.finished && [self.delegate respondsToSelector:@selector(animationDidStop:finished:)] ) {
+    if ( state.isStarted && state.finished ) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate animationDidStop:self finished:YES];
+            if ( [self.delegate respondsToSelector:@selector(animationDidStop:finished:)] ) {
+                [self.delegate animationDidStop:self finished:YES];
+            }
 
             if ( self.rzx_completionBlock != nil ) {
-                self.rzx_completionBlock(self, NO);
+                self.rzx_completionBlock(self, YES);
             }
         });
     }

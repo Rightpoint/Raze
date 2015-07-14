@@ -6,6 +6,10 @@
 //
 
 #import <RazeCore/RZXBase.h>
+#import <RazeCore/RZXTransform3D.h>
+#import <RazeCore/NSValue+RZXExtensions.h>
+#import <RazeAnimation/RZXBasicAnimation.h>
+#import <RazeAnimation/CAAnimation+RZXExtensions.h>
 #import <RazeScene/RZXNode+RZXAnimation.h>
 
 @implementation RZXNode (RZXAnimation)
@@ -24,7 +28,13 @@
 
 - (void)translateBy:(GLKVector3)translation withDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(RZXAnimationOptions)options start:(RZXAnimationStartBlock)start completion:(RZXAnimationCompletionBlock)completion
 {
-    // TODO
+    RZXBasicAnimation *animation = [RZXBasicAnimation animationWithKeyPath:RZX_KP_SELF(transform.translation) options:options];
+    animation.duration = duration;
+    animation.byValue = [NSValue rzx_valueWithVec3:translation];
+    animation.rzx_startBlock = start;
+    animation.rzx_completionBlock = completion;
+
+    [self addAnimation:animation forKey:nil];
 }
 
 - (void)scaleBy:(GLKVector3)scale withDuration:(NSTimeInterval)duration
@@ -39,7 +49,13 @@
 
 - (void)scaleBy:(GLKVector3)scale withDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(RZXAnimationOptions)options start:(RZXAnimationStartBlock)start completion:(RZXAnimationCompletionBlock)completion
 {
-    // TODO
+    RZXBasicAnimation *animation = [RZXBasicAnimation animationWithKeyPath:RZX_KP_SELF(transform.scale) options:options];
+    animation.duration = duration;
+    animation.byValue = [NSValue rzx_valueWithVec3:scale];
+    animation.rzx_startBlock = start;
+    animation.rzx_completionBlock = completion;
+
+    [self addAnimation:animation forKey:nil];
 }
 
 - (void)rotateBy:(GLKQuaternion)rotation withDuration:(NSTimeInterval)duration
@@ -54,7 +70,15 @@
 
 - (void)rotateBy:(GLKQuaternion)rotation withDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(RZXAnimationOptions)options start:(RZXAnimationStartBlock)start completion:(RZXAnimationCompletionBlock)completion
 {
-    // TODO
+    rotation = GLKQuaternionNormalize(rotation);
+
+    RZXBasicAnimation *animation = [RZXBasicAnimation animationWithKeyPath:RZX_KP_SELF(transform.rotation) options:options];
+    animation.duration = duration;
+    animation.byValue = [NSValue rzx_valueWithQuaternion:rotation];
+    animation.rzx_startBlock = start;
+    animation.rzx_completionBlock = completion;
+
+    [self addAnimation:animation forKey:nil];
 }
 
 #pragma mark - Absolute Animations
@@ -71,7 +95,13 @@
 
 - (void)translateTo:(GLKVector3)translation withDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(RZXAnimationOptions)options start:(RZXAnimationStartBlock)start completion:(RZXAnimationCompletionBlock)completion
 {
-    // TODO
+    RZXBasicAnimation *animation = [RZXBasicAnimation animationWithKeyPath:RZX_KP_SELF(transform.translation) options:options];
+    animation.duration = duration;
+    animation.toValue = [NSValue rzx_valueWithVec3:translation];
+    animation.rzx_startBlock = start;
+    animation.rzx_completionBlock = completion;
+
+    [self addAnimation:animation forKey:nil];
 }
 
 - (void)scaleTo:(GLKVector3)scale withDuration:(NSTimeInterval)duration
@@ -86,7 +116,13 @@
 
 - (void)scaleTo:(GLKVector3)scale withDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(RZXAnimationOptions)options start:(RZXAnimationStartBlock)start completion:(RZXAnimationCompletionBlock)completion
 {
-    // TODO
+    RZXBasicAnimation *animation = [RZXBasicAnimation animationWithKeyPath:RZX_KP_SELF(transform.scale) options:options];
+    animation.duration = duration;
+    animation.toValue = [NSValue rzx_valueWithVec3:scale];
+    animation.rzx_startBlock = start;
+    animation.rzx_completionBlock = completion;
+
+    [self addAnimation:animation forKey:nil];
 }
 
 - (void)rotateTo:(GLKQuaternion)rotation withDuration:(NSTimeInterval)duration
@@ -101,7 +137,15 @@
 
 - (void)rotateTo:(GLKQuaternion)rotation withDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(RZXAnimationOptions)options start:(RZXAnimationStartBlock)start completion:(RZXAnimationCompletionBlock)completion
 {
-    // TODO
+    rotation = GLKQuaternionNormalize(rotation);
+
+    RZXBasicAnimation *animation = [RZXBasicAnimation animationWithKeyPath:RZX_KP_SELF(transform.rotation) options:options];
+    animation.duration = duration;
+    animation.byValue = [NSValue rzx_valueWithQuaternion:rotation];
+    animation.rzx_startBlock = start;
+    animation.rzx_completionBlock = completion;
+
+    [self addAnimation:animation forKey:nil];
 }
 
 @end
