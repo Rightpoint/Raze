@@ -42,6 +42,11 @@
 		8ADE4C6F1B387F200082E00B /* RZXADSPhongEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ADE4C6D1B387F200082E00B /* RZXADSPhongEffect.m */; };
 		D40C6CBC1B3B3D0A0093FD69 /* NSValue+RZXExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = D40C6CBA1B3B3D0A0093FD69 /* NSValue+RZXExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D40C6CBD1B3B3D0A0093FD69 /* NSValue+RZXExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D40C6CBB1B3B3D0A0093FD69 /* NSValue+RZXExtensions.m */; };
+		D46EDCF31B5455A2002AD0B7 /* RZXNode+RZXAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = D46EDCF11B5455A2002AD0B7 /* RZXNode+RZXAnimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D46EDCF41B5455A2002AD0B7 /* RZXNode+RZXAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = D46EDCF21B5455A2002AD0B7 /* RZXNode+RZXAnimation.m */; };
+		D46EDCF61B545874002AD0B7 /* RZXAnimationBase.h in Headers */ = {isa = PBXBuildFile; fileRef = D46EDCF51B545874002AD0B7 /* RZXAnimationBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D46EDCFD1B545B30002AD0B7 /* RZXBasicAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = D46EDCFB1B545B30002AD0B7 /* RZXBasicAnimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D46EDCFE1B545B30002AD0B7 /* RZXBasicAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = D46EDCFC1B545B30002AD0B7 /* RZXBasicAnimation.m */; };
 		D4D00E1B1AE14CB900D007E4 /* RazeCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D00E0F1AE14CB900D007E4 /* RazeCore.framework */; };
 		D4D00E221AE14CB900D007E4 /* RazeCoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D00E211AE14CB900D007E4 /* RazeCoreTests.m */; };
 		D4D00E3C1AE14CE700D007E4 /* RazeCore.h in Headers */ = {isa = PBXBuildFile; fileRef = D4D00E291AE14CE700D007E4 /* RazeCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -217,6 +222,11 @@
 		8ADE4C6D1B387F200082E00B /* RZXADSPhongEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXADSPhongEffect.m; sourceTree = "<group>"; };
 		D40C6CBA1B3B3D0A0093FD69 /* NSValue+RZXExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSValue+RZXExtensions.h"; sourceTree = "<group>"; };
 		D40C6CBB1B3B3D0A0093FD69 /* NSValue+RZXExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSValue+RZXExtensions.m"; sourceTree = "<group>"; };
+		D46EDCF11B5455A2002AD0B7 /* RZXNode+RZXAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RZXNode+RZXAnimation.h"; sourceTree = "<group>"; };
+		D46EDCF21B5455A2002AD0B7 /* RZXNode+RZXAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RZXNode+RZXAnimation.m"; sourceTree = "<group>"; };
+		D46EDCF51B545874002AD0B7 /* RZXAnimationBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXAnimationBase.h; sourceTree = "<group>"; };
+		D46EDCFB1B545B30002AD0B7 /* RZXBasicAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXBasicAnimation.h; sourceTree = "<group>"; };
+		D46EDCFC1B545B30002AD0B7 /* RZXBasicAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXBasicAnimation.m; sourceTree = "<group>"; };
 		D4D00E0F1AE14CB900D007E4 /* RazeCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RazeCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4D00E131AE14CB900D007E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4D00E1A1AE14CB900D007E4 /* RazeCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RazeCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -400,6 +410,8 @@
 				8A63B4181AF3DE7C00E86B66 /* RZXScene.m */,
 				8A63B4191AF3DE7C00E86B66 /* RZXSceneView.h */,
 				8A63B41A1AF3DE7C00E86B66 /* RZXSceneView.m */,
+				D46EDCF11B5455A2002AD0B7 /* RZXNode+RZXAnimation.h */,
+				D46EDCF21B5455A2002AD0B7 /* RZXNode+RZXAnimation.m */,
 				8A63B3FA1AF3DE0D00E86B66 /* Supporting Files */,
 			);
 			path = RazeScene;
@@ -624,10 +636,13 @@
 			isa = PBXGroup;
 			children = (
 				D4EF0F3F1B50501F001EA85F /* RazeAnimation.h */,
+				D46EDCF51B545874002AD0B7 /* RZXAnimationBase.h */,
 				D4EF0F741B505197001EA85F /* RZXAnimatable.h */,
 				D4EF0F751B505197001EA85F /* RZXAnimatable.m */,
 				D4EF0F761B505197001EA85F /* RZXInterpolator.h */,
 				D4EF0F771B505197001EA85F /* RZXInterpolator.m */,
+				D46EDCFB1B545B30002AD0B7 /* RZXBasicAnimation.h */,
+				D46EDCFC1B545B30002AD0B7 /* RZXBasicAnimation.m */,
 				D4EF0F891B5053F9001EA85F /* RazeCore+RZXAnimation.h */,
 				D4EF0F8A1B5053F9001EA85F /* RazeCore+RZXAnimation.m */,
 				D4EF0F921B5055A8001EA85F /* CAAnimation+RZXExtensions.h */,
@@ -684,6 +699,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A63B4211AF3DE7C00E86B66 /* RZXNode.h in Headers */,
+				D46EDCF31B5455A2002AD0B7 /* RZXNode+RZXAnimation.h in Headers */,
 				8A63B3FD1AF3DE0D00E86B66 /* RazeScene.h in Headers */,
 				8A63B4251AF3DE7C00E86B66 /* RZXSceneView.h in Headers */,
 				8A63B41F1AF3DE7C00E86B66 /* RZXModelNode.h in Headers */,
@@ -748,11 +764,13 @@
 				D4EF0F981B50565A001EA85F /* RZXAnimationState.h in Headers */,
 				D4EF0F941B5055A8001EA85F /* CAAnimation+RZXExtensions.h in Headers */,
 				D4EF0F781B505197001EA85F /* CAAnimation+RZXPrivateExtensions.h in Headers */,
+				D46EDCFD1B545B30002AD0B7 /* RZXBasicAnimation.h in Headers */,
 				D4EF0F7A1B505197001EA85F /* RZXValueProxy.h in Headers */,
 				D4EF0F7F1B505197001EA85F /* RZXInterpolator.h in Headers */,
 				D4EF0F7D1B505197001EA85F /* RZXAnimatable.h in Headers */,
 				D4EF0F401B50501F001EA85F /* RazeAnimation.h in Headers */,
 				D4EF0F8B1B5053F9001EA85F /* RazeCore+RZXAnimation.h in Headers */,
+				D46EDCF61B545874002AD0B7 /* RZXAnimationBase.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1170,6 +1188,7 @@
 				8A63B4261AF3DE7C00E86B66 /* RZXSceneView.m in Sources */,
 				8A63B4221AF3DE7C00E86B66 /* RZXNode.m in Sources */,
 				8A63B4241AF3DE7C00E86B66 /* RZXScene.m in Sources */,
+				D46EDCF41B5455A2002AD0B7 /* RZXNode+RZXAnimation.m in Sources */,
 				D4EDE0721B41F8EC003AEB98 /* RZXTextNode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1256,6 +1275,7 @@
 				D4EF0F951B5055A8001EA85F /* CAAnimation+RZXExtensions.m in Sources */,
 				D4EF0F7B1B505197001EA85F /* RZXValueProxy.m in Sources */,
 				D4EF0F7E1B505197001EA85F /* RZXAnimatable.m in Sources */,
+				D46EDCFE1B545B30002AD0B7 /* RZXBasicAnimation.m in Sources */,
 				D4EF0F991B50565A001EA85F /* RZXAnimationState.m in Sources */,
 				D4EF0F8C1B5053F9001EA85F /* RazeCore+RZXAnimation.m in Sources */,
 				D4EF0F801B505197001EA85F /* RZXInterpolator.m in Sources */,
@@ -2469,6 +2489,7 @@
 				D4EF0F501B505020001EA85F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D4EF0F511B505020001EA85F /* Build configuration list for PBXNativeTarget "RazeAnimationTests" */ = {
 			isa = XCConfigurationList;
@@ -2477,6 +2498,7 @@
 				D4EF0F531B505020001EA85F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
