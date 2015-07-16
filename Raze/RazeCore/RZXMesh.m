@@ -54,7 +54,7 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 {
     BOOL setup = [super setupGL];
 
-    if ( setup ) {
+    if ( setup && self.meshName.length ) {
         NSString *filePath = [[NSBundle mainBundle] pathForResource:self.meshName ofType:kRZXMeshFileExtension];
 
         if( filePath.length == 0 ) {

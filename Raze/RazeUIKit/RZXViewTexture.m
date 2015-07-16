@@ -28,12 +28,16 @@
     }
 }
 
-- (void)rzx_setupGL
+- (BOOL)setupGL
 {
-    [super rzx_setupGL];
+    BOOL setup = [super setupGL];
 
-    [self applyOptions:@{ kRZXTextureSWrapKey : @(GL_CLAMP_TO_EDGE),
-                          kRZXTextureTWrapKey : @(GL_CLAMP_TO_EDGE) }];
+    if ( setup ) {
+        [self applyOptions:@{ kRZXTextureSWrapKey : @(GL_CLAMP_TO_EDGE),
+                              kRZXTextureTWrapKey : @(GL_CLAMP_TO_EDGE) }];
+    }
+
+    return setup;
 }
 
 #pragma mark - private methods

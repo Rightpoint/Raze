@@ -10,7 +10,7 @@
 
 OBJC_EXTERN NSInteger const kRZXQuadMeshMaxSubdivisions;
 
-@interface RZXQuadMesh : RZXMesh <RZXRenderable>
+@interface RZXQuadMesh : RZXMesh
 
 + (instancetype)quad;
 + (instancetype)quadWithSubdivisionLevel:(NSInteger)subdivisons;

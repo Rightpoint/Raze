@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 #import <RazeCore/RZXUpdateable.h>
 #import <RazeCore/RZXRenderable.h>
+#import <RazeCore/RZXGPUObject.h>
 
 @class RZXGLContext;
 
@@ -35,6 +36,8 @@
 @property (assign, nonatomic, getter=isPaused) BOOL paused;
 
 @property (strong, nonatomic) id<RZXRenderable> model;
+
+@property (nonatomic, readonly) RZXGPUObjectTeardownBlock teardownHandler;
 
 - (void)setupGL;
 - (void)teardownGL;

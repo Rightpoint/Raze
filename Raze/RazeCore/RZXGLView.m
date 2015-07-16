@@ -57,7 +57,7 @@
 
 - (void)dealloc
 {
-#warning TODO: teardown GL properly
+    [self teardownGL];
 }
 
 #pragma mark - public methods
@@ -71,18 +71,14 @@
 {
     [super setFrame:frame];
 
-    [self.context runBlock:^(RZXGLContext *context){
-        [self updateBuffersWithSize:frame.size];
-    }];
+    [self updateBuffersWithSize:frame.size];
 }
 
 - (void)setBounds:(CGRect)bounds
 {
     [super setBounds:bounds];
 
-    [self.context runBlock:^(RZXGLContext *context){
-        [self updateBuffersWithSize:bounds.size];
-    }];
+    [self updateBuffersWithSize:bounds.size];
 }
 
 - (void)setPaused:(BOOL)paused
@@ -110,31 +106,59 @@
     // empty implementation
 }
 
+- (RZXGPUObjectTeardownBlock)teardownHandler
+{
+    GLuint fbo = _fbo;
+    GLuint crb = _crb;
+    GLuint drb = _drb;
+
+    GLuint msFbo = _msFbo;
+    GLuint msCrb = _msCrb;
+    GLuint msDrb = _msDrb;
+
+    return ^(RZXGLContext *context) {
+        glDeleteFramebuffers(1, &fbo);
+        glDeleteRenderbuffers(1, &crb);
+        glDeleteRenderbuffers(1, &drb);
+
+        glDeleteFramebuffers(1, &msFbo);
+        glDeleteFramebuffers(1, &msCrb);
+        glDeleteFramebuffers(1, &msDrb);
+    };
+}
+
 - (void)setupGL
 {
-    [self.context runBlock:^(RZXGLContext *context) {
-        [self teardownGL];
+    [self updateBuffersWithSize:self.bounds.size];
 
-        self.renderLoop = [RZXRenderLoop renderLoop];
-        [self.renderLoop setUpdateTarget:self];
-        [self.renderLoop setRenderTarget:self];
+    self.renderLoop = [RZXRenderLoop renderLoop];
+    [self.renderLoop setUpdateTarget:self];
+    [self.renderLoop setRenderTarget:self];
 
-        if ( self.superview != nil && !self.isPaused ) {
-            [self.renderLoop run];
-        }
-
-        [self updateBuffersWithSize:self.bounds.size];
-    }];
+    if ( self.superview != nil && !self.isPaused ) {
+        [self.renderLoop run];
+    }
 }
 
 - (void)teardownGL
 {
-    [self.context runBlock:^(RZXGLContext *context){
+    if ( self.teardownHandler != nil ) {
         [self.renderLoop stop];
         self.renderLoop = nil;
+        
+        [self.context runBlock:self.teardownHandler wait:NO];
+    }
 
-        [self destroyBuffers];
-    }];
+    _fbo = 0;
+    _crb = 0;
+    _drb = 0;
+
+    _msFbo = 0;
+    _msCrb = 0;
+    _msDrb = 0;
+
+    _backingWidth = 0;
+    _backingHeight = 0;
 }
 
 - (void)display
@@ -240,7 +264,7 @@
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, _backingWidth, _backingHeight);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _drb);
 
-    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+    if ( glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE ) {
         NSLog(@"Failed to make complete framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
     }
 
@@ -260,7 +284,7 @@
         glRenderbufferStorageMultisample(GL_RENDERBUFFER, self.multisampleLevel, GL_DEPTH_COMPONENT16, _backingWidth, _backingHeight);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _msDrb);
      
-        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+        if ( glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE ) {
             NSLog(@"Failed to make complete multisample framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
         }
     }
@@ -276,21 +300,20 @@
         glDeleteRenderbuffers(1, &_drb);
     }
 
-    _fbo = 0;
-    _crb = 0;
-    _drb = 0;
-
-    
     if ( _msFbo != 0 ) {
         glDeleteFramebuffers(1, &_msFbo);
         glDeleteFramebuffers(1, &_msCrb);
         glDeleteFramebuffers(1, &_msDrb);
     }
-    
+
+    _fbo = 0;
+    _crb = 0;
+    _drb = 0;
+
     _msFbo = 0;
     _msCrb = 0;
     _msDrb = 0;
-    
+
     _backingWidth = 0;
     _backingHeight = 0;
 }

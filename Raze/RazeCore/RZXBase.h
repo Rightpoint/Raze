@@ -64,12 +64,18 @@ __unused __typeof(_rzdb_keypath_obj.keypath) _rzdb_keypath_prop; \
  */
 #define RZX_KP_SELF(keypath) RZX_KP_OBJ(self, keypath)
 
+
+/**
+ *  Function to flush (and print in DEBUG mode) the current OpenGL error.
+ */
 CF_INLINE GLenum RZXGLError()
 {
-    GLenum errCode;
+    GLenum errCode = glGetError();
+
+#if DEBUG
     const GLchar *errString = NULL;
 
-    switch( errCode = glGetError() ) {
+    switch( errCode ) {
         case GL_NO_ERROR:
             break;
 
@@ -93,7 +99,6 @@ CF_INLINE GLenum RZXGLError()
             errString = "UNKNOWN GL ERROR";
     }
 
-#if DEBUG
     if ( errString != NULL ) {
         fprintf(stderr, "GL Error: %s\n", errString);
     }
