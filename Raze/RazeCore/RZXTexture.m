@@ -14,9 +14,18 @@ NSString* const kRZXTextureTWrapKey     = @"RZXTextureTWrap";
 
 @implementation RZXTexture
 
-@synthesize size = _size;
-
 #pragma mark - public methods
+
+- (CGSize)size
+{
+    if ( self.configuredContext == nil ) {
+        [[RZXGLContext defaultContext] runBlock:^(RZXGLContext *context) {
+            [self setupGL];
+        }];
+    }
+
+    return _size;
+}
 
 - (void)applyOptions:(NSDictionary *)options
 {

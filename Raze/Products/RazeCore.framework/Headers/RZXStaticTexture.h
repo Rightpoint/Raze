@@ -11,6 +11,7 @@
 
 @property (copy, nonatomic, readonly) NSString *fileName;
 
-+ (instancetype)textureWithFileName:(NSString *)fileName useMipMapping:(BOOL)useMipMapping useCache:(BOOL)useCache;
++ (instancetype)textureFromFile:(NSString *)fileName usingCache:(BOOL)useCache;
++ (instancetype)mipmappedTextureFromFile:(NSString *)fileName usingCache:(BOOL)useCache;
 
 @end
