@@ -115,23 +115,24 @@
     return [self.currentEffect uniformLoc:uniformName];
 }
 
-#pragma mark - RZXOpenGLObject
+#pragma mark - RZXGPUObject overrides
 
-- (void)rzx_setupGL
+- (BOOL)setupGL
 {
-    [self.firstEffect rzx_setupGL];
-    [self.secondEffect rzx_setupGL];
+    return ([self.firstEffect setupGL] && [self.secondEffect setupGL]);
 }
 
-- (void)rzx_bindGL
+- (BOOL)bindGL
 {
-    [self.currentEffect rzx_bindGL];
+    return [self.currentEffect bindGL];
 }
 
-- (void)rzx_teardownGL
+- (void)teardownGL
 {
-    [self.firstEffect rzx_teardownGL];
-    [self.secondEffect rzx_teardownGL];
+    [super teardownGL];
+
+    [self.firstEffect teardownGL];
+    [self.secondEffect teardownGL];
 }
 
 @end

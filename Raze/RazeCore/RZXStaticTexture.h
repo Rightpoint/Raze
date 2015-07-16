@@ -13,6 +13,4 @@
 
 + (instancetype)textureWithFileName:(NSString *)fileName useMipMapping:(BOOL)useMipMapping useCache:(BOOL)useCache;
 
-+ (void)deleteAllTexturesFromCache;
-
 @end

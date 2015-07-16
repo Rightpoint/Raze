@@ -5,7 +5,6 @@
 //  Created by Rob Visentin on 6/29/15.
 //
 
-#import <OpenGLES/ES2/glext.h>
 #import <RazeCore/RZXGLContext.h>
 #import <RazeCore/RZXDynamicTexture.h>
 
@@ -46,41 +45,53 @@
     }
 }
 
-#pragma mark - RZXOpenGLObject
+#pragma mark - RZXGPUObject overrides
 
-- (void)rzx_setupGL
+- (RZXGPUObjectTeardownBlock)teardownHandler
 {
-    RZXGLContext *currentContext = [RZXGLContext currentContext];
-
-    if ( currentContext != nil ) {
-        [self rzx_teardownGL];
-
-        NSDictionary *buffersAttrs = @{(__bridge NSString *)kCVPixelBufferIOSurfacePropertiesKey : [NSDictionary dictionary]};
-
-        CVPixelBufferCreate(NULL, _texWidth, _texHeight, kCVPixelFormatType_32BGRA, (__bridge CFDictionaryRef)(buffersAttrs), &_pixBuffer);
-
-        CVPixelBufferLockBaseAddress(_pixBuffer, 0);
-
-        _tex = [currentContext textureWithPixelBuffer:_pixBuffer];
-
-        _name = CVOpenGLESTextureGetName(_tex);
-
-        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-        _context = CGBitmapContextCreate(CVPixelBufferGetBaseAddress(_pixBuffer), _texWidth, _texHeight, 8, CVPixelBufferGetBytesPerRow(_pixBuffer), colorSpace, (CGBitmapInfo)kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host);
-        CGColorSpaceRelease(colorSpace);
-
-        CGContextScaleCTM(_context, _scale, _scale);
-
-        CVPixelBufferUnlockBaseAddress(_pixBuffer, 0);
-    }
-    else {
-        NSLog(@"Failed to setup %@: No active context!", [self class]);
-    }
+    // OpenGL texture is managed by the context's texture cache, so doesn't need to be freed here
+    return nil;
 }
 
-- (void)rzx_teardownGL
+- (BOOL)setupGL
 {
-    // explicity not calling super
+    BOOL setup = [super setupGL];
+
+    if ( setup ) {
+        NSDictionary *buffersAttrs = @{(__bridge NSString *)kCVPixelBufferIOSurfacePropertiesKey : [NSDictionary dictionary]};
+
+        CVReturn bufferStatus = CVPixelBufferCreate(NULL, _texWidth, _texHeight, kCVPixelFormatType_32BGRA, (__bridge CFDictionaryRef)(buffersAttrs), &_pixBuffer);
+
+        if ( bufferStatus == kCVReturnSuccess ) {
+            CVPixelBufferLockBaseAddress(_pixBuffer, 0);
+
+            _tex = [self.configuredContext textureWithPixelBuffer:_pixBuffer];
+
+            _name = CVOpenGLESTextureGetName(_tex);
+
+            CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+            _context = CGBitmapContextCreate(CVPixelBufferGetBaseAddress(_pixBuffer), _texWidth, _texHeight, 8, CVPixelBufferGetBytesPerRow(_pixBuffer), colorSpace, (CGBitmapInfo)kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host);
+            CGColorSpaceRelease(colorSpace);
+
+            CGContextScaleCTM(_context, _scale, _scale);
+            
+            CVPixelBufferUnlockBaseAddress(_pixBuffer, 0);
+        }
+        else {
+            NSLog(@"Failed to setup %@: Unable to create CVPixelBuffer (Error %i)", NSStringFromClass([self class]), (int)bufferStatus);
+        }
+    }
+
+#if DEBUG
+    setup &= !RZXGLError();
+#endif
+
+    return setup;
+}
+
+- (void)teardownGL
+{
+    [super teardownGL];
     
     CGContextRelease(_context);
     CVPixelBufferRelease(_pixBuffer);

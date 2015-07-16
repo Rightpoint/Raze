@@ -5,7 +5,6 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <OpenGLES/ES2/glext.h>
 #import <RazeCore/RZXGLContext.h>
 #import <RazeCore/RZXQuadMesh.h>
 #import <RazeCore/RZXCamera.h>

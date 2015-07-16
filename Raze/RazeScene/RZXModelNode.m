@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <OpenGLES/ES2/glext.h>
 #import <RazeCore/RZXTexture.h>
 #import <RazeCore/RZXMesh.h>
 #import <RazeScene/RZXModelNode.h>
@@ -37,30 +36,24 @@
     [super rzx_render];
 }
 
-#pragma mark - RZXOpenGLObject
+#pragma mark - RZXGPUObject overrides
 
-- (void)rzx_setupGL
+- (BOOL)setupGL
 {
-    [super rzx_setupGL];
-
-    [self.texture rzx_setupGL];
-    [self.mesh rzx_setupGL];
+    return ([super setupGL] && [self.texture setupGL] && [self.mesh setupGL]);
 }
 
-- (void)rzx_bindGL
+- (BOOL)bindGL
 {
-    [super rzx_bindGL];
-
-    [self.texture rzx_bindGL];
-    [self.mesh rzx_bindGL];
+    return ([super bindGL] && [self.texture bindGL] && [self.mesh bindGL]);
 }
 
-- (void)rzx_teardownGL
+- (void)teardownGL
 {
-    [super rzx_teardownGL];
+    [super teardownGL];
 
-    [self.texture rzx_teardownGL];
-    [self.mesh rzx_teardownGL];
+    [self.texture teardownGL];
+    [self.mesh teardownGL];
 }
 
 @end

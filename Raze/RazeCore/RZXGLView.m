@@ -57,9 +57,7 @@
 
 - (void)dealloc
 {
-    [self.context runBlock:^(RZXGLContext *context) {
-        [self rzx_teardownGL];
-    }];
+#warning TODO: teardown GL properly
 }
 
 #pragma mark - public methods
@@ -107,18 +105,36 @@
     self.renderLoop.preferredFPS = framesPerSecond;
 }
 
-- (void)setModel:(id<RZXRenderable>)model
-{
-    [self.context runBlock:^(RZXGLContext *context) {
-        [self->_model rzx_teardownGL];
-        self->_model = model;
-        [self->_model rzx_setupGL];
-    }];
-}
-
 - (void)setNeedsDisplay
 {
     // empty implementation
+}
+
+- (void)setupGL
+{
+    [self.context runBlock:^(RZXGLContext *context) {
+        [self teardownGL];
+
+        self.renderLoop = [RZXRenderLoop renderLoop];
+        [self.renderLoop setUpdateTarget:self];
+        [self.renderLoop setRenderTarget:self];
+
+        if ( self.superview != nil && !self.isPaused ) {
+            [self.renderLoop run];
+        }
+
+        [self updateBuffersWithSize:self.bounds.size];
+    }];
+}
+
+- (void)teardownGL
+{
+    [self.context runBlock:^(RZXGLContext *context){
+        [self.renderLoop stop];
+        self.renderLoop = nil;
+
+        [self destroyBuffers];
+    }];
 }
 
 - (void)display
@@ -129,8 +145,6 @@
         context.clearColor = self.backgroundColor.CGColor;
         context.viewport = CGRectMake(0.0f, 0.0f, self->_backingWidth, self->_backingHeight);
         context.depthTestEnabled = YES;
-
-        [self rzx_bindGL];
         
         GLuint targetFbo = self.multisampleLevel > 0 ? _msFbo : _fbo;
         glBindFramebuffer(GL_FRAMEBUFFER, targetFbo);
@@ -144,7 +158,7 @@
             glBindFramebuffer(GL_READ_FRAMEBUFFER, _msFbo);
             
             //TODO: distinguish between openGL 2.0 and 3.0 calls here. For 2.0 glBlitFrameBuffer is replaced by appleResolveMultiSample
-            glBlitFramebuffer(0, 0, _backingWidth, _backingHeight, 0, 0, _backingWidth, _backingHeight, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+            glBlitFramebuffer(0, 0, _backingWidth, _backingHeight, 0, 0, _backingWidth, _backingHeight, GL_COLOR_BUFFER_BIT, GL_LINEAR);
             glInvalidateFramebuffer(GL_DRAW_FRAMEBUFFER, 1, &s_GLDiscards[1]);
             glInvalidateFramebuffer(GL_READ_FRAMEBUFFER, 1, s_GLDiscards);
         }
@@ -154,7 +168,7 @@
         glBindRenderbuffer(GL_RENDERBUFFER, self->_crb);
         [context presentRenderbuffer:GL_RENDERBUFFER];
 
-        glInvalidateFramebuffer(GL_RENDERBUFFER, 1, &s_GLDiscards[1]);
+        glInvalidateFramebuffer(GL_FRAMEBUFFER, 1, &s_GLDiscards[1]);
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glBindRenderbuffer(GL_RENDERBUFFER, 0);
@@ -169,39 +183,6 @@
 }
 
 #pragma mark - RZXRenderable
-
-- (void)rzx_setupGL
-{
-    [self.context runBlock:^(RZXGLContext *context){
-        [self rzx_teardownGL];
-
-        self.renderLoop = [RZXRenderLoop renderLoop];
-        [self.renderLoop setUpdateTarget:self];
-        [self.renderLoop setRenderTarget:self];
-
-        if ( self.superview != nil && !self.isPaused ) {
-            [self.renderLoop run];
-        }
-
-        [self updateBuffersWithSize:self.bounds.size];
-    }];
-}
-
-- (void)rzx_bindGL
-{
-    [self.model rzx_bindGL];
-}
-
-- (void)rzx_teardownGL
-{
-    [self.context runBlock:^(RZXGLContext *context){
-        [self.renderLoop stop];
-        self.renderLoop = nil;
-
-        [self destroyBuffers];
-        [self.model rzx_teardownGL];
-    }];
-}
 
 - (void)rzx_render
 {
@@ -224,7 +205,7 @@
 
     self.context = [RZXGLContext defaultContext];
 
-    [self rzx_setupGL];
+    [self setupGL];
 }
 
 - (void)updateBuffersWithSize:(CGSize)size

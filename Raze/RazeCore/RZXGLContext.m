@@ -5,7 +5,6 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <OpenGLES/ES2/glext.h>
 #import <OpenGLES/EAGL.h>
 #import <objc/runtime.h>
 #import <RazeCore/RZXCache.h>
@@ -280,7 +279,7 @@ static GLuint RZXCompileShader(const GLchar *source, GLenum type)
 {
     if ( vao != _currentVAO ) {
         [self runBlock:^(RZXGLContext *context) {
-            glBindVertexArrayOES(vao);
+            glBindVertexArray(vao);
         }];
 
         _currentVAO = vao;

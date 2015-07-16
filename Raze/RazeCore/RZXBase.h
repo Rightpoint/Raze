@@ -11,12 +11,14 @@
 #import <TargetConditionals.h>
 
 #import <OpenGLES/gltypes.h>
-#import <RazeCore/RZXRenderable.h>
+#import <GLKit/GLKMath.h>
 
 #if TARGET_OS_IPHONE
+#import <OpenGLES/ES3/glext.h>
 #define RZXColor UIColor
 #define RZXFont  UIFont
 #else
+#include <OpenGL/gl3ext.h>
 #define RZXColor NSColor
 #define RZXFont  NSFont
 #endif
@@ -61,5 +63,43 @@ __unused __typeof(_rzdb_keypath_obj.keypath) _rzdb_keypath_prop; \
  *  is to define a weak reference to self outside the block, and then use RZX_KP_OBJ(weakSelf, keypath).
  */
 #define RZX_KP_SELF(keypath) RZX_KP_OBJ(self, keypath)
+
+CF_INLINE GLenum RZXGLError()
+{
+    GLenum errCode;
+    const GLchar *errString = NULL;
+
+    switch( errCode = glGetError() ) {
+        case GL_NO_ERROR:
+            break;
+
+        case GL_INVALID_ENUM:
+            errString = "GL_INVALID_ENUM";
+            break;
+
+        case GL_INVALID_VALUE:
+            errString = "GL_INVALID_VALUE";
+            break;
+
+        case GL_INVALID_OPERATION:
+            errString = "GL_INVALID_OPERATION";
+            break;
+
+        case GL_INVALID_FRAMEBUFFER_OPERATION:
+            errString = "GL_INVALID_FRAMEBUFFER_OPERATION";
+            break;
+
+        default:
+            errString = "UNKNOWN GL ERROR";
+    }
+
+#if DEBUG
+    if ( errString != NULL ) {
+        fprintf(stderr, "GL Error: %s\n", errString);
+    }
+#endif
+    
+    return errCode;
+}
 
 #endif

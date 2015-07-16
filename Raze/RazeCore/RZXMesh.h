@@ -6,13 +6,15 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <GLKit/GLKMathTypes.h>
+#import <RazeCore/RZXGPUObject.h>
 #import <RazeCore/RZXRenderable.h>
 
-@interface RZXMesh : NSObject <RZXRenderable>
+OBJC_EXTERN NSString* const kRZXMeshFileExtension;
+
+@interface RZXMesh : RZXGPUObject <RZXRenderable>
 
 @property (nonatomic, readonly) GLKVector3 bounds;
 
-+ (instancetype)meshWithName:(NSString *)name meshFileName:(NSString *)meshFileName;
++ (instancetype)meshWithName:(NSString *)name usingCache:(BOOL)useCache;
 
 @end

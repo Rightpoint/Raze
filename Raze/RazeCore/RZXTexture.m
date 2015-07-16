@@ -4,10 +4,7 @@
 //
 //  Created by Rob Visentin on 6/29/15.
 //
-//
 
-#import <OpenGLES/ES2/gl.h>
-#import <RazeCore/RZXGLContext.h>
 #import <RazeCore/RZXTexture.h>
 
 NSString* const kRZXTextureMinFilterKey = @"RZXTextureMinFilter";
@@ -25,7 +22,7 @@ NSString* const kRZXTextureTWrapKey     = @"RZXTextureTWrap";
 {
     if ( options.count && [RZXGLContext currentContext] != nil ) {
         if ( _name ) {
-            [self rzx_bindGL];
+            [self bindGL];
 
             if ( options[kRZXTextureMinFilterKey] != nil ) {
                 GLint minFilter = [[options objectForKey:kRZXTextureMinFilterKey] intValue];
@@ -53,25 +50,43 @@ NSString* const kRZXTextureTWrapKey     = @"RZXTextureTWrap";
     }
 }
 
-#pragma mark - RZXOpenGLObject
+#pragma mark - RZXGPUObject overrides
 
-- (void)rzx_setupGL
+- (RZXGPUObjectTeardownBlock)teardownHandler
 {
-    // subclass override
-}
+    RZXGPUObjectTeardownBlock teardown = nil;
 
-- (void)rzx_bindGL
-{
-    [RZXGLContext currentContext].activeTexture = GL_TEXTURE0;
-    glBindTexture(GL_TEXTURE_2D, _name);
-}
-
-- (void)rzx_teardownGL
-{
-    if ( _name ) {
-        glDeleteTextures(1, &_name);
-        _name = 0;
+    if ( _name != 0 ) {
+        GLuint name = _name;
+        teardown = ^(RZXGLContext *context) {
+            glDeleteTextures(1, &name);
+        };
     }
+
+    return teardown;
+}
+
+- (BOOL)bindGL
+{
+    BOOL bound = [super bindGL];
+
+    if ( bound ) {
+        self.configuredContext.activeTexture = GL_TEXTURE0;
+        glBindTexture(GL_TEXTURE_2D, _name);
+    }
+
+#if DEBUG
+    bound &= !RZXGLError();
+#endif
+
+    return bound;
+}
+
+- (void)teardownGL
+{
+    [super teardownGL];
+
+    _name = 0;
 }
 
 @end

@@ -5,9 +5,7 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <OpenGLES/ES2/gl.h>
 #import <RazeCore/RZXEffect.h>
-#import <RazeCore/RZXGLContext.h>
 
 @interface RZXEffect ()
 
@@ -91,7 +89,7 @@
 
 - (BOOL)prepareToDraw
 {
-    [self rzx_bindGL];
+    [self bindGL];
     
     if ( self.mvpUniform != nil ) {
         GLKMatrix4 mvpMatrix = GLKMatrix4Multiply(_projectionMatrix, _modelViewMatrix);
@@ -238,41 +236,65 @@
     }];
 }
 
-#pragma mark - RZXOpenGLObject
+#pragma mark - RZXGPUObject overrides
 
-- (void)rzx_setupGL
+- (RZXGPUObjectTeardownBlock)teardownHandler
 {
-    RZXGLContext *currentContext = [RZXGLContext currentContext];
+    RZXGPUObjectTeardownBlock teardown = nil;
+    GLuint name = _name;
 
-    if ( currentContext != nil ) {
-        [self rzx_teardownGL];
-        
-        GLuint vs = [currentContext vertexShaderWithSource:self.vshSrc];
-        GLuint fs = [currentContext fragmentShaderWithSource:self.fshSrc];
-        
+    if ( name != 0 ) {
+        teardown = ^(RZXGLContext *context) {
+            glDeleteProgram(name);
+        };
+    }
+
+    return teardown;
+}
+
+- (BOOL)setupGL
+{
+    BOOL setup = [super setupGL];
+
+    if ( setup ) {
+        GLuint vs = [self.configuredContext vertexShaderWithSource:self.vshSrc];
+        GLuint fs = [self.configuredContext fragmentShaderWithSource:self.fshSrc];
+
         _name = glCreateProgram();
-        
+
         glAttachShader(_name, vs);
         glAttachShader(_name, fs);
 
-        [self link];
+        setup = [self link];
     }
-    else {
-        NSLog(@"Failed to setup %@: No active RZXGLContext.", NSStringFromClass([self class]));
-    }
+
+#if DEBUG
+    setup &= !RZXGLError();
+#endif
+
+    return setup;
 }
 
-- (void)rzx_bindGL
+- (BOOL)bindGL
 {
-    [[RZXGLContext currentContext] useProgram:_name];
+    BOOL bound = [super bindGL];
+
+    if ( bound ) {
+        [self.configuredContext useProgram:_name];
+    }
+
+#if DEBUG
+    bound &= !RZXGLError();
+#endif
+
+    return bound;
 }
 
-- (void)rzx_teardownGL
+- (void)teardownGL
 {
-    if ( _name != 0 ) {
-        glDeleteProgram(_name);
-        _name = 0;
-    }
+    [super teardownGL];
+
+    _name = 0;
 }
 
 #pragma mark - private methods

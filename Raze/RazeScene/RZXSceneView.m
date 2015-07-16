@@ -6,9 +6,8 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import "RZXSceneView.h"
+#import <RazeScene/RZXSceneView.h>
 #import <RazeScene/RazeScene.h>
-#import <OpenGLES/ES2/glext.h>
 
 @implementation RZXSceneView
 

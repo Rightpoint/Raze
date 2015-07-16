@@ -36,6 +36,9 @@
 
 @property (strong, nonatomic) id<RZXRenderable> model;
 
+- (void)setupGL;
+- (void)teardownGL;
+
 - (void)display;
 
 @end

@@ -6,9 +6,7 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <OpenGLES/ES2/glext.h>
-#import "RZXQuadMesh.h"
-#import "RZXGLContext.h"
+#import <RazeCore/RZXQuadMesh.h>
 
 typedef struct _RZXBufferSet {
     GLuint vbo, ibo;
@@ -27,12 +25,7 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
 @implementation RZXQuadMesh {
     GLuint _vao;
     RZXBufferSet _bufferSet;
-
-    GLuint _vertexCount;
     GLuint _indexCount;
-
-    GLvoid *_vertexData;
-    GLvoid *_indexData;
 }
 
 #pragma mark - lifecycle
@@ -48,13 +41,6 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
     return [[self alloc] initWithSubdivisionLevel:subdivisons];
 }
 
-- (void)dealloc
-{
-    // TODO: ideally this memory would only live in the GPU
-    free(_vertexData);
-    free(_indexData);
-}
-
 #pragma mark - getters
 
 - (GLKVector3)bounds
@@ -62,25 +48,43 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
     return (GLKVector3){2.0f, 2.0f, 0.0f};
 }
 
-#pragma mark - RZXOpenGLObject
+#pragma mark - RZXGPUObject overrides
 
-- (void)rzx_setupGL
+- (RZXGPUObjectTeardownBlock)teardownHandler
 {
-    RZXGLContext *currentContext = [RZXGLContext currentContext];
+    RZXGPUObjectTeardownBlock teardown = nil;
 
-    if ( currentContext != nil ) {
-        [self rzx_teardownGL];
-        
-        glGenVertexArraysOES(1, &_vao);
+    if ( _vao != 0 ) {
+        GLuint vao = _vao;
+        RZXBufferSet bufferSet = _bufferSet;
+        teardown = ^(RZXGLContext *context) {
+            glDeleteVertexArrays(1, &vao);
+            glDeleteBuffers(2, &bufferSet.vbo);
+        };
+    }
+
+    return teardown;
+}
+
+- (BOOL)setupGL
+{
+    BOOL setup = [super setupGL];
+
+    if ( setup ) {
+        GLvoid *vertexData, *indexData;
+        GLuint vertexCount;
+        RZXGenerateQuadMesh(self.subdivisions, &vertexData, &vertexCount, &indexData, &_indexCount);
+
+        glGenVertexArrays(1, &_vao);
         glGenBuffers(2, &_bufferSet.vbo);
         
-        [currentContext bindVertexArray:_vao];
+        [self.configuredContext bindVertexArray:_vao];
         
         glBindBuffer(GL_ARRAY_BUFFER, _bufferSet.vbo);
-        glBufferData(GL_ARRAY_BUFFER, 5 * _vertexCount * sizeof(GLfloat), _vertexData, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, 5 * vertexCount * sizeof(GLfloat), vertexData, GL_STATIC_DRAW);
         
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _bufferSet.ibo);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indexCount * sizeof(GLushort), _indexData, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indexCount * sizeof(GLushort), indexData, GL_STATIC_DRAW);
         
         glEnableVertexAttribArray(kRZXVertexAttribPosition);
         glVertexAttribPointer(kRZXVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
@@ -89,29 +93,47 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
         glVertexAttribPointer(kRZXVertexAttribTexCoord, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)12);
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+        free(vertexData);
+        free(indexData);
     }
-    else {
-        NSLog(@"Failed to setup %@: No active context!", NSStringFromClass([self class]));
-    }
+
+#if DEBUG
+    setup &= !RZXGLError();
+#endif
+
+    return setup;
 }
 
-- (void)rzx_bindGL
+- (BOOL)bindGL
 {
-    [[RZXGLContext currentContext] bindVertexArray:_vao];
+    BOOL bound = [super bindGL];
+
+    if ( bound ) {
+        [self.configuredContext bindVertexArray:_vao];
+    }
+
+#if DEBUG
+    bound &= !RZXGLError();
+#endif
+
+    return bound;
 }
 
-- (void)rzx_teardownGL
+- (void)teardownGL
 {
-    if ( _vao != 0 ) {
-        glDeleteVertexArraysOES(1, &_vao);
-        glDeleteBuffers(2, &_bufferSet.vbo);
-    }
+    [super teardownGL];
+
+    _vao = 0;
+    _bufferSet.vbo = 0;
+    _bufferSet.ibo = 0;
 }
 
 #pragma mark - RZXRenderable
 
 - (void)rzx_render
 {
+    [self bindGL];
     glDrawElements(GL_TRIANGLES, _indexCount, GL_UNSIGNED_SHORT, NULL);
 }
 
@@ -122,8 +144,6 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
     self = [self init];
     if ( self ) {
         subdivisions = MAX(0, MIN(subdivisions, kRZXQuadMeshMaxSubdivisions));
-        RZXGenerateQuadMesh(subdivisions, &_vertexData, &_vertexCount, &_indexData, &_indexCount);
-        
         _subdivisions = subdivisions;
     }
     return self;

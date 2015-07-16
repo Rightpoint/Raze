@@ -33,7 +33,7 @@
 
     RZXScene *scene = [RZXScene sceneWithEffect: effect];
 
-    RZXMesh *mesh = [RZXMesh meshWithName:@"secondMesh" meshFileName:@"cube.mesh"];
+    RZXMesh *mesh = [RZXMesh meshWithName:@"cube" usingCache:YES];
     RZXStaticTexture *texture = [RZXStaticTexture textureWithFileName:@"gridTexture.png" useMipMapping:YES useCache:YES];
     
     RZXModelNode *modelNode = [RZXModelNode modelNodeWithMesh:mesh texture:texture];

@@ -5,7 +5,6 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <OpenGLES/ES2/gl.h>
 #import <RazeEffects/RZXBlurEffect.h>
 #import <RazeEffects/RZXCompositeEffect.h>
 
@@ -185,23 +184,24 @@ void RZXGetGaussianBlurOffsets(GLfloat **offsets, GLint *n, const GLfloat *weigh
     return -1;
 }
 
-#pragma mark - RZXOpenGLObject
+#pragma mark - RZXGPUObject overrides
 
-- (void)rzx_setupGL
+- (BOOL)setupGL
 {
-    [self.horizontal rzx_setupGL];
-    [self.vertical rzx_setupGL];
+    return ([self.horizontal setupGL] && [self.vertical setupGL]);
 }
 
-- (void)rzx_bindGL
+- (BOOL)bindGL
 {
-    [self.currentBlur rzx_bindGL];
+    return [self.currentBlur bindGL];
 }
 
-- (void)rzx_teardownGL
+- (void)teardownGL
 {
-    [self.horizontal rzx_teardownGL];
-    [self.vertical rzx_teardownGL];
+    [super teardownGL];
+
+    [self.horizontal teardownGL];
+    [self.vertical teardownGL];
 }
 
 #pragma mark - private methods
@@ -270,18 +270,6 @@ void RZXGetGaussianBlurOffsets(GLfloat **offsets, GLint *n, const GLfloat *weigh
 {
     free(_blurProperties.weights);
     free(_blurProperties.offsets);
-}
-
-#pragma mark - RZXOpenGLObject
-
-- (void)rzx_setupGL
-{
-    // empty implementation
-}
-
-- (void)rzx_teardownGL
-{
-    // empty implementation
 }
 
 #pragma mark - private methods

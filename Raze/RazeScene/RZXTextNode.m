@@ -1,14 +1,11 @@
 //
 //  RZXTextNode.m
-//  Raze
+//  RazeScene
 //
 //  Created by Rob Visentin on 6/29/15.
 //
-//
 
-#import <OpenGLES/ES2/gl.h>
 #import <RazeCore/RZXDynamicTexture.h>
-#import <RazeCore/RZXGLContext.h>
 #import <RazeCore/RZXTransform3D.h>
 #import <RazeCore/RZXQuadMesh.h>
 #import <RazeScene/RZXTextNode.h>
@@ -177,7 +174,7 @@
             textRect.size.height = ceil(textRect.size.height);
 
             _textTexture = [RZXDynamicTexture textureWithSize:textRect.size scale:[UIScreen mainScreen].scale];
-            [_textTexture rzx_setupGL];
+            [_textTexture setupGL];
 
             [_textTexture applyOptions:@{ kRZXTextureMinFilterKey : @(GL_LINEAR),
                                           kRZXTextureSWrapKey : @(GL_CLAMP_TO_EDGE),

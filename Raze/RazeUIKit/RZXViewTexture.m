@@ -5,7 +5,6 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <OpenGLES/ES2/gl.h>
 #import <RazeUIKit/RZXViewTexture.h>
 
 @implementation RZXViewTexture
