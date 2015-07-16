@@ -23,7 +23,19 @@
 - (void)setScene:(RZXScene *)scene
 {
     _scene = scene;
+
+    [_context runBlock:^(RZXGLContext *context) {
+        [scene setupGL];
+    }];
+
     self.model = scene;
+}
+
+- (void)setupGL
+{
+    [super setupGL];
+
+    [self.scene setupGL];
 }
 
 #pragma mark - drawing

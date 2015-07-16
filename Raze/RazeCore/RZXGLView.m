@@ -142,10 +142,10 @@
 
 - (void)teardownGL
 {
+    [self.renderLoop invalidate];
+    self.renderLoop = nil;
+    
     if ( self.teardownHandler != nil ) {
-        [self.renderLoop stop];
-        self.renderLoop = nil;
-        
         [self.context runBlock:self.teardownHandler wait:NO];
     }
 
