@@ -35,6 +35,16 @@
     return ([super setupGL] && [self assignIdentifer]);
 }
 
+- (void)teardownGL
+{
+    if ( self.usingCache ) {
+        RZXCache *cache = [self.configuredContext cacheForClass:[RZXStaticTexture class]];
+        [cache releaseObjectForKey:self.fileName];
+    }
+
+    [super teardownGL];
+}
+
 #pragma mark - private methods
 
 - (instancetype)initWithFileName:(NSString *)fileName useMipMapping:(BOOL)useMipMapping useCache:(BOOL)useCache

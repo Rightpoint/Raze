@@ -6,6 +6,9 @@
 //
 
 #import <RazeCore/RZXEffect.h>
+#import <RazeCore/RZXCache.h>
+
+GLuint RZXCompileShader(const GLchar *source, GLenum type);
 
 @interface RZXEffect ()
 
@@ -257,8 +260,21 @@
     BOOL setup = [super setupGL];
 
     if ( setup ) {
-        GLuint vs = [self.configuredContext vertexShaderWithSource:self.vshSrc];
-        GLuint fs = [self.configuredContext fragmentShaderWithSource:self.fshSrc];
+        RZXCache *cache = [self.configuredContext cacheForClass:[RZXEffect class]];
+
+        GLuint vs = [[cache objectForKey:self.vshSrc] unsignedIntValue];
+
+        if ( vs == 0 ) {
+            vs = RZXCompileShader(self.vshSrc.UTF8String, GL_VERTEX_SHADER);
+            [cache cacheObject:@(vs) forKey:self.vshSrc];
+        }
+
+        GLuint fs = [[cache objectForKey:self.fshSrc] unsignedIntValue];
+
+        if ( fs == 0 ) {
+            fs = RZXCompileShader(self.fshSrc.UTF8String, GL_FRAGMENT_SHADER);
+            [cache cacheObject:@(fs) forKey:self.fshSrc];
+        }
 
         _name = glCreateProgram();
 
@@ -292,9 +308,14 @@
 
 - (void)teardownGL
 {
+    RZXCache *cache = [self.configuredContext cacheForClass:[RZXEffect class]];
+    [cache releaseObjectForKey:self.vshSrc];
+    [cache releaseObjectForKey:self.fshSrc];
+    
+    _name = 0;
+
     [super teardownGL];
 
-    _name = 0;
 }
 
 #pragma mark - private methods
@@ -346,3 +367,32 @@
 }
 
 @end
+
+GLuint RZXCompileShader(const GLchar *source, GLenum type)
+{
+    GLuint shader = glCreateShader(type);
+    GLint length = (GLuint)strlen(source);
+
+    glShaderSource(shader, 1, &source, &length);
+    glCompileShader(shader);
+
+#if DEBUG
+    GLint success;
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+
+    if ( success != GL_TRUE ) {
+        GLint length;
+        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
+
+        GLchar *logText = malloc(length + 1);
+        logText[length] = '\0';
+        glGetShaderInfoLog(shader, length, NULL, logText);
+
+        fprintf(stderr, "Error compiling shader: %s\n", logText);
+
+        free(logText);
+    }
+#endif
+    
+    return shader;
+}

@@ -10,41 +10,10 @@
 #import <RazeCore/RZXCache.h>
 #import <RazeCore/RZXGLContext.h>
 
-static GLuint RZXCompileShader(const GLchar *source, GLenum type)
-{
-    GLuint shader = glCreateShader(type);
-    GLint length = (GLuint)strlen(source);
-
-    glShaderSource(shader, 1, &source, &length);
-    glCompileShader(shader);
-
-#if DEBUG
-    GLint success;
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-
-    if ( success != GL_TRUE ) {
-        GLint length;
-        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
-
-        GLchar *logText = malloc(length + 1);
-        logText[length] = '\0';
-        glGetShaderInfoLog(shader, length, NULL, logText);
-
-        fprintf(stderr, "Error compiling shader: %s\n", logText);
-
-        free(logText);
-    }
-#endif
-
-    return shader;
-}
-
 @interface RZXGLContext ()
 
 @property (strong, nonatomic, readonly) dispatch_queue_t contextQueue;
 @property (strong, nonatomic, readonly) EAGLContext *glContext;
-
-@property (strong, nonatomic, readonly) NSMutableDictionary *compiledShaders;
 
 @property (assign, nonatomic, readonly) CVOpenGLESTextureCacheRef textureCache;
 
@@ -92,8 +61,6 @@ static GLuint RZXCompileShader(const GLchar *source, GLenum type)
         if ( _glContext != nil ) {
             objc_setAssociatedObject(_glContext, @selector(currentContext), self, OBJC_ASSOCIATION_ASSIGN);
         }
-
-        _compiledShaders = [NSMutableDictionary dictionary];
 
         _cache = [[RZXCache alloc] init];
 
@@ -295,40 +262,6 @@ static GLuint RZXCompileShader(const GLchar *source, GLenum type)
 
         _currentProgram = program;
     }
-}
-
-- (GLuint)vertexShaderWithSource:(NSString *)vshSrc
-{
-    __block GLuint vsh;
-
-    if ( self.compiledShaders[vshSrc] != nil ) {
-        vsh = [self.compiledShaders[vshSrc] unsignedIntValue];
-    }
-    else {
-        [self runBlock:^(RZXGLContext *context) {
-            vsh = RZXCompileShader([vshSrc UTF8String], GL_VERTEX_SHADER);
-            self.compiledShaders[vshSrc] = @(vsh);
-        }];
-    }
-
-    return vsh;
-}
-
-- (GLuint)fragmentShaderWithSource:(NSString *)fshSrc
-{
-    __block GLuint fsh;
-
-    if ( self.compiledShaders[fshSrc] != nil ) {
-        fsh = [self.compiledShaders[fshSrc] unsignedIntValue];
-    }
-    else {
-        [self runBlock:^(RZXGLContext *context) {
-            fsh = RZXCompileShader([fshSrc UTF8String], GL_FRAGMENT_SHADER);
-            self.compiledShaders[fshSrc] = @(fsh);
-        }];
-    }
-
-    return fsh;
 }
 
 - (CVOpenGLESTextureRef)textureWithPixelBuffer:(CVPixelBufferRef)pixelBuffer
