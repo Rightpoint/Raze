@@ -7,10 +7,10 @@
 //
 
 #import <RazeCore/RZXMesh.h>
+#import <RazeCore/RZXCache.h>
 
-typedef struct _RZXBufferSet {
-    GLuint vbo, ibo;
-} RZXBufferSet;
+static NSString* const kRZXMeshAttributeVAO = @"RZXQuadMeshName";
+static NSString* const kRZXMeshAttributeIndices = @"RZXQuadMeshIndices";
 
 NSString* const kRZXMeshFileExtension = @"mesh";
 
@@ -21,15 +21,20 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 
 @end
 
-@implementation RZXMesh {
-    GLuint _vao;
-    RZXBufferSet _bufferSet;
-    GLuint _indexCount;
-}
+@implementation RZXMesh
 
 + (instancetype)meshWithName:(NSString *)name usingCache:(BOOL)useCache
 {
-    return [[self alloc] initWithName:name usingCache:useCache];
+    RZXMesh *mesh = [[self alloc] init];
+    mesh.usingCache = useCache;
+    mesh.meshName = [name stringByDeletingPathExtension];
+
+    return mesh;
+}
+
+- (NSString *)cacheKey
+{
+    return self.meshName;
 }
 
 #pragma mark - RZXGPUObject overrides
@@ -54,58 +59,76 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 {
     BOOL setup = [super setupGL];
 
-    if ( setup && self.meshName.length ) {
-        NSString *filePath = [[NSBundle mainBundle] pathForResource:self.meshName ofType:kRZXMeshFileExtension];
+    if ( setup ) {
+        RZXCache *cache = self.usingCache ? [self.configuredContext cacheForClass:[RZXMesh class]] : nil;
 
-        if( filePath.length == 0 ) {
-            NSLog(@"Failed to load mesh data from file named %@. Reason: unable to locate %@", self.meshName, [self.meshName stringByAppendingPathExtension:kRZXMeshFileExtension]);
-            setup = NO;
+        NSString *cacheKey = self.cacheKey;
+        NSDictionary *cachedAttributes = [cache objectForKey:cacheKey];
+
+        if ( cachedAttributes != nil ) {
+            [cache retainObjectForKey:cacheKey];
+            [self applyCachedAttributes:cachedAttributes];
         }
         else {
-            FILE *meshFile = fopen([filePath cStringUsingEncoding:NSASCIIStringEncoding], "r");
+            if ( self.meshName.length ) {
+                NSString *filePath = [[NSBundle mainBundle] pathForResource:self.meshName ofType:kRZXMeshFileExtension];
 
-            fread(&_bounds.x, sizeof(GLfloat), 1, meshFile);
-            fread(&_bounds.y, sizeof(GLfloat), 1, meshFile);
-            fread(&_bounds.z, sizeof(GLfloat), 1, meshFile);
+                if( filePath.length == 0 ) {
+                    NSLog(@"Failed to load mesh data from file named %@. Reason: unable to locate %@", self.meshName, [self.meshName stringByAppendingPathExtension:kRZXMeshFileExtension]);
+                    setup = NO;
+                }
+                else {
+                    FILE *meshFile = fopen([filePath cStringUsingEncoding:NSASCIIStringEncoding], "r");
 
-            fread(&_indexCount, sizeof(GLuint), 1, meshFile);
+                    fread(&_bounds.x, sizeof(GLfloat), 1, meshFile);
+                    fread(&_bounds.y, sizeof(GLfloat), 1, meshFile);
+                    fread(&_bounds.z, sizeof(GLfloat), 1, meshFile);
 
-            GLushort *indexArray = (GLushort *)malloc(_indexCount * sizeof(GLushort));
-            fread(indexArray, 1, _indexCount*sizeof(GLushort), meshFile);
+                    fread(&_indexCount, sizeof(GLuint), 1, meshFile);
 
-            GLuint uniqueVertexCount;
-            fread(&uniqueVertexCount, sizeof(GLuint), 1, meshFile);
+                    GLushort *indexArray = (GLushort *)malloc(_indexCount * sizeof(GLushort));
+                    fread(indexArray, 1, _indexCount*sizeof(GLushort), meshFile);
 
-            GLuint uniqueVertexArraySize = uniqueVertexCount * 8 * sizeof(GLfloat);
-            GLfloat *uniqueVertexArray = (GLfloat *)malloc(uniqueVertexArraySize);
-            fread(uniqueVertexArray, 1, uniqueVertexArraySize, meshFile);
+                    GLuint uniqueVertexCount;
+                    fread(&uniqueVertexCount, sizeof(GLuint), 1, meshFile);
 
-            fclose(meshFile);
+                    GLuint uniqueVertexArraySize = uniqueVertexCount * 8 * sizeof(GLfloat);
+                    GLfloat *uniqueVertexArray = (GLfloat *)malloc(uniqueVertexArraySize);
+                    fread(uniqueVertexArray, 1, uniqueVertexArraySize, meshFile);
 
-            glGenVertexArrays(1, &_vao);
-            [self.configuredContext bindVertexArray:_vao];
+                    fclose(meshFile);
 
-            glGenBuffers(1, &_bufferSet.vbo);
-            glBindBuffer(GL_ARRAY_BUFFER, _bufferSet.vbo);
-            glBufferData(GL_ARRAY_BUFFER, uniqueVertexArraySize, uniqueVertexArray, GL_STATIC_DRAW);
+                    glGenVertexArrays(1, &_vao);
+                    [self.configuredContext bindVertexArray:_vao];
 
-            glGenBuffers(1, &_bufferSet.ibo);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _bufferSet.ibo);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * _indexCount, indexArray, GL_STATIC_DRAW);
+                    glGenBuffers(1, &_bufferSet.vbo);
+                    glBindBuffer(GL_ARRAY_BUFFER, _bufferSet.vbo);
+                    glBufferData(GL_ARRAY_BUFFER, uniqueVertexArraySize, uniqueVertexArray, GL_STATIC_DRAW);
 
-            glEnableVertexAttribArray(kRZXVertexAttribPosition);
-            glVertexAttribPointer(kRZXVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 32, (const GLvoid *)0);
-            glEnableVertexAttribArray(kRZXVertexAttribNormal);
-            glVertexAttribPointer(kRZXVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 32, (const GLvoid *)12);
-            glEnableVertexAttribArray(kRZXVertexAttribTexCoord);
-            glVertexAttribPointer(kRZXVertexAttribTexCoord, 2, GL_FLOAT, GL_FALSE, 32, (const GLvoid *)24);
+                    glGenBuffers(1, &_bufferSet.ibo);
+                    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _bufferSet.ibo);
+                    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * _indexCount, indexArray, GL_STATIC_DRAW);
 
-            glBindBuffer(GL_ARRAY_BUFFER, 0);
+                    glEnableVertexAttribArray(kRZXVertexAttribPosition);
+                    glVertexAttribPointer(kRZXVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 32, (const GLvoid *)0);
+                    glEnableVertexAttribArray(kRZXVertexAttribNormal);
+                    glVertexAttribPointer(kRZXVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 32, (const GLvoid *)12);
+                    glEnableVertexAttribArray(kRZXVertexAttribTexCoord);
+                    glVertexAttribPointer(kRZXVertexAttribTexCoord, 2, GL_FLOAT, GL_FALSE, 32, (const GLvoid *)24);
+                    
+                    glBindBuffer(GL_ARRAY_BUFFER, 0);
+                    
+                    free(indexArray);
+                    free(uniqueVertexArray);
+                }
+            }
+            else if ( _configurationBlock != nil ) {
+                setup = _configurationBlock(self);
+            }
 
-            free(indexArray);
-            free(uniqueVertexArray);
-
-            setup = YES;
+            if ( setup && self.usingCache ) {
+                [cache cacheObject:[self cacheAttributes] forKey:self.cacheKey];
+            }
         }
     }
 
@@ -133,11 +156,16 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 
 - (void)teardownGL
 {
-    [super teardownGL];
+    if ( self.usingCache ) {
+        RZXCache *cache = [self.configuredContext cacheForClass:[RZXMesh class]];
+        [cache releaseObjectForKey:self.cacheKey];
+    }
 
     _vao = 0;
     _bufferSet.vbo = 0;
     _bufferSet.ibo = 0;
+
+    [super teardownGL];
 }
 
 #pragma mark - RZXRenderable
@@ -150,14 +178,23 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 
 #pragma mark - private methods
 
-- (instancetype)initWithName:(NSString *)name usingCache:(BOOL)usingCache
+- (instancetype)init
 {
-    self = [super init];
-    if ( self != nil ) {
-        _meshName = [name stringByDeletingPathExtension];
-        _usingCache = usingCache;
+    if ( (self = [super init]) ) {
+        _usingCache = YES;
     }
     return self;
+}
+
+- (NSDictionary *)cacheAttributes
+{
+    return @{ kRZXMeshAttributeVAO : @(_vao), kRZXMeshAttributeIndices : @(_indexCount) };
+}
+
+- (void)applyCachedAttributes:(NSDictionary *)attributes
+{
+    _vao = [attributes[kRZXMeshAttributeVAO] unsignedIntValue];
+    _indexCount = [attributes[kRZXMeshAttributeIndices] unsignedIntValue];
 }
 
 @end

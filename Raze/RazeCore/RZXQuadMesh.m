@@ -8,10 +8,6 @@
 
 #import <RazeCore/RZXQuadMesh.h>
 
-typedef struct _RZXBufferSet {
-    GLuint vbo, ibo;
-} RZXBufferSet;
-
 NSInteger const kRZXQuadMeshMaxSubdivisions = 8;
 
 void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numVerts, GLvoid **indices, GLuint *numIdxs);
@@ -22,11 +18,7 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
 
 @end
 
-@implementation RZXQuadMesh {
-    GLuint _vao;
-    RZXBufferSet _bufferSet;
-    GLuint _indexCount;
-}
+@implementation RZXQuadMesh
 
 #pragma mark - lifecycle
 
@@ -37,7 +29,6 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
 
 + (instancetype)quadWithSubdivisionLevel:(NSInteger)subdivisons
 {
-    // TODO: caching
     return [[self alloc] initWithSubdivisionLevel:subdivisons];
 }
 
@@ -48,93 +39,9 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
     return (GLKVector3){2.0f, 2.0f, 0.0f};
 }
 
-#pragma mark - RZXGPUObject overrides
-
-- (RZXGPUObjectTeardownBlock)teardownHandler
+- (NSString *)cacheKey
 {
-    RZXGPUObjectTeardownBlock teardown = nil;
-
-    if ( _vao != 0 ) {
-        GLuint vao = _vao;
-        RZXBufferSet bufferSet = _bufferSet;
-        teardown = ^(RZXGLContext *context) {
-            glDeleteVertexArrays(1, &vao);
-            glDeleteBuffers(2, &bufferSet.vbo);
-        };
-    }
-
-    return teardown;
-}
-
-- (BOOL)setupGL
-{
-    BOOL setup = [super setupGL];
-
-    if ( setup ) {
-        GLvoid *vertexData, *indexData;
-        GLuint vertexCount;
-        RZXGenerateQuadMesh(self.subdivisions, &vertexData, &vertexCount, &indexData, &_indexCount);
-
-        glGenVertexArrays(1, &_vao);
-        glGenBuffers(2, &_bufferSet.vbo);
-        
-        [self.configuredContext bindVertexArray:_vao];
-        
-        glBindBuffer(GL_ARRAY_BUFFER, _bufferSet.vbo);
-        glBufferData(GL_ARRAY_BUFFER, 5 * vertexCount * sizeof(GLfloat), vertexData, GL_STATIC_DRAW);
-        
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _bufferSet.ibo);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indexCount * sizeof(GLushort), indexData, GL_STATIC_DRAW);
-        
-        glEnableVertexAttribArray(kRZXVertexAttribPosition);
-        glVertexAttribPointer(kRZXVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
-        
-        glEnableVertexAttribArray(kRZXVertexAttribTexCoord);
-        glVertexAttribPointer(kRZXVertexAttribTexCoord, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)12);
-
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-        free(vertexData);
-        free(indexData);
-    }
-
-#if DEBUG
-    setup &= !RZXGLError();
-#endif
-
-    return setup;
-}
-
-- (BOOL)bindGL
-{
-    BOOL bound = [super bindGL];
-
-    if ( bound ) {
-        [self.configuredContext bindVertexArray:_vao];
-    }
-
-#if DEBUG
-    bound &= !RZXGLError();
-#endif
-
-    return bound;
-}
-
-- (void)teardownGL
-{
-    [super teardownGL];
-
-    _vao = 0;
-    _bufferSet.vbo = 0;
-    _bufferSet.ibo = 0;
-}
-
-#pragma mark - RZXRenderable
-
-- (void)rzx_render
-{
-    [self bindGL];
-    glDrawElements(GL_TRIANGLES, _indexCount, GL_UNSIGNED_SHORT, NULL);
+    return [NSString stringWithFormat:@"com.raze.mesh-builtin-quad-%i", (int)self.subdivisions];
 }
 
 #pragma mark - private methods
@@ -145,9 +52,39 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
     if ( self ) {
         subdivisions = MAX(0, MIN(subdivisions, kRZXQuadMeshMaxSubdivisions));
         _subdivisions = subdivisions;
+
+        _configurationBlock = ^BOOL (RZXMesh *self) {
+            GLvoid *vertexData, *indexData;
+            GLuint vertexCount;
+            RZXGenerateQuadMesh(subdivisions, &vertexData, &vertexCount, &indexData, &self->_indexCount);
+
+            glGenVertexArrays(1, &self->_vao);
+            glGenBuffers(2, &self->_bufferSet.vbo);
+
+            [self.configuredContext bindVertexArray:self->_vao];
+
+            glBindBuffer(GL_ARRAY_BUFFER, self->_bufferSet.vbo);
+            glBufferData(GL_ARRAY_BUFFER, 5 * vertexCount * sizeof(GLfloat), vertexData, GL_STATIC_DRAW);
+
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, self->_bufferSet.ibo);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, self->_indexCount * sizeof(GLushort), indexData, GL_STATIC_DRAW);
+
+            glEnableVertexAttribArray(kRZXVertexAttribPosition);
+            glVertexAttribPointer(kRZXVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
+
+            glEnableVertexAttribArray(kRZXVertexAttribTexCoord);
+            glVertexAttribPointer(kRZXVertexAttribTexCoord, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)12);
+
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            
+            free(vertexData);
+            free(indexData);
+
+            return YES;
+        };
     }
     return self;
-}   
+}
 
 void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numVerts, GLvoid **indices, GLuint *numIdxs)
 {
