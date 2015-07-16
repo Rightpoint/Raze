@@ -31,16 +31,14 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
 + (instancetype)effectWithVertexShader:(NSString *)vsh fragmentShader:(NSString *)fsh
 {
     RZXEffect *effect = nil;
-    
-#if DEBUG
+
     if ( vsh == nil ) {
-        NSLog(@"%@ failed to intialize, missing vertex shader.", NSStringFromClass(self));
+        RZXLog(@"%@ failed to intialize, missing vertex shader.", NSStringFromClass(self));
     }
     
     if ( fsh == nil ) {
-        NSLog(@"%@ failed to intialize, missing fragment shader.", NSStringFromClass(self));
+        RZXLog(@"%@ failed to intialize, missing fragment shader.", NSStringFromClass(self));
     }
-#endif
     
     if ( vsh != nil && fsh != nil ) {
         effect = [[self alloc] initWithVertexShader:vsh fragmentShader:fsh];
@@ -173,7 +171,7 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
         }];
     }
     else {
-        NSLog(@"%@ failed to set uniform %@ with invalid length %i", [self class], name, length);
+        RZXLog(@"%@ failed to set uniform %@ with invalid length %i", [self class], name, length);
     }
 }
 
@@ -214,7 +212,7 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
         }];
     }
     else {
-        NSLog(@"%@ failed to set uniform %@ with invalid length %i", [self class], name, length);
+        RZXLog(@"%@ failed to set uniform %@ with invalid length %i", [self class], name, length);
     }
 }
 
@@ -243,16 +241,10 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
 
 - (RZXGPUObjectTeardownBlock)teardownHandler
 {
-    RZXGPUObjectTeardownBlock teardown = nil;
     GLuint name = _name;
-
-    if ( name != 0 ) {
-        teardown = ^(RZXGLContext *context) {
-            glDeleteProgram(name);
-        };
-    }
-
-    return teardown;
+    return ^(RZXGLContext *context) {
+        glDeleteProgram(name);
+    };
 }
 
 - (BOOL)setupGL
@@ -262,18 +254,18 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
     if ( setup ) {
         RZXCache *cache = [self.configuredContext cacheForClass:[RZXEffect class]];
 
-        GLuint vs = [[cache objectForKey:self.vshSrc] unsignedIntValue];
+        GLuint vs = [cache[self.vshSrc] unsignedIntValue];
 
         if ( vs == 0 ) {
             vs = RZXCompileShader(self.vshSrc.UTF8String, GL_VERTEX_SHADER);
-            [cache cacheObject:@(vs) forKey:self.vshSrc];
+            cache[self.vshSrc] = @(vs);
         }
 
-        GLuint fs = [[cache objectForKey:self.fshSrc] unsignedIntValue];
+        GLuint fs = [cache[self.fshSrc] unsignedIntValue];
 
         if ( fs == 0 ) {
             fs = RZXCompileShader(self.fshSrc.UTF8String, GL_FRAGMENT_SHADER);
-            [cache cacheObject:@(fs) forKey:self.fshSrc];
+            cache[self.fshSrc] = @(fs);
         }
 
         _name = glCreateProgram();
@@ -308,14 +300,9 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
 
 - (void)teardownGL
 {
-    RZXCache *cache = [self.configuredContext cacheForClass:[RZXEffect class]];
-    [cache releaseObjectForKey:self.vshSrc];
-    [cache releaseObjectForKey:self.fshSrc];
-    
-    _name = 0;
-
     [super teardownGL];
 
+    _name = 0;
 }
 
 #pragma mark - private methods

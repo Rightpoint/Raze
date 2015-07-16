@@ -29,33 +29,34 @@ NSString* const kRZXTextureTWrapKey     = @"RZXTextureTWrap";
 
 - (void)applyOptions:(NSDictionary *)options
 {
-    if ( options.count && [RZXGLContext currentContext] != nil ) {
-        if ( _name ) {
-            [self bindGL];
+    if ( options.count ) {
+        GLuint name = _name;
 
-            if ( options[kRZXTextureMinFilterKey] != nil ) {
-                GLint minFilter = [[options objectForKey:kRZXTextureMinFilterKey] intValue];
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
-            }
+        [self.configuredContext runBlock:^(RZXGLContext *context) {
+            if ( name ) {
+                glBindTexture(GL_TEXTURE_2D, name);
 
-            if ( options[kRZXTextureMagFilterKey] != nil ) {
-                GLint magFilter = [[options objectForKey:kRZXTextureMagFilterKey] intValue];
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
-            }
+                if ( options[kRZXTextureMinFilterKey] != nil ) {
+                    GLint minFilter = [[options objectForKey:kRZXTextureMinFilterKey] intValue];
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
+                }
 
-            if ( options[kRZXTextureSWrapKey] != nil ) {
-                GLint sWrap = [[options objectForKey:kRZXTextureSWrapKey] intValue];
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, sWrap);
-            }
+                if ( options[kRZXTextureMagFilterKey] != nil ) {
+                    GLint magFilter = [[options objectForKey:kRZXTextureMagFilterKey] intValue];
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
+                }
 
-            if ( options[kRZXTextureTWrapKey] != nil ) {
-                GLint tWrap = [[options objectForKey:kRZXTextureTWrapKey] intValue];
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, tWrap);
+                if ( options[kRZXTextureSWrapKey] != nil ) {
+                    GLint sWrap = [[options objectForKey:kRZXTextureSWrapKey] intValue];
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, sWrap);
+                }
+
+                if ( options[kRZXTextureTWrapKey] != nil ) {
+                    GLint tWrap = [[options objectForKey:kRZXTextureTWrapKey] intValue];
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, tWrap);
+                }
             }
-        }
-    }
-    else {
-        NSLog(@"[%@] failed to apply options: %@. No active context!", [self class], options);
+        } wait:NO];
     }
 }
 
@@ -63,16 +64,10 @@ NSString* const kRZXTextureTWrapKey     = @"RZXTextureTWrap";
 
 - (RZXGPUObjectTeardownBlock)teardownHandler
 {
-    RZXGPUObjectTeardownBlock teardown = nil;
-
-    if ( _name != 0 ) {
-        GLuint name = _name;
-        teardown = ^(RZXGLContext *context) {
-            glDeleteTextures(1, &name);
-        };
-    }
-
-    return teardown;
+    GLuint name = _name;
+    return ^(RZXGLContext *context) {
+        glDeleteTextures(1, &name);
+    };
 }
 
 - (BOOL)bindGL

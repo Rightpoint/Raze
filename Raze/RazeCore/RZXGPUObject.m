@@ -36,7 +36,7 @@
             setup = YES;
         }
         else {
-            NSLog(@"Failed to setup %@: No active context!", NSStringFromClass([self class]));
+            RZXLog(@"Failed to setup %@: No active context!", NSStringFromClass([self class]));
         }
     }
 
@@ -57,7 +57,7 @@
 
 - (void)teardownGL
 {
-    if ( self.teardownHandler != nil ) {
+    if ( self.configuredContext != nil && self.teardownHandler != nil ) {
         [self.configuredContext runBlock:self.teardownHandler wait:NO];
     }
 

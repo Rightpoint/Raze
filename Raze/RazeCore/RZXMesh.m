@@ -43,7 +43,9 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 {
     RZXGPUObjectTeardownBlock teardown = nil;
 
-    if ( _vao != 0 ) {
+    RZXCache *cache = self.usingCache ? [self.configuredContext cacheForClass:[RZXMesh class]] : nil;
+
+    if ( cache[self.cacheKey] == nil ) {
         GLuint vao = _vao;
         RZXBufferSet bufferSet = _bufferSet;
         teardown = ^(RZXGLContext *context) {
@@ -63,7 +65,7 @@ NSString* const kRZXMeshFileExtension = @"mesh";
         RZXCache *cache = self.usingCache ? [self.configuredContext cacheForClass:[RZXMesh class]] : nil;
 
         NSString *cacheKey = self.cacheKey;
-        NSDictionary *cachedAttributes = [cache objectForKey:cacheKey];
+        NSDictionary *cachedAttributes = cache[cacheKey];
 
         if ( cachedAttributes != nil ) {
             [cache retainObjectForKey:cacheKey];
@@ -74,7 +76,7 @@ NSString* const kRZXMeshFileExtension = @"mesh";
                 NSString *filePath = [[NSBundle mainBundle] pathForResource:self.meshName ofType:kRZXMeshFileExtension];
 
                 if( filePath.length == 0 ) {
-                    NSLog(@"Failed to load mesh data from file named %@. Reason: unable to locate %@", self.meshName, [self.meshName stringByAppendingPathExtension:kRZXMeshFileExtension]);
+                    RZXLog(@"Failed to load mesh data from file named %@. Reason: unable to locate %@", self.meshName, [self.meshName stringByAppendingPathExtension:kRZXMeshFileExtension]);
                     setup = NO;
                 }
                 else {
@@ -127,7 +129,7 @@ NSString* const kRZXMeshFileExtension = @"mesh";
             }
 
             if ( setup && self.usingCache ) {
-                [cache cacheObject:[self cacheAttributes] forKey:self.cacheKey];
+                cache[cacheKey] = [self cacheAttributes];
             }
         }
     }

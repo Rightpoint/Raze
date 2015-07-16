@@ -122,3 +122,22 @@
 }
 
 @end
+
+@implementation RZXCache (RZXSubscripting)
+
+- (id)objectForKeyedSubscript:(id)key
+{
+    return [self objectForKey:key];
+}
+
+- (void)setObject:(id)obj forKeyedSubscript:(id<NSCopying>)key
+{
+    if ( obj != nil ) {
+        [self cacheObject:obj forKey:key];
+    }
+    else {
+        [self removeObjectForKey:key];
+    }
+}
+
+@end

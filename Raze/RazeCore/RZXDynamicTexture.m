@@ -78,7 +78,7 @@
             CVPixelBufferUnlockBaseAddress(_pixBuffer, 0);
         }
         else {
-            NSLog(@"Failed to setup %@: Unable to create CVPixelBuffer (Error %i)", NSStringFromClass([self class]), (int)bufferStatus);
+            RZXLog(@"Failed to setup %@: Unable to create CVPixelBuffer (Error %i)", NSStringFromClass([self class]), (int)bufferStatus);
         }
     }
 

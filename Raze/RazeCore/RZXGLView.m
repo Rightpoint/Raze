@@ -265,7 +265,7 @@
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _drb);
 
     if ( glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE ) {
-        NSLog(@"Failed to make complete framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
+        RZXLog(@"Failed to make complete framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
     }
 
     if ( self.multisampleLevel > 0 )
@@ -285,7 +285,7 @@
         glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _msDrb);
      
         if ( glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE ) {
-            NSLog(@"Failed to make complete multisample framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
+            RZXLog(@"Failed to make complete multisample framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
         }
     }
     glBindFramebuffer(GL_FRAMEBUFFER, 0);

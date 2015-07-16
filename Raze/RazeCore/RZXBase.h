@@ -29,6 +29,12 @@ typedef enum _RZXVertexAttrib {
     kRZXVertexAttribNormal
 } RZXVertexAttrib;
 
+#if DEBUG
+#define RZXLog NSLog
+#else
+#define RZXLog(...)
+#endif
+
 /**
  *  Convenience macros for creating keypaths. An invalid keypath will throw a compile-time error when compiling in debug mode.
  *

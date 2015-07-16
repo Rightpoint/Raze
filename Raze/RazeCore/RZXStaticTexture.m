@@ -30,6 +30,18 @@
 
 #pragma mark - RZXGPUObject overrides
 
+- (RZXGPUObjectTeardownBlock)teardownHandler
+{
+    RZXGPUObjectTeardownBlock teardown = nil;
+
+    RZXCache *cache = self.usingCache ? [self.configuredContext cacheForClass:[RZXStaticTexture class]] : nil;
+    if ( cache[self.fileName] == nil ) {
+        teardown = [super teardownHandler];
+    }
+
+    return teardown;
+}
+
 - (BOOL)setupGL
 {
     return ([super setupGL] && [self assignIdentifer]);
@@ -64,7 +76,7 @@
 
     RZXCache *cache = self.usingCache ? [self.configuredContext cacheForClass:[RZXStaticTexture class]] : nil;
 
-    GLKTextureInfo *cachedTextureInfo = [cache objectForKey:self.fileName];
+    GLKTextureInfo *cachedTextureInfo = cache[self.fileName];
 
     if ( cachedTextureInfo != nil ) {
         [cache retainObjectForKey:self.fileName];
@@ -78,7 +90,7 @@
         NSString *path = [[NSBundle mainBundle] pathForResource:name ofType:extension];
 
         if ( path == nil ) {
-            NSLog(@"Failed to setup %@: %@ not found in the main bundle.", NSStringFromClass([self class]), self.fileName);
+            RZXLog(@"Failed to setup %@: %@ not found in the main bundle.", NSStringFromClass([self class]), self.fileName);
         }
         else {
             NSDictionary *options = @{ GLKTextureLoaderOriginBottomLeft : @(YES),
@@ -92,13 +104,13 @@
             GLKTextureInfo *textureInfo = [GLKTextureLoader textureWithContentsOfFile:path options:options error:&error];
 
             if ( error != nil ) {
-                NSLog(@"Failed to setup %@: %@", NSStringFromClass([self class]), error.localizedDescription);
+                RZXLog(@"Failed to setup %@: %@", NSStringFromClass([self class]), error.localizedDescription);
             }
             else {
                 [self applyTextureInfo:textureInfo];
 
                 if ( self.usingCache ) {
-                    [cache cacheObject:textureInfo forKey:self.fileName];
+                    cache[self.fileName] = textureInfo;
                 }
                 
                 assigned = YES;

@@ -27,6 +27,22 @@
     return self;
 }
 
+- (RZXTexture *)texture
+{
+    if ( _texture == nil ) {
+        _texture = [[RZXTexture alloc] init];
+    }
+    return _texture;
+}
+
+- (RZXMesh *)mesh
+{
+    if ( _mesh == nil ) {
+        _mesh = [[RZXMesh alloc] init];
+    }
+    return _mesh;
+}
+
 #pragma mark - RZXRenderable
 
 - (void)rzx_render

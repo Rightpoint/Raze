@@ -210,11 +210,11 @@
 
 - (RZXCache *)cacheForClass:(Class)objectClass
 {
-    RZXCache *classCache = [self.cache objectForKey:(id<NSCopying>)objectClass];
+    RZXCache *classCache = self.cache[(id<NSCopying>)objectClass];
 
     if ( classCache == nil ) {
         classCache = [[RZXCache alloc] init];
-        [self.cache cacheObject:classCache forKey:(id<NSCopying>)objectClass];
+        self.cache[(id<NSCopying>)objectClass] = classCache;
     }
 
     return classCache;
