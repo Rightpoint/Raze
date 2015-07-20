@@ -26,4 +26,6 @@
 
 - (instancetype)initWithFrame:(CGRect)frame __attribute__((unavailable("Use -initWithSourceView: instead.")));
 
+- (void)setMultisampleLevel:(GLsizei)multisampleLevel __attribute__((unavailable("RZXEffectView does not support multisample antialiasing.")));
+
 @end

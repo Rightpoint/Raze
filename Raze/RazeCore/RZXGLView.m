@@ -81,6 +81,15 @@
     [self updateBuffersWithSize:bounds.size];
 }
 
+- (void)setMultisampleLevel:(GLsizei)multisampleLevel
+{
+    if ( _multisampleLevel != multisampleLevel ) {
+        _multisampleLevel = multisampleLevel;
+
+        [self updateBuffersWithSize:self.frame.size];
+    }
+}
+
 - (void)setPaused:(BOOL)paused
 {
     if ( paused != _paused ) {
@@ -253,17 +262,18 @@
     glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &_backingWidth);
     glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &_backingHeight);
 
-    glGenRenderbuffers(1, &_drb);
-    glBindRenderbuffer(GL_RENDERBUFFER, _drb);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, _backingWidth, _backingHeight);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _drb);
+    if ( !self.multisampleLevel ) {
+        glGenRenderbuffers(1, &_drb);
+        glBindRenderbuffer(GL_RENDERBUFFER, _drb);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, _backingWidth, _backingHeight);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _drb);
+    }
 
     if ( glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE ) {
         RZXLog(@"Failed to make complete framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
     }
 
-    if ( self.multisampleLevel > 0 )
-    {
+    if ( self.multisampleLevel > 0 ) {
         glGenFramebuffers(1, &_msFbo);
         glGenRenderbuffers(1, &_msCrb);
         

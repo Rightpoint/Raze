@@ -78,6 +78,11 @@
     }
 }
 
+- (void)setMultisampleLevel:(GLsizei)multisampleLevel
+{
+    // no-op, RZXEffectView doesn't support multisample antialiasing
+}
+
 - (void)setEffect:(RZXEffect *)effect
 {
     _effect = effect;
