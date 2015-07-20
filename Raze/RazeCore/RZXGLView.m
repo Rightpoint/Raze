@@ -167,32 +167,26 @@
 
     [self.context runBlock:^(RZXGLContext *context) {
         context.clearColor = self.backgroundColor.CGColor;
-        context.viewport = CGRectMake(0.0f, 0.0f, self->_backingWidth, self->_backingHeight);
+        context.viewport = CGRectMake(0.0f, 0.0f, _backingWidth, _backingHeight);
         context.depthTestEnabled = YES;
         
         GLuint targetFbo = self.multisampleLevel > 0 ? _msFbo : _fbo;
         glBindFramebuffer(GL_FRAMEBUFFER, targetFbo);
-        
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         [self.model rzx_render];
-        
-        if (self.multisampleLevel > 0) {
-            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _fbo);
-            glBindFramebuffer(GL_READ_FRAMEBUFFER, _msFbo);
-            
-            //TODO: distinguish between openGL 2.0 and 3.0 calls here. For 2.0 glBlitFrameBuffer is replaced by appleResolveMultiSample
-            glBlitFramebuffer(0, 0, _backingWidth, _backingHeight, 0, 0, _backingWidth, _backingHeight, GL_COLOR_BUFFER_BIT, GL_LINEAR);
-            glInvalidateFramebuffer(GL_DRAW_FRAMEBUFFER, 1, &s_GLDiscards[1]);
-            glInvalidateFramebuffer(GL_READ_FRAMEBUFFER, 1, s_GLDiscards);
-        }
-        
-        glInvalidateFramebuffer(GL_FRAMEBUFFER, 1, s_GLDiscards);
 
-        glBindRenderbuffer(GL_RENDERBUFFER, self->_crb);
+        [context invalidateFramebufferAttachments:s_GLDiscards count:1];
+
+        if (self.multisampleLevel > 0) {
+            [context resolveFramebuffer:_fbo multisampleFramebuffer:_msFbo size:(CGSize){.width = _backingWidth, .height = _backingHeight}];
+        }
+
+        glBindRenderbuffer(GL_RENDERBUFFER, _crb);
         [context presentRenderbuffer:GL_RENDERBUFFER];
 
-        glInvalidateFramebuffer(GL_FRAMEBUFFER, 1, &s_GLDiscards[1]);
+        [context invalidateFramebufferAttachments:s_GLDiscards+1 count:1];
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glBindRenderbuffer(GL_RENDERBUFFER, 0);
@@ -275,13 +269,26 @@
         
         glBindFramebuffer(GL_FRAMEBUFFER, _msFbo);
         glBindRenderbuffer(GL_RENDERBUFFER, _msCrb);
-        
-        glRenderbufferStorageMultisample(GL_RENDERBUFFER, self.multisampleLevel, GL_RGBA8, _backingWidth, _backingHeight);
+
+        if ( context.apiVersion < kEAGLRenderingAPIOpenGLES3 ) {
+            glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, self.multisampleLevel, GL_RGBA8_OES, _backingWidth, _backingHeight);
+        }
+        else {
+            glRenderbufferStorageMultisample(GL_RENDERBUFFER, self.multisampleLevel, GL_RGBA8, _backingWidth, _backingHeight);
+        }
+
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, _msCrb);
         
         glGenRenderbuffers(1, &_msDrb);
         glBindRenderbuffer(GL_RENDERBUFFER, _msDrb);
-        glRenderbufferStorageMultisample(GL_RENDERBUFFER, self.multisampleLevel, GL_DEPTH_COMPONENT16, _backingWidth, _backingHeight);
+
+        if ( context.apiVersion < kEAGLRenderingAPIOpenGLES3 ) {
+            glRenderbufferStorageMultisampleAPPLE(GL_RENDERBUFFER, self.multisampleLevel, GL_DEPTH_COMPONENT16, _backingWidth, _backingHeight);
+        }
+        else {
+            glRenderbufferStorageMultisample(GL_RENDERBUFFER, self.multisampleLevel, GL_DEPTH_COMPONENT16, _backingWidth, _backingHeight);
+        }
+
         glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _msDrb);
      
         if ( glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE ) {

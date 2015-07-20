@@ -55,4 +55,8 @@
 - (void)genVertexArrays:(GLuint *)arrays count:(GLsizei)n;
 - (void)deleteVertexArrays:(const GLuint *)arrays count:(GLsizei)n;
 
+- (void)resolveFramebuffer:(GLuint)framebuffer multisampleFramebuffer:(GLuint)msFramebuffer size:(CGSize)framebufferSize;
+
+- (void)invalidateFramebufferAttachments:(const GLenum *)attachments count:(GLsizei)n;
+
 @end
