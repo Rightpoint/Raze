@@ -58,17 +58,26 @@
         _contextQueue = dispatch_queue_create(queueLabel, DISPATCH_QUEUE_SERIAL);
 
         _glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3 sharegroup:shareContext.glContext.sharegroup];
-        if ( _glContext != nil ) {
-            objc_setAssociatedObject(_glContext, @selector(currentContext), self, OBJC_ASSOCIATION_ASSIGN);
+
+        if ( _glContext == nil ) {
+            _glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2 sharegroup:shareContext.glContext.sharegroup];
         }
 
-        _cache = [[RZXCache alloc] init];
+        if ( _glContext != nil ) {
+            objc_setAssociatedObject(_glContext, @selector(currentContext), self, OBJC_ASSOCIATION_ASSIGN);
 
-        CVOpenGLESTextureCacheCreate(NULL, NULL, _glContext, NULL, &_textureCache);
+            _cache = [[RZXCache alloc] init];
 
-        _activeTexture = GL_TEXTURE0;
+            CVOpenGLESTextureCacheCreate(NULL, NULL, _glContext, NULL, &_textureCache);
 
-        self.cullFace = GL_BACK;
+            _activeTexture = GL_TEXTURE0;
+
+            self.cullFace = GL_BACK;
+        }
+        else {
+            RZXLog(@"Failed to initialize %@: Unable to create EAGLContext.", NSStringFromClass([self class]));
+            self = nil;
+        }
     }
 
     return self;
@@ -90,6 +99,11 @@
 }
 
 #pragma mark - getters
+
+- (EAGLRenderingAPI)apiVersion
+{
+    return self.glContext.API;
+}
 
 - (BOOL)isCurrentContext
 {
@@ -246,6 +260,12 @@
 {
     if ( vao != _currentVAO ) {
         [self runBlock:^(RZXGLContext *context) {
+            if ( context.apiVersion < kEAGLRenderingAPIOpenGLES3 ) {
+                glBindVertexArrayOES(vao);
+            }
+            else {
+                glBindVertexArray(vao);
+            }
             glBindVertexArray(vao);
         }];
 
@@ -317,6 +337,30 @@
                 dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
             }
         }
+    }
+}
+
+@end
+
+@implementation RZXGLContext (RZXAPIBridging)
+
+- (void)genVertexArrays:(GLuint *)arrays count:(GLsizei)n
+{
+    if ( self.apiVersion < kEAGLRenderingAPIOpenGLES3 ) {
+        glGenVertexArrays(n, arrays);
+    }
+    else {
+        glGenVertexArraysOES(n, arrays);
+    }
+}
+
+- (void)deleteVertexArrays:(const GLuint *)arrays count:(GLsizei)n
+{
+    if ( self.apiVersion < kEAGLRenderingAPIOpenGLES3 ) {
+        glDeleteVertexArrays(n, arrays);
+    }
+    else {
+        glDeleteVertexArraysOES(n, arrays);
     }
 }
 

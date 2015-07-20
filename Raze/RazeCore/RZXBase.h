@@ -14,6 +14,7 @@
 #import <GLKit/GLKMath.h>
 
 #if TARGET_OS_IPHONE
+#import <OpenGLES/ES2/glext.h>
 #import <OpenGLES/ES3/glext.h>
 #define RZXColor UIColor
 #define RZXFont  UIFont
