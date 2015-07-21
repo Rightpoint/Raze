@@ -307,19 +307,25 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
 
 #pragma mark - private methods
 
+- (instancetype)init
+{
+    if ( (self = [super init]) ) {
+        _modelViewMatrix = GLKMatrix4Identity;
+        _projectionMatrix = GLKMatrix4Identity;
+        _normalMatrix = GLKMatrix3Identity;
+
+        _uniforms = [[NSCache alloc] init];
+        _uniformValues = [[NSCache alloc] init];
+    }
+    return self;
+}
+
 - (instancetype)initWithVertexShader:(NSString *)vsh fragmentShader:(NSString *)fsh
 {
     self = [self init];
     if ( self ) {
         _vshSrc = vsh;
         _fshSrc = fsh;
-
-        _modelViewMatrix = GLKMatrix4Identity;
-        _projectionMatrix = GLKMatrix4Identity;
-        _normalMatrix = GLKMatrix3Identity;
-        
-        _uniforms = [[NSCache alloc] init];
-        _uniformValues = [[NSCache alloc] init];
     }
     return self;
 }
