@@ -51,6 +51,8 @@
 		D47841681B5E834D00CBFE49 /* RZXEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = D47841661B5E834D00CBFE49 /* RZXEffect.m */; };
 		D478416B1B5E838800CBFE49 /* RazeEffects.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D00E541AE14D1300D007E4 /* RazeEffects.framework */; };
 		D47841C21B5E910B00CBFE49 /* RazeEffects.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D00E541AE14D1300D007E4 /* RazeEffects.framework */; };
+		D47841CE1B5ED70A00CBFE49 /* RZXIntensityEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = D47841CC1B5ED70A00CBFE49 /* RZXIntensityEffect.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D47841CF1B5ED70A00CBFE49 /* RZXIntensityEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = D47841CD1B5ED70A00CBFE49 /* RZXIntensityEffect.m */; };
 		D48424821B57EBEC009E0C29 /* RZXGPUObject.h in Headers */ = {isa = PBXBuildFile; fileRef = D48424801B57EBEC009E0C29 /* RZXGPUObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D48424831B57EBEC009E0C29 /* RZXGPUObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D48424811B57EBEC009E0C29 /* RZXGPUObject.m */; };
 		D4D00E1B1AE14CB900D007E4 /* RazeCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D00E0F1AE14CB900D007E4 /* RazeCore.framework */; };
@@ -244,6 +246,8 @@
 		D46EDCFC1B545B30002AD0B7 /* RZXBasicAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXBasicAnimation.m; sourceTree = "<group>"; };
 		D47841651B5E834D00CBFE49 /* RZXEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXEffect.h; sourceTree = "<group>"; };
 		D47841661B5E834D00CBFE49 /* RZXEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXEffect.m; sourceTree = "<group>"; };
+		D47841CC1B5ED70A00CBFE49 /* RZXIntensityEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXIntensityEffect.h; sourceTree = "<group>"; };
+		D47841CD1B5ED70A00CBFE49 /* RZXIntensityEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXIntensityEffect.m; sourceTree = "<group>"; };
 		D48424801B57EBEC009E0C29 /* RZXGPUObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXGPUObject.h; sourceTree = "<group>"; };
 		D48424811B57EBEC009E0C29 /* RZXGPUObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXGPUObject.m; sourceTree = "<group>"; };
 		D4D00E0F1AE14CB900D007E4 /* RazeCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RazeCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -560,6 +564,8 @@
 				D47841661B5E834D00CBFE49 /* RZXEffect.m */,
 				D4D7EF1B1B33CBB7003F4DA1 /* RZXPassthroughEffect.h */,
 				D4D7EF1C1B33CBB7003F4DA1 /* RZXPassthroughEffect.m */,
+				D47841CC1B5ED70A00CBFE49 /* RZXIntensityEffect.h */,
+				D47841CD1B5ED70A00CBFE49 /* RZXIntensityEffect.m */,
 				D4D00E6D1AE14D2600D007E4 /* RZXBlurEffect.h */,
 				D4D00E6E1AE14D2600D007E4 /* RZXBlurEffect.m */,
 				D4D00E6F1AE14D2600D007E4 /* RZXClothEffect.h */,
@@ -753,6 +759,7 @@
 			files = (
 				D4D00E731AE14D2600D007E4 /* RZXBlurEffect.h in Headers */,
 				D4D00E771AE14D2600D007E4 /* RZXCompositeEffect.h in Headers */,
+				D47841CE1B5ED70A00CBFE49 /* RZXIntensityEffect.h in Headers */,
 				D4D7EF1D1B33CBB7003F4DA1 /* RZXPassthroughEffect.h in Headers */,
 				D4D00E591AE14D1300D007E4 /* RazeEffects.h in Headers */,
 				8ADE4C6E1B387F200082E00B /* RZXADSPhongEffect.h in Headers */,
@@ -1250,6 +1257,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4D00E781AE14D2600D007E4 /* RZXCompositeEffect.m in Sources */,
+				D47841CF1B5ED70A00CBFE49 /* RZXIntensityEffect.m in Sources */,
 				D47841681B5E834D00CBFE49 /* RZXEffect.m in Sources */,
 				D4D00E741AE14D2600D007E4 /* RZXBlurEffect.m in Sources */,
 				8ADE4C6F1B387F200082E00B /* RZXADSPhongEffect.m in Sources */,
