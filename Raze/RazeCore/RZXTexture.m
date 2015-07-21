@@ -89,7 +89,7 @@ NSString* const kRZXTextureTWrapKey     = @"RZXTextureTWrap";
         glBindTexture(GL_TEXTURE_2D, _name);
     }
 
-#if DEBUG
+#if RZX_DEBUG
     bound &= !RZXGLError();
 #endif
 

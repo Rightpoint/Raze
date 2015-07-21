@@ -134,7 +134,7 @@ NSString* const kRZXMeshFileExtension = @"mesh";
         }
     }
 
-#if DEBUG
+#if RZX_DEBUG
     setup &= !RZXGLError();
 #endif
 
@@ -149,7 +149,7 @@ NSString* const kRZXMeshFileExtension = @"mesh";
         [self.configuredContext bindVertexArray:_vao];
     }
 
-#if DEBUG
+#if RZX_DEBUG
     bound &= !RZXGLError();
 #endif
 

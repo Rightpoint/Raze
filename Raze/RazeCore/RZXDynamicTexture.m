@@ -103,7 +103,7 @@
         }
     }
 
-#if DEBUG
+#if RZX_DEBUG
     setup &= !RZXGLError();
 #endif
 

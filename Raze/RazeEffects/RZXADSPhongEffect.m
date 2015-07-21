@@ -26,7 +26,7 @@ void main()
     v_normal = normalize(u_normalMatrix * a_normal);
     v_position = vec3(position);
     v_texCoord0 = a_texCoord0;
-    gl_Position = position; 
+    gl_Position = position;
 }
 );
 
