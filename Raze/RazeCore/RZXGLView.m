@@ -176,12 +176,12 @@
 
     [self.context runBlock:^(RZXGLContext *context) {
         context.clearColor = self.backgroundColor.CGColor;
-        context.viewport = CGRectMake(0.0f, 0.0f, _backingWidth, _backingHeight);
         context.depthTestEnabled = YES;
         
         GLuint targetFbo = self.multisampleLevel > 0 ? _msFbo : _fbo;
         glBindFramebuffer(GL_FRAMEBUFFER, targetFbo);
-
+        
+        context.viewport = CGRectMake(0.0f, 0.0f, _backingWidth, _backingHeight);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         [self.model rzx_render];

@@ -6,7 +6,7 @@
 //
 //
 
-#import <RazeCore/RZXEffect.h>
+#import <RazeEffects/RZXEffect.h>
 
 @interface RZXPassthroughEffect : RZXEffect
 

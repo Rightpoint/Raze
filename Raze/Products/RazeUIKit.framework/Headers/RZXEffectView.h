@@ -6,7 +6,7 @@
 //
 
 #import <RazeCore/RZXGLView.h>
-#import <RazeCore/RZXEffect.h>
+#import <RazeEffects/RZXEffect.h>
 #import <RazeCore/RZXTransform3D.h>
 
 @interface RZXEffectView : RZXGLView
@@ -25,5 +25,7 @@
 @interface RZXEffectView (RZUnavailable)
 
 - (instancetype)initWithFrame:(CGRect)frame __attribute__((unavailable("Use -initWithSourceView: instead.")));
+
+- (void)setMultisampleLevel:(GLsizei)multisampleLevel __attribute__((unavailable("RZXEffectView does not support multisample antialiasing.")));
 
 @end

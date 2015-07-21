@@ -371,7 +371,7 @@
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER_APPLE, framebuffer);
         glBindFramebuffer(GL_READ_FRAMEBUFFER_APPLE, msFramebuffer);
         glResolveMultisampleFramebufferAPPLE();
-        glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 1, s_GLDiscards+1);
+        glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 2, s_GLDiscards);
         glDiscardFramebufferEXT(GL_DRAW_FRAMEBUFFER_APPLE, 1, s_GLDiscards);
     }
     else {
@@ -381,7 +381,7 @@
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
         glBindFramebuffer(GL_READ_FRAMEBUFFER, msFramebuffer);
         glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
-        glInvalidateFramebuffer(GL_READ_FRAMEBUFFER, 1, s_GLDiscards+1);
+        glInvalidateFramebuffer(GL_READ_FRAMEBUFFER, 2, s_GLDiscards);
         glInvalidateFramebuffer(GL_DRAW_FRAMEBUFFER, 1, s_GLDiscards);
     }
 }

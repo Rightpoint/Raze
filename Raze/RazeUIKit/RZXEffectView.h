@@ -6,7 +6,7 @@
 //
 
 #import <RazeCore/RZXGLView.h>
-#import <RazeCore/RZXEffect.h>
+#import <RazeEffects/RZXEffect.h>
 #import <RazeCore/RZXTransform3D.h>
 
 @interface RZXEffectView : RZXGLView

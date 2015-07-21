@@ -14,6 +14,7 @@
 #import <GLKit/GLKMath.h>
 
 #if TARGET_OS_IPHONE
+#import <OpenGLES/ES2/glext.h>
 #import <OpenGLES/ES3/glext.h>
 #define RZXColor UIColor
 #define RZXFont  UIFont
@@ -28,6 +29,12 @@ typedef enum _RZXVertexAttrib {
     kRZXVertexAttribTexCoord,
     kRZXVertexAttribNormal
 } RZXVertexAttrib;
+
+#if DEBUG
+#define RZXLog NSLog
+#else
+#define RZXLog(...)
+#endif
 
 /**
  *  Convenience macros for creating keypaths. An invalid keypath will throw a compile-time error when compiling in debug mode.

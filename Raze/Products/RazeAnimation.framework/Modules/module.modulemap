@@ -1,6 +1,0 @@
-framework module RazeAnimation {
-  umbrella header "RazeAnimation.h"
-
-  export *
-  module * { export * }
-}

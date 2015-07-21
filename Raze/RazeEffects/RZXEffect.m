@@ -5,7 +5,7 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <RazeCore/RZXEffect.h>
+#import <RazeEffects/RZXEffect.h>
 #import <RazeCore/RZXCache.h>
 
 GLuint RZXCompileShader(const GLchar *source, GLenum type);

@@ -6,7 +6,7 @@
 //
 //
 
-#import <RazeCore/RZXEffect.h>
+#import <RazeEffects/RZXEffect.h>
 
 /**
  *  This effect is design for generic purpose display of 3D models. It incorporates a single light, and use ADS (ambient, diffise, and specular) constants to describe the effects of that single light on the model. The lighting effects are applied per fragment (aka Phong shading).

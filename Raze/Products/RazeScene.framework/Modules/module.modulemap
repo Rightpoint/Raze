@@ -1,6 +1,0 @@
-framework module RazeScene {
-  umbrella header "RazeScene.h"
-
-  export *
-  module * { export * }
-}
