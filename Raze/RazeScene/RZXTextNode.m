@@ -183,9 +183,7 @@
             [_textTexture updateWithBlock:^(RZXTexture *self, CGContextRef ctx) {
                 CGRect contextRect = CGRectMake(0.0f, 0.0f, self.size.width, self.size.height);
 
-                UIGraphicsPushContext(ctx);
                 [attributedText drawWithRect:contextRect options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading) context:nil];
-                UIGraphicsPopContext();
             }];
         }
     }

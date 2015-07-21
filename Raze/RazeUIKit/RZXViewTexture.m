@@ -71,9 +71,7 @@
 {
     @autoreleasepool {
         [self updateWithBlock:^(RZXTexture *self, CGContextRef ctx) {
-            UIGraphicsPushContext(ctx);
             [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:NO];
-            UIGraphicsPopContext();
         }];
     }
 }

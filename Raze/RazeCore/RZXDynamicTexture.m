@@ -8,6 +8,12 @@
 #import <RazeCore/RZXGLContext.h>
 #import <RazeCore/RZXDynamicTexture.h>
 
+#if TARGET_OS_IPHONE
+#import <UIKit/UIGraphics.h>
+#else
+#warning Import things necessary to make CGGraphicsContext current
+#endif
+
 @implementation RZXDynamicTexture {
     GLsizei _texWidth;
     GLsizei _texHeight;
@@ -38,11 +44,26 @@
 
 - (void)updateWithBlock:(RZXTextureRenderBlock)renderBlock
 {
-    if ( renderBlock != nil ) {
+    if ( renderBlock != nil && _pixBuffer != NULL && _context != NULL ) {
         CVPixelBufferLockBaseAddress(_pixBuffer, 0);
+        UIGraphicsPushContext(_context);
         renderBlock(self, _context);
+        UIGraphicsPopContext();
         CVPixelBufferUnlockBaseAddress(_pixBuffer, 0);
     }
+}
+
+- (CGImageRef)createImageRepresentation
+{
+    CGImageRef image = nil;
+
+    if ( _pixBuffer != NULL && _context != NULL ) {
+        CVPixelBufferLockBaseAddress(_pixBuffer, kCVPixelBufferLock_ReadOnly);
+        image = CGBitmapContextCreateImage(_context);
+        CVPixelBufferUnlockBaseAddress(_pixBuffer, kCVPixelBufferLock_ReadOnly);
+    }
+
+    return image;
 }
 
 #pragma mark - RZXGPUObject overrides

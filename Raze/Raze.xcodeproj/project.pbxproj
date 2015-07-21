@@ -50,6 +50,7 @@
 		D47841671B5E834D00CBFE49 /* RZXEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = D47841651B5E834D00CBFE49 /* RZXEffect.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D47841681B5E834D00CBFE49 /* RZXEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = D47841661B5E834D00CBFE49 /* RZXEffect.m */; };
 		D478416B1B5E838800CBFE49 /* RazeEffects.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D00E541AE14D1300D007E4 /* RazeEffects.framework */; };
+		D47841C21B5E910B00CBFE49 /* RazeEffects.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D00E541AE14D1300D007E4 /* RazeEffects.framework */; };
 		D48424821B57EBEC009E0C29 /* RZXGPUObject.h in Headers */ = {isa = PBXBuildFile; fileRef = D48424801B57EBEC009E0C29 /* RZXGPUObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D48424831B57EBEC009E0C29 /* RZXGPUObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D48424811B57EBEC009E0C29 /* RZXGPUObject.m */; };
 		D4D00E1B1AE14CB900D007E4 /* RazeCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D00E0F1AE14CB900D007E4 /* RazeCore.framework */; };
@@ -146,6 +147,13 @@
 			remoteInfo = RazeEffects;
 		};
 		D47841691B5E838300CBFE49 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4D00E041AE14C9300D007E4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D4D00E531AE14D1300D007E4;
+			remoteInfo = RazeEffects;
+		};
+		D47841C01B5E910700CBFE49 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D4D00E041AE14C9300D007E4 /* Project object */;
 			proxyType = 1;
@@ -388,6 +396,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D47841C21B5E910B00CBFE49 /* RazeEffects.framework in Frameworks */,
 				D4EF0F541B505043001EA85F /* RazeCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -944,6 +953,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D47841C11B5E910700CBFE49 /* PBXTargetDependency */,
 				D4EF0F561B50506D001EA85F /* PBXTargetDependency */,
 			);
 			name = RazeAnimation;
@@ -1318,6 +1328,11 @@
 			isa = PBXTargetDependency;
 			target = D4D00E531AE14D1300D007E4 /* RazeEffects */;
 			targetProxy = D47841691B5E838300CBFE49 /* PBXContainerItemProxy */;
+		};
+		D47841C11B5E910700CBFE49 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D4D00E531AE14D1300D007E4 /* RazeEffects */;
+			targetProxy = D47841C01B5E910700CBFE49 /* PBXContainerItemProxy */;
 		};
 		D4D00E1D1AE14CB900D007E4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

@@ -60,6 +60,11 @@ NSString* const kRZXTextureTWrapKey     = @"RZXTextureTWrap";
     }
 }
 
+- (void)attachToFramebuffer:(GLenum)framebuffer
+{
+    glFramebufferTexture2D(framebuffer, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _name, 0);
+}
+
 #pragma mark - RZXGPUObject overrides
 
 - (RZXGPUObjectTeardownBlock)teardownHandler
