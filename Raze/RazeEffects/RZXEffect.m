@@ -67,8 +67,7 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
     
     GLint success;
     glGetProgramiv(_name, GL_LINK_STATUS, &success);
-    
-#if RZX_DEBUG
+
     if ( success != GL_TRUE ) {
         GLint length;
         glGetProgramiv(_name, GL_INFO_LOG_LENGTH, &length);
@@ -81,7 +80,6 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
         
         free(logText);
     }
-#endif
 
     self.linked = (success == GL_TRUE);
 
@@ -369,7 +367,6 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type)
     glShaderSource(shader, 1, &source, &length);
     glCompileShader(shader);
 
-#if RZX_DEBUG
     GLint success;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 
@@ -385,7 +382,6 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type)
 
         free(logText);
     }
-#endif
-    
+
     return shader;
 }
