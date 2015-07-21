@@ -195,10 +195,9 @@
 {
     if ( _cullFace != cullFace ) {
         [self runBlock:^(RZXGLContext *context) {
-            glCullFace(cullFace);
-
             if ( cullFace != GL_NONE ) {
                 glEnable(GL_CULL_FACE);
+                glCullFace(cullFace);
             }
             else {
                 glDisable(GL_CULL_FACE);
