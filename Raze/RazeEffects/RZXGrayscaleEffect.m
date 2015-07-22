@@ -1,12 +1,11 @@
 //
-//  RZXIntensityEffect.m
-//  Raze
+//  RZXGrayscaleEffect.m
+//  RazeEffects
 //
 //  Created by Rob Visentin on 7/21/15.
 //
-//
 
-#import "RZXIntensityEffect.h"
+#import "RZXGrayscaleEffect.h"
 
 static NSString* const kRZXEffectIntensityVSH = RZX_SHADER_SRC(
 uniform mat4 u_MVPMatrix;
@@ -23,6 +22,8 @@ void main(void)
 });
 
 static NSString* const kRZXEffectIntensityFSH = RZX_SHADER_SRC(
+const highp vec3 W = vec3(0.2125, 0.7154, 0.0721);
+
 uniform lowp sampler2D u_Texture;
 
 varying highp vec2 v_texCoord0;
@@ -30,15 +31,15 @@ varying highp vec2 v_texCoord0;
 void main()
 {
     lowp vec4 texel = texture2D(u_Texture, v_texCoord0);
-    lowp float intensity = (texel.r + texel.g + texel.b) / 3.0;
-    gl_FragColor = vec4(intensity, intensity, intensity, 1.0);
+    highp float luminance = dot(texel.rgb, W);
+    gl_FragColor = vec4(vec3(luminance), texel.a);
 });
 
-@implementation RZXIntensityEffect
+@implementation RZXGrayscaleEffect
 
 + (instancetype)effect
 {
-    RZXIntensityEffect *effect = [RZXIntensityEffect effectWithVertexShader:kRZXEffectIntensityVSH fragmentShader:kRZXEffectIntensityFSH];
+    RZXGrayscaleEffect *effect = [RZXGrayscaleEffect effectWithVertexShader:kRZXEffectIntensityVSH fragmentShader:kRZXEffectIntensityFSH];
     effect.mvpUniform = @"u_MVPMatrix";
 
     return effect;

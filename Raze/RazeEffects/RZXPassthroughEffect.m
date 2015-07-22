@@ -8,7 +8,7 @@
 
 #import "RZXPassthroughEffect.h"
 
-static NSString* const kRZXEffectPassthroughVSH2D = RZX_SHADER_SRC(
+NSString* const kRZXEffectPassthroughVSH2D = RZX_SHADER_SRC(
 attribute vec4 a_position;
 attribute vec2 a_texCoord0;
 
@@ -20,7 +20,7 @@ void main(void)
     gl_Position = a_position;
 });
 
-static NSString* const kRZXEffectPassthroughVSH3D = RZX_SHADER_SRC(
+NSString* const kRZXEffectPassthroughVSH3D = RZX_SHADER_SRC(
 uniform mat4 u_MVPMatrix;
 
 attribute vec4 a_position;
@@ -34,7 +34,7 @@ void main(void)
     gl_Position = u_MVPMatrix * a_position;
 });
 
-static NSString* const kRZXEffectPassthroughFSH = RZX_SHADER_SRC(
+NSString* const kRZXEffectPassthroughFSH = RZX_SHADER_SRC(
 uniform lowp sampler2D u_Texture;
                                                       
 varying highp vec2 v_texCoord0;

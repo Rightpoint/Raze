@@ -334,7 +334,10 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
         GLint location = [self uniformLoc:uniformName];
 
         if ( location >= 0 ) {
-            setter(location);
+            [self.configuredContext runBlock:^(RZXGLContext *context) {
+                [self bindGL];
+                setter(location);
+            }];
 
             NSData *valueData = [NSData dataWithBytes:value length:bytes];
             [self.uniformValues setObject:valueData forKey:uniformName];
