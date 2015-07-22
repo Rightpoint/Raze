@@ -21,4 +21,6 @@ typedef void (^RZXTextureRenderBlock)(id self, CGContextRef ctx);
 
 - (void)updateWithBlock:(RZXTextureRenderBlock)renderBlock;
 
+- (CGImageRef)createImageRepresentation;
+
 @end

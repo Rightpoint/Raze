@@ -58,17 +58,26 @@
         _contextQueue = dispatch_queue_create(queueLabel, DISPATCH_QUEUE_SERIAL);
 
         _glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3 sharegroup:shareContext.glContext.sharegroup];
-        if ( _glContext != nil ) {
-            objc_setAssociatedObject(_glContext, @selector(currentContext), self, OBJC_ASSOCIATION_ASSIGN);
+
+        if ( _glContext == nil ) {
+            _glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2 sharegroup:shareContext.glContext.sharegroup];
         }
 
-        _cache = [[RZXCache alloc] init];
+        if ( _glContext != nil ) {
+            objc_setAssociatedObject(_glContext, @selector(currentContext), self, OBJC_ASSOCIATION_ASSIGN);
 
-        CVOpenGLESTextureCacheCreate(NULL, NULL, _glContext, NULL, &_textureCache);
+            _cache = [[RZXCache alloc] init];
 
-        _activeTexture = GL_TEXTURE0;
+            CVOpenGLESTextureCacheCreate(NULL, NULL, _glContext, NULL, &_textureCache);
 
-        self.cullFace = GL_BACK;
+            _activeTexture = GL_TEXTURE0;
+
+            self.cullFace = GL_BACK;
+        }
+        else {
+            RZXLog(@"Failed to initialize %@: Unable to create EAGLContext.", NSStringFromClass([self class]));
+            self = nil;
+        }
     }
 
     return self;
@@ -90,6 +99,11 @@
 }
 
 #pragma mark - getters
+
+- (EAGLRenderingAPI)apiVersion
+{
+    return self.glContext.API;
+}
 
 - (BOOL)isCurrentContext
 {
@@ -181,10 +195,9 @@
 {
     if ( _cullFace != cullFace ) {
         [self runBlock:^(RZXGLContext *context) {
-            glCullFace(cullFace);
-
             if ( cullFace != GL_NONE ) {
                 glEnable(GL_CULL_FACE);
+                glCullFace(cullFace);
             }
             else {
                 glDisable(GL_CULL_FACE);
@@ -246,7 +259,12 @@
 {
     if ( vao != _currentVAO ) {
         [self runBlock:^(RZXGLContext *context) {
-            glBindVertexArray(vao);
+            if ( context.apiVersion < kEAGLRenderingAPIOpenGLES3 ) {
+                glBindVertexArrayOES(vao);
+            }
+            else {
+                glBindVertexArray(vao);
+            }
         }];
 
         _currentVAO = vao;
@@ -317,6 +335,63 @@
                 dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
             }
         }
+    }
+}
+
+@end
+
+@implementation RZXGLContext (RZXAPIBridging)
+
+- (void)genVertexArrays:(GLuint *)arrays count:(GLsizei)n
+{
+    if ( self.apiVersion < kEAGLRenderingAPIOpenGLES3 ) {
+        glGenVertexArrays(n, arrays);
+    }
+    else {
+        glGenVertexArraysOES(n, arrays);
+    }
+}
+
+- (void)deleteVertexArrays:(const GLuint *)arrays count:(GLsizei)n
+{
+    if ( self.apiVersion < kEAGLRenderingAPIOpenGLES3 ) {
+        glDeleteVertexArrays(n, arrays);
+    }
+    else {
+        glDeleteVertexArraysOES(n, arrays);
+    }
+}
+
+- (void)resolveFramebuffer:(GLuint)framebuffer multisampleFramebuffer:(GLuint)msFramebuffer size:(CGSize)framebufferSize
+{
+    static const GLenum s_GLDiscards[] = {GL_DEPTH_ATTACHMENT, GL_COLOR_ATTACHMENT0};
+
+    if ( self.apiVersion < kEAGLRenderingAPIOpenGLES3 ) {
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER_APPLE, framebuffer);
+        glBindFramebuffer(GL_READ_FRAMEBUFFER_APPLE, msFramebuffer);
+        glResolveMultisampleFramebufferAPPLE();
+        glDiscardFramebufferEXT(GL_READ_FRAMEBUFFER_APPLE, 2, s_GLDiscards);
+        glDiscardFramebufferEXT(GL_DRAW_FRAMEBUFFER_APPLE, 1, s_GLDiscards);
+    }
+    else {
+        GLint width = framebufferSize.width;
+        GLint height = framebufferSize.height;
+
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, msFramebuffer);
+        glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+        glInvalidateFramebuffer(GL_READ_FRAMEBUFFER, 2, s_GLDiscards);
+        glInvalidateFramebuffer(GL_DRAW_FRAMEBUFFER, 1, s_GLDiscards);
+    }
+}
+
+- (void)invalidateFramebufferAttachments:(const GLenum *)attachments count:(GLsizei)n
+{
+    if ( self.apiVersion < kEAGLRenderingAPIOpenGLES3 ) {
+        glDiscardFramebufferEXT(GL_FRAMEBUFFER, n, attachments);
+    }
+    else {
+        glInvalidateFramebuffer(GL_FRAMEBUFFER, n, attachments);
     }
 }
 

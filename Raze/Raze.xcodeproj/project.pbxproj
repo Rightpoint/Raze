@@ -47,6 +47,12 @@
 		D46EDCF61B545874002AD0B7 /* RZXAnimationBase.h in Headers */ = {isa = PBXBuildFile; fileRef = D46EDCF51B545874002AD0B7 /* RZXAnimationBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D46EDCFD1B545B30002AD0B7 /* RZXBasicAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = D46EDCFB1B545B30002AD0B7 /* RZXBasicAnimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D46EDCFE1B545B30002AD0B7 /* RZXBasicAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = D46EDCFC1B545B30002AD0B7 /* RZXBasicAnimation.m */; };
+		D47841671B5E834D00CBFE49 /* RZXEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = D47841651B5E834D00CBFE49 /* RZXEffect.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D47841681B5E834D00CBFE49 /* RZXEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = D47841661B5E834D00CBFE49 /* RZXEffect.m */; };
+		D478416B1B5E838800CBFE49 /* RazeEffects.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D00E541AE14D1300D007E4 /* RazeEffects.framework */; };
+		D47841C21B5E910B00CBFE49 /* RazeEffects.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D00E541AE14D1300D007E4 /* RazeEffects.framework */; };
+		D47841CE1B5ED70A00CBFE49 /* RZXGrayscaleEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = D47841CC1B5ED70A00CBFE49 /* RZXGrayscaleEffect.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D47841CF1B5ED70A00CBFE49 /* RZXGrayscaleEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = D47841CD1B5ED70A00CBFE49 /* RZXGrayscaleEffect.m */; };
 		D48424821B57EBEC009E0C29 /* RZXGPUObject.h in Headers */ = {isa = PBXBuildFile; fileRef = D48424801B57EBEC009E0C29 /* RZXGPUObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D48424831B57EBEC009E0C29 /* RZXGPUObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D48424811B57EBEC009E0C29 /* RZXGPUObject.m */; };
 		D4D00E1B1AE14CB900D007E4 /* RazeCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D00E0F1AE14CB900D007E4 /* RazeCore.framework */; };
@@ -54,8 +60,6 @@
 		D4D00E3C1AE14CE700D007E4 /* RazeCore.h in Headers */ = {isa = PBXBuildFile; fileRef = D4D00E291AE14CE700D007E4 /* RazeCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4D00E3D1AE14CE700D007E4 /* RZXCamera.h in Headers */ = {isa = PBXBuildFile; fileRef = D4D00E2A1AE14CE700D007E4 /* RZXCamera.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4D00E3E1AE14CE700D007E4 /* RZXCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D00E2B1AE14CE700D007E4 /* RZXCamera.m */; };
-		D4D00E3F1AE14CE700D007E4 /* RZXEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = D4D00E2C1AE14CE700D007E4 /* RZXEffect.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D4D00E401AE14CE700D007E4 /* RZXEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D00E2D1AE14CE700D007E4 /* RZXEffect.m */; };
 		D4D00E411AE14CE700D007E4 /* RZXGLContext.h in Headers */ = {isa = PBXBuildFile; fileRef = D4D00E2E1AE14CE700D007E4 /* RZXGLContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4D00E421AE14CE700D007E4 /* RZXGLContext.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D00E2F1AE14CE700D007E4 /* RZXGLContext.m */; };
 		D4D00E431AE14CE700D007E4 /* RZXBase.h in Headers */ = {isa = PBXBuildFile; fileRef = D4D00E301AE14CE700D007E4 /* RZXBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -144,6 +148,20 @@
 			remoteGlobalIDString = D4D00E531AE14D1300D007E4;
 			remoteInfo = RazeEffects;
 		};
+		D47841691B5E838300CBFE49 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4D00E041AE14C9300D007E4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D4D00E531AE14D1300D007E4;
+			remoteInfo = RazeEffects;
+		};
+		D47841C01B5E910700CBFE49 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4D00E041AE14C9300D007E4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D4D00E531AE14D1300D007E4;
+			remoteInfo = RazeEffects;
+		};
 		D4D00E1C1AE14CB900D007E4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D4D00E041AE14C9300D007E4 /* Project object */;
@@ -226,6 +244,10 @@
 		D46EDCF51B545874002AD0B7 /* RZXAnimationBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXAnimationBase.h; sourceTree = "<group>"; };
 		D46EDCFB1B545B30002AD0B7 /* RZXBasicAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXBasicAnimation.h; sourceTree = "<group>"; };
 		D46EDCFC1B545B30002AD0B7 /* RZXBasicAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXBasicAnimation.m; sourceTree = "<group>"; };
+		D47841651B5E834D00CBFE49 /* RZXEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXEffect.h; sourceTree = "<group>"; };
+		D47841661B5E834D00CBFE49 /* RZXEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXEffect.m; sourceTree = "<group>"; };
+		D47841CC1B5ED70A00CBFE49 /* RZXGrayscaleEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXGrayscaleEffect.h; sourceTree = "<group>"; };
+		D47841CD1B5ED70A00CBFE49 /* RZXGrayscaleEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXGrayscaleEffect.m; sourceTree = "<group>"; };
 		D48424801B57EBEC009E0C29 /* RZXGPUObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXGPUObject.h; sourceTree = "<group>"; };
 		D48424811B57EBEC009E0C29 /* RZXGPUObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXGPUObject.m; sourceTree = "<group>"; };
 		D4D00E0F1AE14CB900D007E4 /* RazeCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RazeCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -236,8 +258,6 @@
 		D4D00E291AE14CE700D007E4 /* RazeCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RazeCore.h; sourceTree = "<group>"; };
 		D4D00E2A1AE14CE700D007E4 /* RZXCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXCamera.h; sourceTree = "<group>"; };
 		D4D00E2B1AE14CE700D007E4 /* RZXCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXCamera.m; sourceTree = "<group>"; };
-		D4D00E2C1AE14CE700D007E4 /* RZXEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXEffect.h; sourceTree = "<group>"; };
-		D4D00E2D1AE14CE700D007E4 /* RZXEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXEffect.m; sourceTree = "<group>"; };
 		D4D00E2E1AE14CE700D007E4 /* RZXGLContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXGLContext.h; sourceTree = "<group>"; };
 		D4D00E2F1AE14CE700D007E4 /* RZXGLContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXGLContext.m; sourceTree = "<group>"; };
 		D4D00E301AE14CE700D007E4 /* RZXBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXBase.h; sourceTree = "<group>"; };
@@ -363,6 +383,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D478416B1B5E838800CBFE49 /* RazeEffects.framework in Frameworks */,
 				D4D00EAA1AE15BFF00D007E4 /* RazeCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -379,6 +400,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D47841C21B5E910B00CBFE49 /* RazeEffects.framework in Frameworks */,
 				D4EF0F541B505043001EA85F /* RazeCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -489,8 +511,6 @@
 				D4D00E3A1AE14CE700D007E4 /* RZXTransform3D.m */,
 				D4D00E2A1AE14CE700D007E4 /* RZXCamera.h */,
 				D4D00E2B1AE14CE700D007E4 /* RZXCamera.m */,
-				D4D00E2C1AE14CE700D007E4 /* RZXEffect.h */,
-				D4D00E2D1AE14CE700D007E4 /* RZXEffect.m */,
 				D4E557261B44714C000665E3 /* RZXMesh.h */,
 				D4E557271B44714C000665E3 /* RZXMesh.m */,
 				D4D00E341AE14CE700D007E4 /* RZXQuadMesh.h */,
@@ -540,8 +560,12 @@
 			isa = PBXGroup;
 			children = (
 				D4D00E581AE14D1300D007E4 /* RazeEffects.h */,
+				D47841651B5E834D00CBFE49 /* RZXEffect.h */,
+				D47841661B5E834D00CBFE49 /* RZXEffect.m */,
 				D4D7EF1B1B33CBB7003F4DA1 /* RZXPassthroughEffect.h */,
 				D4D7EF1C1B33CBB7003F4DA1 /* RZXPassthroughEffect.m */,
+				D47841CC1B5ED70A00CBFE49 /* RZXGrayscaleEffect.h */,
+				D47841CD1B5ED70A00CBFE49 /* RZXGrayscaleEffect.m */,
 				D4D00E6D1AE14D2600D007E4 /* RZXBlurEffect.h */,
 				D4D00E6E1AE14D2600D007E4 /* RZXBlurEffect.m */,
 				D4D00E6F1AE14D2600D007E4 /* RZXClothEffect.h */,
@@ -717,7 +741,6 @@
 				D4EDE0591B41C6F8003AEB98 /* RZXStaticTexture.h in Headers */,
 				D4D00E431AE14CE700D007E4 /* RZXBase.h in Headers */,
 				D4EDE0551B41C351003AEB98 /* RZXTexture.h in Headers */,
-				D4D00E3F1AE14CE700D007E4 /* RZXEffect.h in Headers */,
 				D4D00E441AE14CE700D007E4 /* RZXGLView.h in Headers */,
 				D4D00E491AE14CE700D007E4 /* RZXRenderable.h in Headers */,
 				D48424821B57EBEC009E0C29 /* RZXGPUObject.h in Headers */,
@@ -736,9 +759,11 @@
 			files = (
 				D4D00E731AE14D2600D007E4 /* RZXBlurEffect.h in Headers */,
 				D4D00E771AE14D2600D007E4 /* RZXCompositeEffect.h in Headers */,
+				D47841CE1B5ED70A00CBFE49 /* RZXGrayscaleEffect.h in Headers */,
 				D4D7EF1D1B33CBB7003F4DA1 /* RZXPassthroughEffect.h in Headers */,
 				D4D00E591AE14D1300D007E4 /* RazeEffects.h in Headers */,
 				8ADE4C6E1B387F200082E00B /* RZXADSPhongEffect.h in Headers */,
+				D47841671B5E834D00CBFE49 /* RZXEffect.h in Headers */,
 				D4D00E751AE14D2600D007E4 /* RZXClothEffect.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -897,6 +922,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D478416A1B5E838300CBFE49 /* PBXTargetDependency */,
 				D4D00EAC1AE15C0600D007E4 /* PBXTargetDependency */,
 			);
 			name = RazeUIKit;
@@ -934,6 +960,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D47841C11B5E910700CBFE49 /* PBXTargetDependency */,
 				D4EF0F561B50506D001EA85F /* PBXTargetDependency */,
 			);
 			name = RazeAnimation;
@@ -1205,7 +1232,6 @@
 				D4E557291B44714C000665E3 /* RZXMesh.m in Sources */,
 				D48424831B57EBEC009E0C29 /* RZXGPUObject.m in Sources */,
 				D4D00E421AE14CE700D007E4 /* RZXGLContext.m in Sources */,
-				D4D00E401AE14CE700D007E4 /* RZXEffect.m in Sources */,
 				D4D00E481AE14CE700D007E4 /* RZXQuadMesh.m in Sources */,
 				D4EDE0621B41CEE6003AEB98 /* RZXDynamicTexture.m in Sources */,
 				D4EDE05A1B41C6F8003AEB98 /* RZXStaticTexture.m in Sources */,
@@ -1231,6 +1257,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4D00E781AE14D2600D007E4 /* RZXCompositeEffect.m in Sources */,
+				D47841CF1B5ED70A00CBFE49 /* RZXGrayscaleEffect.m in Sources */,
+				D47841681B5E834D00CBFE49 /* RZXEffect.m in Sources */,
 				D4D00E741AE14D2600D007E4 /* RZXBlurEffect.m in Sources */,
 				8ADE4C6F1B387F200082E00B /* RZXADSPhongEffect.m in Sources */,
 				D4D7EF1E1B33CBB7003F4DA1 /* RZXPassthroughEffect.m in Sources */,
@@ -1303,6 +1331,16 @@
 			isa = PBXTargetDependency;
 			target = D4D00E531AE14D1300D007E4 /* RazeEffects */;
 			targetProxy = 8A6ECFB91B34602100743DBF /* PBXContainerItemProxy */;
+		};
+		D478416A1B5E838300CBFE49 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D4D00E531AE14D1300D007E4 /* RazeEffects */;
+			targetProxy = D47841691B5E838300CBFE49 /* PBXContainerItemProxy */;
+		};
+		D47841C11B5E910700CBFE49 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D4D00E531AE14D1300D007E4 /* RazeEffects */;
+			targetProxy = D47841C01B5E910700CBFE49 /* PBXContainerItemProxy */;
 		};
 		D4D00E1D1AE14CB900D007E4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

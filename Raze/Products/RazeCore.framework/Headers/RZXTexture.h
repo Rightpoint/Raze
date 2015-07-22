@@ -26,6 +26,8 @@ OBJC_EXTERN NSString* const kRZXTextureTWrapKey;     /** Default GL_REPEAT */
 
 - (void)applyOptions:(NSDictionary *)options;
 
+- (void)attachToFramebuffer:(GLenum)framebuffer;
+
 @end
 
 #pragma clang diagnostic pop

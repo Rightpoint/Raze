@@ -78,6 +78,11 @@
     }
 }
 
+- (void)setMultisampleLevel:(GLsizei)multisampleLevel
+{
+    // no-op, RZXEffectView doesn't support multisample antialiasing
+}
+
 - (void)setEffect:(RZXEffect *)effect
 {
     _effect = effect;
@@ -163,9 +168,9 @@
 
             [self.model rzx_render];
 
-            glInvalidateFramebuffer(GL_FRAMEBUFFER, 1, s_GLDiscards);
+            [context invalidateFramebufferAttachments:s_GLDiscards count:1];
             glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, 0, 0);
-            glInvalidateFramebuffer(GL_FRAMEBUFFER, 1, &s_GLDiscards[1]);
+            [context invalidateFramebufferAttachments:s_GLDiscards+1 count:1];
 
             glBindTexture(GL_TEXTURE_2D, self->_auxTex[fbo][downsample]);
             fbo = 1 - fbo;
@@ -185,12 +190,12 @@
 
         [self.model rzx_render];
 
-        glInvalidateFramebuffer(GL_FRAMEBUFFER, 1, s_GLDiscards);
+        [context invalidateFramebufferAttachments:s_GLDiscards count:1];
 
         glBindRenderbuffer(GL_RENDERBUFFER, self->_crb);
         [context presentRenderbuffer:GL_RENDERBUFFER];
 
-        glInvalidateFramebuffer(GL_FRAMEBUFFER, 1, &s_GLDiscards[1]);
+        [context invalidateFramebufferAttachments:s_GLDiscards+1 count:1];
 
         glBindTexture(GL_TEXTURE_2D, 0);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);

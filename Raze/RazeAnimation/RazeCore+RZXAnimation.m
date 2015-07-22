@@ -9,7 +9,7 @@
 
 #import <RazeCore/RZXTransform3D.h>
 #import <RazeCore/RZXCamera.h>
-#import <RazeCore/RZXEffect.h>
+#import <RazeEffects/RZXEffect.h>
 #import <RazeCore/RZXGLView.h>
 
 @implementation NSObject (RZXAnimation)

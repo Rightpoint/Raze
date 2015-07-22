@@ -60,6 +60,16 @@ NSString* const kRZXTextureTWrapKey     = @"RZXTextureTWrap";
     }
 }
 
+- (void)attachToFramebuffer:(GLenum)framebuffer
+{
+    glFramebufferTexture2D(framebuffer, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _name, 0);
+}
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@: %p [%i, %i]>", [self class], self, (int)self.size.width, (int)self.size.height];
+}
+
 #pragma mark - RZXGPUObject overrides
 
 - (RZXGPUObjectTeardownBlock)teardownHandler
@@ -79,7 +89,7 @@ NSString* const kRZXTextureTWrapKey     = @"RZXTextureTWrap";
         glBindTexture(GL_TEXTURE_2D, _name);
     }
 
-#if DEBUG
+#if RZX_DEBUG
     bound &= !RZXGLError();
 #endif
 

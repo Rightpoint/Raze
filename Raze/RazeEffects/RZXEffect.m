@@ -5,7 +5,7 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <RazeCore/RZXEffect.h>
+#import <RazeEffects/RZXEffect.h>
 #import <RazeCore/RZXCache.h>
 
 GLuint RZXCompileShader(const GLchar *source, GLenum type);
@@ -67,8 +67,7 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
     
     GLint success;
     glGetProgramiv(_name, GL_LINK_STATUS, &success);
-    
-#if DEBUG
+
     if ( success != GL_TRUE ) {
         GLint length;
         glGetProgramiv(_name, GL_INFO_LOG_LENGTH, &length);
@@ -81,7 +80,6 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
         
         free(logText);
     }
-#endif
 
     self.linked = (success == GL_TRUE);
 
@@ -276,7 +274,7 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
         setup = [self link];
     }
 
-#if DEBUG
+#if RZX_DEBUG
     setup &= !RZXGLError();
 #endif
 
@@ -291,7 +289,7 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
         [self.configuredContext useProgram:_name];
     }
 
-#if DEBUG
+#if RZX_DEBUG
     bound &= !RZXGLError();
 #endif
 
@@ -307,19 +305,25 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
 
 #pragma mark - private methods
 
+- (instancetype)init
+{
+    if ( (self = [super init]) ) {
+        _modelViewMatrix = GLKMatrix4Identity;
+        _projectionMatrix = GLKMatrix4Identity;
+        _normalMatrix = GLKMatrix3Identity;
+
+        _uniforms = [[NSCache alloc] init];
+        _uniformValues = [[NSCache alloc] init];
+    }
+    return self;
+}
+
 - (instancetype)initWithVertexShader:(NSString *)vsh fragmentShader:(NSString *)fsh
 {
     self = [self init];
     if ( self ) {
         _vshSrc = vsh;
         _fshSrc = fsh;
-
-        _modelViewMatrix = GLKMatrix4Identity;
-        _projectionMatrix = GLKMatrix4Identity;
-        _normalMatrix = GLKMatrix3Identity;
-        
-        _uniforms = [[NSCache alloc] init];
-        _uniformValues = [[NSCache alloc] init];
     }
     return self;
 }
@@ -330,7 +334,10 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
         GLint location = [self uniformLoc:uniformName];
 
         if ( location >= 0 ) {
-            setter(location);
+            [self.configuredContext runBlock:^(RZXGLContext *context) {
+                [self bindGL];
+                setter(location);
+            }];
 
             NSData *valueData = [NSData dataWithBytes:value length:bytes];
             [self.uniformValues setObject:valueData forKey:uniformName];
@@ -363,7 +370,6 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type)
     glShaderSource(shader, 1, &source, &length);
     glCompileShader(shader);
 
-#if DEBUG
     GLint success;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 
@@ -379,7 +385,6 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type)
 
         free(logText);
     }
-#endif
-    
+
     return shader;
 }

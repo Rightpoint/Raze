@@ -58,7 +58,7 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
             GLuint vertexCount;
             RZXGenerateQuadMesh(subdivisions, &vertexData, &vertexCount, &indexData, &self->_indexCount);
 
-            glGenVertexArrays(1, &self->_vao);
+            [self.configuredContext genVertexArrays:&self->_vao count:1];
             glGenBuffers(2, &self->_bufferSet.vbo);
 
             [self.configuredContext bindVertexArray:self->_vao];

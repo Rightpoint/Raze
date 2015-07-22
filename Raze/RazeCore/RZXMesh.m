@@ -49,7 +49,7 @@ NSString* const kRZXMeshFileExtension = @"mesh";
         GLuint vao = _vao;
         RZXBufferSet bufferSet = _bufferSet;
         teardown = ^(RZXGLContext *context) {
-            glDeleteVertexArrays(1, &vao);
+            [context deleteVertexArrays:&vao count:1];
             glDeleteBuffers(2, &bufferSet.vbo);
         };
     }
@@ -100,7 +100,7 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 
                     fclose(meshFile);
 
-                    glGenVertexArrays(1, &_vao);
+                    [self.configuredContext genVertexArrays:&_vao count:1];
                     [self.configuredContext bindVertexArray:_vao];
 
                     glGenBuffers(1, &_bufferSet.vbo);
@@ -134,7 +134,7 @@ NSString* const kRZXMeshFileExtension = @"mesh";
         }
     }
 
-#if DEBUG
+#if RZX_DEBUG
     setup &= !RZXGLError();
 #endif
 
@@ -149,7 +149,7 @@ NSString* const kRZXMeshFileExtension = @"mesh";
         [self.configuredContext bindVertexArray:_vao];
     }
 
-#if DEBUG
+#if RZX_DEBUG
     bound &= !RZXGLError();
 #endif
 

@@ -7,6 +7,7 @@
 //
 
 #import <RazeCore/RazeCore.h>
+#import <RazeEffects/RZXEffect.h>
 #import <RazeAnimation/CAAnimation+RZXExtensions.h>
 #import <RazeAnimation/RZXAnimatable.h>
 

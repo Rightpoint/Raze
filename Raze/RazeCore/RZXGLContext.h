@@ -15,6 +15,8 @@
 
 @interface RZXGLContext : NSObject
 
+@property (nonatomic, readonly) EAGLRenderingAPI apiVersion;
+
 @property (nonatomic, readonly) BOOL isCurrentContext;
 
 @property (assign, nonatomic) CGRect viewport;
@@ -45,5 +47,16 @@
 
 - (void)runBlock:(void(^)(RZXGLContext *context))block;
 - (void)runBlock:(void(^)(RZXGLContext *context))block wait:(BOOL)wait;
+
+@end
+
+@interface RZXGLContext (RZXAPIBridging)
+
+- (void)genVertexArrays:(GLuint *)arrays count:(GLsizei)n;
+- (void)deleteVertexArrays:(const GLuint *)arrays count:(GLsizei)n;
+
+- (void)resolveFramebuffer:(GLuint)framebuffer multisampleFramebuffer:(GLuint)msFramebuffer size:(CGSize)framebufferSize;
+
+- (void)invalidateFramebufferAttachments:(const GLenum *)attachments count:(GLsizei)n;
 
 @end
