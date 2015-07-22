@@ -41,9 +41,6 @@
 - (void)bindVertexArray:(GLuint)vao;
 - (void)useProgram:(GLuint)program;
 
-- (GLuint)vertexShaderWithSource:(NSString *)vshSrc;
-- (GLuint)fragmentShaderWithSource:(NSString *)fshSrc;
-
 - (CVOpenGLESTextureRef)textureWithPixelBuffer:(CVPixelBufferRef)pixelBuffer;
 
 - (void)runBlock:(void(^)(RZXGLContext *context))block;

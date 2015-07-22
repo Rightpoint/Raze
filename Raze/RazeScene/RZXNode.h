@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <GLKit/GLKMatrix4.h>
 #import <QuartzCore/CAAnimation.h>
 
+#import <RazeCore/RZXGPUObject.h>
 #import <RazeCore/RZXRenderable.h>
 #import <RazeCore/RZXUpdateable.h>
 
@@ -16,7 +16,7 @@
 @class RZXEffect;
 @class RZXCamera;
 
-@interface RZXNode : NSObject <RZXRenderable, RZXUpdateable>
+@interface RZXNode : RZXGPUObject <RZXRenderable, RZXUpdateable>
 
 @property (strong, nonatomic) RZXTransform3D *transform;
 @property (strong, nonatomic) RZXEffect *effect;

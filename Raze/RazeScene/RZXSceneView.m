@@ -6,9 +6,8 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import "RZXSceneView.h"
+#import <RazeScene/RZXSceneView.h>
 #import <RazeScene/RazeScene.h>
-#import <OpenGLES/ES2/glext.h>
 
 @implementation RZXSceneView
 
@@ -24,7 +23,19 @@
 - (void)setScene:(RZXScene *)scene
 {
     _scene = scene;
+
+    [_context runBlock:^(RZXGLContext *context) {
+        [scene setupGL];
+    }];
+
     self.model = scene;
+}
+
+- (void)setupGL
+{
+    [super setupGL];
+
+    [self.scene setupGL];
 }
 
 #pragma mark - drawing

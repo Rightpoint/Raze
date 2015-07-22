@@ -32,8 +32,8 @@
 
     RZXScene *scene = [RZXScene sceneWithEffect: effect];
 
-    RZXMesh *mesh = [RZXMesh meshWithName:@"firstMesh" meshFileName:@"cube.mesh"];
-    RZXStaticTexture *texture = [RZXStaticTexture textureWithFileName:@"gridTexture.png" useMipMapping:YES useCache:YES];
+    RZXMesh *mesh = [RZXMesh meshWithName:@"cube" usingCache:YES];
+    RZXStaticTexture *texture = [RZXStaticTexture mipmappedTextureFromFile:@"gridTexture.png" usingCache:YES];
     
     RZXModelNode *modelNode = [RZXModelNode modelNodeWithMesh:mesh texture:texture];
     [modelNode.transform translateZBy:-9.0f];

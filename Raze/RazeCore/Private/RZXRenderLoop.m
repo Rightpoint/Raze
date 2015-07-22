@@ -21,6 +21,7 @@ static const NSInteger kRZRenderLoopDefaultFPS = 30;
 
 @property (assign, nonatomic, readwrite) CFTimeInterval lastRender;
 @property (assign, nonatomic, readwrite, getter=isRunning) BOOL running;
+@property (assign, nonatomic, readwrite, getter=isValid) BOOL valid;
 
 @end
 
@@ -64,6 +65,11 @@ static const NSInteger kRZRenderLoopDefaultFPS = 30;
 {
     self.running = NO;
 }
+
+- (void)invalidate
+{
+    [self teardownDisplayLink];
+}
                         
 #pragma mark - private methods
 
@@ -78,6 +84,8 @@ static const NSInteger kRZRenderLoopDefaultFPS = 30;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+
+    self.valid = YES;
 }
 
 - (void)teardownDisplayLink
@@ -87,6 +95,8 @@ static const NSInteger kRZRenderLoopDefaultFPS = 30;
     
     [self.displayLink invalidate];
     self.displayLink = nil;
+
+    self.valid = NO;
 }
 
 - (void)setRunning:(BOOL)running

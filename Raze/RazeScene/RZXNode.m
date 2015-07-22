@@ -134,50 +134,62 @@
     [self.mutableAnimations removeObjectForKey:key];
 }
 
-#pragma mark - RZXOpenGLObject
+#pragma mark - RZXGPUObject overrides
 
-- (void)rzx_setupGL
+- (BOOL)setupGL
 {
-    [self.effect rzx_setupGL];
+    BOOL setup = [super setupGL];
+
+    setup &= [self.effect setupGL];
     
     for ( RZXNode *child in self.children ) {
-        [child rzx_setupGL];
+        setup &= [child setupGL];
     }
+
+    return setup;
 }
 
-- (void)rzx_bindGL
+- (BOOL)bindGL
 {
-// TODO: get resolution somehow
-//    self.effect.resolution = GLKVector2Make(_backingWidth, _backingHeight);
+    BOOL bound = [super bindGL];
 
-    GLKMatrix4 modelViewMatrix = GLKMatrix4Multiply([self viewMatrix], [self modelMatrix]);
+    if ( bound ) {
+        // TODO: get resolution somehow
+        //    self.effect.resolution = GLKVector2Make(_backingWidth, _backingHeight);
 
-    self.effect.modelViewMatrix = modelViewMatrix;
-    self.effect.projectionMatrix = [self projectionMatrix];
-    
-    // can use modelView matrix for normal matrix if only uniform scaling occurs
-    GLKVector3 scale = self.transform.scale;
-    
-    if ( scale.x == scale.y && scale.y == scale.z ) {
-        self.effect.normalMatrix = GLKMatrix4GetMatrix3(modelViewMatrix);
+        GLKMatrix4 modelViewMatrix = GLKMatrix4Multiply([self viewMatrix], [self modelMatrix]);
+
+        self.effect.modelViewMatrix = modelViewMatrix;
+        self.effect.projectionMatrix = [self projectionMatrix];
+
+        // can use modelView matrix for normal matrix if only uniform scaling occurs
+        GLKVector3 scale = self.transform.scale;
+
+        if ( scale.x == scale.y && scale.y == scale.z ) {
+            self.effect.normalMatrix = GLKMatrix4GetMatrix3(modelViewMatrix);
+        }
+        else {
+            self.effect.normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
+        }
+        
+        [self.effect prepareToDraw];
     }
-    else {
-        self.effect.normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
-    }
 
-    [self.effect prepareToDraw];
+    return bound;
 }
 
-- (void)rzx_teardownGL
+- (void)teardownGL
 {
-    [self.effect rzx_teardownGL];
+    [super teardownGL];
+    
+    [self.effect teardownGL];
     
     for ( RZXNode *child in self.children ) {
-        [child rzx_teardownGL];
+        [child teardownGL];
     }
 }
 
-#pragma mark - RZXRenderable
+#pragma mark - RZXUpdateable
 
 - (void)rzx_update:(NSTimeInterval)dt
 {
@@ -197,10 +209,12 @@
     }
 }
 
+#pragma mark - RZXRenderable
+
 - (void)rzx_render
 {
     for ( RZXNode *child in self.children ) {
-        [child rzx_bindGL];
+        [child bindGL];
         [child rzx_render];
     }
 }

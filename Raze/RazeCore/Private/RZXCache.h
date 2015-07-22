@@ -22,3 +22,10 @@
 - (void)removeAllObjects;
 
 @end
+
+@interface RZXCache (RZXSubscripting)
+
+- (id)objectForKeyedSubscript:(id)key;
+- (void)setObject:(id)obj forKeyedSubscript:(id <NSCopying>)key;
+
+@end

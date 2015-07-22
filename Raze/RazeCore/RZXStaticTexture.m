@@ -5,125 +5,127 @@
 //  Created by Rob Visentin on 6/29/15.
 //
 
-#import <OpenGLES/ES2/gl.h>
 #import <GLKit/GLKTextureLoader.h>
 #import <RazeCore/RZXStaticTexture.h>
+#import <RazeCore/RZXCache.h>
 
-@implementation RZXStaticTexture {
-    BOOL _cacheRequested;
-    BOOL _useMipMapping;
+@interface RZXStaticTexture ()
+
+@property (assign, nonatomic) BOOL usingCache;
+@property (assign, nonatomic) BOOL usingMipmapping;
+
+@end
+
+@implementation RZXStaticTexture
+
++ (instancetype)textureFromFile:(NSString *)fileName usingCache:(BOOL)useCache
+{
+    return [[self alloc] initWithFileName:fileName useMipMapping:NO useCache:useCache];
 }
 
-+ (instancetype)textureWithFileName:(NSString *)fileName useMipMapping:(BOOL)useMipMapping useCache:(BOOL)useCache
++ (instancetype)mipmappedTextureFromFile:(NSString *)fileName usingCache:(BOOL)useCache
 {
-    return [[self alloc] initWithFileName:fileName useMipMapping:useMipMapping useCache:useCache];
+    return [[self alloc] initWithFileName:fileName useMipMapping:YES useCache:useCache];
 }
 
-+ (void)deleteAllTexturesFromCache
+#pragma mark - RZXGPUObject overrides
+
+- (RZXGPUObjectTeardownBlock)teardownHandler
 {
-    NSMutableDictionary *cache = [self cachedTextureIdentifiers];
-    NSMutableArray *keys = [[NSMutableArray alloc] init];
-    for (NSString *key in cache) {
-        [keys addObject:key];
+    RZXGPUObjectTeardownBlock teardown = nil;
+
+    RZXCache *cache = self.usingCache ? [self.configuredContext cacheForClass:[RZXStaticTexture class]] : nil;
+    if ( cache[self.fileName] == nil ) {
+        teardown = [super teardownHandler];
     }
 
-    for (NSString *key in keys) {
-        GLuint textureID = [cache[key] unsignedIntValue];
-        glDeleteTextures(1, &textureID);
-    }
-
-    [cache removeAllObjects];
+    return teardown;
 }
 
-#pragma mark - RZXOpenGLObject
-
-- (void)rzx_setupGL
+- (BOOL)setupGL
 {
-    [self assignIdentifer];
+    return ([super setupGL] && [self assignIdentifer]);
 }
 
-- (void)rzx_teardownGL
+- (void)teardownGL
 {
-    [super rzx_teardownGL];
-
-    if (_cacheRequested) {
-        NSMutableDictionary *cache = [RZXStaticTexture cachedTextureIdentifiers];
-        [cache removeObjectForKey:_fileName];
+    if ( self.usingCache ) {
+        RZXCache *cache = [self.configuredContext cacheForClass:[RZXStaticTexture class]];
+        [cache releaseObjectForKey:self.fileName];
     }
+
+    [super teardownGL];
 }
 
 #pragma mark - private methods
-
-+ (NSNumber *)cachedTextureIndexForKey:(NSString *)keyString
-{
-    NSMutableDictionary *cache = [RZXStaticTexture cachedTextureIdentifiers];
-    return cache[keyString];
-}
-
-+ (NSMutableDictionary *)cachedTextureIdentifiers
-{
-    static NSMutableDictionary *cacheDictionary;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        cacheDictionary = [[NSMutableDictionary alloc] init];
-    });
-    return cacheDictionary;
-}
 
 - (instancetype)initWithFileName:(NSString *)fileName useMipMapping:(BOOL)useMipMapping useCache:(BOOL)useCache
 {
     self = [super init];
     if (self) {
         _fileName = fileName;
-        _cacheRequested = useCache;
-        _useMipMapping = useMipMapping;
+        _usingCache = useCache;
+        _usingMipmapping = useMipMapping;
     }
     return self;
 }
 
-- (void)assignIdentifer
+- (BOOL)assignIdentifer
 {
-    if (!_cacheRequested) {
-        _name = [self createNewTextureWithFileName:_fileName];
+    BOOL assigned = NO;
+
+    RZXCache *cache = self.usingCache ? [self.configuredContext cacheForClass:[RZXStaticTexture class]] : nil;
+
+    GLKTextureInfo *cachedTextureInfo = cache[self.fileName];
+
+    if ( cachedTextureInfo != nil ) {
+        [cache retainObjectForKey:self.fileName];
+        [self applyTextureInfo:cachedTextureInfo];
+
+        assigned = YES;
     }
     else {
-        NSMutableDictionary *cache = [RZXStaticTexture cachedTextureIdentifiers];
-        if ( cache[_fileName] != nil ) {
-            _name = [cache[_fileName] unsignedIntValue];
+        NSString *name = [self.fileName stringByDeletingPathExtension];
+        NSString *extension = [self.fileName pathExtension];
+        NSString *path = [[NSBundle mainBundle] pathForResource:name ofType:extension];
+
+        if ( path == nil ) {
+            RZXLog(@"Failed to setup %@: %@ not found in the main bundle.", NSStringFromClass([self class]), self.fileName);
         }
         else {
-            _name = [self createNewTextureWithFileName:_fileName];
-            cache[_fileName] = @(_name);
+            NSDictionary *options = @{ GLKTextureLoaderOriginBottomLeft : @(YES),
+                                       GLKTextureLoaderGenerateMipmaps : @(_usingMipmapping) };
+
+            // GLKTextureLoader will throw a random error if an OpenGL error exists prior to texture loading.
+            // This appears to be a bug, but a workaround is to flush the error ahead of time.
+            RZXGLError();
+
+            NSError *error;
+            GLKTextureInfo *textureInfo = [GLKTextureLoader textureWithContentsOfFile:path options:options error:&error];
+
+            if ( error != nil ) {
+                RZXLog(@"Failed to setup %@: %@", NSStringFromClass([self class]), error.localizedDescription);
+            }
+            else {
+                [self applyTextureInfo:textureInfo];
+
+                if ( self.usingCache ) {
+                    cache[self.fileName] = textureInfo;
+                }
+                
+                assigned = YES;
+            }
         }
     }
+
+    return assigned;
 }
 
-- (GLuint)createNewTextureWithFileName:(NSString *)fileName
+- (void)applyTextureInfo:(GLKTextureInfo *)textureInfo
 {
-    NSString *name = [fileName stringByDeletingPathExtension];
-    NSString *extension = [fileName pathExtension];
-    NSString *path = [[NSBundle mainBundle] pathForResource:name ofType:extension];
-
-    if ( path == nil ) {
-        NSLog(@"error, text file not found: %@",fileName);
-    }
-
-    NSMutableDictionary *options= [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:GLKTextureLoaderOriginBottomLeft];
-    if (_useMipMapping) {
-        [options setObject:[NSNumber numberWithBool:YES] forKey:GLKTextureLoaderGenerateMipmaps];
-    }
-    NSError *error;
-    GLKTextureInfo *textureInfo = [GLKTextureLoader textureWithContentsOfFile:path options:options error:&error];
-
-    if ( error != nil ) {
-        NSLog(@"error loading texture: %@", error);
-        return 0;
-    }
-    else {
-        _size.width = textureInfo.width;
-        _size.height = textureInfo.height;
-        return textureInfo.name;
-    }
+    _size.width = textureInfo.width;
+    _size.height = textureInfo.height;
+    _name = textureInfo.name;
 }
 
 @end

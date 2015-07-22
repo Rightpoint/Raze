@@ -5,14 +5,13 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <GLKit/GLKMath.h>
-#import <RazeCore/RZXBase.h>
+#import <RazeCore/RZXGPUObject.h>
 
 #define RZX_EFFECT_MAX_DOWNSAMPLE 4
 
 #define RZX_SHADER_SRC(src) (@#src)
 
-@interface RZXEffect : NSObject <RZXOpenGLObject>
+@interface RZXEffect : RZXGPUObject
 
 @property (nonatomic, readonly, getter = isLinked) BOOL linked;
 
@@ -28,8 +27,6 @@
 @property (assign, nonatomic) GLuint downsampleLevel;
 
 @property (nonatomic, readonly) NSInteger preferredLevelOfDetail;
-
-+ (instancetype)effectWithVertexShaderNamed:(NSString *)vshName fragmentShaderNamed:(NSString *)fshName;
 
 + (instancetype)effectWithVertexShader:(NSString *)vsh fragmentShader:(NSString *)fsh;
 

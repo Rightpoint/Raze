@@ -13,6 +13,8 @@
 @property (assign, nonatomic, readonly) CFTimeInterval lastRender;
 @property (assign, nonatomic, readonly, getter=isRunning) BOOL running;
 
+@property (assign, nonatomic, readonly, getter=isValid) BOOL valid;
+
 @property (assign, nonatomic) BOOL automaticallyResumeWhenForegrounded; // default YES
 
 @property (assign, nonatomic) NSInteger preferredFPS; // default 30
@@ -24,5 +26,7 @@
 
 - (void)run;
 - (void)stop;
+
+- (void)invalidate;
 
 @end

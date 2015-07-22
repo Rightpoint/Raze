@@ -5,7 +5,6 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <OpenGLES/ES2/glext.h>
 #import <RazeCore/RZXGLContext.h>
 #import <RazeCore/RZXQuadMesh.h>
 #import <RazeCore/RZXCamera.h>
@@ -81,14 +80,59 @@
 
 - (void)setEffect:(RZXEffect *)effect
 {
-    [self.context runBlock:^(RZXGLContext *context){
-        [_effect rzx_teardownGL];
+    _effect = effect;
+    self.model = [RZXQuadMesh quadWithSubdivisionLevel:effect.preferredLevelOfDetail];
+}
 
-        [effect rzx_setupGL];
+- (RZXGPUObjectTeardownBlock)teardownHandler
+{
+    RZXGPUObjectTeardownBlock superTeardown = [super teardownHandler];
 
-        _effect = effect;
-        self.model = [RZXQuadMesh quadWithSubdivisionLevel:effect.preferredLevelOfDetail];
-    }];
+    GLuint fbo = _fbos[1];
+    GLuint drb = _drbs[1];
+
+    GLuint *auxTex = (GLuint *)malloc(sizeof(_auxTex));
+    memcpy(auxTex, _auxTex, sizeof(_auxTex));
+
+    return ^(RZXGLContext *context) {
+        if ( superTeardown != nil ) {
+            superTeardown(context);
+        }
+
+        glDeleteFramebuffers(1, &fbo);
+        glDeleteRenderbuffers(1, &drb);
+        glDeleteTextures(2 * RZX_EFFECT_AUX_TEXTURES, auxTex);
+
+        free(auxTex);
+    };
+}
+
+- (void)setupGL
+{
+    [super setupGL];
+
+    [self createTexture];
+}
+
+- (void)teardownGL
+{
+    [super teardownGL];
+
+    memset(_fbos, 0, 2 * sizeof(GLuint));
+    memset(_drbs, 0, 2 * sizeof(GLuint));
+    memset(_auxTex, 0, sizeof(_auxTex));
+}
+
+#pragma mark - RZUpdateable
+
+- (void)rzx_update:(NSTimeInterval)dt
+{
+    [super rzx_update:dt];
+
+    if ( self.isDynamic || !self.textureLoaded ) {
+        [self.viewTexture updateWithView:self.sourceView synchronous:self.synchronousUpdate];
+        self.textureLoaded = YES;
+    }
 }
 
 - (void)display
@@ -102,7 +146,8 @@
         context.activeTexture = GL_TEXTURE0;
         context.clearColor = self.backgroundColor.CGColor;
 
-        [self rzx_bindGL];
+        [self.viewTexture bindGL];
+        [self congfigureEffect];
 
         int fbo = 0;
 
@@ -118,9 +163,9 @@
 
             [self.model rzx_render];
 
-            glDiscardFramebufferEXT(GL_FRAMEBUFFER, 1, s_GLDiscards);
+            glInvalidateFramebuffer(GL_FRAMEBUFFER, 1, s_GLDiscards);
             glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, 0, 0);
-            glDiscardFramebufferEXT(GL_FRAMEBUFFER, 1, &s_GLDiscards[1]);
+            glInvalidateFramebuffer(GL_FRAMEBUFFER, 1, &s_GLDiscards[1]);
 
             glBindTexture(GL_TEXTURE_2D, self->_auxTex[fbo][downsample]);
             fbo = 1 - fbo;
@@ -140,12 +185,12 @@
 
         [self.model rzx_render];
 
-        glDiscardFramebufferEXT(GL_FRAMEBUFFER, 1, s_GLDiscards);
+        glInvalidateFramebuffer(GL_FRAMEBUFFER, 1, s_GLDiscards);
 
         glBindRenderbuffer(GL_RENDERBUFFER, self->_crb);
         [context presentRenderbuffer:GL_RENDERBUFFER];
 
-        glDiscardFramebufferEXT(GL_FRAMEBUFFER, 1, &s_GLDiscards[1]);
+        glInvalidateFramebuffer(GL_FRAMEBUFFER, 1, &s_GLDiscards[1]);
 
         glBindTexture(GL_TEXTURE_2D, 0);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -182,7 +227,7 @@
         }
     }
 
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24_OES, _backingWidth, _backingHeight);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, _backingWidth, _backingHeight);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, _drbs[1]);
 
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -202,7 +247,7 @@
 
     memset(_fbos, 0, 2 * sizeof(GLuint));
     memset(_drbs, 0, 2 * sizeof(GLuint));
-    memset(_auxTex, 0, 2 * RZX_EFFECT_AUX_TEXTURES * sizeof(GLuint));
+    memset(_auxTex, 0, sizeof(_auxTex));
 }
 
 #pragma mark - private methods
@@ -237,9 +282,8 @@
 {
     if ( self.sourceView != nil ) {
         [self.context runBlock:^(RZXGLContext *context) {
-            [self->_viewTexture rzx_teardownGL];
-            self->_viewTexture = [RZXViewTexture textureWithSize:self.sourceView.bounds.size];
-            [self->_viewTexture rzx_setupGL];
+            self.viewTexture = [RZXViewTexture textureWithSize:self.sourceView.bounds.size];
+            [self.viewTexture setupGL];
 
             self.textureLoaded = NO;
         }];
@@ -269,48 +313,6 @@
     self.effect.resolution = GLKVector2Make(_backingWidth, _backingHeight);
     self.effect.modelViewMatrix = GLKMatrix4Multiply(view, model);
     self.effect.projectionMatrix = projection;
-}
-
-#pragma mark - RZUpdateable
-
-- (void)rzx_update:(NSTimeInterval)dt
-{
-    [super rzx_update:dt];
-
-    if ( self.isDynamic || !self.textureLoaded ) {
-        [self.viewTexture updateWithView:self.sourceView synchronous:self.synchronousUpdate];
-        self.textureLoaded = YES;
-    }
-}
-
-#pragma mark - RZXRenderable
-
-- (void)rzx_setupGL
-{
-    [self.context runBlock:^(RZXGLContext *context){
-        [super rzx_setupGL];
-
-        [self setEffect:self.effect];
-        [self createTexture];
-    }];
-}
-
-- (void)rzx_bindGL
-{
-    [super rzx_bindGL];
-
-    [self congfigureEffect];
-    [self.viewTexture rzx_bindGL];
-}
-
-- (void)rzx_teardownGL
-{
-    [self.context runBlock:^(RZXGLContext *context){
-        [super rzx_teardownGL];
-
-        [self.effect rzx_teardownGL];
-        [self.viewTexture rzx_teardownGL];
-    }];
 }
 
 @end

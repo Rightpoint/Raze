@@ -5,7 +5,6 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <OpenGLES/ES2/gl.h>
 #import <QuartzCore/QuartzCore.h>
 #import <RazeEffects/RZXClothEffect.h>
 

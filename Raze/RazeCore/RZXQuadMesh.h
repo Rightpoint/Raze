@@ -10,7 +10,7 @@
 
 OBJC_EXTERN NSInteger const kRZXQuadMeshMaxSubdivisions;
 
-@interface RZXQuadMesh : RZXMesh <RZXRenderable>
+@interface RZXQuadMesh : RZXMesh
 
 + (instancetype)quad;
 + (instancetype)quadWithSubdivisionLevel:(NSInteger)subdivisons;
@@ -19,6 +19,6 @@ OBJC_EXTERN NSInteger const kRZXQuadMeshMaxSubdivisions;
 
 @interface RZXQuadMesh (RZXUnavailable)
 
-+ (instancetype)meshWithName:(NSString *)name meshFileName:(NSString *)meshFileName UNAVAILABLE_ATTRIBUTE;
++ (instancetype)meshWithName:(NSString *)name usingCache:(BOOL)useCache UNAVAILABLE_ATTRIBUTE;
 
 @end

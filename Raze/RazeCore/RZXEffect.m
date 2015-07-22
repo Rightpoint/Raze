@@ -5,9 +5,10 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <OpenGLES/ES2/gl.h>
 #import <RazeCore/RZXEffect.h>
-#import <RazeCore/RZXGLContext.h>
+#import <RazeCore/RZXCache.h>
+
+GLuint RZXCompileShader(const GLchar *source, GLenum type);
 
 @interface RZXEffect ()
 
@@ -30,16 +31,14 @@
 + (instancetype)effectWithVertexShader:(NSString *)vsh fragmentShader:(NSString *)fsh
 {
     RZXEffect *effect = nil;
-    
-#if DEBUG
+
     if ( vsh == nil ) {
-        NSLog(@"%@ failed to intialize, missing vertex shader.", NSStringFromClass(self));
+        RZXLog(@"%@ failed to intialize, missing vertex shader.", NSStringFromClass(self));
     }
     
     if ( fsh == nil ) {
-        NSLog(@"%@ failed to intialize, missing fragment shader.", NSStringFromClass(self));
+        RZXLog(@"%@ failed to intialize, missing fragment shader.", NSStringFromClass(self));
     }
-#endif
     
     if ( vsh != nil && fsh != nil ) {
         effect = [[self alloc] initWithVertexShader:vsh fragmentShader:fsh];
@@ -91,7 +90,7 @@
 
 - (BOOL)prepareToDraw
 {
-    [self rzx_bindGL];
+    [self bindGL];
     
     if ( self.mvpUniform != nil ) {
         GLKMatrix4 mvpMatrix = GLKMatrix4Multiply(_projectionMatrix, _modelViewMatrix);
@@ -172,7 +171,7 @@
         }];
     }
     else {
-        NSLog(@"%@ failed to set uniform %@ with invalid length %i", [self class], name, length);
+        RZXLog(@"%@ failed to set uniform %@ with invalid length %i", [self class], name, length);
     }
 }
 
@@ -213,7 +212,7 @@
         }];
     }
     else {
-        NSLog(@"%@ failed to set uniform %@ with invalid length %i", [self class], name, length);
+        RZXLog(@"%@ failed to set uniform %@ with invalid length %i", [self class], name, length);
     }
 }
 
@@ -238,41 +237,72 @@
     }];
 }
 
-#pragma mark - RZXOpenGLObject
+#pragma mark - RZXGPUObject overrides
 
-- (void)rzx_setupGL
+- (RZXGPUObjectTeardownBlock)teardownHandler
 {
-    RZXGLContext *currentContext = [RZXGLContext currentContext];
+    GLuint name = _name;
+    return ^(RZXGLContext *context) {
+        glDeleteProgram(name);
+    };
+}
 
-    if ( currentContext != nil ) {
-        [self rzx_teardownGL];
-        
-        GLuint vs = [currentContext vertexShaderWithSource:self.vshSrc];
-        GLuint fs = [currentContext fragmentShaderWithSource:self.fshSrc];
-        
+- (BOOL)setupGL
+{
+    BOOL setup = [super setupGL];
+
+    if ( setup ) {
+        RZXCache *cache = [self.configuredContext cacheForClass:[RZXEffect class]];
+
+        GLuint vs = [cache[self.vshSrc] unsignedIntValue];
+
+        if ( vs == 0 ) {
+            vs = RZXCompileShader(self.vshSrc.UTF8String, GL_VERTEX_SHADER);
+            cache[self.vshSrc] = @(vs);
+        }
+
+        GLuint fs = [cache[self.fshSrc] unsignedIntValue];
+
+        if ( fs == 0 ) {
+            fs = RZXCompileShader(self.fshSrc.UTF8String, GL_FRAGMENT_SHADER);
+            cache[self.fshSrc] = @(fs);
+        }
+
         _name = glCreateProgram();
-        
+
         glAttachShader(_name, vs);
         glAttachShader(_name, fs);
 
-        [self link];
+        setup = [self link];
     }
-    else {
-        NSLog(@"Failed to setup %@: No active RZXGLContext.", NSStringFromClass([self class]));
-    }
+
+#if DEBUG
+    setup &= !RZXGLError();
+#endif
+
+    return setup;
 }
 
-- (void)rzx_bindGL
+- (BOOL)bindGL
 {
-    [[RZXGLContext currentContext] useProgram:_name];
+    BOOL bound = [super bindGL];
+
+    if ( bound ) {
+        [self.configuredContext useProgram:_name];
+    }
+
+#if DEBUG
+    bound &= !RZXGLError();
+#endif
+
+    return bound;
 }
 
-- (void)rzx_teardownGL
+- (void)teardownGL
 {
-    if ( _name != 0 ) {
-        glDeleteProgram(_name);
-        _name = 0;
-    }
+    [super teardownGL];
+
+    _name = 0;
 }
 
 #pragma mark - private methods
@@ -324,3 +354,32 @@
 }
 
 @end
+
+GLuint RZXCompileShader(const GLchar *source, GLenum type)
+{
+    GLuint shader = glCreateShader(type);
+    GLint length = (GLuint)strlen(source);
+
+    glShaderSource(shader, 1, &source, &length);
+    glCompileShader(shader);
+
+#if DEBUG
+    GLint success;
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+
+    if ( success != GL_TRUE ) {
+        GLint length;
+        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
+
+        GLchar *logText = malloc(length + 1);
+        logText[length] = '\0';
+        glGetShaderInfoLog(shader, length, NULL, logText);
+
+        fprintf(stderr, "Error compiling shader: %s\n", logText);
+
+        free(logText);
+    }
+#endif
+    
+    return shader;
+}

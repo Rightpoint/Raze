@@ -4,10 +4,7 @@
 //
 //  Created by Rob Visentin on 6/29/15.
 //
-//
 
-#import <OpenGLES/ES2/gl.h>
-#import <RazeCore/RZXGLContext.h>
 #import <RazeCore/RZXTexture.h>
 
 NSString* const kRZXTextureMinFilterKey = @"RZXTextureMinFilter";
@@ -17,61 +14,83 @@ NSString* const kRZXTextureTWrapKey     = @"RZXTextureTWrap";
 
 @implementation RZXTexture
 
-@synthesize size = _size;
-
 #pragma mark - public methods
+
+- (CGSize)size
+{
+    if ( self.configuredContext == nil ) {
+        [[RZXGLContext defaultContext] runBlock:^(RZXGLContext *context) {
+            [self setupGL];
+        }];
+    }
+
+    return _size;
+}
 
 - (void)applyOptions:(NSDictionary *)options
 {
-    if ( options.count && [RZXGLContext currentContext] != nil ) {
-        if ( _name ) {
-            [self rzx_bindGL];
+    if ( options.count ) {
+        GLuint name = _name;
 
-            if ( options[kRZXTextureMinFilterKey] != nil ) {
-                GLint minFilter = [[options objectForKey:kRZXTextureMinFilterKey] intValue];
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
-            }
+        [self.configuredContext runBlock:^(RZXGLContext *context) {
+            if ( name ) {
+                glBindTexture(GL_TEXTURE_2D, name);
 
-            if ( options[kRZXTextureMagFilterKey] != nil ) {
-                GLint magFilter = [[options objectForKey:kRZXTextureMagFilterKey] intValue];
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
-            }
+                if ( options[kRZXTextureMinFilterKey] != nil ) {
+                    GLint minFilter = [[options objectForKey:kRZXTextureMinFilterKey] intValue];
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
+                }
 
-            if ( options[kRZXTextureSWrapKey] != nil ) {
-                GLint sWrap = [[options objectForKey:kRZXTextureSWrapKey] intValue];
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, sWrap);
-            }
+                if ( options[kRZXTextureMagFilterKey] != nil ) {
+                    GLint magFilter = [[options objectForKey:kRZXTextureMagFilterKey] intValue];
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
+                }
 
-            if ( options[kRZXTextureTWrapKey] != nil ) {
-                GLint tWrap = [[options objectForKey:kRZXTextureTWrapKey] intValue];
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, tWrap);
+                if ( options[kRZXTextureSWrapKey] != nil ) {
+                    GLint sWrap = [[options objectForKey:kRZXTextureSWrapKey] intValue];
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, sWrap);
+                }
+
+                if ( options[kRZXTextureTWrapKey] != nil ) {
+                    GLint tWrap = [[options objectForKey:kRZXTextureTWrapKey] intValue];
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, tWrap);
+                }
             }
-        }
-    }
-    else {
-        NSLog(@"[%@] failed to apply options: %@. No active context!", [self class], options);
+        } wait:NO];
     }
 }
 
-#pragma mark - RZXOpenGLObject
+#pragma mark - RZXGPUObject overrides
 
-- (void)rzx_setupGL
+- (RZXGPUObjectTeardownBlock)teardownHandler
 {
-    // subclass override
+    GLuint name = _name;
+    return ^(RZXGLContext *context) {
+        glDeleteTextures(1, &name);
+    };
 }
 
-- (void)rzx_bindGL
+- (BOOL)bindGL
 {
-    [RZXGLContext currentContext].activeTexture = GL_TEXTURE0;
-    glBindTexture(GL_TEXTURE_2D, _name);
-}
+    BOOL bound = [super bindGL];
 
-- (void)rzx_teardownGL
-{
-    if ( _name ) {
-        glDeleteTextures(1, &_name);
-        _name = 0;
+    if ( bound ) {
+        self.configuredContext.activeTexture = GL_TEXTURE0;
+        glBindTexture(GL_TEXTURE_2D, _name);
     }
+
+#if DEBUG
+    bound &= !RZXGLError();
+#endif
+
+    return bound;
+}
+
+- (void)teardownGL
+{
+    [super teardownGL];
+
+    _name = 0;
 }
 
 @end

@@ -5,9 +5,9 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <RazeCore/RZXOpenGLObject.h>
+#import <Foundation/Foundation.h>
 
-@protocol RZXRenderable <RZXOpenGLObject>
+@protocol RZXRenderable <NSObject>
 
 - (void)rzx_render;
 
