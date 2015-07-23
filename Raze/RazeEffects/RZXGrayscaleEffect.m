@@ -5,7 +5,7 @@
 //  Created by Rob Visentin on 7/21/15.
 //
 
-#import "RZXGrayscaleEffect.h"
+#import <RazeEffects/RZXGrayscaleEffect.h>
 
 static NSString* const kRZXEffectIntensityVSH = RZX_SHADER_SRC(
 uniform mat4 u_MVPMatrix;

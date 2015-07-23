@@ -22,6 +22,8 @@
 @property (strong, nonatomic) RZXEffect *effect;
 @property (strong, nonatomic) RZXCamera *camera;
 
+@property (assign, nonatomic) GLKVector2 resolution;
+
 @property (copy, nonatomic, readonly) NSArray *children;
 @property (weak, nonatomic, readonly) RZXNode *parent;
 

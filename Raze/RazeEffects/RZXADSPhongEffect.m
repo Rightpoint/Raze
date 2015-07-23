@@ -90,8 +90,8 @@ void main()
 
 - (BOOL)prepareToDraw
 {
-    [super prepareToDraw];
-    
+    BOOL ret = [super prepareToDraw];
+
     [self setFloatUniform:@"u_lightPosition" value:_lightPosition.v length:4 count:1];
     [self setFloatUniform:@"u_lightIntensity" value:_lightIntensity.v length:3 count:1];
     [self setFloatUniform:@"u_ambientReflection" value:_ambientReflection.v length:3 count:1];
@@ -99,7 +99,7 @@ void main()
     [self setFloatUniform:@"u_specularReflection" value:_specularReflection.v length:3 count:1];
     [self setFloatUniform:@"u_specularShininess" value:&_specularShininess length:1 count:1];
 
-     return NO;
+     return ret;
 }
 
 @end

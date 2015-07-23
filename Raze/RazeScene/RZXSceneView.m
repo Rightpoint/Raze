@@ -46,4 +46,10 @@
     [self.scene rzx_update:dt];
 }
 
+- (void)display
+{
+    self.scene.resolution = GLKVector2Make(_backingWidth, _backingHeight);
+    [super display];
+}
+
 @end
