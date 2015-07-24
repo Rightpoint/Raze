@@ -89,7 +89,7 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
 - (BOOL)prepareToDraw
 {
     [self bindGL];
-    
+
     if ( self.mvpUniform != nil ) {
         GLKMatrix4 mvpMatrix = GLKMatrix4Multiply(_projectionMatrix, _modelViewMatrix);
         [self setMatrix4Uniform:self.mvpUniform value:&mvpMatrix transpose:GL_FALSE count:1];

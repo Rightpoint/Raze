@@ -61,6 +61,17 @@
     return effect;
 }
 
+- (GLKVector2)resolution
+{
+    GLKVector2 resolution = _resolution;
+
+    if ( (resolution.x <= 0.0f || resolution.y <= 0.0f) && self.parent != nil ) {
+        resolution = self.parent.resolution;
+    }
+
+    return resolution;
+}
+
 - (NSArray *)children
 {
     return [self.mutableChildren copy];
@@ -155,8 +166,7 @@
     BOOL bound = [super bindGL];
 
     if ( bound ) {
-        // TODO: get resolution somehow
-        //    self.effect.resolution = GLKVector2Make(_backingWidth, _backingHeight);
+        self.effect.resolution = self.resolution;
 
         GLKMatrix4 modelViewMatrix = GLKMatrix4Multiply([self viewMatrix], [self modelMatrix]);
 

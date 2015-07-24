@@ -145,8 +145,8 @@ varying vec3 v_lightPosition;
 
 - (BOOL)prepareToDraw
 {
-    [super prepareToDraw];
-    
+    BOOL ret = [super prepareToDraw];
+
     [self setFloatUniform:@"u_Anchors" value:_anchors.v length:2 count:1];
     
     [self setFloatUniform:@"u_Waves" value:&_waveCount length:1 count:1];
@@ -161,7 +161,7 @@ varying vec3 v_lightPosition;
     GLfloat time = CACurrentMediaTime();
     [self setFloatUniform:@"u_Time" value:&time length:1 count:1];
     
-    return NO;
+    return ret;
 }
 
 @end

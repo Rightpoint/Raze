@@ -13,7 +13,9 @@ FOUNDATION_EXPORT const unsigned char RazeEffectsVersionString[];
 #import <RazeEffects/RZXEffect.h>
 #import <RazeEffects/RZXPassthroughEffect.h>
 #import <RazeEffects/RZXGrayscaleEffect.h>
+#import <RazeEffects/RZXConvolutionEffect.h>
 #import <RazeEffects/RZXBlurEffect.h>
 #import <RazeEffects/RZXClothEffect.h>
 #import <RazeEffects/RZXCompositeEffect.h>
 #import <RazeEffects/RZXADSPhongEffect.h>
+#import <RazeEffects/RZXImageFilter.h>
