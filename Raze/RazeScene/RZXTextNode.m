@@ -155,6 +155,8 @@
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     [super rzx_render];
+
+    glDisable(GL_BLEND);
 }
 
 #pragma mark - private methods

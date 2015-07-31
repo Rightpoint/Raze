@@ -32,17 +32,17 @@ void main()
 
 static NSString* const kRZXADSPhongFSH = RZX_SHADER_SRC(
 precision mediump float;
-uniform vec4 u_lightPosition;
+uniform highp vec4 u_lightPosition;
 uniform vec3 u_lightIntensity;
 uniform vec3 u_ambientReflection;
 uniform vec3 u_diffuseReflection;
 uniform vec3 u_specularReflection;
 uniform float u_specularShininess;
-uniform sampler2D u_Texture;
+uniform lowp sampler2D u_Texture;
 
-varying vec3 v_position;
-varying vec3 v_normal;
-varying vec2 v_texCoord0;
+varying highp vec3 v_position;
+varying highp vec3 v_normal;
+varying highp vec2 v_texCoord0;
 
 vec3 ads()
 {

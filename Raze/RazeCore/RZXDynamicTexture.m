@@ -8,8 +8,6 @@
 #import <RazeCore/RZXGLContext.h>
 #import <RazeCore/RZXDynamicTexture.h>
 
-@import UIKit;
-
 #if TARGET_OS_IPHONE
 #import <UIKit/UIGraphics.h>
 #else
@@ -82,9 +80,9 @@ NS_INLINE size_t RZXAlignSize(size_t size)
 #if !RZX_CV_AVAILABLE
         [self.configuredContext runBlock:^(RZXGLContext *context) {
             glBindTexture(GL_TEXTURE_2D, _name);
-            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, (GLsizei)RZXAlignSize(_texWidth), _texHeight, GL_RGBA, GL_UNSIGNED_BYTE, _pixData);
+            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, (GLsizei)RZXAlignSize(_texWidth), _texHeight, GL_BGRA, GL_UNSIGNED_BYTE, _pixData);
             glBindTexture(GL_TEXTURE_2D, 0);
-        }];
+        } wait:NO];
 #endif
     }
 }
@@ -124,8 +122,6 @@ NS_INLINE size_t RZXAlignSize(size_t size)
     if ( setup ) {
         if ( [self createTextureBuffer] ) {
             RZX_DYNAMIC_TEXTURE_LOCK(0);
-
-
 
 #if RZX_CV_AVAILABLE
             void *contextData = CVPixelBufferGetBaseAddress(_pixBuffer);
@@ -221,7 +217,16 @@ NS_INLINE size_t RZXAlignSize(size_t size)
         glGenTextures(1, &_name);
         glBindTexture(GL_TEXTURE_2D, _name);
 
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)alignedWidth, _texHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, _pixData);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)alignedWidth, _texHeight, 0, GL_BGRA, GL_UNSIGNED_BYTE, _pixData);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        // non power of 2 texture must be clamped to edge
+        if ( log2(_texWidth) != 0.0 || log2(_texHeight) != 0.0 ) {
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        }
 
         glBindTexture(GL_TEXTURE_2D, 0);
 

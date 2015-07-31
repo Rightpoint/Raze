@@ -60,11 +60,11 @@ uniform vec3 u_Specular;
 
 uniform lowp sampler2D u_Texture;
 
-varying vec4 v_position;
-varying vec3 v_normal;
+varying highp vec4 v_position;
+varying highp vec3 v_normal;
 varying highp vec2 v_texCoord0;
 
-varying vec3 v_lightPosition;
+varying highp vec3 v_lightPosition;
  
  void main(void)
 {
@@ -93,7 +93,7 @@ varying vec3 v_lightPosition;
     scatteredLight += (u_Ambient * attenuation + u_Diffuse * diffuse * attenuation);
     reflectedLight += (u_Specular * specular * attenuation);
     
-    vec3 rgb = min(tex.rgb * scatteredLight + reflectedLight, vec3(1.0));
+    lowp vec3 rgb = min(tex.rgb * scatteredLight + reflectedLight, vec3(1.0));
     
     gl_FragColor = vec4(rgb, tex.a);
 });
