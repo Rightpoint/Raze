@@ -124,7 +124,7 @@
     return GLKMatrix4Multiply([super modelMatrix], self.textTransform.modelMatrix);
 }
 
-- (void)rzx_render
+- (BOOL)bindGL
 {
     [self updateTextureIfNeeded];
 
@@ -145,6 +145,11 @@
         self.textTransform.scale = GLKVector3Make(aspectRatio * yScale, yScale, 1.0f);
     }
 
+    return [super bindGL];
+}
+
+- (void)rzx_render
+{
     // TODO: make this part of the context
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

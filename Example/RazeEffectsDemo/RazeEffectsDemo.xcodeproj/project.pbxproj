@@ -38,7 +38,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D41DB8161A681DDD00BFF5F9 /* RazeEffectsDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RazeEffectsDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D41DB8161A681DDD00BFF5F9 /* RZXEffects.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RZXEffects.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D429EA4A1AE1863100B45527 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = RazeEffectsDemo/AppDelegate.h; sourceTree = SOURCE_ROOT; };
 		D429EA4B1AE1863100B45527 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = RazeEffectsDemo/AppDelegate.m; sourceTree = SOURCE_ROOT; };
 		D429EA4C1AE1863100B45527 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = RazeEffectsDemo/Images.xcassets; sourceTree = SOURCE_ROOT; };
@@ -81,7 +81,7 @@
 		D41DB8171A681DDD00BFF5F9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D41DB8161A681DDD00BFF5F9 /* RazeEffectsDemo.app */,
+				D41DB8161A681DDD00BFF5F9 /* RZXEffects.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -128,7 +128,7 @@
 			);
 			name = RZXEffects;
 			productName = RazeEffectsDemo;
-			productReference = D41DB8161A681DDD00BFF5F9 /* RazeEffectsDemo.app */;
+			productReference = D41DB8161A681DDD00BFF5F9 /* RZXEffects.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */

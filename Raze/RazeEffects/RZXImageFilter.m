@@ -110,6 +110,8 @@
             int fbo = 0;
             RZXDynamicTexture *currentTexture = [self.fboTextures firstObject];
 
+            // TODO: handle downsample level of effects
+
             while ( [self.effect prepareToDraw] ) {
                 [self renderToFramebuffer:_fbos[fbo]];
 
