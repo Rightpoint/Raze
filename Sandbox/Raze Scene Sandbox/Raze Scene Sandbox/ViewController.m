@@ -42,7 +42,7 @@
     self.sceneView.scene = scene;
 
     RZXMesh *officeMesh = [RZXMesh meshWithName:@"retroOffice" usingCache:YES];
-    RZXStaticTexture *officeTexture = [RZXStaticTexture textureFromFile:@"greyTexture.png" usingCache:YES];
+    RZXStaticTexture *officeTexture = [RZXStaticTexture textureFromFile:@"officeTexture.png" usingCache:YES];
 
     RZXModelNode *officeNode = [RZXModelNode modelNodeWithMesh:officeMesh texture:officeTexture];
     [scene addChild:officeNode];
