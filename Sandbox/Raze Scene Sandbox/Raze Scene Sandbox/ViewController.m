@@ -8,7 +8,6 @@
 
 #import "ViewController.h"
 
-
 @interface ViewController ()
 
 @property (nonatomic, readonly) RZXSceneView *sceneView;
@@ -76,7 +75,7 @@
     [self.officeNode addAnimation:animation forKey:@"rotation"];
 
     CABasicAnimation *translationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.translation"];
-    animation.toValue = [NSValue rzx_valueWithVec3:GLKVector3Make(0.0, 0.01, 0.0)];
+    animation.toValue = [NSValue rzx_valueWithVec3:GLKVector3Make(0.0, 0.0, 0.0)];
     animation.duration = 0.2;
     [self.officeNode addAnimation:translationAnimation forKey:@"translation"];
 }
@@ -89,8 +88,9 @@
 - (void)handleLongPress:(UILongPressGestureRecognizer *)longPressRecognizer
 {
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.translation"];
-    animation.toValue = [NSValue rzx_valueWithVec3:GLKVector3Make(0.0, 1.0, 3.0)];
-    animation.duration = 0.4;
+    animation.toValue = [NSValue rzx_valueWithVec3:GLKVector3Make(0.0, 0.74, 3.5)];
+    animation.duration = 1.0;
+
     [self.officeNode addAnimation:animation forKey:@"translation"];
 }
 
