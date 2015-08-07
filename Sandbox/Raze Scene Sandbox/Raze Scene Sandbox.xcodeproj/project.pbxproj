@@ -22,6 +22,9 @@
 		8AE987521AE19C550058F441 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AE987511AE19C550058F441 /* Images.xcassets */; };
 		8AE987551AE19C550058F441 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AE987531AE19C550058F441 /* LaunchScreen.xib */; };
 		8AE987611AE19C550058F441 /* Raze_Scene_SandboxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE987601AE19C550058F441 /* Raze_Scene_SandboxTests.m */; };
+		D436E4691B74FD0E006E9B26 /* RZXViewNode.m in Sources */ = {isa = PBXBuildFile; fileRef = D436E4681B74FD0E006E9B26 /* RZXViewNode.m */; };
+		D436E46B1B74FE39006E9B26 /* RazeUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D436E46A1B74FE39006E9B26 /* RazeUIKit.framework */; };
+		D436E46C1B74FE39006E9B26 /* RazeUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D436E46A1B74FE39006E9B26 /* RazeUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D4EF0FA01B505D3F001EA85F /* RazeAnimation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D4EF0F9E1B505D3F001EA85F /* RazeAnimation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -43,6 +46,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				8A6ECFC41B34611D00743DBF /* RazeCore.framework in Embed Frameworks */,
+				D436E46C1B74FE39006E9B26 /* RazeUIKit.framework in Embed Frameworks */,
 				D4EF0FA01B505D3F001EA85F /* RazeAnimation.framework in Embed Frameworks */,
 				8A6ECFC51B34611D00743DBF /* RazeEffects.framework in Embed Frameworks */,
 				8A6ECFC61B34611D00743DBF /* RazeScene.framework in Embed Frameworks */,
@@ -74,6 +78,9 @@
 		8AE9875A1AE19C550058F441 /* Raze Scene SandboxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Raze Scene SandboxTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AE9875F1AE19C550058F441 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8AE987601AE19C550058F441 /* Raze_Scene_SandboxTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Raze_Scene_SandboxTests.m; sourceTree = "<group>"; };
+		D436E4671B74FD0E006E9B26 /* RZXViewNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXViewNode.h; sourceTree = "<group>"; };
+		D436E4681B74FD0E006E9B26 /* RZXViewNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXViewNode.m; sourceTree = "<group>"; };
+		D436E46A1B74FE39006E9B26 /* RazeUIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeUIKit.framework; path = "$(TARGET_BUILD_DIR)/RazeUIKit.framework"; sourceTree = "<group>"; };
 		D4EF0F9E1B505D3F001EA85F /* RazeAnimation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeAnimation.framework; path = "$(TARGET_BUILD_DIR)/RazeAnimation.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -82,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D436E46B1B74FE39006E9B26 /* RazeUIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +106,7 @@
 		8AE987381AE19C550058F441 = {
 			isa = PBXGroup;
 			children = (
+				D436E46A1B74FE39006E9B26 /* RazeUIKit.framework */,
 				D4EF0F9E1B505D3F001EA85F /* RazeAnimation.framework */,
 				8A6ECFC11B34611D00743DBF /* RazeCore.framework */,
 				8A6ECFC21B34611D00743DBF /* RazeEffects.framework */,
@@ -129,6 +138,8 @@
 				8AE987491AE19C550058F441 /* AppDelegate.m */,
 				8AE9874B1AE19C550058F441 /* ViewController.h */,
 				8AE9874C1AE19C550058F441 /* ViewController.m */,
+				D436E4671B74FD0E006E9B26 /* RZXViewNode.h */,
+				D436E4681B74FD0E006E9B26 /* RZXViewNode.m */,
 				8AE9874E1AE19C550058F441 /* Main.storyboard */,
 				8AE987511AE19C550058F441 /* Images.xcassets */,
 				8AE987531AE19C550058F441 /* LaunchScreen.xib */,
@@ -270,6 +281,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AE9874D1AE19C550058F441 /* ViewController.m in Sources */,
+				D436E4691B74FD0E006E9B26 /* RZXViewNode.m in Sources */,
 				8AE9874A1AE19C550058F441 /* AppDelegate.m in Sources */,
 				8AE987471AE19C550058F441 /* main.m in Sources */,
 			);

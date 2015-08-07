@@ -7,12 +7,18 @@
 //
 
 #import "ViewController.h"
+#import "RZXViewNode.h"
 
+@import RazeScene;
 
-@interface ViewController ()
+@interface ViewController () <UITableViewDataSource>
 
-@property (nonatomic, readonly) RZXSceneView *sceneView;
+@property (weak, nonatomic) IBOutlet RZXSceneView *sceneView;
 @property (nonatomic, strong) RZXModelNode *officeNode;
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (copy, nonatomic) NSArray *names;
+
 @end
 
 @implementation ViewController
@@ -45,8 +51,8 @@
     self.officeNode = officeNode;
 
     RZXMesh *screenMesh = [RZXMesh meshWithName:@"officeScreen" usingCache:YES];
-    RZXStaticTexture *screenTexture = [RZXStaticTexture textureFromFile:@"rzUnicorn.png" usingCache:YES];
-    RZXModelNode *screenNode = [RZXModelNode modelNodeWithMesh:screenMesh texture:screenTexture];
+    RZXViewNode *screenNode = [RZXViewNode nodeWithView:self.tableView.superview];
+    screenNode.mesh = screenMesh;
     [officeNode addChild:screenNode];
 
     self.view.userInteractionEnabled = YES;
@@ -61,11 +67,50 @@
 
     UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
     [self.view addGestureRecognizer:longPressRecognizer];
+
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:NSStringFromClass([UITableViewCell class])];
+
+    [self configureNames];
+}
+
+- (void)configureNames
+{
+    self.names = @[ @"Nick Bonatsakis",
+                    @"Matt Buckley",
+                    @"Dave Counts",
+                    @"Anik Das",
+                    @"Adam Faja",
+                    @"Gary Fortier",
+                    @"Michael Gorbach",
+                    @"Jon Green",
+                    @"Chris Hoogewerff",
+                    @"Joe Howard",
+                    @"Adam Howitt",
+                    @"Dylan James",
+                    @"Ben Johnson",
+                    @"Justin Kaufman",
+                    @"Brian King",
+                    @"Matt Lawson",
+                    @"Michael LeBarron",
+                    @"Richard Lucas",
+                    @"Adam Nelsen",
+                    @"Jason Petralia",
+                    @"Jenn  Pleus",
+                    @"Greg Raiz",
+                    @"Alex Rouse",
+                    @"Aimee Silverman",
+                    @"Eric Slosser",
+                    @"Mallory Sluetz",
+                    @"John Stricker",
+                    @"Rob Visentin",
+                    @"Hallie Verrier",
+                    @"John Watson",
+                    @"Josh Wilson"];
 }
 
 - (void)handlePan:(UIPanGestureRecognizer *)panRecognizer
 {
-    [self.officeNode.transform rotateYBy: [panRecognizer velocityInView:self.view].x * -0.001];
+    [self.officeNode.transform rotateYBy: [panRecognizer velocityInView:self.view].x * 0.0005];
 }
 
 - (void)handleTap:(UITapGestureRecognizer *)tapRecognizer
@@ -94,9 +139,20 @@
     [self.officeNode addAnimation:animation forKey:@"translation"];
 }
 
-- (RZXSceneView *)sceneView
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return (RZXSceneView *)self.view;
+    return self.names.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UITableViewCell class]) forIndexPath:indexPath];
+
+    cell.textLabel.text = self.names[indexPath.row];
+
+    return cell;
 }
 
 @end
