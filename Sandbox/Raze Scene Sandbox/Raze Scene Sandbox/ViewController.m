@@ -9,8 +9,6 @@
 #import "ViewController.h"
 #import "RZXViewNode.h"
 
-@import RazeScene;
-
 @interface ViewController () <UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet RZXSceneView *sceneView;
@@ -55,11 +53,18 @@
     screenNode.mesh = screenMesh;
     [officeNode addChild:screenNode];
 
+    [self configureGestureRecognizers];
+    [self configureNames];
+}
+
+- (void)configureGestureRecognizers
+{
     self.view.userInteractionEnabled = YES;
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
     [self.view addGestureRecognizer:panRecognizer];
 
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    tapRecognizer.numberOfTapsRequired = 2;
     [self.view addGestureRecognizer:tapRecognizer];
 
     UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinch:)];
@@ -69,8 +74,6 @@
     [self.view addGestureRecognizer:longPressRecognizer];
 
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:NSStringFromClass([UITableViewCell class])];
-
-    [self configureNames];
 }
 
 - (void)configureNames
@@ -121,7 +124,7 @@
     [self.officeNode addAnimation:animation forKey:@"rotation"];
 
     CABasicAnimation *translationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.translation"];
-    animation.toValue = [NSValue rzx_valueWithVec3:GLKVector3Make(0.0, 0.01, 0.0)];
+    animation.toValue = [NSValue rzx_valueWithVec3:GLKVector3Make(0.0, 0.0, 0.0)];
     animation.duration = 0.2;
     [self.officeNode addAnimation:translationAnimation forKey:@"translation"];
 }
@@ -134,8 +137,9 @@
 - (void)handleLongPress:(UILongPressGestureRecognizer *)longPressRecognizer
 {
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.translation"];
-    animation.toValue = [NSValue rzx_valueWithVec3:GLKVector3Make(0.0, 1.0, 3.0)];
-    animation.duration = 0.4;
+    animation.toValue = [NSValue rzx_valueWithVec3:GLKVector3Make(0.0, 0.74, 3.5)];
+    animation.duration = 1.0;
+
     [self.officeNode addAnimation:animation forKey:@"translation"];
 }
 
@@ -151,6 +155,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UITableViewCell class]) forIndexPath:indexPath];
 
     cell.textLabel.text = self.names[indexPath.row];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     return cell;
 }
