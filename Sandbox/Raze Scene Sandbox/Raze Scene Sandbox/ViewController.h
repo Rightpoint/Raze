@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+@import RazeCore;
+@import RazeScene;
+@import RazeEffects;
 
 @interface ViewController : UIViewController
 
