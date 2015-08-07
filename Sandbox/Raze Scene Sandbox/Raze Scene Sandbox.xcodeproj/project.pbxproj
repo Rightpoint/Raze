@@ -10,6 +10,8 @@
 		8A1D8BF31B73FC9D00E2DE2E /* razeRedTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A1D8BF11B73FC9D00E2DE2E /* razeRedTexture.png */; };
 		8A4B51381B74D0290028816F /* greyTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A4B51371B74D0290028816F /* greyTexture.png */; };
 		8A4B513A1B74D0A90028816F /* retroOffice.mesh in Resources */ = {isa = PBXBuildFile; fileRef = 8A4B51391B74D0A90028816F /* retroOffice.mesh */; };
+		8A4B513E1B74D5830028816F /* rzUnicorn.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A4B513D1B74D5830028816F /* rzUnicorn.png */; };
+		8A4B51401B74D82E0028816F /* officeScreen.mesh in Resources */ = {isa = PBXBuildFile; fileRef = 8A4B513F1B74D82E0028816F /* officeScreen.mesh */; };
 		8A6ECFC41B34611D00743DBF /* RazeCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A6ECFC11B34611D00743DBF /* RazeCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8A6ECFC51B34611D00743DBF /* RazeEffects.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A6ECFC21B34611D00743DBF /* RazeEffects.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8A6ECFC61B34611D00743DBF /* RazeScene.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A6ECFC31B34611D00743DBF /* RazeScene.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -54,6 +56,8 @@
 		8A1D8BF11B73FC9D00E2DE2E /* razeRedTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = razeRedTexture.png; sourceTree = "<group>"; };
 		8A4B51371B74D0290028816F /* greyTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greyTexture.png; sourceTree = "<group>"; };
 		8A4B51391B74D0A90028816F /* retroOffice.mesh */ = {isa = PBXFileReference; lastKnownFileType = file; path = retroOffice.mesh; sourceTree = "<group>"; };
+		8A4B513D1B74D5830028816F /* rzUnicorn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rzUnicorn.png; sourceTree = "<group>"; };
+		8A4B513F1B74D82E0028816F /* officeScreen.mesh */ = {isa = PBXFileReference; lastKnownFileType = file; path = officeScreen.mesh; sourceTree = "<group>"; };
 		8A6ECFC11B34611D00743DBF /* RazeCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeCore.framework; path = "$(TARGET_BUILD_DIR)/RazeCore.framework"; sourceTree = "<group>"; };
 		8A6ECFC21B34611D00743DBF /* RazeEffects.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeEffects.framework; path = "$(TARGET_BUILD_DIR)/RazeEffects.framework"; sourceTree = "<group>"; };
 		8A6ECFC31B34611D00743DBF /* RazeScene.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeScene.framework; path = "$(TARGET_BUILD_DIR)/RazeScene.framework"; sourceTree = "<group>"; };
@@ -117,6 +121,8 @@
 			isa = PBXGroup;
 			children = (
 				8A4B51371B74D0290028816F /* greyTexture.png */,
+				8A4B513D1B74D5830028816F /* rzUnicorn.png */,
+				8A4B513F1B74D82E0028816F /* officeScreen.mesh */,
 				8A4B51391B74D0A90028816F /* retroOffice.mesh */,
 				8A1D8BF11B73FC9D00E2DE2E /* razeRedTexture.png */,
 				8AE987481AE19C550058F441 /* AppDelegate.h */,
@@ -238,8 +244,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A4B51401B74D82E0028816F /* officeScreen.mesh in Resources */,
 				8AE987501AE19C550058F441 /* Main.storyboard in Resources */,
 				8A4B513A1B74D0A90028816F /* retroOffice.mesh in Resources */,
+				8A4B513E1B74D5830028816F /* rzUnicorn.png in Resources */,
 				8A1D8BF31B73FC9D00E2DE2E /* razeRedTexture.png in Resources */,
 				8A4B51381B74D0290028816F /* greyTexture.png in Resources */,
 				8AE987551AE19C550058F441 /* LaunchScreen.xib in Resources */,
