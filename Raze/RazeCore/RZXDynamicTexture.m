@@ -142,10 +142,6 @@ NS_INLINE size_t RZXAlignSize(size_t size)
 
             CGContextScaleCTM(_context, _scale, _scale);
 
-#if !RZX_CV_AVAILABLE
-            _pixData = CGBitmapContextGetData(_context);
-#endif
-
             RZX_DYNAMIC_TEXTURE_UNLOCK(0);
             CGColorSpaceRelease(colorSpace);
         }
