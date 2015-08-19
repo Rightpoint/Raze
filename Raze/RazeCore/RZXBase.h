@@ -24,19 +24,15 @@
 #define RZXFont  NSFont
 #endif
 
-typedef enum _RZXVertexAttrib {
-    kRZXVertexAttribPosition,
-    kRZXVertexAttribTexCoord,
-    kRZXVertexAttribNormal
-} RZXVertexAttrib;
-
-#define RZX_DEBUG DEBUG
+#define RZX_DEBUG (DEBUG || TARGET_IPHONE_SIMULATOR)
 
 #if RZX_DEBUG
 #define RZXLog NSLog
 #else
 #define RZXLog(...)
 #endif
+
+#define RZX_CV_AVAILABLE !(TARGET_IPHONE_SIMULATOR)
 
 /**
  *  Convenience macros for creating keypaths. An invalid keypath will throw a compile-time error when compiling in debug mode.
@@ -73,6 +69,15 @@ __unused __typeof(_rzdb_keypath_obj.keypath) _rzdb_keypath_prop; \
  */
 #define RZX_KP_SELF(keypath) RZX_KP_OBJ(self, keypath)
 
+
+/**
+ *  Convenience enum to have unified attribute positions in shaders.
+ */
+typedef enum _RZXVertexAttrib {
+    kRZXVertexAttribPosition,
+    kRZXVertexAttribTexCoord,
+    kRZXVertexAttribNormal
+} RZXVertexAttrib;
 
 /**
  *  Function to flush (and print in DEBUG mode) the current OpenGL error.
