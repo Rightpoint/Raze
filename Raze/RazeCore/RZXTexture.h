@@ -15,6 +15,9 @@ OBJC_EXTERN NSString* const kRZXTextureTWrapKey;     /** Default GL_REPEAT */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wobjc-interface-ivars"
 
+/**
+ *  Base texture class. Textures in use should be subclasses: RZXStaticTexture or RZXDynamicTexture. 
+ */
 @interface RZXTexture : RZXGPUObject {
     @protected
     GLuint _name;

@@ -10,9 +10,25 @@
 
 OBJC_EXTERN NSInteger const kRZXQuadMeshMaxSubdivisions;
 
+/**
+ *  A procedurally generated square mesh
+ */
 @interface RZXQuadMesh : RZXMesh
 
+/**
+ *  Initilize a basic quad
+ *
+ *  @return a quad with 4 points
+ */
 + (instancetype)quad;
+
+/**
+ *  Initialize a quad with a specific number of subdivisions
+ *
+ *  @param subdivisons number of subdivisions
+ *
+ *  @return a subdivided qaud
+ */
 + (instancetype)quadWithSubdivisionLevel:(NSInteger)subdivisons;
 
 @end

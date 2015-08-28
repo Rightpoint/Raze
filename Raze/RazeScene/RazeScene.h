@@ -5,6 +5,9 @@
 //  Created by John Stricker on 5/1/15.
 //
 //
+/**
+ The header file for all Scene Components
+ */
 
 #import <Foundation/Foundation.h>
 
