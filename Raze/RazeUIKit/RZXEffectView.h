@@ -9,6 +9,9 @@
 #import <RazeEffects/RZXEffect.h>
 #import <RazeCore/RZXTransform3D.h>
 
+/**
+ * An opengl view that is applied to a UIView. 
+ */
 @interface RZXEffectView : RZXGLView
 
 @property (strong, nonatomic) RZXEffect *effect;

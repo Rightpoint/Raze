@@ -7,6 +7,9 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  Interploates for the given types of float, vec2, vec3, vec4 and quaternions.
+ */
 @interface RZXInterpolator : NSObject
 
 + (instancetype)floatInterpolator;

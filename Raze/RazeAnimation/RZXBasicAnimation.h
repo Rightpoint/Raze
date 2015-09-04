@@ -7,6 +7,9 @@
 
 #import <RazeAnimation/RZXAnimationBase.h>
 
+/**
+ *  Uses the structure of Core Animation's basic animation to generate animations for Raze.
+ */
 @interface RZXBasicAnimation : CABasicAnimation
 
 + (instancetype)animationWithKeyPath:(NSString *)path options:(RZXAnimationOptions)options;

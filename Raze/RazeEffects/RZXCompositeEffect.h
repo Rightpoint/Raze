@@ -7,6 +7,9 @@
 
 #import <RazeEffects/RZXEffect.h>
 
+/**
+ *  Helper class for managing two effects at the same time
+ */
 @interface RZXCompositeEffect : RZXEffect
 
 @property (strong, nonatomic, readonly) RZXEffect *firstEffect;

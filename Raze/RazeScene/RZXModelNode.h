@@ -16,24 +16,12 @@
  */
 @interface RZXModelNode : RZXNode
 
-/**
- *  Contains the model data used by this node
- */
+// Contains the model data used by this node
 @property (strong, nonatomic) RZXMesh *mesh;
 
-/**
- *  2D texture to be applied to the mesh
- */
+// 2D texture to be applied to the mesh
 @property (strong, nonatomic) RZXTexture *texture;
 
-/**
- *  Initialize a node
- *
- *  @param mesh    mesh for this node
- *  @param texture texture for this node
- *
- *  @return initialized model node
- */
 + (instancetype)modelNodeWithMesh:(RZXMesh *)mesh texture:(RZXTexture *)texture;
 
 @end

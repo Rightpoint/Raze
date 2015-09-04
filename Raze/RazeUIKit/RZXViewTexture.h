@@ -8,6 +8,9 @@
 #import <UIKit/UIKit.h>
 #import <RazeCore/RZXDynamicTexture.h>
 
+/**
+ *  Creates a dynamic texture from a UIView
+ */
 @interface RZXViewTexture : RZXDynamicTexture
 
 + (instancetype)textureWithSize:(CGSize)size;

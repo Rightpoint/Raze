@@ -11,6 +11,9 @@
 
 #define RZX_SHADER_SRC(src) (@#src)
 
+/**
+ *  Manages a shader. Any new shaders should subclass this. Override link to set up attributes (and call super), and override preprare to draw to assign uniforms (and call super). See RZXADSPhongEffect for an example of how a typical OpenGL shader can be implemented.
+ */
 @interface RZXEffect : RZXGPUObject
 
 @property (nonatomic, readonly, getter = isLinked) BOOL linked;
