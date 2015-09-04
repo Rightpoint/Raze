@@ -7,6 +7,9 @@
 
 #import <GLKit/GLKMath.h>
 
+/**
+ *  Wraps all object translation information: translation, rotation, scale, and modelMatrix.
+ */
 @interface RZXTransform3D : NSObject <NSCopying>
 
 @property (nonatomic, assign) GLKVector3 translation;

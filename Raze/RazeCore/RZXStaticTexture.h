@@ -14,24 +14,10 @@
 
 @property (copy, nonatomic, readonly) NSString *fileName;
 
-/**
- *  Load a texture from a file
- *
- *  @param fileName file name
- *  @param useCache if true, then the texture will be loaded from the cache if it exists and stored into the cache if it does not exist.
- *
- *  @return static texture instance
- */
+// Load texture from a file. If using the cache and this file was loaded previously, then the texture will make use of a previously created OpenGL texture buffer
 + (instancetype)textureFromFile:(NSString *)fileName usingCache:(BOOL)useCache;
 
-/**
- *  Load a texture from a file and also generate mipmaps of the texture. Mipmaps will be automatically utlized by Raze and will maintain texture clarity when using a large texture that appears on a small object (or an object that will at times be far away and appear small).
- *
- *  @param fileName file name
- *  @param useCache if true, then the texture will be loaded from the cache if it exists and stored into the cache if it does not exist.
- *
- *  @return static texture instance
- */
+//Load a texture from a file and also generate mipmaps of the texture. If available, Mipmaps will be automatically utlized by Raze and will maintain texture clarity when using a large texture that appears on a small object (or an object that will at times be far away and appear small).
 + (instancetype)mipmappedTextureFromFile:(NSString *)fileName usingCache:(BOOL)useCache;
 
 @end

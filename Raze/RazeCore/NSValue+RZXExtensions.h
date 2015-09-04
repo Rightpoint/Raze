@@ -8,6 +8,9 @@
 #import <Foundation/Foundation.h>
 #import <GLKit/GLKMathTypes.h>
 
+/**
+ *  Translates GLKit math types to and from NSValue
+ */
 @interface NSValue (RZXExtensions)
 
 + (instancetype)rzx_valueWithVec2:(GLKVector2)vec2;

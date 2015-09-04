@@ -5,6 +5,10 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
+/**
+ * Contains imports, macros, & enums, to supply base functionality to RZX Objects
+ */
+
 #ifndef _RZXBase_h
 #define _RZXBase_h
 

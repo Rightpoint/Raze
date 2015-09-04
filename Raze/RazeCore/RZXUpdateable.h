@@ -8,10 +8,15 @@
 #import <Foundation/Foundation.h>
 
 /** 
- ;aldsfjk asdf asdf dsf sadf sad asd
+ Protocol for any object that will be updated typically as part of a update/rendering 
  */
 @protocol RZXUpdateable <NSObject>
 
+/**
+ *  Update method to typically be called per frame
+ *
+ *  @param dt time elapsed since last update
+ */
 - (void)rzx_update:(NSTimeInterval)dt;
 
 @end

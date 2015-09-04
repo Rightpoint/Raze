@@ -12,11 +12,18 @@
 @class RZXTexture;
 
 /**
- *  The basic node used for 3D Models. It contains a mesh object referencing the model data and a texture object representing the model's texture.
+ *  The basic node used for 3D Models. It contains a mesh object containing the model's construction data and a texture object that will be applied to the model.
  */
 @interface RZXModelNode : RZXNode
 
+/**
+ *  Contains the model data used by this node
+ */
 @property (strong, nonatomic) RZXMesh *mesh;
+
+/**
+ *  2D texture to be applied to the mesh
+ */
 @property (strong, nonatomic) RZXTexture *texture;
 
 /**
@@ -25,7 +32,7 @@
  *  @param mesh    mesh for this node
  *  @param texture texture for this node
  *
- *  @return initizlied model node
+ *  @return initialized model node
  */
 + (instancetype)modelNodeWithMesh:(RZXMesh *)mesh texture:(RZXTexture *)texture;
 

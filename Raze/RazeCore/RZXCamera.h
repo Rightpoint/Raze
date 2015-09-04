@@ -7,6 +7,9 @@
 
 #import <RazeCore/RZXTransform3D.h>
 
+/**
+ *  Mocks out a camera view for OpenGL.
+ */
 @interface RZXCamera : NSObject
 
 @property (strong, nonatomic) RZXTransform3D *transform;

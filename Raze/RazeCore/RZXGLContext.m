@@ -50,17 +50,17 @@
     return [self initWithSharedContext:nil];
 }
 
-- (instancetype)initWithSharedContext:(RZXGLContext *)shareContext
+- (instancetype)initWithSharedContext:(RZXGLContext *)sharedContext
 {
     self = [super init];
     if ( self ) {
         const char *queueLabel = [NSString stringWithFormat:@"com.raze.context-%lu", (unsigned long)self.hash].UTF8String;
         _contextQueue = dispatch_queue_create(queueLabel, DISPATCH_QUEUE_SERIAL);
 
-        _glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3 sharegroup:shareContext.glContext.sharegroup];
+        _glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3 sharegroup:sharedContext.glContext.sharegroup];
 
         if ( _glContext == nil ) {
-            _glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2 sharegroup:shareContext.glContext.sharegroup];
+            _glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2 sharegroup:sharedContext.glContext.sharegroup];
         }
 
         if ( _glContext != nil ) {

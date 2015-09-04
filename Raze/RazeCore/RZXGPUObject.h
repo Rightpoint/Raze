@@ -10,6 +10,9 @@
 
 typedef void (^RZXGPUObjectTeardownBlock)(RZXGLContext *context);
 
+/**
+ *  The Base Class for any RZXObject that will be drawn using OpenGL
+ */
 @interface RZXGPUObject : NSObject
 
 @property (strong, nonatomic, readonly) RZXGLContext *configuredContext;
