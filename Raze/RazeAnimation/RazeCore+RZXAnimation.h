@@ -7,5 +7,8 @@
 
 #import <RazeAnimation/RZXAnimatable.h>
 
+/**
+ *  Adds KVC compliance for GLKit math types for Raze objects.
+ */
 @interface NSObject (RZXAnimation)
 @end

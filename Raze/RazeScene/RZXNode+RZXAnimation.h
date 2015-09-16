@@ -8,6 +8,9 @@
 #import <RazeScene/RZXNode.h>
 #import <RazeAnimation/RZXAnimationBase.h>
 
+/**
+ *  Helpers for applying animations to RZXNodes
+ */
 @interface RZXNode (RZXAnimation)
 
 #pragma mark - Relative Animations

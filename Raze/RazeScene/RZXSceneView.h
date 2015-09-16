@@ -10,6 +10,9 @@
 
 @class RZXScene;
 
+/**
+ *  An RZXGLView with a scene attached. All update and display calls will update and display the attached scene.
+ */
 @interface RZXSceneView : RZXGLView
 
 // TODO: elimineate confusion between two seperate core renderables (scene here and model in RZXGLView)

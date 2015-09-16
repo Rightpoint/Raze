@@ -7,6 +7,9 @@
 
 #import <RazeEffects/RZXEffect.h>
 
+/**
+ *  Blur 2D Effect
+ */
 @interface RZXBlurEffect : RZXEffect
 
 @property (assign, nonatomic) GLfloat sigma;
