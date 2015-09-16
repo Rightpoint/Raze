@@ -7,6 +7,9 @@
 
 #import <RazeEffects/RZXEffect.h>
 
+/**
+ *  A grayscale 2D effect
+ */
 @interface RZXGrayscaleEffect : RZXEffect
 
 + (instancetype)effect;

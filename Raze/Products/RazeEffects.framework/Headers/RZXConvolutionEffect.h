@@ -10,6 +10,9 @@
 OBJC_EXTERN GLKMatrix3 const kRZXConvoultionKernelIdentity;
 OBJC_EXTERN NSString* const kRZXEffectConvolutionVSH;
 
+/**
+ *  Convolution 2D effect
+ */
 @interface RZXConvolutionEffect : RZXEffect
 
 @property (assign, nonatomic) GLKMatrix3 kernel;

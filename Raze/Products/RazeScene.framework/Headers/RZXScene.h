@@ -10,6 +10,13 @@
 
 @interface RZXScene : RZXNode
 
+/**
+ *  The parent node of a scene.
+ *
+ *  @param effect effect to apply to the scene
+ *
+ *  @return RZXScene
+ */
 + (instancetype)sceneWithEffect:(RZXEffect *)effect;
 
 @end

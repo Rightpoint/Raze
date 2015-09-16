@@ -29,6 +29,9 @@ typedef NS_ENUM(NSUInteger, RZXVerticalAlignment) {
 @class RZXFont;
 @class RZXColor;
 
+/**
+ *  A model node whose model is a quad upon which is drawn a texture created from text
+ */
 @interface RZXTextNode : RZXModelNode
 
 @property (copy, nonatomic) NSString *text;

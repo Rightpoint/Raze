@@ -7,6 +7,9 @@
 
 #import <RazeEffects/RZXEffect.h>
 
+/**
+ *  Waving Cloth Effect
+ */
 @interface RZXClothEffect : RZXEffect
 
 @property (assign, nonatomic) GLKVector2 anchors;
