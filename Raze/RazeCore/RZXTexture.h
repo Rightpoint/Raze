@@ -24,7 +24,10 @@ OBJC_EXTERN NSString* const kRZXTextureTWrapKey;     /** Default GL_REPEAT */
     CGSize _size;
 }
 
-// NOTE: If the texture is not yet loaded, it will be loaded in the default context before returning.
+/**
+ *  Returns the width and height of the texture.
+ *  @note If the texture is not yet loaded, it will be loaded in the default context before returning.
+ */
 @property (assign, nonatomic, readonly) CGSize size;
 
 - (void)applyOptions:(NSDictionary *)options;

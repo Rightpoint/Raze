@@ -233,28 +233,6 @@
     return classCache;
 }
 
-- (BOOL)renderbufferStorage:(NSUInteger)target fromDrawable:(id<EAGLDrawable>)drawable
-{
-    __block BOOL success = NO;
-
-    [self runBlock:^(RZXGLContext *context) {
-        success = [context.glContext renderbufferStorage:target fromDrawable:drawable];
-    }];
-
-    return success;
-}
-
-- (BOOL)presentRenderbuffer:(NSUInteger)target
-{
-    __block BOOL success = NO;
-
-    [self runBlock:^(RZXGLContext *context) {
-        success = [context.glContext presentRenderbuffer:target];
-    }];
-
-    return success;
-}
-
 - (void)bindVertexArray:(GLuint)vao
 {
     if ( vao != _currentVAO ) {
@@ -393,6 +371,32 @@
     else {
         glInvalidateFramebuffer(GL_FRAMEBUFFER, n, attachments);
     }
+}
+
+@end
+
+@implementation RZXGLContext (RZXDrawing)
+
+- (BOOL)renderbufferStorage:(NSUInteger)target fromDrawable:(id<EAGLDrawable>)drawable
+{
+    __block BOOL success = NO;
+
+    [self runBlock:^(RZXGLContext *context) {
+        success = [context.glContext renderbufferStorage:target fromDrawable:drawable];
+    }];
+
+    return success;
+}
+
+- (BOOL)presentRenderbuffer:(NSUInteger)target
+{
+    __block BOOL success = NO;
+
+    [self runBlock:^(RZXGLContext *context) {
+        success = [context.glContext presentRenderbuffer:target];
+    }];
+
+    return success;
 }
 
 @end

@@ -11,14 +11,14 @@
 OBJC_EXTERN NSInteger const kRZXQuadMeshMaxSubdivisions;
 
 /**
- *  A procedurally generated square mesh
+ *  A procedurally generated rectangular mesh.
  */
 @interface RZXQuadMesh : RZXMesh
 
-// Initialize a basic quad
+/** Initialize a basic quad. */
 + (instancetype)quad;
 
-// Initialize a quad with a specific number of subdivisions
+/** Initialize a quad with a specific number of subdivisions. */
 + (instancetype)quadWithSubdivisionLevel:(NSInteger)subdivisons;
 
 @end

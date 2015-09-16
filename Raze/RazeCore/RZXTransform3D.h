@@ -7,15 +7,16 @@
 
 #import <GLKit/GLKMath.h>
 
-/**
- *  Wraps all object translation information: translation, rotation, scale, and modelMatrix.
- */
 @interface RZXTransform3D : NSObject <NSCopying>
 
 @property (nonatomic, assign) GLKVector3 translation;
 @property (nonatomic, assign) GLKQuaternion rotation;
 @property (nonatomic, assign) GLKVector3 scale;
 
+/** 
+ *  Returns the current TRS matrix from the translation, rotation, and scale properties.
+ *  @note This matrix is cached, and therefore is not recomputed unless a contributing property changes.
+ */
 @property (nonatomic, readonly) GLKMatrix4 modelMatrix;
 
 + (instancetype)transform;

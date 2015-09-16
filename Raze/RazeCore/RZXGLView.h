@@ -16,7 +16,8 @@
 #pragma clang diagnostic ignored "-Wobjc-interface-ivars"
 
 /**
- *  UIView with a CAEAGLayer, used for all openGL rendering
+ *  UIView with a CAEAGLayer, used for all OpenGL rendering.
+ *  Subclasses should be used to perform more nuanced rendering.
  */
 @interface RZXGLView : UIView <RZXUpdateable, RZXRenderable> {
     @protected
@@ -36,10 +37,10 @@
     GLint _backingHeight;
 }
 
-// Frames per second specified between 1 and 60
+/** Frames per second specified between 1 and 60. */
 @property (assign, nonatomic) IBInspectable NSInteger framesPerSecond;
 
-// Multisample level specified between 0 and 4
+/*  Multisample level specified between 0 and 4. */
 @property (assign, nonatomic) IBInspectable GLsizei multisampleLevel;
 
 // Pausing will stop the render loop
