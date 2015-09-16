@@ -9,9 +9,6 @@
 
 @class RZXInterpolator;
 
-/**
- *  Protocol allow applications of animations. If using GLKTypes, call rzx_addKVCComplianceForGLKTypes (see RZXNode.m for an example)
- */
 @protocol RZXAnimatable <NSObject>
 
 + (RZXInterpolator *)rzx_interpolatorForKey:(NSString *)key;
