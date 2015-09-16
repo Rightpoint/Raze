@@ -16,6 +16,9 @@
 @class RZXEffect;
 @class RZXCamera;
 
+/**
+ *  The base unit of any scene object. In most cases anything applied to a node (transform, camera, effect, animation) will also be applied to that node's children if the child node does not have a value specified.
+ */
 @interface RZXNode : RZXGPUObject <RZXRenderable, RZXUpdateable>
 
 @property (strong, nonatomic) RZXTransform3D *transform;

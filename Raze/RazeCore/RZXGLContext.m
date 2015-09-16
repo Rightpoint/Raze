@@ -50,17 +50,17 @@
     return [self initWithSharedContext:nil];
 }
 
-- (instancetype)initWithSharedContext:(RZXGLContext *)shareContext
+- (instancetype)initWithSharedContext:(RZXGLContext *)sharedContext
 {
     self = [super init];
     if ( self ) {
         const char *queueLabel = [NSString stringWithFormat:@"com.raze.context-%lu", (unsigned long)self.hash].UTF8String;
         _contextQueue = dispatch_queue_create(queueLabel, DISPATCH_QUEUE_SERIAL);
 
-        _glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3 sharegroup:shareContext.glContext.sharegroup];
+        _glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3 sharegroup:sharedContext.glContext.sharegroup];
 
         if ( _glContext == nil ) {
-            _glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2 sharegroup:shareContext.glContext.sharegroup];
+            _glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2 sharegroup:sharedContext.glContext.sharegroup];
         }
 
         if ( _glContext != nil ) {
@@ -233,28 +233,6 @@
     return classCache;
 }
 
-- (BOOL)renderbufferStorage:(NSUInteger)target fromDrawable:(id<EAGLDrawable>)drawable
-{
-    __block BOOL success = NO;
-
-    [self runBlock:^(RZXGLContext *context) {
-        success = [context.glContext renderbufferStorage:target fromDrawable:drawable];
-    }];
-
-    return success;
-}
-
-- (BOOL)presentRenderbuffer:(NSUInteger)target
-{
-    __block BOOL success = NO;
-
-    [self runBlock:^(RZXGLContext *context) {
-        success = [context.glContext presentRenderbuffer:target];
-    }];
-
-    return success;
-}
-
 - (void)bindVertexArray:(GLuint)vao
 {
     if ( vao != _currentVAO ) {
@@ -393,6 +371,32 @@
     else {
         glInvalidateFramebuffer(GL_FRAMEBUFFER, n, attachments);
     }
+}
+
+@end
+
+@implementation RZXGLContext (RZXDrawing)
+
+- (BOOL)renderbufferStorage:(NSUInteger)target fromDrawable:(id<EAGLDrawable>)drawable
+{
+    __block BOOL success = NO;
+
+    [self runBlock:^(RZXGLContext *context) {
+        success = [context.glContext renderbufferStorage:target fromDrawable:drawable];
+    }];
+
+    return success;
+}
+
+- (BOOL)presentRenderbuffer:(NSUInteger)target
+{
+    __block BOOL success = NO;
+
+    [self runBlock:^(RZXGLContext *context) {
+        success = [context.glContext presentRenderbuffer:target];
+    }];
+
+    return success;
 }
 
 @end

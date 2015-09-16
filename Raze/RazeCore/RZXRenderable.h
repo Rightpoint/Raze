@@ -7,8 +7,14 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  Protocol for any object to be renderered. Requires - (void)rzx_render
+ */
 @protocol RZXRenderable <NSObject>
 
+/**
+ *  Render the object
+ */
 - (void)rzx_render;
 
 @end

@@ -25,13 +25,16 @@
 {
     [super viewDidLoad];
 
+    // The scene view is set in the storyboard and is ultimately a UIVIew with an EAGLCALayer
     self.sceneView.backgroundColor = [UIColor whiteColor];
     self.sceneView.framesPerSecond = 60;
     self.sceneView.multisampleLevel = 4;
-    
+
+    // The effect (a wrapper for an OpenGL shader) that is applied to  the scene
     RZXADSPhongEffect *effect = [RZXADSPhongEffect effect];
     effect.lightPosition = GLKVector4Make(0.0f, 10.0f, 20.0f, 0.0f);
 
+    // The scene is the base node. Anything added to the scene will inherit its properties (the effect, camera, and any transforms)
     RZXScene *scene = [RZXScene sceneWithEffect: effect];
 
     float ratio = CGRectGetWidth(self.view.bounds) / CGRectGetHeight(self.view.bounds);
@@ -78,6 +81,7 @@
 
 - (void)configureNames
 {
+    // Current Raizlabs Employees
     self.names = @[ @"Nick Bonatsakis",
                     @"Matt Buckley",
                     @"Dave Counts",

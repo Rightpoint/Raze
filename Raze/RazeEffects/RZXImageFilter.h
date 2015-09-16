@@ -9,6 +9,9 @@
 
 @class RZXEffect;
 
+/**
+ *  Applies an effect to an image
+ */
 @interface RZXImageFilter : NSObject
 
 @property (assign, nonatomic) CGImageRef sourceImage;
