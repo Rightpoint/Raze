@@ -1,7 +1,9 @@
 
+![Raze banner image](documentation/razeBanner.png)
+
 Raze : A supplemental graphics engine for apps
 =
-![Raze banner image](documentation/razeBanner.png)
+
 Why Raze?
 -
 ####Designed for apps
