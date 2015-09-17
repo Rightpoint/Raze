@@ -1,0 +1,6 @@
+framework module RazeUIKit {
+  umbrella header "RazeUIKit.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,6 @@
+framework module RazeCore {
+  umbrella header "RazeCore.h"
+
+  export *
+  module * { export * }
+}

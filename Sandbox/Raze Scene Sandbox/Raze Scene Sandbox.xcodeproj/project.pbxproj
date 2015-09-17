@@ -1,0 +1,521 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8A1D8BF31B73FC9D00E2DE2E /* razeRedTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A1D8BF11B73FC9D00E2DE2E /* razeRedTexture.png */; };
+		8A4A47AB1B750ED800BAF117 /* officeBanner.mesh in Resources */ = {isa = PBXBuildFile; fileRef = 8A4A47AA1B750ED800BAF117 /* officeBanner.mesh */; };
+		8A4A47AD1B750EE000BAF117 /* officeScreen.mesh in Resources */ = {isa = PBXBuildFile; fileRef = 8A4A47AC1B750EE000BAF117 /* officeScreen.mesh */; };
+		8A4A47B71B7519C900BAF117 /* officeTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A4A47B61B7519C900BAF117 /* officeTexture.png */; };
+		8A4B51381B74D0290028816F /* greyTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A4B51371B74D0290028816F /* greyTexture.png */; };
+		8A4B513E1B74D5830028816F /* rzUnicorn.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A4B513D1B74D5830028816F /* rzUnicorn.png */; };
+		8A6933661B75368C00B267C9 /* retroOffice.mesh in Resources */ = {isa = PBXBuildFile; fileRef = 8A6933651B75368C00B267C9 /* retroOffice.mesh */; };
+		8A6ECFC41B34611D00743DBF /* RazeCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A6ECFC11B34611D00743DBF /* RazeCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8A6ECFC51B34611D00743DBF /* RazeEffects.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A6ECFC21B34611D00743DBF /* RazeEffects.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8A6ECFC61B34611D00743DBF /* RazeScene.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A6ECFC31B34611D00743DBF /* RazeScene.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8AE987471AE19C550058F441 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE987461AE19C550058F441 /* main.m */; };
+		8AE9874A1AE19C550058F441 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE987491AE19C550058F441 /* AppDelegate.m */; };
+		8AE9874D1AE19C550058F441 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE9874C1AE19C550058F441 /* ViewController.m */; };
+		8AE987501AE19C550058F441 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AE9874E1AE19C550058F441 /* Main.storyboard */; };
+		8AE987521AE19C550058F441 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AE987511AE19C550058F441 /* Images.xcassets */; };
+		8AE987551AE19C550058F441 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AE987531AE19C550058F441 /* LaunchScreen.xib */; };
+		8AE987611AE19C550058F441 /* Raze_Scene_SandboxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE987601AE19C550058F441 /* Raze_Scene_SandboxTests.m */; };
+		D436E4691B74FD0E006E9B26 /* RZXViewNode.m in Sources */ = {isa = PBXBuildFile; fileRef = D436E4681B74FD0E006E9B26 /* RZXViewNode.m */; };
+		D436E46B1B74FE39006E9B26 /* RazeUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D436E46A1B74FE39006E9B26 /* RazeUIKit.framework */; };
+		D436E46C1B74FE39006E9B26 /* RazeUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D436E46A1B74FE39006E9B26 /* RazeUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D4EF0FA01B505D3F001EA85F /* RazeAnimation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D4EF0F9E1B505D3F001EA85F /* RazeAnimation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8AE9875B1AE19C550058F441 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8AE987391AE19C550058F441 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8AE987401AE19C550058F441;
+			remoteInfo = "Raze Scene Sandbox";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8A63B4391AF3E14C00E86B66 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8A6ECFC41B34611D00743DBF /* RazeCore.framework in Embed Frameworks */,
+				D436E46C1B74FE39006E9B26 /* RazeUIKit.framework in Embed Frameworks */,
+				D4EF0FA01B505D3F001EA85F /* RazeAnimation.framework in Embed Frameworks */,
+				8A6ECFC51B34611D00743DBF /* RazeEffects.framework in Embed Frameworks */,
+				8A6ECFC61B34611D00743DBF /* RazeScene.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		8A1D8BF11B73FC9D00E2DE2E /* razeRedTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = razeRedTexture.png; sourceTree = "<group>"; };
+		8A4A47AA1B750ED800BAF117 /* officeBanner.mesh */ = {isa = PBXFileReference; lastKnownFileType = file; path = officeBanner.mesh; sourceTree = "<group>"; };
+		8A4A47AC1B750EE000BAF117 /* officeScreen.mesh */ = {isa = PBXFileReference; lastKnownFileType = file; path = officeScreen.mesh; sourceTree = "<group>"; };
+		8A4A47B61B7519C900BAF117 /* officeTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = officeTexture.png; sourceTree = "<group>"; };
+		8A4B51371B74D0290028816F /* greyTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greyTexture.png; sourceTree = "<group>"; };
+		8A4B513D1B74D5830028816F /* rzUnicorn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rzUnicorn.png; sourceTree = "<group>"; };
+		8A6933651B75368C00B267C9 /* retroOffice.mesh */ = {isa = PBXFileReference; lastKnownFileType = file; path = retroOffice.mesh; sourceTree = "<group>"; };
+		8A6ECFC11B34611D00743DBF /* RazeCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeCore.framework; path = "$(TARGET_BUILD_DIR)/RazeCore.framework"; sourceTree = "<group>"; };
+		8A6ECFC21B34611D00743DBF /* RazeEffects.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeEffects.framework; path = "$(TARGET_BUILD_DIR)/RazeEffects.framework"; sourceTree = "<group>"; };
+		8A6ECFC31B34611D00743DBF /* RazeScene.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeScene.framework; path = "$(TARGET_BUILD_DIR)/RazeScene.framework"; sourceTree = "<group>"; };
+		8AE987411AE19C550058F441 /* Raze Scene Sandbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Raze Scene Sandbox.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8AE987451AE19C550058F441 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8AE987461AE19C550058F441 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		8AE987481AE19C550058F441 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		8AE987491AE19C550058F441 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		8AE9874B1AE19C550058F441 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		8AE9874C1AE19C550058F441 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		8AE9874F1AE19C550058F441 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8AE987511AE19C550058F441 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		8AE987541AE19C550058F441 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		8AE9875A1AE19C550058F441 /* Raze Scene SandboxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Raze Scene SandboxTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8AE9875F1AE19C550058F441 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8AE987601AE19C550058F441 /* Raze_Scene_SandboxTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Raze_Scene_SandboxTests.m; sourceTree = "<group>"; };
+		D436E4671B74FD0E006E9B26 /* RZXViewNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXViewNode.h; sourceTree = "<group>"; };
+		D436E4681B74FD0E006E9B26 /* RZXViewNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXViewNode.m; sourceTree = "<group>"; };
+		D436E46A1B74FE39006E9B26 /* RazeUIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeUIKit.framework; path = "$(TARGET_BUILD_DIR)/RazeUIKit.framework"; sourceTree = "<group>"; };
+		D4EF0F9E1B505D3F001EA85F /* RazeAnimation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeAnimation.framework; path = "$(TARGET_BUILD_DIR)/RazeAnimation.framework"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8AE9873E1AE19C550058F441 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D436E46B1B74FE39006E9B26 /* RazeUIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8AE987571AE19C550058F441 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8A4A47A71B750C1F00BAF117 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8A6933651B75368C00B267C9 /* retroOffice.mesh */,
+				8A4A47B61B7519C900BAF117 /* officeTexture.png */,
+				8A4A47AC1B750EE000BAF117 /* officeScreen.mesh */,
+				8A4A47AA1B750ED800BAF117 /* officeBanner.mesh */,
+				8A4B51371B74D0290028816F /* greyTexture.png */,
+				8A4B513D1B74D5830028816F /* rzUnicorn.png */,
+				8A1D8BF11B73FC9D00E2DE2E /* razeRedTexture.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		8AE987381AE19C550058F441 = {
+			isa = PBXGroup;
+			children = (
+				D436E46A1B74FE39006E9B26 /* RazeUIKit.framework */,
+				D4EF0F9E1B505D3F001EA85F /* RazeAnimation.framework */,
+				8A6ECFC11B34611D00743DBF /* RazeCore.framework */,
+				8A6ECFC21B34611D00743DBF /* RazeEffects.framework */,
+				8A6ECFC31B34611D00743DBF /* RazeScene.framework */,
+				8AE987431AE19C550058F441 /* Raze Scene Sandbox */,
+				8AE9875D1AE19C550058F441 /* Raze Scene SandboxTests */,
+				8AE987421AE19C550058F441 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8AE987421AE19C550058F441 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8AE987411AE19C550058F441 /* Raze Scene Sandbox.app */,
+				8AE9875A1AE19C550058F441 /* Raze Scene SandboxTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8AE987431AE19C550058F441 /* Raze Scene Sandbox */ = {
+			isa = PBXGroup;
+			children = (
+				8AE987481AE19C550058F441 /* AppDelegate.h */,
+				8AE987491AE19C550058F441 /* AppDelegate.m */,
+				8AE9874B1AE19C550058F441 /* ViewController.h */,
+				8AE9874C1AE19C550058F441 /* ViewController.m */,
+				D436E4671B74FD0E006E9B26 /* RZXViewNode.h */,
+				D436E4681B74FD0E006E9B26 /* RZXViewNode.m */,
+				8AE9874E1AE19C550058F441 /* Main.storyboard */,
+				8AE987511AE19C550058F441 /* Images.xcassets */,
+				8AE987531AE19C550058F441 /* LaunchScreen.xib */,
+				8A4A47A71B750C1F00BAF117 /* Resources */,
+				8AE987441AE19C550058F441 /* Supporting Files */,
+			);
+			path = "Raze Scene Sandbox";
+			sourceTree = "<group>";
+		};
+		8AE987441AE19C550058F441 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8AE987451AE19C550058F441 /* Info.plist */,
+				8AE987461AE19C550058F441 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8AE9875D1AE19C550058F441 /* Raze Scene SandboxTests */ = {
+			isa = PBXGroup;
+			children = (
+				8AE987601AE19C550058F441 /* Raze_Scene_SandboxTests.m */,
+				8AE9875E1AE19C550058F441 /* Supporting Files */,
+			);
+			path = "Raze Scene SandboxTests";
+			sourceTree = "<group>";
+		};
+		8AE9875E1AE19C550058F441 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8AE9875F1AE19C550058F441 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8AE987401AE19C550058F441 /* Raze Scene Sandbox */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8AE987641AE19C550058F441 /* Build configuration list for PBXNativeTarget "Raze Scene Sandbox" */;
+			buildPhases = (
+				8AE9873D1AE19C550058F441 /* Sources */,
+				8AE9873E1AE19C550058F441 /* Frameworks */,
+				8AE9873F1AE19C550058F441 /* Resources */,
+				8A63B4391AF3E14C00E86B66 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Raze Scene Sandbox";
+			productName = "Raze Scene Sandbox";
+			productReference = 8AE987411AE19C550058F441 /* Raze Scene Sandbox.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8AE987591AE19C550058F441 /* Raze Scene SandboxTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8AE987671AE19C550058F441 /* Build configuration list for PBXNativeTarget "Raze Scene SandboxTests" */;
+			buildPhases = (
+				8AE987561AE19C550058F441 /* Sources */,
+				8AE987571AE19C550058F441 /* Frameworks */,
+				8AE987581AE19C550058F441 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8AE9875C1AE19C550058F441 /* PBXTargetDependency */,
+			);
+			name = "Raze Scene SandboxTests";
+			productName = "Raze Scene SandboxTests";
+			productReference = 8AE9875A1AE19C550058F441 /* Raze Scene SandboxTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8AE987391AE19C550058F441 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = Raizlabs;
+				TargetAttributes = {
+					8AE987401AE19C550058F441 = {
+						CreatedOnToolsVersion = 6.3;
+					};
+					8AE987591AE19C550058F441 = {
+						CreatedOnToolsVersion = 6.3;
+						TestTargetID = 8AE987401AE19C550058F441;
+					};
+				};
+			};
+			buildConfigurationList = 8AE9873C1AE19C550058F441 /* Build configuration list for PBXProject "Raze Scene Sandbox" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8AE987381AE19C550058F441;
+			productRefGroup = 8AE987421AE19C550058F441 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8AE987401AE19C550058F441 /* Raze Scene Sandbox */,
+				8AE987591AE19C550058F441 /* Raze Scene SandboxTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8AE9873F1AE19C550058F441 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8AE987501AE19C550058F441 /* Main.storyboard in Resources */,
+				8A4A47B71B7519C900BAF117 /* officeTexture.png in Resources */,
+				8A4B513E1B74D5830028816F /* rzUnicorn.png in Resources */,
+				8A1D8BF31B73FC9D00E2DE2E /* razeRedTexture.png in Resources */,
+				8A4B51381B74D0290028816F /* greyTexture.png in Resources */,
+				8AE987551AE19C550058F441 /* LaunchScreen.xib in Resources */,
+				8A4A47AB1B750ED800BAF117 /* officeBanner.mesh in Resources */,
+				8A4A47AD1B750EE000BAF117 /* officeScreen.mesh in Resources */,
+				8AE987521AE19C550058F441 /* Images.xcassets in Resources */,
+				8A6933661B75368C00B267C9 /* retroOffice.mesh in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8AE987581AE19C550058F441 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8AE9873D1AE19C550058F441 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8AE9874D1AE19C550058F441 /* ViewController.m in Sources */,
+				D436E4691B74FD0E006E9B26 /* RZXViewNode.m in Sources */,
+				8AE9874A1AE19C550058F441 /* AppDelegate.m in Sources */,
+				8AE987471AE19C550058F441 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8AE987561AE19C550058F441 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8AE987611AE19C550058F441 /* Raze_Scene_SandboxTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8AE9875C1AE19C550058F441 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8AE987401AE19C550058F441 /* Raze Scene Sandbox */;
+			targetProxy = 8AE9875B1AE19C550058F441 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		8AE9874E1AE19C550058F441 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8AE9874F1AE19C550058F441 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		8AE987531AE19C550058F441 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8AE987541AE19C550058F441 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8AE987621AE19C550058F441 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		8AE987631AE19C550058F441 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8AE987651AE19C550058F441 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Sandbox-enkrdnqulxllcwejvxtxxaeacvek/Build/Products/Debug-iphoneos",
+				);
+				INFOPLIST_FILE = "Raze Scene Sandbox/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8AE987661AE19C550058F441 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Sandbox-enkrdnqulxllcwejvxtxxaeacvek/Build/Products/Debug-iphoneos",
+				);
+				INFOPLIST_FILE = "Raze Scene Sandbox/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		8AE987681AE19C550058F441 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Raze Scene SandboxTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Raze Scene Sandbox.app/Raze Scene Sandbox";
+			};
+			name = Debug;
+		};
+		8AE987691AE19C550058F441 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Raze Scene SandboxTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Raze Scene Sandbox.app/Raze Scene Sandbox";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8AE9873C1AE19C550058F441 /* Build configuration list for PBXProject "Raze Scene Sandbox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8AE987621AE19C550058F441 /* Debug */,
+				8AE987631AE19C550058F441 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8AE987641AE19C550058F441 /* Build configuration list for PBXNativeTarget "Raze Scene Sandbox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8AE987651AE19C550058F441 /* Debug */,
+				8AE987661AE19C550058F441 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8AE987671AE19C550058F441 /* Build configuration list for PBXNativeTarget "Raze Scene SandboxTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8AE987681AE19C550058F441 /* Debug */,
+				8AE987691AE19C550058F441 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8AE987391AE19C550058F441 /* Project object */;
+}
