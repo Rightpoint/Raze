@@ -13,7 +13,7 @@
  */
 @interface RZXADSPhongEffect : RZXEffect
 
-@property (assign, nonatomic) GLKVector4 lightPosition;
+@property (assign, nonatomic) GLKVector3 lightPosition;
 @property (assign, nonatomic) GLKVector3 lightIntensity;
 @property (assign, nonatomic) GLKVector3 ambientReflection;
 @property (assign, nonatomic) GLKVector3 diffuseReflection;

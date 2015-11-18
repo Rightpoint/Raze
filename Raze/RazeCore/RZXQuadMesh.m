@@ -64,16 +64,19 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
             [self.configuredContext bindVertexArray:self->_vao];
 
             glBindBuffer(GL_ARRAY_BUFFER, self->_bufferSet.vbo);
-            glBufferData(GL_ARRAY_BUFFER, 5 * vertexCount * sizeof(GLfloat), vertexData, GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, 8 * vertexCount * sizeof(GLfloat), vertexData, GL_STATIC_DRAW);
 
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, self->_bufferSet.ibo);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, self->_indexCount * sizeof(GLushort), indexData, GL_STATIC_DRAW);
 
             glEnableVertexAttribArray(kRZXVertexAttribPosition);
-            glVertexAttribPointer(kRZXVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)0);
+            glVertexAttribPointer(kRZXVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (const GLvoid *)0);
 
             glEnableVertexAttribArray(kRZXVertexAttribTexCoord);
-            glVertexAttribPointer(kRZXVertexAttribTexCoord, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *)12);
+            glVertexAttribPointer(kRZXVertexAttribTexCoord, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (const GLvoid *)12);
+
+            glEnableVertexAttribArray(kRZXVertexAttribNormal);
+            glVertexAttribPointer(kRZXVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (const GLvoid *)20);
 
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             
@@ -97,7 +100,7 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
     *numVerts = pts * pts;
     *numIdxs = 6 * subs * subs;
     
-    GLfloat *verts = (GLfloat *)malloc(5 * *numVerts * sizeof(GLfloat));
+    GLfloat *verts = (GLfloat *)malloc(8 * *numVerts * sizeof(GLfloat));
     GLushort *idxs = (GLushort *)malloc(*numIdxs * sizeof(GLushort));
     
     int v = 0;
@@ -110,6 +113,10 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
             verts[v++] = 0.0f;
             verts[v++] = texStep * x;
             verts[v++] = 1.0f - texStep * y;
+
+            verts[v++] = 0.0f;
+            verts[v++] = 0.0f;
+            verts[v++] = 1.0f;
             
             if ( x < subs && y < subs ) {
                 idxs[i++] = y * pts + x;

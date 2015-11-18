@@ -32,7 +32,7 @@
 
     // The effect (a wrapper for an OpenGL shader) that is applied to  the scene
     RZXADSPhongEffect *effect = [RZXADSPhongEffect effect];
-    effect.lightPosition = GLKVector4Make(0.0f, 10.0f, 20.0f, 0.0f);
+    effect.lightPosition = GLKVector3Make(0.0f, 10.0f, 20.0f);
 
     // The scene is the base node. Anything added to the scene will inherit its properties (the effect, camera, and any transforms)
     RZXScene *scene = [RZXScene sceneWithEffect: effect];

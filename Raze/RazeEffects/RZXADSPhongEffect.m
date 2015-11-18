@@ -32,7 +32,7 @@ void main()
 
 static NSString* const kRZXADSPhongFSH = RZX_SHADER_SRC(
 precision mediump float;
-uniform highp vec4 u_lightPosition;
+uniform highp vec3 u_lightPosition;
 uniform vec3 u_lightIntensity;
 uniform vec3 u_ambientReflection;
 uniform vec3 u_diffuseReflection;
@@ -47,7 +47,7 @@ varying highp vec2 v_texCoord0;
 vec3 ads()
 {
     vec3 n = normalize(v_normal);
-    vec3 s = normalize(vec3(u_lightPosition) - v_position);
+    vec3 s = normalize(u_lightPosition - v_position);
     vec3 v = normalize(vec3(-v_position));
     vec3 r = reflect(-s,n);
     return u_lightIntensity * (u_ambientReflection + u_diffuseReflection * max(dot(s, n), 0.0) + u_specularReflection * pow(max(dot(r, v), 0.0), u_specularShininess));
@@ -65,7 +65,7 @@ void main()
 {
     RZXADSPhongEffect *effect = [super effectWithVertexShader:kRZXADSPhongVSH fragmentShader:kRZXADSPhongFSH];
     
-    effect.lightPosition = GLKVector4Make(0.0f, 0.0f, 10.0f, 0.0f);
+    effect.lightPosition = GLKVector3Make(0.0f, 0.0f, 10.0f);
     effect.lightIntensity = GLKVector3Make(1.0f, 1.0f, 1.0f);
     effect.ambientReflection = GLKVector3Make(0.5f, 0.5f, 0.5f);
     effect.diffuseReflection = GLKVector3Make(0.5f, 0.5f, 0.5f);
@@ -92,7 +92,7 @@ void main()
 {
     BOOL ret = [super prepareToDraw];
 
-    [self setFloatUniform:@"u_lightPosition" value:_lightPosition.v length:4 count:1];
+    [self setFloatUniform:@"u_lightPosition" value:_lightPosition.v length:3 count:1];
     [self setFloatUniform:@"u_lightIntensity" value:_lightIntensity.v length:3 count:1];
     [self setFloatUniform:@"u_ambientReflection" value:_ambientReflection.v length:3 count:1];
     [self setFloatUniform:@"u_diffuseReflection" value:_diffuseReflection.v length:3 count:1];
