@@ -1,6 +1,6 @@
 //
 //  RZXGPUObject.h
-//  RazeCode
+//  RazeCore
 //
 //  Created by Rob Visentin on 7/16/15.
 //

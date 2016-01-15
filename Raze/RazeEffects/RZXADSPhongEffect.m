@@ -61,7 +61,7 @@ void main()
 
 @implementation RZXADSPhongEffect
 
-+ (instancetype)effect
++ (instancetype)defaultEffect
 {
     RZXADSPhongEffect *effect = [super effectWithVertexShader:kRZXADSPhongVSH fragmentShader:kRZXADSPhongFSH];
     
