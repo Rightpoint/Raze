@@ -7,7 +7,7 @@ bl_info = {
 
 import bpy
 from bpy.props import *
-import mathutils, math, struct, time, sys
+import mathutils, math, struct, time, sys, os
 import bpy_extras
 from bpy_extras.io_utils import ExportHelper
 
@@ -27,111 +27,126 @@ class mData(object):
 def do_export(context, props, filepath):
     scene = bpy.context.scene
     bpy.ops.object.mode_set(mode='OBJECT')
-    obj = bpy.context.active_object
-    
-    #apply modifiers if requested
-    if props.apply_modifiers:
-        for i in range(0,len(obj.modifiers)):
-            name = obj.modifiers[i].name
-            bpy.ops.object.modifier_apply(modifier=name)
 
-    bpy.ops.object.mode_set(mode='EDIT')
-    bpy.ops.mesh.select_all(action='SELECT')
+    visibleObjects = bpy.context.selected_objects
+    print("Visible Objects Count: " + str(len(visibleObjects)))
 
-    #perform mesh modifications if requested
-    if props.convert_to_tris:
-        bpy.ops.mesh.quads_convert_to_tris()
-    if props.world_space:
-        obj.data.transform(ob.matrix_world)
-    if props.rot_x90:
-        mat_x90 = mathutils.Matrix.Rotation(-math.pi/2, 4, 'X')
-        obj.data.transform(mat_x90)
+    for obj in visibleObjects:
+        print("Starting Object Export: " + str(obj.name))
+        print ("Object is type: " + str(obj.type));
 
-    bpy.ops.object.mode_set(mode='OBJECT')
+        if str(obj.type) == "CAMERA":
+            print("Ignoring Camera Type")
+            continue
+        elif str(obj.type) == "LAMP":
+            print("Ignoring Light Type")
+            continue
 
-    obj.data.update(calc_tessface = True)
+        #apply modifiers if requested
+        if props.apply_modifiers:
+            for i in range(0,len(obj.modifiers)):
+                name = obj.modifiers[i].name
+                bpy.ops.object.modifier_apply(modifier=name)
 
-    # make sure that UV's have been applied
-    if len(obj.data.tessface_uv_textures) < 1:
-        print("UV coordinates were not found! Did you unwrap your mesh?")
-        return False
+        bpy.ops.object.mode_set(mode='EDIT')
+        bpy.ops.mesh.select_all(action='SELECT')
 
-    # build the raw vertex data
-    dataList = []
-    qDataSet = set()
+        #perform mesh modifications if requested
+        if props.convert_to_tris:
+            bpy.ops.mesh.quads_convert_to_tris()
+        if props.world_space:
+            obj.data.transform(ob.matrix_world)
+        if props.rot_x90:
+            mat_x90 = mathutils.Matrix.Rotation(-math.pi/2, 4, 'X')
+            obj.data.transform(mat_x90)
 
-    print("building list of vertex data...")
-    
-    start_time = time.time()
-    if len(obj.data.tessface_uv_textures) > 0:
-        #for face in uv: loop through the faces
-        uv_layer = obj.data.tessface_uv_textures.active
-        for face in obj.data.tessfaces:
-            faceUV = uv_layer.data[face.index]
-            i=0
-            for index in face.vertices:
-                if len(face.vertices) == 3:
-                    vert = obj.data.vertices[index]
+        bpy.ops.object.mode_set(mode='OBJECT')
+        obj.data.update(calc_tessface = True)
 
-                    md = mData()
-                    md.v[0] = vert.co.x
-                    md.v[1] = vert.co.y
-                    md.v[2] = vert.co.z
-                    md.n[0] = vert.normal.x
-                    md.n[1] = vert.normal.y
-                    md.n[2] = vert.normal.z
-                    md.u[0] = faceUV.uv[i][0]
-                    md.u[1] = faceUV.uv[i][1] 
-                    
-                    dataList.append(md)
-                    qDataSet.add(md)
-                    i+=1
+        # make sure that UV's have been applied
+        if len(obj.data.tessface_uv_textures) < 1:
+            print("UV coordinates were not found! Did you unwrap your mesh?")
+            return False
 
-    qData = list(qDataSet)
-    qDataDict = {}
-    index = 0;
-    indexes = []
+        # build the raw vertex data
+        dataList = []
+        qDataSet = set()
 
-    for dataObject in qData:
-        qDataDict[dataObject] = index;
-        index += 1;
+        print("building list of vertex data...")
+        start_time = time.time()
+        if len(obj.data.tessface_uv_textures) > 0:
+            #for face in uv: loop through the faces
+            uv_layer = obj.data.tessface_uv_textures.active
+            for face in obj.data.tessfaces:
+                faceUV = uv_layer.data[face.index]
+                i=0
+                for index in face.vertices:
+                    if len(face.vertices) == 3:
+                        vert = obj.data.vertices[index]
 
-    dataLength = len(dataList)
-    i = 0
-    print('finding and indexing unique vertices out of %i' %dataLength)
+                        md = mData()
+                        md.v[0] = vert.co.x
+                        md.v[1] = vert.co.y
+                        md.v[2] = vert.co.z
+                        md.n[0] = vert.normal.x
+                        md.n[1] = vert.normal.y
+                        md.n[2] = vert.normal.z
+                        md.u[0] = faceUV.uv[i][0]
+                        md.u[1] = faceUV.uv[i][1]
 
-    for dataPoint in dataList:
-        dataIndex = qDataDict[dataPoint]
-        indexes.append(dataIndex)
-        sys.stdout.write('\r%.2f%% complete              ' %(i / dataLength * 100))
-        sys.stdout.flush()
-        i+=1
+                        dataList.append(md)
+                        qDataSet.add(md)
+                        i+=1
 
-    print('finished in %.2f seconds\n' %((time.time() - start_time)))
-    print('%i unique verts found\n' %len(qData))
+        qData = list(qDataSet)
+        qDataDict = {}
+        index = 0;
+        indexes = []
 
-    file = open(filepath, "wb") 
-    
-    print('writing file...')
+        for dataObject in qData:
+            qDataDict[dataObject] = index;
+            index += 1;
 
-    # export the bounding box
-    print("Exporting dimensions...")
-    file.write(struct.pack('fff',bpy.context.active_object.dimensions.x, bpy.context.active_object.dimensions.y, bpy.context.active_object.dimensions.z))
+        dataLength = len(dataList)
+        i = 0
+        print('finding and indexing unique vertices out of %i' %dataLength)
 
-    #number of indexes and then print them out
-    file.write(struct.pack('i',len(indexes)))
-    for index in indexes :
-        file.write(struct.pack('H',index))
-    #number of unique verts and then print them out
-    file.write(struct.pack('i',len(qData)))
-    for md in qData :
-        data = struct.pack('ffffffff', md.v[0], md.v[1], md.v[2], md.n[0], md.n[1], md.n[2], md.u[0], md.u[1])
-        file.write(data)     
+        for dataPoint in dataList:
+            dataIndex = qDataDict[dataPoint]
+            indexes.append(dataIndex)
+            sys.stdout.write('\r%.2f%% complete              ' %(i / dataLength * 100))
+            sys.stdout.flush()
+            i+=1
 
-    file.flush()
-    file.close()
+        print('%i unique verts found\n' %len(qData))
 
-    bpy.ops.object.mode_set(mode='OBJECT')
+        filename, file_extension = os.path.splitext(filepath)
+
+        if file_extension is None:
+            file_extension = ".mesh"
+
+        file = open(filename + "-" + obj.name + file_extension, "wb")
+        print('writing file...')
+
+        # export the bounding box
+        print("Exporting dimensions...")
+        file.write(struct.pack('fff',bpy.context.active_object.dimensions.x, bpy.context.active_object.dimensions.y, bpy.context.active_object.dimensions.z))
+
+        #number of indexes and then print them out
+        file.write(struct.pack('i',len(indexes)))
+        for index in indexes :
+            file.write(struct.pack('H',index))
+        #number of unique verts and then print them out
+        file.write(struct.pack('i',len(qData)))
+        for md in qData :
+            data = struct.pack('ffffffff', md.v[0], md.v[1], md.v[2], md.n[0], md.n[1], md.n[2], md.u[0], md.u[1])
+            file.write(data)
+
+        file.flush()
+        file.close()
+
+        print('finished export of ' + obj.name + ' in %.2f seconds\n' %((time.time() - start_time)))
+        bpy.ops.object.mode_set(mode='OBJECT')
 
     return True
 
@@ -160,7 +175,15 @@ class Export_objc(bpy.types.Operator, ExportHelper):
     
     @classmethod
     def poll(cls, context):
-        return context.active_object.type in ['MESH', 'CURVE', 'SURFACE', 'FONT']
+        enabled = False
+
+        if len(context.selected_objects) > 0:
+            for selectedObj in context.selected_objects:
+                if selectedObj.type in ['MESH', 'CURVE', 'SURFACE', 'FONT']:
+                    enabled = True
+                    break
+
+        return enabled
 
     def execute(self, context):
         start_time = time.time()
