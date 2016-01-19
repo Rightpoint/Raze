@@ -18,32 +18,11 @@ class mData(object):
         self.n = [0.0, 0.0, 0.0]
         self.u = [0.0, 0.0]
 
-#determine if two modal data objects are equal
-def mDataEQ(md1, md2):
-    if md1.v == md2.v and md1.n == md2.n and md1.u == md2.u:
-        return True
-    return False
+    def __hash__(self):
+        return hash(str(self.v) + "-" + str(self.n) + "-" + str(self.u))
 
-#determine if an equal model object appears earlier than its given position in a list
-def mDataAppearsEarlierInList(m, mList, mPosInList):
-    for i in range (0, len(mList)):
-        if ( i < mPosInList and mDataEQ(mList[i],m) ):
-            return False
-    return True
-
-#determine if a matching model exists in a list and if so return the index
-def indexOfMatchingInList( v, vList ):
-    for i in range (0, len(vList)):
-        if ( mDataEQ(v, vList[i]) ):
-            return i
-    return 0
-
-#determine if a matching model exists in a list and return True or False and its index
-def mDataAppearsInList(m, mList):
-    for i in range(0, len(mList)):
-        if (mDataEQ(m, mList[i])):
-            return (True, i)
-    return (False, 0)
+    def __eq__(self, other):
+        return self.v == other.v and self.n == other.n and self.u == other.u
 
 def do_export(context, props, filepath):
     scene = bpy.context.scene
@@ -72,17 +51,19 @@ def do_export(context, props, filepath):
 
     obj.data.update(calc_tessface = True)
 
-#make sure that UV's have been applied
+    # make sure that UV's have been applied
     if len(obj.data.tessface_uv_textures) < 1:
         print("UV coordinates were not found! Did you unwrap your mesh?")
         return False
 
-# build the raw vertex data
-    dataList = [];
+    # build the raw vertex data
+    dataList = []
+    qDataSet = set()
+
     print("building list of vertex data...")
     
     start_time = time.time()
-    if len(obj.data.tessface_uv_textures) > 0:  
+    if len(obj.data.tessface_uv_textures) > 0:
         #for face in uv: loop through the faces
         uv_layer = obj.data.tessface_uv_textures.active
         for face in obj.data.tessfaces:
@@ -103,32 +84,37 @@ def do_export(context, props, filepath):
                     md.u[1] = faceUV.uv[i][1] 
                     
                     dataList.append(md)
+                    qDataSet.add(md)
+                    i+=1
 
-                    i+=1         
+    qData = list(qDataSet)
+    qDataDict = {}
+    index = 0;
     indexes = []
-    qData = []
-    print('finished in %.2f seconds\n' %((time.time() - start_time)))
 
-# first run through the list and get all unique vertices
-    start_time = time.time()
+    for dataObject in qData:
+        qDataDict[dataObject] = index;
+        index += 1;
+
     dataLength = len(dataList)
+    i = 0
     print('finding and indexing unique vertices out of %i' %dataLength)
-    for i in range (0, len(dataList)) :
-        qResult = mDataAppearsInList(dataList[i], qData)
-        if qResult[0] == True :
-            indexes.append(qResult[1])
-        else :
-            qData.append(dataList[i])
-            indexes.append(len(qData) - 1)
+
+    for dataPoint in dataList:
+        dataIndex = qDataDict[dataPoint]
+        indexes.append(dataIndex)
         sys.stdout.write('\r%.2f%% complete              ' %(i / dataLength * 100))
         sys.stdout.flush()
-    print('\rfinished in %.2f seconds' %((time.time() - start_time)))
+        i+=1
+
+    print('finished in %.2f seconds\n' %((time.time() - start_time)))
     print('%i unique verts found\n' %len(qData))
 
     file = open(filepath, "wb") 
     
     print('writing file...')
-# export the bounding box
+
+    # export the bounding box
     print("Exporting dimensions...")
     file.write(struct.pack('fff',bpy.context.active_object.dimensions.x, bpy.context.active_object.dimensions.y, bpy.context.active_object.dimensions.z))
 
@@ -212,7 +198,7 @@ class Export_objc(bpy.types.Operator, ExportHelper):
 ### REGISTER ###
 
 def menu_func(self, context):
-    self.layout.operator(Export_objc.bl_idname, text="raze mesh file (.mesh)")
+    self.layout.operator(Export_objc.bl_idname, text="Raze Mesh File (.mesh)")
 
 def register():
     bpy.utils.register_module(__name__)
