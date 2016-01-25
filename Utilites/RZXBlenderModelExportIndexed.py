@@ -19,7 +19,7 @@ class mData(object):
         self.u = [0.0, 0.0]
 
     def __hash__(self):
-        return hash(str(self.v) + "-" + str(self.n) + "-" + str(self.u))
+        return hash("-".join([str(self.v), str(self.n), str(self.u)]))
 
     def __eq__(self, other):
         return self.v == other.v and self.n == other.n and self.u == other.u
