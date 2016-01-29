@@ -47,6 +47,16 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
     return effect;
 }
 
+- (instancetype)initWithVertexShader:(NSString *)vsh fragmentShader:(NSString *)fsh
+{
+    self = [super init];
+    if ( self ) {
+        _vshSrc = vsh;
+        _fshSrc = fsh;
+    }
+    return self;
+}
+
 #pragma mark - public methods
 
 - (void)setDownsampleLevel:(GLuint)downsampleLevel
@@ -314,16 +324,6 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
 
         _uniforms = [[NSCache alloc] init];
         _uniformValues = [[NSCache alloc] init];
-    }
-    return self;
-}
-
-- (instancetype)initWithVertexShader:(NSString *)vsh fragmentShader:(NSString *)fsh
-{
-    self = [self init];
-    if ( self ) {
-        _vshSrc = vsh;
-        _fshSrc = fsh;
     }
     return self;
 }

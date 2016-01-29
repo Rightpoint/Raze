@@ -33,6 +33,8 @@
 
 + (instancetype)effectWithVertexShader:(NSString *)vsh fragmentShader:(NSString *)fsh;
 
+- (instancetype)initWithVertexShader:(NSString *)vsh fragmentShader:(NSString *)fsh;
+
 - (BOOL)link;
 
 - (BOOL)prepareToDraw;
