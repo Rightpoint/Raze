@@ -61,30 +61,36 @@ void main()
 
 @implementation RZXADSPhongEffect
 
-+ (instancetype)defaultEffect
++ (instancetype)effect
 {
-    RZXADSPhongEffect *effect = [super effectWithVertexShader:kRZXADSPhongVSH fragmentShader:kRZXADSPhongFSH];
-    
-    effect.lightPosition = GLKVector3Make(0.0f, 0.0f, 10.0f);
-    effect.lightIntensity = GLKVector3Make(1.0f, 1.0f, 1.0f);
-    effect.ambientReflection = GLKVector3Make(0.5f, 0.5f, 0.5f);
-    effect.diffuseReflection = GLKVector3Make(0.5f, 0.5f, 0.5f);
-    effect.specularReflection = GLKVector3Make(0.5f, 0.5f, 0.5f);
-    effect.specularShininess = 1.0f;
-
-    effect.mvpUniform = @"u_MVPMatrix";
-    effect.normalMatrixUniform = @"u_normalMatrix";
-    
-    return effect;
+   return [[RZXADSPhongEffect alloc] init];
 }
 
+- (instancetype)init {
+
+    self = [super initWithVertexShader:kRZXADSPhongVSH fragmentShader:kRZXADSPhongFSH];
+
+    if (self) {
+        self.lightPosition = GLKVector3Make(0.0f, 0.0f, 10.0f);
+        self.lightIntensity = GLKVector3Make(1.0f, 1.0f, 1.0f);
+        self.ambientReflection = GLKVector3Make(0.5f, 0.5f, 0.5f);
+        self.diffuseReflection = GLKVector3Make(0.5f, 0.5f, 0.5f);
+        self.specularReflection = GLKVector3Make(0.5f, 0.5f, 0.5f);
+        self.specularShininess = 1.0f;
+
+        self.mvpUniform = @"u_MVPMatrix";
+        self.normalMatrixUniform = @"u_normalMatrix";
+    }
+
+    return self;
+}
 
 - (BOOL)link
 {
     [self bindAttribute:@"a_position" location:kRZXVertexAttribPosition];
     [self bindAttribute:@"a_normal" location:kRZXVertexAttribNormal];
     [self bindAttribute:@"a_texCoord0" location:kRZXVertexAttribTexCoord];
-    
+
     return [super link];
 }
 
@@ -99,7 +105,7 @@ void main()
     [self setFloatUniform:@"u_specularReflection" value:_specularReflection.v length:3 count:1];
     [self setFloatUniform:@"u_specularShininess" value:&_specularShininess length:1 count:1];
 
-     return ret;
+    return ret;
 }
 
 @end

@@ -20,6 +20,6 @@
 @property (assign, nonatomic) GLKVector3 specularReflection;
 @property (assign, nonatomic) GLfloat specularShininess;
 
-+(instancetype)defaultEffect;
++ (instancetype)effect;
 
 @end
