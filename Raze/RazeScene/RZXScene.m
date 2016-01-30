@@ -10,7 +10,20 @@
 
 #import "RZXScene.h"
 
+@interface RZXSceneRootNode : RZXNode
+@end
+
 @implementation RZXScene
+
++ (Class)rootNodeClass
+{
+    return [RZXSceneRootNode class];
+}
+
++ (instancetype)scene
+{
+    return [self node];
+}
 
 + (instancetype)sceneWithEffect:(RZXEffect *)effect
 {
@@ -27,13 +40,26 @@
     self = [super init];
     if (self) {
         self.effect = effect;
+
+        _rootNode = [[[self class] rootNodeClass] node];
+        [super addChild:_rootNode];
     }
     return self;
 }
 
-- (void)rzx_bindGL
+- (void)addChild:(RZXNode *)child
 {
-    // no-op. The scene object itself isn't renderable
+    RZXLog("WARNING: Nodes should be added to a scene's rootNode, not the scene itself. %@ will be added to the root node instead.", child);
+    [_rootNode addChild:child];
+}
+
+@end
+
+@implementation RZXSceneRootNode
+
+- (void)removeFromParent
+{
+    // no-op. Scene root nodes shouldn't be removed.
 }
 
 @end

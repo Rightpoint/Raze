@@ -30,8 +30,8 @@
 
 #define RZX_DEBUG (DEBUG || TARGET_IPHONE_SIMULATOR)
 
-#if RZX_DEBUG
-#define RZXLog NSLog
+#if DEBUG
+#define RZXLog(msg, ...) NSLog((@"[Raze] " msg), ##__VA_ARGS__)
 #else
 #define RZXLog(...)
 #endif
