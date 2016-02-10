@@ -5,13 +5,19 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <GLKit/GLKMath.h>
+#import <RazeCore/RZXMath.h>
 
 @interface RZXTransform3D : NSObject <NSCopying>
 
 @property (nonatomic, assign) GLKVector3 translation;
 @property (nonatomic, assign) GLKQuaternion rotation;
 @property (nonatomic, assign) GLKVector3 scale;
+
+/**
+ *  Returns the Euler angles (angle around x, y, z) for the current rotation.
+ *  Setting this property also sets the rotation property accordingly.
+ */
+@property (nonatomic, assign) GLKVector3 eulerAngles;
 
 /** 
  *  Returns the current TRS matrix from the translation, rotation, and scale properties.
@@ -26,6 +32,7 @@
 - (void)translateXBy:(float)dx;
 - (void)translateYBy:(float)dy;
 - (void)translateZBy:(float)dz;
+- (void)translateBy:(GLKVector3)translation;
 
 // current value is set to given value
 - (void)translateXTo:(float)tx;
@@ -36,6 +43,7 @@
 - (void)scaleXBy:(float)dx;
 - (void)scaleYBy:(float)dy;
 - (void)scaleZBy:(float)dz;
+- (void)scaleBy:(GLKVector3)scale;
 
 // current value is set to given value
 - (void)scaleXTo:(float)sx;
@@ -47,5 +55,10 @@
 - (void)rotateYBy:(float)angle;
 - (void)rotateZBy:(float)angle;
 - (void)rotateBy:(GLKQuaternion)rotation;
+
+// current Euler angles are set to the given value
+- (void)rotateXTo:(float)angle;
+- (void)rotateYTo:(float)angle;
+- (void)rotateZTo:(float)angle;
 
 @end

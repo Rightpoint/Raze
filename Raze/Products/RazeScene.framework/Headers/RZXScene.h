@@ -17,13 +17,7 @@
  */
 @property (nonatomic, readonly) RZXNode *rootNode;
 
-/**
- *  The parent node of a scene.
- *
- *  @param effect effect to apply to the scene
- *
- *  @return RZXScene
- */
++ (instancetype)scene;
 + (instancetype)sceneWithEffect:(RZXEffect *)effect;
 
 /**
