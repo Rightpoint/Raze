@@ -95,6 +95,16 @@
 - (void)setRotation:(GLKQuaternion)rotation
 {
     _rotation = GLKQuaternionNormalize(rotation);
+    RZXQuaternionGetEulerAngles(rotation, &_eulerAngles.x, &_eulerAngles.y, &_eulerAngles.z);
+
+    [self invalidateModelMatrixCache];
+}
+
+- (void)setEulerAngles:(GLKVector3)eulerAngles
+{
+    _eulerAngles = eulerAngles;
+    _rotation = RZXQuaternionMakeEuler(eulerAngles.x, eulerAngles.y, eulerAngles.z);
+
     [self invalidateModelMatrixCache];
 }
 
@@ -134,6 +144,11 @@
     [self invalidateModelMatrixCache];
 }
 
+- (void)translateBy:(GLKVector3)translation
+{
+    self.translation = GLKVector3Add(_translation, translation);
+}
+
 - (void)scaleXBy:(float)dx
 {
     _scale.x *= dx;
@@ -150,6 +165,11 @@
 {
     _scale.z *= dz;
     [self invalidateModelMatrixCache];
+}
+
+- (void)scaleBy:(GLKVector3)scale
+{
+    self.scale = GLKVector3Multiply(_scale, scale);
 }
 
 - (void)scaleXTo:(float)sx
@@ -188,6 +208,21 @@
 - (void)rotateBy:(GLKQuaternion)rotation
 {
     self.rotation = GLKQuaternionMultiply(rotation, _rotation);
+}
+
+- (void)rotateXTo:(float)angle
+{
+    self.eulerAngles = GLKVector3Make(angle, _eulerAngles.y, _eulerAngles.z);
+}
+
+- (void)rotateYTo:(float)angle
+{
+    self.eulerAngles = GLKVector3Make(_eulerAngles.x, angle, _eulerAngles.z);
+}
+
+- (void)rotateZTo:(float)angle
+{
+    self.eulerAngles = GLKVector3Make(_eulerAngles.x, _eulerAngles.y, angle);
 }
 
 #pragma mark - NSCopying

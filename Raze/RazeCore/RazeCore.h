@@ -11,6 +11,7 @@ FOUNDATION_EXPORT double RazeCoreVersionNumber;
 FOUNDATION_EXPORT const unsigned char RazeCoreVersionString[];
 
 #import <RazeCore/RZXBase.h>
+#import <RazeCore/RZXMath.h>
 #import <RazeCore/RZXRenderable.h>
 #import <RazeCore/RZXUpdateable.h>
 #import <RazeCore/RZXGLContext.h>

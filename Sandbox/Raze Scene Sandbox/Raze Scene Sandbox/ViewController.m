@@ -48,7 +48,7 @@
     RZXStaticTexture *officeTexture = [RZXStaticTexture textureFromFile:@"officeTexture.png" usingCache:YES];
 
     RZXModelNode *officeNode = [RZXModelNode modelNodeWithMesh:officeMesh texture:officeTexture];
-    [scene addChild:officeNode];
+    [scene.rootNode addChild:officeNode];
     self.officeNode = officeNode;
 
     RZXMesh *screenMesh = [RZXMesh meshWithName:@"officeScreen" usingCache:YES];
