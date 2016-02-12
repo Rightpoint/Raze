@@ -80,6 +80,8 @@ def do_export(context, props, filepath):
             print("UV coordinates were not found! Did you unwrap your mesh?")
             return False
 
+        rotate_z_180 = mathutils.Matrix.Rotation(math.pi, 4, 'Z')
+        obj.data.transform(rotate_z_180)
         # build the raw vertex data
         dataList = []
         qDataSet = set()
@@ -160,6 +162,9 @@ def do_export(context, props, filepath):
 
         file.flush()
         file.close()
+
+        rotate_z_back_180 = mathutils.Matrix.Rotation(-math.pi, 4, 'Z')
+        obj.data.transform(rotate_z_back_180)
 
         if props.center_at_zero:
             obj.location = savedLocation
