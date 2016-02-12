@@ -9,6 +9,8 @@ import bpy
 from bpy.props import *
 import mathutils, math, struct, time, sys, os
 import bpy_extras
+import copy
+
 from bpy_extras.io_utils import ExportHelper
 
 #model data object containing vertices[3], normals[3] and uniforms[2]
@@ -31,6 +33,8 @@ def do_export(context, props, filepath):
     visibleObjects = bpy.context.selected_objects
     print("Visible Objects Count: " + str(len(visibleObjects)))
 
+    bpy.context.scene.cursor_location = [0,0,0]
+
     for obj in visibleObjects:
         print("Starting Object Export: " + str(obj.name))
         print ("Object is type: " + str(obj.type));
@@ -47,6 +51,14 @@ def do_export(context, props, filepath):
             for i in range(0,len(obj.modifiers)):
                 name = obj.modifiers[i].name
                 bpy.ops.object.modifier_apply(modifier=name)
+
+        if props.center_at_zero:
+            bpy.ops.object.mode_set(mode = 'OBJECT')
+            savedLocation = copy.deepcopy(obj.location)
+
+            obj.location.x = 0
+            obj.location.y = 0
+            obj.location.z = 0
 
         bpy.ops.object.mode_set(mode='EDIT')
         bpy.ops.mesh.select_all(action='SELECT')
@@ -125,7 +137,11 @@ def do_export(context, props, filepath):
         if file_extension is None:
             file_extension = ".mesh"
 
-        file = open(filename + "-" + obj.name + file_extension, "wb")
+        if len(visibleObjects) == 1:
+            file = open(filename + file_extension, "wb")
+        else:
+            file = open(filename + "-" + obj.name + file_extension, "wb")
+
         print('writing file...')
 
         # export the bounding box
@@ -144,6 +160,9 @@ def do_export(context, props, filepath):
 
         file.flush()
         file.close()
+
+        if props.center_at_zero:
+            obj.location = savedLocation
 
         print('finished export of ' + obj.name + ' in %.2f seconds\n' %((time.time() - start_time)))
         bpy.ops.object.mode_set(mode='OBJECT')
@@ -172,6 +191,10 @@ class Export_objc(bpy.types.Operator, ExportHelper):
     convert_to_tris = BoolProperty(name="Convert quads to triangles",
                             description="Convert the mesh's quads to tris",
                             default =True)
+
+    center_at_zero = BoolProperty(name="Center All Objects at 0,0,0",
+                                  description="Exports all objects with their origin based at 0,0,0 rather than their location in the scene.",
+                                  default = False)
 
     @classmethod
     def poll(cls, context):
