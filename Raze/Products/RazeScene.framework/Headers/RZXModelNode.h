@@ -24,4 +24,6 @@
 
 + (instancetype)modelNodeWithMesh:(RZXMesh *)mesh texture:(RZXTexture *)texture;
 
+- (instancetype)initWithMesh:(RZXMesh *)mesh texture:(RZXTexture *)texture;
+
 @end
