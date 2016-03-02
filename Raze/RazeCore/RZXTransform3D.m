@@ -205,6 +205,11 @@
     [self rotateBy:GLKQuaternionMakeWithAngleAndAxis(angle, 0.0f, 0.0f, 1.0f)];
 }
 
+- (void)rotateLocallyBy:(GLKQuaternion)rotation
+{
+    self.rotation = GLKQuaternionMultiply(_rotation, rotation);
+}
+
 - (void)rotateBy:(GLKQuaternion)rotation
 {
     self.rotation = GLKQuaternionMultiply(rotation, _rotation);
