@@ -54,6 +54,7 @@
 - (void)rotateXBy:(float)angle;
 - (void)rotateYBy:(float)angle;
 - (void)rotateZBy:(float)angle;
+- (void)rotateLocallyBy:(GLKQuaternion)rotation;
 - (void)rotateBy:(GLKQuaternion)rotation;
 
 // current Euler angles are set to the given value
