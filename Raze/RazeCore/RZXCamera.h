@@ -12,7 +12,7 @@
  */
 @interface RZXCamera : NSObject
 
-@property (strong, nonatomic) RZXTransform3D *transform;
+@property (copy, nonatomic) RZXTransform3D *transform;
 
 /** A unit vector in the "up" direction. Default is (0, 1, 0) */
 @property (nonatomic, assign) GLKVector3 up;

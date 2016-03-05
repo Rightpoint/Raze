@@ -21,7 +21,7 @@
  */
 @interface RZXNode : RZXGPUObject <RZXRenderable, RZXUpdateable>
 
-@property (strong, nonatomic) RZXTransform3D *transform;
+@property (copy, nonatomic) RZXTransform3D *transform;
 @property (strong, nonatomic) RZXEffect *effect;
 @property (strong, nonatomic) RZXCamera *camera;
 

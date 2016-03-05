@@ -26,7 +26,7 @@
 
 - (instancetype)init
 {
-    return [self initWithTranslation:GLKVector3Make(0.0f, 0.0f, 0.0f) rotation:GLKQuaternionIdentity scale:GLKVector3Make(1.0f, 1.0f, 1.0f)];
+    return [self initWithTranslation:RZXVector3Zero rotation:GLKQuaternionIdentity scale:GLKVector3Make(1.0f, 1.0f, 1.0f)];
 }
 
 - (void)dealloc

@@ -10,6 +10,8 @@
 
 #import <GLKit/GLKMath.h>
 
+static const GLKVector3 RZXVector3Zero = (GLKVector3){ 0.0f, 0.0f, 0.0f };
+
 // Handles the singularity at +/-M_PI_2 pitch
 GLK_INLINE float RZXSafeASin(float x)
 {
