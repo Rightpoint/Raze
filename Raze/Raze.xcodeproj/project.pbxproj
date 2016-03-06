@@ -39,6 +39,7 @@
 		8ADE4C6E1B387F200082E00B /* RZXADSPhongEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ADE4C6C1B387F200082E00B /* RZXADSPhongEffect.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8ADE4C6F1B387F200082E00B /* RZXADSPhongEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ADE4C6D1B387F200082E00B /* RZXADSPhongEffect.m */; };
 		D40110991C8A81D7008B5DF7 /* RazeCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D00E0F1AE14CB900D007E4 /* RazeCore.framework */; };
+		D401109D1C8A829F008B5DF7 /* RZXGeometry.h in Headers */ = {isa = PBXBuildFile; fileRef = D401109B1C8A829F008B5DF7 /* RZXGeometry.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		D40C6CBC1B3B3D0A0093FD69 /* NSValue+RZXExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = D40C6CBA1B3B3D0A0093FD69 /* NSValue+RZXExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D40C6CBD1B3B3D0A0093FD69 /* NSValue+RZXExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D40C6CBB1B3B3D0A0093FD69 /* NSValue+RZXExtensions.m */; };
 		D40F5E751B61562B005A6394 /* RZXConvolutionEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = D40F5E731B61562B005A6394 /* RZXConvolutionEffect.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -210,6 +211,7 @@
 		8A63B41A1AF3DE7C00E86B66 /* RZXSceneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXSceneView.m; sourceTree = "<group>"; };
 		8ADE4C6C1B387F200082E00B /* RZXADSPhongEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXADSPhongEffect.h; sourceTree = "<group>"; };
 		8ADE4C6D1B387F200082E00B /* RZXADSPhongEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXADSPhongEffect.m; sourceTree = "<group>"; };
+		D401109B1C8A829F008B5DF7 /* RZXGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXGeometry.h; sourceTree = "<group>"; };
 		D40C6CBA1B3B3D0A0093FD69 /* NSValue+RZXExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSValue+RZXExtensions.h"; sourceTree = "<group>"; };
 		D40C6CBB1B3B3D0A0093FD69 /* NSValue+RZXExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSValue+RZXExtensions.m"; sourceTree = "<group>"; };
 		D40F5E731B61562B005A6394 /* RZXConvolutionEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXConvolutionEffect.h; sourceTree = "<group>"; };
@@ -409,6 +411,7 @@
 			isa = PBXGroup;
 			children = (
 				D4C5B0531C8A2DCD00256957 /* RZXCollider_Private.h */,
+				D401109B1C8A829F008B5DF7 /* RZXGeometry.h */,
 			);
 			path = Private;
 			sourceTree = "<group>";
@@ -622,6 +625,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4C5B04B1C8A2C4100256957 /* RZXBoxCollider.h in Headers */,
+				D401109D1C8A829F008B5DF7 /* RZXGeometry.h in Headers */,
 				D4C5B0401C8A2B4F00256957 /* RazePhysics.h in Headers */,
 				D4C5B04F1C8A2C5000256957 /* RZXSphereCollider.h in Headers */,
 				D4C5B0541C8A2DCD00256957 /* RZXCollider_Private.h in Headers */,

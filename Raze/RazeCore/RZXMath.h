@@ -63,4 +63,13 @@ GLK_INLINE GLKQuaternion RZXQuaternionMakeEuler(float x, float y, float z)
     return q;
 }
 
+GLK_INLINE GLKVector3 RZXMatrix4TransformVector3(GLKMatrix4 m, GLKVector3 v)
+{
+    return GLKVector3Make(
+        m.m00 * v.v[0] + m.m10 * v.v[1] + m.m20 * v.v[2] + m.m30,
+        m.m01 * v.v[0] + m.m11 * v.v[1] + m.m21 * v.v[2] + m.m31,
+        m.m02 * v.v[0] + m.m12 * v.v[1] + m.m22 * v.v[2] + m.m32
+    );
+}
+
 #endif

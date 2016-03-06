@@ -38,6 +38,31 @@
 
 #pragma mark - private
 
+- (RZXSphere)boundingSphere
+{
+    GLKVector3 scale = self.transform.scale;
+
+    return (RZXSphere) {
+        .center = GLKVector3Add(_center, self.transform.translation),
+        .radius = _radius * MAX(scale.x, MAX(scale.y, scale.z))
+    };
+}
+
+- (RZXBox)boundingBox
+{
+    RZXSphere boundingSphere = self.boundingSphere;
+
+    GLKVector3 boxMin = GLKVector3Make(boundingSphere.center.x - 0.5 * boundingSphere.radius,
+                                       boundingSphere.center.y - 0.5 * boundingSphere.radius,
+                                       boundingSphere.center.z - 0.5 * boundingSphere.radius);
+
+    GLKVector3 boxMax = GLKVector3Make(boundingSphere.center.x + 0.5 * boundingSphere.radius,
+                                       boundingSphere.center.y + 0.5 * boundingSphere.radius,
+                                       boundingSphere.center.z + 0.5 * boundingSphere.radius);
+
+    return (RZXBox) { .min = boxMin, .max = boxMax };
+}
+
 - (BOOL)willCollideWith:(RZXCollider *)other transform:(RZXTransform3D *)transform
 {
     // TODO
