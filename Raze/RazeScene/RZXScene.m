@@ -50,6 +50,11 @@
     return self;
 }
 
+- (RZXScene *)scene
+{
+    return self;
+}
+
 - (void)addChild:(RZXNode *)child
 {
     RZXLog("WARNING: Nodes should be added to a scene's rootNode, not the scene itself. %@ will be added to the root node instead.", child);
@@ -69,6 +74,11 @@
         [collision.first.body.node revertToSnapshot];
         [collision.second.body.node revertToSnapshot];
     }
+
+    // Save latest valid state
+    [self.physicsWorld enumerateCollidersWithBlock:^(RZXCollider *collider) {
+        [collider.body.node snapshotCurrentTransform];
+    }];
 }
 
 @end

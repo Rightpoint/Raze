@@ -23,6 +23,7 @@
 /**
  *  Whether the collider should take part in physics calculations.
  *  If set to NO, the collider is ignored during the physics pass, and collisions aren't reported.
+ *  The default value is YES.
  */
 @property (assign, nonatomic, getter=isActive) BOOL active;
 

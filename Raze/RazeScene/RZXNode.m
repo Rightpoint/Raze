@@ -23,11 +23,11 @@
 
 @property (strong, nonatomic) NSMutableDictionary *mutableAnimations;
 
+@property (copy, nonatomic) RZXTransform3D *snapshotTransform;
+
 @end
 
-@implementation RZXNode {
-    RZXTransform3D *_snapshotTransform;
-}
+@implementation RZXNode
 
 #pragma mark - lifecycle
 
@@ -82,6 +82,11 @@
     return [self.mutableChildren copy];
 }
 
+- (void)setTransform:(RZXTransform3D *)transform
+{
+    _transform = (transform != nil) ? [transform copy] : [RZXTransform3D transform];
+}
+
 - (void)setPhysicsBody:(RZXPhysicsBody *)physicsBody
 {
     if ( _physicsBody != physicsBody ) {
@@ -124,14 +129,12 @@
 
 - (BOOL)isDescendantOfNode:(RZXNode *)node
 {
-    BOOL descendant = NO;
-    RZXNode *current = node;
+    __block BOOL descendant = NO;
 
-    do {
-        if ( current == self ) {
-            return YES;
-        }
-    } while ( current != nil && !descendant );
+    [self traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+        descendant = (ancestor == node);
+        *stop = descendant;
+    }];
 
     return descendant;
 }
@@ -173,9 +176,10 @@
 {
     __block GLKVector3 convertedPoint = point;
 
-    if ( [node isDescendantOfNode:self] ) {
-        [node traverseAncestorsUntil: self withBlock:^(RZXNode *ancestor) {
+    if ( node != self && [node isDescendantOfNode:self] ) {
+        [node.parent traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
             convertedPoint = RZXMatrix4TransformVector3(ancestor.transform.modelMatrix, convertedPoint);
+            *stop = (ancestor == self);
         }];
     }
 
@@ -187,9 +191,10 @@
     __block GLKVector3 convertedPoint = point;
 
     if ( [node isDescendantOfNode:self] ) {
-        [node traverseAncestorsUntil: self withBlock:^(RZXNode *ancestor) {
+        [node traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
             GLKMatrix4 invertedTransform = GLKMatrix4Invert(ancestor.transform.modelMatrix, NULL);
             convertedPoint = RZXMatrix4TransformVector3(invertedTransform, convertedPoint);
+            *stop = (ancestor.parent == self);
         }];
     }
 
@@ -200,9 +205,10 @@
 {
     __block GLKVector3 convertedScale = scale;
 
-    if ( [node isDescendantOfNode:self] ) {
-        [node traverseAncestorsUntil: self withBlock:^(RZXNode *ancestor) {
+    if ( node != self && [node isDescendantOfNode:self] ) {
+        [node.parent traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
             convertedScale = GLKVector3Multiply(convertedScale, ancestor.transform.scale);
+            *stop = (ancestor == self);
         }];
     }
 
@@ -214,8 +220,9 @@
     __block GLKVector3 convertedScale = scale;
 
     if ( [node isDescendantOfNode:self] ) {
-        [node traverseAncestorsUntil: self withBlock:^(RZXNode *ancestor) {
+        [node traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
             convertedScale = GLKVector3Divide(convertedScale, ancestor.transform.scale);
+            *stop = (ancestor.parent == self);
         }];
     }
 
@@ -226,9 +233,10 @@
 {
     __block GLKQuaternion convertedRotation = rotation;
 
-    if ( [node isDescendantOfNode:self] ) {
-        [node traverseAncestorsUntil: self withBlock:^(RZXNode *ancestor) {
+    if ( node != self && [node isDescendantOfNode:self] ) {
+        [node.parent traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
             convertedRotation = GLKQuaternionMultiply(convertedRotation, ancestor.transform.rotation);
+            *stop = (ancestor == self);
         }];
     }
 
@@ -240,9 +248,10 @@
     __block GLKQuaternion convertedRotation = rotation;
 
     if ( [node isDescendantOfNode:self] ) {
-        [node traverseAncestorsUntil: self withBlock:^(RZXNode *ancestor) {
+        [node traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
             GLKQuaternion invertedRotation = GLKQuaternionInvert(ancestor.transform.rotation);
             convertedRotation = GLKQuaternionMultiply(convertedRotation, invertedRotation);
+            *stop = (ancestor.parent == self);
         }];
     }
 
@@ -253,9 +262,10 @@
 {
     RZXTransform3D *convertedTransform = [transform copy];
 
-    if ( [node isDescendantOfNode:self] ) {
-        [node traverseAncestorsUntil: self withBlock:^(RZXNode *ancestor) {
+    if ( node != self && [node isDescendantOfNode:self] && node != self ) {
+        [node.parent traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
             [convertedTransform transformBy:ancestor.transform];
+            *stop = (ancestor == self);
         }];
     }
 
@@ -267,8 +277,9 @@
     RZXTransform3D *convertedTransform = [transform copy];
 
     if ( [node isDescendantOfNode:self] ) {
-        [node traverseAncestorsUntil: self withBlock:^(RZXNode *ancestor) {
+        [node traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
             [convertedTransform transformBy:[ancestor.transform invertedTransform]];
+            *stop = (ancestor.parent == self);
         }];
     }
 
@@ -366,15 +377,6 @@
 
 - (void)rzx_update:(NSTimeInterval)dt
 {
-    // If the node will be involved in physics calculations,
-    // save transform state in case it has to be reverted.
-    if ( self.physicsBody.collider != nil ) {
-        _snapshotTransform = [self.transform copy];
-
-        // Update the collider with the current world transform of the node
-        self.physicsBody.collider.transform = [self.scene convertTransform:self.transform fromNode:self];
-    }
-
     for ( NSString *key in self.mutableAnimations.allKeys ) {
         CAAnimation *animation = self.mutableAnimations[key];
 
@@ -389,12 +391,18 @@
     for ( RZXNode *child in self.children ) {
         [child rzx_update:dt];
     }
+
+    // Update the collider with the current world transform of the node
+    if ( self.physicsBody.collider != nil ) {
+        self.physicsBody.collider.transform = [self.scene convertTransform:self.transform fromNode:self];
+    }
 }
 
 #pragma mark - RZXRenderable
 
 - (void)rzx_render
 {
+    // TODO: because this method is called on a background thread, it should be thread safe
     for ( RZXNode *child in self.children ) {
         [child bindGL];
         [child rzx_render];
@@ -432,20 +440,29 @@
     }
 }
 
+- (void)snapshotCurrentTransform
+{
+    self.snapshotTransform = _transform;
+}
+
 - (void)revertToSnapshot
 {
     NSAssert(_snapshotTransform != nil, @"Failed to revert to snapshot because snapshot doesn't exist!");
 
-    _transform = _snapshotTransform;
-    _snapshotTransform = nil;
+    if ( _snapshotTransform != nil ) {
+        _transform = _snapshotTransform;
+        _snapshotTransform = nil;
+    }
 }
 
-- (void)traverseAncestorsUntil:(RZXNode *)stopNode withBlock:(void (^)(RZXNode *ancestor))traversalBlock
+- (void)traverseAncestorsWithBlock:(void (^)(RZXNode *ancestor, BOOL *stop))traversalBlock
 {
     RZXNode *current = self;
+    BOOL stop = NO;
 
-    while ( current != nil && current != stopNode ) {
-        traversalBlock(current);
+    while ( current != nil && !stop ) {
+        traversalBlock(current, &stop);
+        current = current.parent;
     }
 
 }

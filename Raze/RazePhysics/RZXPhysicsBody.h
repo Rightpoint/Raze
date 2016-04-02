@@ -12,4 +12,8 @@
 
 @property (strong, nonatomic) RZXCollider *collider;
 
++ (instancetype)bodyWithCollider:(RZXCollider *)collider;
+
+- (instancetype)initWithCollider:(RZXCollider *)collider;
+
 @end

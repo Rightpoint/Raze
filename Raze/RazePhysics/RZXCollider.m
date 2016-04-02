@@ -15,6 +15,7 @@
 {
     if ( self = [super init] ) {
         _transform = [RZXTransform3D transform];
+        _active = YES;
     }
 
     return self;

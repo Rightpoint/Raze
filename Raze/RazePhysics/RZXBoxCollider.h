@@ -9,6 +9,9 @@
 #import <RazeCore/RZXMath.h>
 #import <RazePhysics/RZXCollider.h>
 
+/**
+ *  Represents an axis-aligned box collision volume.
+ */
 @interface RZXBoxCollider : RZXCollider
 
 @property (nonatomic, readonly) GLKVector3 size;

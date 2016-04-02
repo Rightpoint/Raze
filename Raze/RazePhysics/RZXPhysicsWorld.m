@@ -33,10 +33,19 @@
 
 - (void)removeCollider:(RZXCollider *)collider
 {
-    [_colliders removeObject:collider];
+    if ( collider != nil ) {
+        [_colliders removeObject:collider];
 
-    if ( collider.world == self ) {
-        collider.world = nil;
+        if ( collider.world == self ) {
+            collider.world = nil;
+        }
+    }
+}
+
+- (void)enumerateCollidersWithBlock:(void (^)(RZXCollider *))block
+{
+    for ( RZXCollider *collider in _colliders ) {
+        block(collider);
     }
 }
 
@@ -76,11 +85,12 @@
     BOOL equal = NO;
 
     if ( object == self ) {
-        equal = true;
+        equal = YES;
     }
     else if ( [object isKindOfClass:[self class]] ) {
         RZXCollision *other = (RZXCollision *)object;
-        equal = (_first == other.first && _second == other.second);
+        equal = (_first == other.first && _second == other.second ||
+                 _first == other.second && _second == other.first);
     }
 
     return equal;

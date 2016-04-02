@@ -9,6 +9,9 @@
 #import <RazeCore/RZXMath.h>
 #import <RazePhysics/RZXCollider.h>
 
+/**
+ *  Represents a spherical collision volume.
+ */
 @interface RZXSphereCollider : RZXCollider
 
 @property (nonatomic, readonly) float radius;

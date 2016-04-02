@@ -9,7 +9,27 @@
 #import <RazePhysics/RZXPhysicsBody.h>
 #import <RazePhysics/RZXCollider_Private.h>
 
+@interface RZXPhysicsBody()
+
+// For RZXScene integration
+@property (weak, nonatomic) id node;
+
+@end
+
 @implementation RZXPhysicsBody
+
++ (instancetype)bodyWithCollider:(RZXCollider *)collider
+{
+    return [[self alloc] initWithCollider:collider];
+}
+
+- (instancetype)initWithCollider:(RZXCollider *)collider
+{
+    if ( (self = [super init]) ) {
+        self.collider = collider;
+    }
+    return self;
+}
 
 - (void)setCollider:(RZXCollider *)collider
 {

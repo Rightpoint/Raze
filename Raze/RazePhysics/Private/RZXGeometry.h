@@ -28,20 +28,20 @@ GLK_INLINE bool RZXSphereIntersectsSphere(RZXSphere s1, RZXSphere s2)
 GLK_INLINE bool RZXSphereIntersectsBox(RZXSphere s, RZXBox b)
 {
     float r2 = s.radius * s.radius;
-    float minDistance = 0.0;
 
+    // Check if the closest point of approach is within the radius of the sphere
     for ( int i = 0; i < 3; ++i ) {
         if ( s.center.v[i] < b.min.v[i] ) {
             float diff = s.center.v[i] - b.min.v[i];
-            minDistance += (diff * diff);
+            r2 -= (diff * diff);
         }
         else if ( s.center.v[i] > b.max.v[i] ) {
             float diff = s.center.v[i] - b.max.v[i];
-            minDistance += (diff * diff);
+            r2 -= (diff * diff);
         }
     }
 
-    return (minDistance < r2);
+    return (r2 > 0.0);
 }
 
 GLK_INLINE bool RZXBoxIntersectsBox(RZXBox b1, RZXBox b2)
@@ -70,7 +70,7 @@ GLK_INLINE void RZXBoxScale(RZXBox *b, GLKVector3 scale)
     GLKVector3 center = GLKVector3MultiplyScalar(GLKVector3Subtract(b->max, b->min), 0.5f);
 
     b->min = GLKVector3Add(center, GLKVector3Multiply(GLKVector3Subtract(b->min, center), scale));
-    b->min = GLKVector3Add(center, GLKVector3Multiply(GLKVector3Subtract(b->max, center), scale));
+    b->max = GLKVector3Add(center, GLKVector3Multiply(GLKVector3Subtract(b->max, center), scale));
 }
 
 GLK_INLINE void RZXBoxTransform(RZXBox *b, GLKMatrix4 t)

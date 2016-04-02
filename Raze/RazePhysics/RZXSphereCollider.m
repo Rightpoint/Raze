@@ -9,6 +9,8 @@
 #import <RazePhysics/RZXSphereCollider.h>
 #import <RazePhysics/RZXCollider_Private.h>
 
+#import <RazePhysics/RZXBoxCollider.h>
+
 @implementation RZXSphereCollider
 
 + (instancetype)colliderWithRadius:(float)radius
@@ -65,7 +67,16 @@
 
 - (BOOL)collidesWith:(RZXCollider *)other
 {
-    return NO;
+    BOOL collides = NO;
+
+    if ( [other isKindOfClass:[RZXBoxCollider class]] ) {
+        collides = RZXSphereIntersectsBox(self.boundingSphere, other.boundingBox);
+    }
+    else if ( [other isKindOfClass:[RZXSphereCollider class]] ) {
+        collides = RZXSphereIntersectsSphere(self.boundingSphere, other.boundingSphere);
+    }
+
+    return collides;
 }
 
 @end

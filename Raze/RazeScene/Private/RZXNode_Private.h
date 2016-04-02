@@ -15,6 +15,7 @@
 
 @property (weak, nonatomic) RZXScene *scene;
 
+- (void)snapshotCurrentTransform;
 - (void)revertToSnapshot;
 
 @end

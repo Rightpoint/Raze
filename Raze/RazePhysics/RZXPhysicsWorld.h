@@ -15,6 +15,8 @@
 - (void)addCollider:(RZXCollider *)collider;
 - (void)removeCollider:(RZXCollider *)collider;
 
+- (void)enumerateCollidersWithBlock:(void (^)(RZXCollider *collider))block;
+
 - (NSSet *)computeCollisions;
 
 @end
