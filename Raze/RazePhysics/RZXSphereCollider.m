@@ -63,9 +63,8 @@
     return (RZXBox) { .min = boxMin, .max = boxMax };
 }
 
-- (BOOL)willCollideWith:(RZXCollider *)other transform:(RZXTransform3D *)transform
+- (BOOL)collidesWith:(RZXCollider *)other
 {
-    // TODO
     return NO;
 }
 

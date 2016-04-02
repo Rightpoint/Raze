@@ -6,18 +6,17 @@
 //  Copyright (c) 2016 Raizlabs. All rights reserved.
 //
 
-#import <RazeCore/RZXTransform3D.h>
 #import <RazePhysics/RZXCollider.h>
 #import <RazePhysics/RZXGeometry.h>
 
 @interface RZXCollider ()
 
-@property (nonatomic, readonly) RZXTransform3D *transform;
-
 @property (nonatomic, readonly) RZXBox boundingBox;
 @property (nonatomic, readonly) RZXSphere boundingSphere;
 
+@property (weak, nonatomic) RZXPhysicsBody *body;
+@property (weak, nonatomic) RZXPhysicsWorld *world;
+
 - (BOOL)collidesWith:(RZXCollider *)other;
-- (BOOL)willCollideWith:(RZXCollider *)other transform:(RZXTransform3D *)transform;
 
 @end

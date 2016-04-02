@@ -140,7 +140,7 @@
 {
     [self updateBuffersWithSize:self.bounds.size];
 
-    self.renderLoop = [RZXRenderLoop renderLoop];
+    self.renderLoop = [[RZXRenderLoop alloc] init];
     [self.renderLoop setUpdateTarget:self];
     [self.renderLoop setRenderTarget:self];
 

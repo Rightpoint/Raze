@@ -225,6 +225,32 @@
     self.eulerAngles = GLKVector3Make(_eulerAngles.x, _eulerAngles.y, angle);
 }
 
+- (void)transformBy:(RZXTransform3D *)transform
+{
+    _translation = GLKVector3Add(_translation, transform.translation);
+    _scale = GLKVector3Multiply(_scale, transform.scale);
+    _rotation = GLKQuaternionMultiply(_rotation, transform.rotation);
+
+    [self invalidateModelMatrixCache];
+}
+
+- (void)invert
+{
+    _translation = GLKVector3Negate(_translation);
+    _scale = GLKVector3Make(1.0 / _scale.x, 1.0 / _scale.y, 1.0 / _scale.z);
+    _rotation = GLKQuaternionInvert(_rotation);
+
+    [self invalidateModelMatrixCache];
+}
+
+- (RZXTransform3D *)invertedTransform
+{
+    RZXTransform3D *inverted = [self copy];
+    [inverted invert];
+
+    return inverted;
+}
+
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone

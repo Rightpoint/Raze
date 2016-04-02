@@ -27,6 +27,7 @@
 		D436E46B1B74FE39006E9B26 /* RazeUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D436E46A1B74FE39006E9B26 /* RazeUIKit.framework */; };
 		D436E46C1B74FE39006E9B26 /* RazeUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D436E46A1B74FE39006E9B26 /* RazeUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D4EF0FA01B505D3F001EA85F /* RazeAnimation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D4EF0F9E1B505D3F001EA85F /* RazeAnimation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D4FD0DE01C8B7EEF009EDB16 /* RazePhysics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4FD0DDF1C8B7EEF009EDB16 /* RazePhysics.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -72,6 +73,7 @@
 		D436E4681B74FD0E006E9B26 /* RZXViewNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXViewNode.m; sourceTree = "<group>"; };
 		D436E46A1B74FE39006E9B26 /* RazeUIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeUIKit.framework; path = "$(TARGET_BUILD_DIR)/RazeUIKit.framework"; sourceTree = "<group>"; };
 		D4EF0F9E1B505D3F001EA85F /* RazeAnimation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeAnimation.framework; path = "$(TARGET_BUILD_DIR)/RazeAnimation.framework"; sourceTree = "<group>"; };
+		D4FD0DDF1C8B7EEF009EDB16 /* RazePhysics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazePhysics.framework; path = "../../Raze/build/Debug-iphoneos/RazePhysics.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4FD0DE01C8B7EEF009EDB16 /* RazePhysics.framework in Frameworks */,
 				D436E46B1B74FE39006E9B26 /* RazeUIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -103,6 +106,7 @@
 		8AE987381AE19C550058F441 = {
 			isa = PBXGroup;
 			children = (
+				D4FD0DDF1C8B7EEF009EDB16 /* RazePhysics.framework */,
 				D436E46A1B74FE39006E9B26 /* RazeUIKit.framework */,
 				D4EF0F9E1B505D3F001EA85F /* RazeAnimation.framework */,
 				8A6ECFC11B34611D00743DBF /* RazeCore.framework */,

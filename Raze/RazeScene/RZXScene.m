@@ -8,7 +8,8 @@
 
 #import <RazeEffects/RZXPassthroughEffect.h>
 
-#import "RZXScene.h"
+#import <RazeScene/RZXScene.h>
+#import <RazeScene/RZXNode_Private.h>
 
 @interface RZXSceneRootNode : RZXNode
 @end
@@ -37,13 +38,15 @@
 
 - (instancetype)initWithEffect:(RZXEffect *)effect
 {
-    self = [super init];
-    if (self) {
+    if ( (self = [super init]) ) {
         self.effect = effect;
 
         _rootNode = [[[self class] rootNodeClass] node];
         [super addChild:_rootNode];
+
+        _physicsWorld = [[RZXPhysicsWorld alloc] init];
     }
+
     return self;
 }
 
@@ -53,6 +56,21 @@
     [_rootNode addChild:child];
 }
 
+- (void)rzx_update:(NSTimeInterval)dt
+{
+    [super rzx_update:dt];
+
+    NSSet *collisions = [self.physicsWorld computeCollisions];
+
+    for ( RZXCollision *collision in collisions ) {
+        // TODO: began/end contact callbacks
+
+        // Revert updates to pre-collision state
+        [collision.first.body.node revertToSnapshot];
+        [collision.second.body.node revertToSnapshot];
+    }
+}
+
 @end
 
 @implementation RZXSceneRootNode
@@ -60,6 +78,15 @@
 - (void)removeFromParent
 {
     // no-op. Scene root nodes shouldn't be removed.
+}
+
+@end
+
+@implementation RZXNode (RZXScene)
+
+- (void)didMoveToScene:(RZXScene *)scene
+{
+    // subclass override
 }
 
 @end

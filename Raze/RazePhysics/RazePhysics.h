@@ -14,3 +14,8 @@ FOUNDATION_EXPORT double RazePhysicsVersionNumber;
 //! Project version string for RazePhysics.
 FOUNDATION_EXPORT const unsigned char RazePhysicsVersionString[];
 
+#import <RazePhysics/RZXPhysicsWorld.h>
+#import <RazePhysics/RZXPhysicsBody.h>
+#import <RazePhysics/RZXCollider.h>
+#import <RazePhysics/RZXBoxCollider.h>
+#import <RazePhysics/RZXSphereCollider.h>

@@ -129,6 +129,11 @@
 		D4EF0F951B5055A8001EA85F /* CAAnimation+RZXExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EF0F931B5055A8001EA85F /* CAAnimation+RZXExtensions.m */; };
 		D4EF0F981B50565A001EA85F /* RZXAnimationState.h in Headers */ = {isa = PBXBuildFile; fileRef = D4EF0F961B50565A001EA85F /* RZXAnimationState.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		D4EF0F991B50565A001EA85F /* RZXAnimationState.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EF0F971B50565A001EA85F /* RZXAnimationState.m */; };
+		D4F1BCB21CAEF2B1006B4717 /* RZXPhysicsWorld.h in Headers */ = {isa = PBXBuildFile; fileRef = D4F1BCB01CAEF2B1006B4717 /* RZXPhysicsWorld.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D4F1BCB31CAEF2B1006B4717 /* RZXPhysicsWorld.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F1BCB11CAEF2B1006B4717 /* RZXPhysicsWorld.m */; };
+		D4F1BCB81CAEFBFE006B4717 /* RZXNode_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = D4F1BCB71CAEFBFE006B4717 /* RZXNode_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		D4F1BCBB1CAF0112006B4717 /* RZXPhysicsBody.h in Headers */ = {isa = PBXBuildFile; fileRef = D4F1BCB91CAF0112006B4717 /* RZXPhysicsBody.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D4F1BCBC1CAF0112006B4717 /* RZXPhysicsBody.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F1BCBA1CAF0112006B4717 /* RZXPhysicsBody.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -145,13 +150,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = D4D00E531AE14D1300D007E4;
 			remoteInfo = RazeEffects;
-		};
-		D40110971C8A81D3008B5DF7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D4D00E041AE14C9300D007E4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D4D00E0E1AE14CB900D007E4;
-			remoteInfo = RazeCore;
 		};
 		D47841691B5E838300CBFE49 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -194,6 +192,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = D4EF0F3A1B50501F001EA85F;
 			remoteInfo = RazeAnimation;
+		};
+		D4F1BCAC1CAEE69F006B4717 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4D00E041AE14C9300D007E4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D4D00E0E1AE14CB900D007E4;
+			remoteInfo = RazeCore;
+		};
+		D4F1BCAE1CAEF284006B4717 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4D00E041AE14C9300D007E4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D4C5B03C1C8A2B4F00256957;
+			remoteInfo = RazePhysics;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -305,6 +317,11 @@
 		D4EF0F931B5055A8001EA85F /* CAAnimation+RZXExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CAAnimation+RZXExtensions.m"; sourceTree = "<group>"; };
 		D4EF0F961B50565A001EA85F /* RZXAnimationState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXAnimationState.h; sourceTree = "<group>"; };
 		D4EF0F971B50565A001EA85F /* RZXAnimationState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXAnimationState.m; sourceTree = "<group>"; };
+		D4F1BCB01CAEF2B1006B4717 /* RZXPhysicsWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXPhysicsWorld.h; sourceTree = "<group>"; };
+		D4F1BCB11CAEF2B1006B4717 /* RZXPhysicsWorld.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXPhysicsWorld.m; sourceTree = "<group>"; };
+		D4F1BCB71CAEFBFE006B4717 /* RZXNode_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXNode_Private.h; sourceTree = "<group>"; };
+		D4F1BCB91CAF0112006B4717 /* RZXPhysicsBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXPhysicsBody.h; sourceTree = "<group>"; };
+		D4F1BCBA1CAF0112006B4717 /* RZXPhysicsBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXPhysicsBody.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -378,6 +395,7 @@
 				8A63B41A1AF3DE7C00E86B66 /* RZXSceneView.m */,
 				D46EDCF11B5455A2002AD0B7 /* RZXNode+RZXAnimation.h */,
 				D46EDCF21B5455A2002AD0B7 /* RZXNode+RZXAnimation.m */,
+				D4F1BCB41CAEFA21006B4717 /* Private */,
 				8A63B3FA1AF3DE0D00E86B66 /* Supporting Files */,
 			);
 			path = RazeScene;
@@ -395,6 +413,10 @@
 			isa = PBXGroup;
 			children = (
 				D4C5B03F1C8A2B4F00256957 /* RazePhysics.h */,
+				D4F1BCB01CAEF2B1006B4717 /* RZXPhysicsWorld.h */,
+				D4F1BCB11CAEF2B1006B4717 /* RZXPhysicsWorld.m */,
+				D4F1BCB91CAF0112006B4717 /* RZXPhysicsBody.h */,
+				D4F1BCBA1CAF0112006B4717 /* RZXPhysicsBody.m */,
 				D4C5B0451C8A2C1F00256957 /* RZXCollider.h */,
 				D4C5B0461C8A2C1F00256957 /* RZXCollider.m */,
 				D4C5B0491C8A2C4100256957 /* RZXBoxCollider.h */,
@@ -603,6 +625,14 @@
 			path = Private;
 			sourceTree = "<group>";
 		};
+		D4F1BCB41CAEFA21006B4717 /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				D4F1BCB71CAEFBFE006B4717 /* RZXNode_Private.h */,
+			);
+			path = Private;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -615,6 +645,7 @@
 				8A63B3FD1AF3DE0D00E86B66 /* RazeScene.h in Headers */,
 				8A63B4251AF3DE7C00E86B66 /* RZXSceneView.h in Headers */,
 				8A63B41F1AF3DE7C00E86B66 /* RZXModelNode.h in Headers */,
+				D4F1BCB81CAEFBFE006B4717 /* RZXNode_Private.h in Headers */,
 				D4EDE0711B41F8EC003AEB98 /* RZXTextNode.h in Headers */,
 				8A63B4231AF3DE7C00E86B66 /* RZXScene.h in Headers */,
 			);
@@ -626,6 +657,8 @@
 			files = (
 				D4C5B04B1C8A2C4100256957 /* RZXBoxCollider.h in Headers */,
 				D401109D1C8A829F008B5DF7 /* RZXGeometry.h in Headers */,
+				D4F1BCB21CAEF2B1006B4717 /* RZXPhysicsWorld.h in Headers */,
+				D4F1BCBB1CAF0112006B4717 /* RZXPhysicsBody.h in Headers */,
 				D4C5B0401C8A2B4F00256957 /* RazePhysics.h in Headers */,
 				D4C5B04F1C8A2C5000256957 /* RZXSphereCollider.h in Headers */,
 				D4C5B0541C8A2DCD00256957 /* RZXCollider_Private.h in Headers */,
@@ -717,6 +750,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D4F1BCAF1CAEF284006B4717 /* PBXTargetDependency */,
 				D4EF0F591B50516E001EA85F /* PBXTargetDependency */,
 				8A6ECFBA1B34602100743DBF /* PBXTargetDependency */,
 				8A63B42A1AF3DFAE00E86B66 /* PBXTargetDependency */,
@@ -738,7 +772,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				D40110981C8A81D3008B5DF7 /* PBXTargetDependency */,
+				D4F1BCAD1CAEE69F006B4717 /* PBXTargetDependency */,
 			);
 			name = RazePhysics;
 			productName = RazePhysics;
@@ -1014,7 +1048,9 @@
 			files = (
 				D4C5B0501C8A2C5000256957 /* RZXSphereCollider.m in Sources */,
 				D4C5B04C1C8A2C4100256957 /* RZXBoxCollider.m in Sources */,
+				D4F1BCBC1CAF0112006B4717 /* RZXPhysicsBody.m in Sources */,
 				D4C5B0481C8A2C1F00256957 /* RZXCollider.m in Sources */,
+				D4F1BCB31CAEF2B1006B4717 /* RZXPhysicsWorld.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1091,11 +1127,6 @@
 			target = D4D00E531AE14D1300D007E4 /* RazeEffects */;
 			targetProxy = 8A6ECFB91B34602100743DBF /* PBXContainerItemProxy */;
 		};
-		D40110981C8A81D3008B5DF7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D4D00E0E1AE14CB900D007E4 /* RazeCore */;
-			targetProxy = D40110971C8A81D3008B5DF7 /* PBXContainerItemProxy */;
-		};
 		D478416A1B5E838300CBFE49 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D4D00E531AE14D1300D007E4 /* RazeEffects */;
@@ -1125,6 +1156,16 @@
 			isa = PBXTargetDependency;
 			target = D4EF0F3A1B50501F001EA85F /* RazeAnimation */;
 			targetProxy = D4EF0F581B50516E001EA85F /* PBXContainerItemProxy */;
+		};
+		D4F1BCAD1CAEE69F006B4717 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D4D00E0E1AE14CB900D007E4 /* RazeCore */;
+			targetProxy = D4F1BCAC1CAEE69F006B4717 /* PBXContainerItemProxy */;
+		};
+		D4F1BCAF1CAEF284006B4717 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D4C5B03C1C8A2B4F00256957 /* RazePhysics */;
+			targetProxy = D4F1BCAE1CAEF284006B4717 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

@@ -24,11 +24,6 @@
 
 - (BOOL)collidesWith:(RZXCollider *)other
 {
-    return [self willCollideWith:other transform:self.transform];
-}
-
-- (BOOL)willCollideWith:(RZXCollider *)other transform:(RZXTransform3D *)transform
-{
     return NO;
 }
 
