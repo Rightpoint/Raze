@@ -65,6 +65,11 @@
     return (RZXBox) { .min = boxMin, .max = boxMax };
 }
 
+- (BOOL)pointInside:(GLKVector3)point
+{
+    return RZXSphereContainsPoint(self.boundingSphere, point);
+}
+
 - (BOOL)collidesWith:(RZXCollider *)other
 {
     BOOL collides = NO;

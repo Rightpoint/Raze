@@ -25,3 +25,9 @@
 @property (weak, nonatomic) RZXNode *node;
 
 @end
+
+@interface RZXCollider ()
+
+- (void)revertToPreviousTransform;
+
+@end

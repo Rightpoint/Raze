@@ -77,6 +77,11 @@
     return boundingBox;
 }
 
+- (BOOL)pointInside:(GLKVector3)point
+{
+    return RZXBoxContainsPoint(self.boundingBox, point);
+}
+
 - (BOOL)collidesWith:(RZXCollider *)other
 {
     BOOL collides = NO;

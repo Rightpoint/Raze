@@ -44,6 +44,11 @@ GLK_INLINE bool RZXSphereIntersectsBox(RZXSphere s, RZXBox b)
     return (r2 > 0.0);
 }
 
+GLK_INLINE bool RZXSphereContainsPoint(RZXSphere s, GLKVector3 p)
+{
+    return (GLKVector3Distance(s.center, p) < s.radius);
+}
+
 GLK_INLINE bool RZXBoxIntersectsBox(RZXBox b1, RZXBox b2)
 {
     return(b1.max.x > b2.min.x &&
@@ -57,6 +62,13 @@ GLK_INLINE bool RZXBoxIntersectsBox(RZXBox b1, RZXBox b2)
 GLK_INLINE bool RZXBoxIntersectsSphere(RZXBox b, RZXSphere s)
 {
     return RZXSphereIntersectsBox(s, b);
+}
+
+GLK_INLINE bool RZXBoxContainsPoint(RZXBox b, GLKVector3 p)
+{
+    return (p.x >= b.min.x && p.x <= b.max.x &&
+            p.y >= b.min.y && p.y <= b.max.y &&
+            p.z >= b.min.z && p.z <= b.max.z);
 }
 
 GLK_INLINE void RZXBoxTranslate(RZXBox *b, GLKVector3 trans)

@@ -71,14 +71,23 @@
         // TODO: began/end contact callbacks
 
         // Revert updates to pre-collision state
+        [collision.first revertToPreviousTransform];
         [collision.first.body.node revertToSnapshot];
+        [collision.second revertToPreviousTransform];
         [collision.second.body.node revertToSnapshot];
     }
 
     // Save latest valid state
-    [self.physicsWorld enumerateCollidersWithBlock:^(RZXCollider *collider) {
+    [self.physicsWorld enumerateCollidersWithBlock:^(RZXCollider *collider, BOOL *stop) {
         [collider.body.node snapshotCurrentTransform];
     }];
+
+    [self didSimulatePhysics];
+}
+
+- (void)didSimulatePhysics
+{
+    // subclass override
 }
 
 @end

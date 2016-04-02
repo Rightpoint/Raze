@@ -42,11 +42,30 @@
     }
 }
 
-- (void)enumerateCollidersWithBlock:(void (^)(RZXCollider *))block
+- (RZXCollider *)colliderAtPoint:(GLKVector3)point
 {
-    for ( RZXCollider *collider in _colliders ) {
-        block(collider);
-    }
+    __block RZXCollider *collider = nil;
+
+    [self enumerateCollidersAtPoint:point withBlock:^(RZXCollider *c, BOOL *stop) {
+        collider = c;
+        *stop = YES;
+    }];
+
+    return collider;
+}
+
+- (void)enumerateCollidersAtPoint:(GLKVector3)point withBlock:(RZXColliderEnumerationBlock)block
+{
+    [self enumerateCollidersWithBlock:^(RZXCollider *collider, BOOL *stop) {
+        if ( [collider pointInside:point] ) {
+            block(collider, stop);
+        }
+    }];
+}
+
+- (void)enumerateCollidersWithBlock:(void (^)(RZXCollider *, BOOL *))block
+{
+    [_colliders enumerateObjectsUsingBlock:block];
 }
 
 - (NSSet *)computeCollisions
@@ -89,8 +108,8 @@
     }
     else if ( [object isKindOfClass:[self class]] ) {
         RZXCollision *other = (RZXCollision *)object;
-        equal = (_first == other.first && _second == other.second ||
-                 _first == other.second && _second == other.first);
+        equal = (_first == other.first && _second == other.second) ||
+                (_first == other.second && _second == other.first);
     }
 
     return equal;

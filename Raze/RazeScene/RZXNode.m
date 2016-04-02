@@ -394,7 +394,8 @@
 
     // Update the collider with the current world transform of the node
     if ( self.physicsBody.collider != nil ) {
-        self.physicsBody.collider.transform = [self.scene convertTransform:self.transform fromNode:self];
+        RZXTransform3D *worldTransform = [self.scene convertTransform:self.transform fromNode:self];
+        [self.physicsBody.collider setWorldTransform:worldTransform];
     }
 }
 

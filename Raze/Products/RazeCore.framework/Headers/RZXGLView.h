@@ -46,6 +46,13 @@
 // Pausing will stop the render loop
 @property (assign, nonatomic, getter=isPaused) BOOL paused;
 
+/**
+ *  Whether the view supports multithreading.
+ *  If YES, frames will be rendered serially, but rendering will not block the main thread.
+ *  Default is NO.
+ */
+@property (assign, nonatomic, getter=isMultithreaded) BOOL multithreaded;
+
 // Model for the view
 @property (strong, nonatomic) id<RZXRenderable> model;
 

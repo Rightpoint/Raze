@@ -16,6 +16,7 @@
 				D4D00EBA1AE15FD900D007E4 /* RazeUIKit */,
 				8A63B42C1AF3DFDF00E86B66 /* RazeScene */,
 				D4EF0F571B50507F001EA85F /* RazeAnimation */,
+				D4F0244E1CB01FC100D9E21D /* Raze Physics */,
 			);
 			dependencies = (
 			);
@@ -1025,6 +1026,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=RazeAnimation\nFMK_VERSION=1.0.0\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nINSTALL_DIR=${SRCROOT}/Products/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework\n\n# Building both architectures.\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\n\n# Copies files\ncp -R \"${DEVICE_DIR}/Headers/\" \"${INSTALL_DIR}/Headers\"\ncp -R \"${DEVICE_DIR}/Modules/\" \"${INSTALL_DIR}/Modules\"\ncp \"${DEVICE_DIR}/Info.plist\" \"${INSTALL_DIR}/Info.plist\"\n\n# Merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/${FMK_NAME}\" \"${SIMULATOR_DIR}/${FMK_NAME}\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\nrm -r \"${WRK_DIR}\"";
+		};
+		D4F0244E1CB01FC100D9E21D /* Raze Physics */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Raze Physics";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=RazePhysics\nFMK_VERSION=1.0.0\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nINSTALL_DIR=${SRCROOT}/Products/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework\n\n# Building both architectures.\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\n\n# Copies files\ncp -R \"${DEVICE_DIR}/Headers/\" \"${INSTALL_DIR}/Headers\"\ncp -R \"${DEVICE_DIR}/Modules/\" \"${INSTALL_DIR}/Modules\"\ncp \"${DEVICE_DIR}/Info.plist\" \"${INSTALL_DIR}/Info.plist\"\n\n# Merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/${FMK_NAME}\" \"${SIMULATOR_DIR}/${FMK_NAME}\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\nrm -r \"${WRK_DIR}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 

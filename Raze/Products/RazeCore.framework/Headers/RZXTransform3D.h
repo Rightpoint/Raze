@@ -61,4 +61,20 @@
 - (void)rotateYTo:(float)angle;
 - (void)rotateZTo:(float)angle;
 
+/**
+ *  Concatenates the given transform's translation, scale, and rotation properties with the receivers own.
+ */
+- (void)transformBy:(RZXTransform3D *)transform;
+
+
+/**
+ *  Inverts the receiver's translation, scale, and rotation properties.
+ */
+- (void)invert;
+
+/**
+ *  Returns a transform created by inverting the receiver's translation, scale, and rotation properties.
+ */
+- (RZXTransform3D *)invertedTransform;
+
 @end

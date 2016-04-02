@@ -201,7 +201,7 @@
         glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
         glFlush();
-    } wait:NO];
+    } wait:!self.isMultithreaded];
 }
 
 #pragma mark - RZUpdateable
