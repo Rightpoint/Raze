@@ -6,6 +6,7 @@
 //
 
 #import <RazeCore/RZXTransform3D.h>
+#import <RazeCore/RZXMath.h>
 #import <RazeCore/NSValue+RZXExtensions.h>
 
 @implementation RZXTransform3D {
@@ -249,6 +250,11 @@
     [inverted invert];
 
     return inverted;
+}
+
+- (GLKVector3)transformPoint:(GLKVector3)point
+{
+    return RZXMatrix4TransformVector3(self.modelMatrix, point);
 }
 
 #pragma mark - NSCopying

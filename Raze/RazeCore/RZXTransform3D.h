@@ -77,4 +77,9 @@
  */
 - (RZXTransform3D *)invertedTransform;
 
+/**
+ *  Returns the given point transformed by the receiver's model matrix.
+ */
+- (GLKVector3)transformPoint:(GLKVector3)point;
+
 @end
