@@ -8,6 +8,11 @@
 #import <RazeScene/RZXNode.h>
 #import <RazeAnimation/RZXAnimationBase.h>
 
+// These keys are used to run absolute animations e.g. translateTo, scaleTo, rotateTo.
+OBJC_EXTERN NSString* const kRZXTranslationAnimationKey;
+OBJC_EXTERN NSString* const kRZXScaleAnimationKey;
+OBJC_EXTERN NSString* const kRZXRotationAnimationKey;
+
 /**
  *  Helpers for applying animations to RZXNodes
  */

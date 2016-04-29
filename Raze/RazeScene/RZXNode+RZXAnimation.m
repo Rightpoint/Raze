@@ -12,6 +12,10 @@
 #import <RazeAnimation/CAAnimation+RZXExtensions.h>
 #import <RazeScene/RZXNode+RZXAnimation.h>
 
+NSString* const kRZXTranslationAnimationKey = @"_transform.translation";
+NSString* const kRZXScaleAnimationKey = @"_transform.scale";
+NSString* const kRZXRotationAnimationKey = @"_transform.rotation";
+
 @implementation RZXNode (RZXAnimation)
 
 #pragma mark - Relative Animations
@@ -101,7 +105,7 @@
     animation.rzx_startBlock = start;
     animation.rzx_completionBlock = completion;
 
-    [self addAnimation:animation forKey:nil];
+    [self addAnimation:animation forKey:kRZXTranslationAnimationKey];
 }
 
 - (void)scaleTo:(GLKVector3)scale withDuration:(NSTimeInterval)duration
@@ -122,7 +126,7 @@
     animation.rzx_startBlock = start;
     animation.rzx_completionBlock = completion;
 
-    [self addAnimation:animation forKey:nil];
+    [self addAnimation:animation forKey:kRZXScaleAnimationKey];
 }
 
 - (void)rotateTo:(GLKQuaternion)rotation withDuration:(NSTimeInterval)duration
@@ -141,11 +145,11 @@
 
     RZXBasicAnimation *animation = [RZXBasicAnimation animationWithKeyPath:RZX_KP_SELF(transform.rotation) options:options];
     animation.duration = duration;
-    animation.byValue = [NSValue rzx_valueWithQuaternion:rotation];
+    animation.toValue = [NSValue rzx_valueWithQuaternion:rotation];
     animation.rzx_startBlock = start;
     animation.rzx_completionBlock = completion;
 
-    [self addAnimation:animation forKey:nil];
+    [self addAnimation:animation forKey:kRZXRotationAnimationKey];
 }
 
 @end
