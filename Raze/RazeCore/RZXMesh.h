@@ -11,29 +11,23 @@
 
 OBJC_EXTERN NSString* const kRZXMeshFileExtension;
 
+@class RZXMesh;
+@class RZXVertexAttribute;
+
 typedef struct _RZXBufferSet {
     GLuint vbo, ibo;
 } RZXBufferSet;
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wobjc-interface-ivars"
+typedef NSData* (^RZXMeshDataProvider)(id mesh);
 
 /**
  *  Represents an object stored in OpenGL Memory by default loaded from a .mesh file. 
  *  Currently .mesh files are created from Blender via an export script that can be found in the Utilities folder of this SDK.
  */
-@interface RZXMesh : RZXGPUObject <RZXRenderable> {
-    @protected
-    GLuint _vao;
-    RZXBufferSet _bufferSet;
-    GLuint _indexCount;
+@interface RZXMesh : RZXGPUObject <RZXRenderable>
 
-    // TODO: this is a hack until meshes are more unified
-    BOOL (^_configurationBlock)(RZXMesh *self);
-}
-
-/** Max width, height, and depth of the mesh. */
-@property (nonatomic, readonly) GLKVector3 bounds;
+/** The render mode used for glDrawElements. Default GL_TRIANGLES. */
+@property (assign, nonatomic) GLenum renderMode;
 
 /** The key to use when caching the mesh. */
 @property (nonatomic, readonly) NSString *cacheKey;
@@ -49,6 +43,42 @@ typedef struct _RZXBufferSet {
  */
 + (instancetype)meshWithName:(NSString *)name usingCache:(BOOL)useCache;
 
+- (instancetype)initWithName:(NSString *)name usingCache:(BOOL)useCache;
+
+/**
+ *  Initialize a new mesh with procedurally generated vertex and optional index data.
+ *
+ *  @param vertexProvider   Called when the receiver is setup in a GL context. 
+ *                          Must return non-nil interleaved vertex data.
+ *
+ *  @param indexProvider    If non-nil, called when the receiver is setup in a GL context.
+ *                          Must return an array of unsigned shorts, or nil if no index data should be used.
+ *
+ *  @param vertexAttributes An array of RZXVertexAttribute fully specifying the attributes of each vertex.
+ */
+- (instancetype)initWithVertexProvider:(RZXMeshDataProvider )vertexProvider indexProvider:(RZXMeshDataProvider)indexProvider attributes:(NSArray *)vertexAttributes;
+
 @end
 
-#pragma clang diagnostic pop
+#pragma mark - RZXVertexAttribute
+
+/**
+ *  Represents an attribute, e.g. position, normal, or tex coord, of a vertex.
+ *  @note Only float attributes are supported.
+ */
+@interface RZXVertexAttribute : NSObject
+
+/**
+ *  The index of the attribute in the shader program.
+ */
+@property (assign, nonatomic) GLuint index;
+
+/**
+ *  The number of floats in the attribute. For example, UV coordinates would have a count of 2.
+ */
+@property (assign, nonatomic) GLsizei count;
+
++ (instancetype)attributeWithIndex:(GLuint)index count:(GLsizei)count;
+- (instancetype)initWithIndex:(GLuint)index count:(GLsizei)count;
+
+@end

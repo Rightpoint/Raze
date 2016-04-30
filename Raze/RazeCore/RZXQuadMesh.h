@@ -21,6 +21,8 @@ OBJC_EXTERN NSInteger const kRZXQuadMeshMaxSubdivisions;
 /** Initialize a quad with a specific number of subdivisions. */
 + (instancetype)quadWithSubdivisionLevel:(NSInteger)subdivisons;
 
+- (instancetype)initWithSubdivisionLevel:(NSInteger)subdivisions;
+
 @end
 
 @interface RZXQuadMesh (RZXUnavailable)
