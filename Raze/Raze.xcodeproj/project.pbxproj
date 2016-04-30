@@ -46,6 +46,8 @@
 		D40F5E761B61562B005A6394 /* RZXConvolutionEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = D40F5E741B61562B005A6394 /* RZXConvolutionEffect.m */; };
 		D40F5E791B617A32005A6394 /* RZXImageFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = D40F5E771B617A32005A6394 /* RZXImageFilter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D40F5E7A1B617A32005A6394 /* RZXImageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = D40F5E781B617A32005A6394 /* RZXImageFilter.m */; };
+		D40F7EC11CD563F400C21979 /* RZXCubeMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = D40F7EBF1CD563F400C21979 /* RZXCubeMesh.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D40F7EC21CD563F400C21979 /* RZXCubeMesh.m in Sources */ = {isa = PBXBuildFile; fileRef = D40F7EC01CD563F400C21979 /* RZXCubeMesh.m */; };
 		D46EDCF31B5455A2002AD0B7 /* RZXNode+RZXAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = D46EDCF11B5455A2002AD0B7 /* RZXNode+RZXAnimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D46EDCF41B5455A2002AD0B7 /* RZXNode+RZXAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = D46EDCF21B5455A2002AD0B7 /* RZXNode+RZXAnimation.m */; };
 		D46EDCF61B545874002AD0B7 /* RZXAnimationBase.h in Headers */ = {isa = PBXBuildFile; fileRef = D46EDCF51B545874002AD0B7 /* RZXAnimationBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -248,6 +250,8 @@
 		D40F5E741B61562B005A6394 /* RZXConvolutionEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXConvolutionEffect.m; sourceTree = "<group>"; };
 		D40F5E771B617A32005A6394 /* RZXImageFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXImageFilter.h; sourceTree = "<group>"; };
 		D40F5E781B617A32005A6394 /* RZXImageFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXImageFilter.m; sourceTree = "<group>"; };
+		D40F7EBF1CD563F400C21979 /* RZXCubeMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXCubeMesh.h; sourceTree = "<group>"; };
+		D40F7EC01CD563F400C21979 /* RZXCubeMesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXCubeMesh.m; sourceTree = "<group>"; };
 		D46EDCF11B5455A2002AD0B7 /* RZXNode+RZXAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RZXNode+RZXAnimation.h"; sourceTree = "<group>"; };
 		D46EDCF21B5455A2002AD0B7 /* RZXNode+RZXAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RZXNode+RZXAnimation.m"; sourceTree = "<group>"; };
 		D46EDCF51B545874002AD0B7 /* RZXAnimationBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXAnimationBase.h; sourceTree = "<group>"; };
@@ -526,6 +530,8 @@
 				D4E557271B44714C000665E3 /* RZXMesh.m */,
 				D4D00E341AE14CE700D007E4 /* RZXQuadMesh.h */,
 				D4D00E351AE14CE700D007E4 /* RZXQuadMesh.m */,
+				D40F7EBF1CD563F400C21979 /* RZXCubeMesh.h */,
+				D40F7EC01CD563F400C21979 /* RZXCubeMesh.m */,
 				D4EDE0531B41C351003AEB98 /* RZXTexture.h */,
 				D4EDE0541B41C351003AEB98 /* RZXTexture.m */,
 				D4EDE0571B41C6F8003AEB98 /* RZXStaticTexture.h */,
@@ -752,6 +758,7 @@
 				D4D00E4C1AE14CE700D007E4 /* RZXTransform3D.h in Headers */,
 				D4D00E411AE14CE700D007E4 /* RZXGLContext.h in Headers */,
 				D4EDE0611B41CEE6003AEB98 /* RZXDynamicTexture.h in Headers */,
+				D40F7EC11CD563F400C21979 /* RZXCubeMesh.h in Headers */,
 				D4D00E4E1AE14CE700D007E4 /* RZXUpdateable.h in Headers */,
 				D4EDE0591B41C6F8003AEB98 /* RZXStaticTexture.h in Headers */,
 				D4D00E431AE14CE700D007E4 /* RZXBase.h in Headers */,
@@ -1254,6 +1261,7 @@
 				D4EDE0621B41CEE6003AEB98 /* RZXDynamicTexture.m in Sources */,
 				D4EDE05A1B41C6F8003AEB98 /* RZXStaticTexture.m in Sources */,
 				D4D00E3E1AE14CE700D007E4 /* RZXCamera.m in Sources */,
+				D40F7EC21CD563F400C21979 /* RZXCubeMesh.m in Sources */,
 				D4D00E4D1AE14CE700D007E4 /* RZXTransform3D.m in Sources */,
 				D4D00E451AE14CE700D007E4 /* RZXGLView.m in Sources */,
 				D4EDE05E1B41C906003AEB98 /* RZXCache.m in Sources */,

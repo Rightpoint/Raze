@@ -10,7 +10,8 @@
 
 NSInteger const kRZXQuadMeshMaxSubdivisions = 8;
 
-void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numVerts, GLvoid **indices, GLuint *numIdxs);
+void RZXGenerateQuadMeshIndices(NSInteger subdivisions, GLvoid **indices, GLuint *numIndices);
+void RZXGenerateQuadMeshVertices(NSInteger subdivisions, GLvoid **vertices, GLuint *numVerts);
 
 @interface RZXQuadMesh ()
 
@@ -74,6 +75,10 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
     return [NSString stringWithFormat:@"com.raze.mesh-builtin-quad-%i", (int)self.subdivisions];
 }
 
+@end
+
+#pragma mark - private functions
+
 void RZXGenerateQuadMeshIndices(NSInteger subdivisions, GLvoid **indices, GLuint *numIndices)
 {
     GLuint subs = pow(2.0, subdivisions);
@@ -105,16 +110,16 @@ void RZXGenerateQuadMeshVertices(NSInteger subdivisions, GLvoid **vertices, GLui
 {
     GLuint subs = pow(2.0, subdivisions);
     GLuint pts = subs + 1;
-    
+
     GLfloat ptStep = 2.0f / subs;
     GLfloat texStep = 1.0f / subs;
-    
+
     *numVerts = pts * pts;
 
     GLfloat *verts = (GLfloat *)malloc(8 * *numVerts * sizeof(GLfloat));
 
     int v = 0;
-    
+
     for ( int y = 0; y < pts; y++ ) {
         for ( int x = 0; x < pts; x++ ) {
             // Position
@@ -132,8 +137,6 @@ void RZXGenerateQuadMeshVertices(NSInteger subdivisions, GLvoid **vertices, GLui
             verts[v++] = 1.0f - texStep * y;
         }
     }
-
+    
     *vertices = verts;
 }
-
-@end
