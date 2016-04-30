@@ -43,12 +43,19 @@
     if ( (self = [super init]) ) {
         _mutableChildren = [NSMutableArray array];
         _mutableAnimations = [NSMutableDictionary dictionary];
-        _transform = [RZXTransform3D transform];
     }
     return self;
 }
 
 #pragma mark - public methods
+
+- (RZXTransform3D *)transform
+{
+    if ( _transform == nil ) {
+        _transform = [RZXTransform3D transform];
+    }
+    return _transform;
+}
 
 - (RZXEffect *)effect
 {

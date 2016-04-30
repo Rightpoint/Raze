@@ -21,7 +21,6 @@
     self = [super init];
     if ( self ) {
         _up = GLKVector3Make(0.0f, 1.0f, 0.0f);
-        _transform = [RZXTransform3D transform];
     }
     return self;
 }
@@ -29,6 +28,14 @@
 - (void)dealloc
 {
     [self invalidateProjectionMatrixCache];
+}
+
+- (RZXTransform3D *)transform
+{
+    if ( _transform == nil ) {
+        _transform = [RZXTransform3D transform];
+    }
+    return _transform;
 }
 
 - (void)setUp:(GLKVector3)up

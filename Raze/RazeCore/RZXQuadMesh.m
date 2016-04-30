@@ -24,12 +24,17 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
 
 + (instancetype)quad
 {
-    return [self quadWithSubdivisionLevel:0];
+    return [[self alloc] init];
 }
 
 + (instancetype)quadWithSubdivisionLevel:(NSInteger)subdivisons
 {
     return [[self alloc] initWithSubdivisionLevel:subdivisons];
+}
+
+- (instancetype)init
+{
+    return [self initWithSubdivisionLevel:0];
 }
 
 #pragma mark - getters
@@ -48,7 +53,7 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
 
 - (instancetype)initWithSubdivisionLevel:(NSInteger)subdivisions
 {
-    self = [self init];
+    self = [super init];
     if ( self ) {
         subdivisions = MAX(0, MIN(subdivisions, kRZXQuadMeshMaxSubdivisions));
         _subdivisions = subdivisions;
