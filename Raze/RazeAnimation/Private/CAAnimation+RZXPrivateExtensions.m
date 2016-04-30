@@ -35,7 +35,7 @@
 - (float)rzx_interpolationFactorForTime:(CFTimeInterval)currentTime
 {
     // TODO: take into account timing functions. This is just linear.
-    return (self.speed * currentTime / self.duration);
+    return self.duration != 0.0 ? (self.speed * currentTime / self.duration) : 1.0f;
 }
 
 - (id)rzx_interpolateAtTime:(CFTimeInterval)time withInterpolator:(RZXInterpolator *)interpolator currentValue:(id)currentValue
