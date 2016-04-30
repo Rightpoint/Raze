@@ -37,20 +37,6 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
     return [self initWithSubdivisionLevel:0];
 }
 
-#pragma mark - getters
-
-- (GLKVector3)bounds
-{
-    return (GLKVector3){2.0f, 2.0f, 0.0f};
-}
-
-- (NSString *)cacheKey
-{
-    return [NSString stringWithFormat:@"com.raze.mesh-builtin-quad-%i", (int)self.subdivisions];
-}
-
-#pragma mark - private methods
-
 - (instancetype)initWithSubdivisionLevel:(NSInteger)subdivisions
 {
     self = [super init];
@@ -84,14 +70,26 @@ void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numV
             glVertexAttribPointer(kRZXVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (const GLvoid *)20);
 
             glBindBuffer(GL_ARRAY_BUFFER, 0);
-            
+
             free(vertexData);
             free(indexData);
-
+            
             return YES;
         };
     }
     return self;
+}
+
+#pragma mark - getters
+
+- (GLKVector3)bounds
+{
+    return (GLKVector3){2.0f, 2.0f, 0.0f};
+}
+
+- (NSString *)cacheKey
+{
+    return [NSString stringWithFormat:@"com.raze.mesh-builtin-quad-%i", (int)self.subdivisions];
 }
 
 void RZXGenerateQuadMesh(NSInteger subdivisions, GLvoid **vertices, GLuint *numVerts, GLvoid **indices, GLuint *numIdxs)

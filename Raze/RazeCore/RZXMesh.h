@@ -49,6 +49,8 @@ typedef struct _RZXBufferSet {
  */
 + (instancetype)meshWithName:(NSString *)name usingCache:(BOOL)useCache;
 
+- (instancetype)initWithName:(NSString *)name usingCache:(BOOL)useCache;
+
 @end
 
 #pragma clang diagnostic pop

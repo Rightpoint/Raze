@@ -25,11 +25,17 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 
 + (instancetype)meshWithName:(NSString *)name usingCache:(BOOL)useCache
 {
-    RZXMesh *mesh = [[self alloc] init];
-    mesh.usingCache = useCache;
-    mesh.meshName = [name stringByDeletingPathExtension];
+    return [[self alloc] initWithName:name usingCache:useCache];
+}
 
-    return mesh;
+- (instancetype)initWithName:(NSString *)name usingCache:(BOOL)useCache
+{
+    if ( (self = [self init]) ) {
+        self.meshName = [name stringByDeletingPathExtension];
+        self.usingCache = useCache;
+    }
+
+    return self;
 }
 
 - (NSString *)cacheKey
