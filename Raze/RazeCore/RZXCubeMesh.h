@@ -2,30 +2,23 @@
 //  RZXQuadMesh.h
 //  RazeCore
 //
-//  Created by Rob Visentin on 1/10/15.
+//  Created by Rob Visentin on 4/30/15.
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
 #import <RazeCore/RZXMesh.h>
 
-OBJC_EXTERN NSInteger const kRZXQuadMeshMaxSubdivisions;
-
 /**
- *  A procedurally generated rectangular mesh.
+ *  A procedurally generated cube mesh.
  */
-@interface RZXQuadMesh : RZXMesh
+@interface RZXCubeMesh : RZXMesh
 
-/** Initialize a basic quad. */
-+ (instancetype)quad;
-
-/** Initialize a quad with a specific number of subdivisions. */
-+ (instancetype)quadWithSubdivisionLevel:(NSInteger)subdivisons;
-
-- (instancetype)initWithSubdivisionLevel:(NSInteger)subdivisions;
+/** Initialize a unit cube. The cube is size {1, 1, 1}, centered at {0, 0, 0}. */
++ (instancetype)cube;
 
 @end
 
-@interface RZXQuadMesh (RZXUnavailable)
+@interface RZXCubeMesh (RZXUnavailable)
 
 // The mesh data will be procedurally generated rather then loaded from a file.
 + (instancetype)meshWithName:(NSString *)name usingCache:(BOOL)useCache UNAVAILABLE_ATTRIBUTE;

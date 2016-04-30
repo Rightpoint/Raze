@@ -41,20 +41,12 @@ NSString* const kRZXMeshFileExtension = @"mesh";
     return [[self alloc] initWithName:name usingCache:useCache];
 }
 
-- (instancetype)init
-{
-    if ( (self = [super init]) ) {
-        _useCache = YES;
-        _renderMode = GL_TRIANGLES;
-    }
-    return self;
-}
-
 - (instancetype)initWithName:(NSString *)name usingCache:(BOOL)useCache
 {
-    if ( (self = [self init]) ) {
+    if ( (self = [super init]) ) {
         self.meshName = [name stringByDeletingPathExtension];
         self.useCache = useCache;
+        self.renderMode = GL_TRIANGLES;
 
         self.vertexAttributes = @[ [RZXVertexAttribute attributeWithIndex:kRZXVertexAttribPosition count:3],
                                    [RZXVertexAttribute attributeWithIndex:kRZXVertexAttribNormal count:3],
@@ -66,7 +58,9 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 
 - (instancetype)initWithVertexProvider:(RZXMeshDataProvider)vertexProvider indexProvider:(RZXMeshDataProvider)indexProvider attributes:(NSArray *)vertexAttributes
 {
-    if ( (self = [self init]) ) {
+    if ( (self = [super init]) ) {
+        self.useCache = YES;
+        self.renderMode = GL_TRIANGLES;
         self.vertexProvider = vertexProvider;
         self.indexProvider = indexProvider;
         self.vertexAttributes = vertexAttributes;
