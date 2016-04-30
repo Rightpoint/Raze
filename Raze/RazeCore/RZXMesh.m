@@ -248,7 +248,7 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 
         GLsizei vertexSize = [[self.vertexAttributes valueForKeyPath:@"@sum.count"] unsignedIntValue] * sizeof(GLfloat);
 
-        _vertexCount = (vertexData.length / vertexSize);
+        _vertexCount = ((GLsizei)vertexData.length / vertexSize);
 
         glGenBuffers(1, &_bufferSet.vbo);
         glBindBuffer(GL_ARRAY_BUFFER, _bufferSet.vbo);
@@ -257,7 +257,7 @@ NSString* const kRZXMeshFileExtension = @"mesh";
         if ( indexProvider != nil ) {
             NSData *indexData = indexProvider(self);
 
-            _indexCount = (indexData.length / sizeof(GLushort));
+            _indexCount = ((GLsizei)indexData.length / sizeof(GLushort));
 
             if ( indexData != nil ) {
                 glGenBuffers(1, &_bufferSet.ibo);

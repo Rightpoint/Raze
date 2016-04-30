@@ -73,11 +73,11 @@ const GLushort kRZXCubeIndices[] = {
 - (instancetype)init
 {
     RZXMeshDataProvider vertexProvider = ^NSData* (id mesh) {
-        return [[NSData alloc] initWithBytesNoCopy:kRZXCubeVertices length:sizeof(kRZXCubeVertices) freeWhenDone:NO];
+        return [[NSData alloc] initWithBytesNoCopy:(void *)kRZXCubeVertices length:sizeof(kRZXCubeVertices) freeWhenDone:NO];
     };
 
     RZXMeshDataProvider indexProvider = ^NSData* (id mesh) {
-        return [[NSData alloc] initWithBytesNoCopy:kRZXCubeIndices length:sizeof(kRZXCubeIndices) freeWhenDone:NO];
+        return [[NSData alloc] initWithBytesNoCopy:(void *)kRZXCubeIndices length:sizeof(kRZXCubeIndices) freeWhenDone:NO];
     };
 
     NSArray *attribs = @[ [RZXVertexAttribute attributeWithIndex:kRZXVertexAttribPosition count:3],
