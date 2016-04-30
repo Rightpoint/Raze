@@ -42,7 +42,6 @@ typedef NSData* (^RZXMeshDataProvider)(id mesh);
  *
  */
 + (instancetype)meshWithName:(NSString *)name usingCache:(BOOL)useCache;
-
 - (instancetype)initWithName:(NSString *)name usingCache:(BOOL)useCache;
 
 /**

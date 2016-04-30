@@ -22,5 +22,8 @@
 
 // The mesh data will be procedurally generated rather then loaded from a file.
 + (instancetype)meshWithName:(NSString *)name usingCache:(BOOL)useCache UNAVAILABLE_ATTRIBUTE;
+- (instancetype)initWithName:(NSString *)name usingCache:(BOOL)useCache UNAVAILABLE_ATTRIBUTE;
+
+- (instancetype)initWithVertexProvider:(RZXMeshDataProvider )vertexProvider indexProvider:(RZXMeshDataProvider)indexProvider attributes:(NSArray *)vertexAttributes UNAVAILABLE_ATTRIBUTE;
 
 @end

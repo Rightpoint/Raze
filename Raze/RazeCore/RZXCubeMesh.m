@@ -42,7 +42,7 @@ const GLfloat kRZXCubeVertices[] = {
     -0.5, -0.5f, -0.5, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f
 };
 
-const GLubyte kRZXCubeIndices[] = {
+const GLushort kRZXCubeIndices[] = {
     // Front
     0, 1, 2,
     2, 3, 0,
@@ -62,7 +62,6 @@ const GLubyte kRZXCubeIndices[] = {
     20, 21, 22,
     22, 23, 20
 };
-
 
 @implementation RZXCubeMesh
 
