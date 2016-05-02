@@ -67,6 +67,11 @@
     return [CAEAGLLayer class];
 }
 
+- (GLKVector2)resolution
+{
+    return GLKVector2Make(_backingWidth, _backingHeight);
+}
+
 - (void)setFrame:(CGRect)frame
 {
     [super setFrame:frame];
@@ -79,6 +84,14 @@
     [super setBounds:bounds];
 
     [self updateBuffersWithSize:bounds.size];
+}
+
+- (void)setContentScaleFactor:(CGFloat)contentScaleFactor
+{
+    [super setContentScaleFactor:contentScaleFactor];
+
+    self.layer.contentsScale = contentScaleFactor;
+    [self updateBuffersWithSize:self.bounds.size];
 }
 
 - (void)setMultisampleLevel:(GLsizei)multisampleLevel

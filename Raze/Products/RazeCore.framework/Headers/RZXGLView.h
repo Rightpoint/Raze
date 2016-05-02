@@ -37,6 +37,9 @@
     GLint _backingHeight;
 }
 
+/** The size of the framebuffer backing the view. Based on contentScaleFactor and bounds. */
+@property (nonatomic, readonly) GLKVector2 resolution;
+
 /** Frames per second specified between 1 and 60. */
 @property (assign, nonatomic) IBInspectable NSInteger framesPerSecond;
 
