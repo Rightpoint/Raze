@@ -73,6 +73,11 @@ def do_export(context, props, filepath):
             obj.data.transform(mat_x90)
 
         bpy.ops.object.mode_set(mode='OBJECT')
+
+        rotate = mathutils.Matrix.Rotation(math.pi, 4, 'Y')
+        obj.data.transform(rotate)
+
+        obj.location.y = -obj.location.y
         obj.data.update(calc_tessface = True)
 
         # make sure that UV's have been applied
@@ -80,8 +85,6 @@ def do_export(context, props, filepath):
             print("UV coordinates were not found! Did you unwrap your mesh?")
             return False
 
-        rotate_z_180 = mathutils.Matrix.Rotation(math.pi, 4, 'Z')
-        obj.data.transform(rotate_z_180)
         # build the raw vertex data
         dataList = []
         qDataSet = set()
@@ -163,14 +166,18 @@ def do_export(context, props, filepath):
         file.flush()
         file.close()
 
-        rotate_z_back_180 = mathutils.Matrix.Rotation(-math.pi, 4, 'Z')
-        obj.data.transform(rotate_z_back_180)
-
         if props.center_at_zero:
             obj.location = savedLocation
 
         print('finished export of ' + obj.name + ' in %.2f seconds\n' %((time.time() - start_time)))
+        
         bpy.ops.object.mode_set(mode='OBJECT')
+
+        rotate = mathutils.Matrix.Rotation(-math.pi, 4, 'Y')
+        obj.data.transform(rotate)
+
+        obj.location.y = -obj.location.y
+        obj.data.update(calc_tessface = True)
 
     return True
 
