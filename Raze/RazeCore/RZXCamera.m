@@ -110,6 +110,23 @@
     return m;
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    RZXCamera *copy = [[[self class] alloc] init];
+
+    copy.name = self.name;
+    copy.transform = [self.transform copy];
+    copy.up = self.up;
+    copy.fieldOfView = self.fieldOfView;
+    copy.aspectRatio = self.aspectRatio;
+    copy.near = self.near;
+    copy.far = self.far;
+
+    return copy;
+}
+
 #pragma mark - private methods
 
 - (instancetype)initWithFieldOfView:(float)fov aspectRatio:(float)aspectRatio nearClipping:(float)near farClipping:(float)far

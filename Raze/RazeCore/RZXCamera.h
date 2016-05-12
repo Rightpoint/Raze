@@ -10,7 +10,12 @@
 /**
  *  An object representing a projective camera.
  */
-@interface RZXCamera : NSObject
+@interface RZXCamera : NSObject <NSCopying>
+
+/**
+ *  An identifier for use by your application.
+ */
+@property (copy, nonatomic) NSString *name;
 
 @property (strong, nonatomic) RZXTransform3D *transform;
 
