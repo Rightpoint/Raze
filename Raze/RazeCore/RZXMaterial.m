@@ -52,7 +52,16 @@
 
 - (BOOL)bindGL
 {
-    BOOL bound = [super bindGL] && (self.texture == nil || [self.texture bindGL]);
+    BOOL bound = [super bindGL];
+
+    if ( bound ) {
+        if ( self.texture != nil) {
+            bound = [self.texture bindGL];
+        }
+        else {
+            glBindTexture(GL_TEXTURE_2D, 0);
+        }
+    }
 
     if ( bound ) {
         RZXGLContext *context = [RZXGLContext currentContext];
