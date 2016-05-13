@@ -26,15 +26,15 @@
 
 - (BOOL)setupGL
 {
-    self.texture = [RZXViewTexture textureWithSize:self.view.frame.size];
+    self.material.texture = [RZXViewTexture textureWithSize:self.view.frame.size];
 
     return [super setupGL];
 }
 
 - (void)rzx_update:(NSTimeInterval)dt
 {
-    if ( [self.texture isKindOfClass:[RZXViewTexture class]] ) {
-        [(RZXViewTexture *)self.texture updateWithView:self.view synchronous:YES];
+    if ( [self.material.texture isKindOfClass:[RZXViewTexture class]] ) {
+        [(RZXViewTexture *)self.material.texture updateWithView:self.view synchronous:YES];
     }
 
     [super rzx_update:dt];
