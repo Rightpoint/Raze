@@ -5,10 +5,11 @@
 //  Created by Rob Visentin on 6/29/15.
 //
 
+#import <RazeScene/RZXTextNode.h>
 #import <RazeCore/RZXDynamicTexture.h>
 #import <RazeCore/RZXTransform3D.h>
 #import <RazeCore/RZXQuadMesh.h>
-#import <RazeScene/RZXTextNode.h>
+#import <RazeCore/RZXMaterial.h>
 
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
@@ -49,6 +50,7 @@
         _boundingSize = CGSizeMake(HUGE_VALF, HUGE_VALF);
 
         self.mesh = [RZXQuadMesh quad];
+        self.material.blendEnabled = YES;
     }
     return self;
 }
@@ -146,17 +148,6 @@
     }
 
     return [super bindGL];
-}
-
-- (void)rzx_render
-{
-    // TODO: make this part of the context
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    [super rzx_render];
-
-    glDisable(GL_BLEND);
 }
 
 #pragma mark - private methods

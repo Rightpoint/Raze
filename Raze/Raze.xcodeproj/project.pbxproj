@@ -100,6 +100,10 @@
 		D4E0D8321C6B8D5A00CC2358 /* RZXMath.h in Headers */ = {isa = PBXBuildFile; fileRef = D4E0D8301C6B8D1300CC2358 /* RZXMath.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4E557281B44714C000665E3 /* RZXMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = D4E557261B44714C000665E3 /* RZXMesh.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4E557291B44714C000665E3 /* RZXMesh.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E557271B44714C000665E3 /* RZXMesh.m */; };
+		D4EB4DEF1CE61CFB00823913 /* RZXMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = D4EB4DED1CE61CFB00823913 /* RZXMaterial.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D4EB4DF01CE61CFB00823913 /* RZXMaterial.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EB4DEE1CE61CFB00823913 /* RZXMaterial.m */; };
+		D4EB4DF51CE61F5200823913 /* RZXColor+RZXExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = D4EB4DF31CE61F5200823913 /* RZXColor+RZXExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D4EB4DF61CE61F5200823913 /* RZXColor+RZXExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EB4DF41CE61F5200823913 /* RZXColor+RZXExtensions.m */; };
 		D4EDE0551B41C351003AEB98 /* RZXTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = D4EDE0531B41C351003AEB98 /* RZXTexture.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4EDE0561B41C351003AEB98 /* RZXTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EDE0541B41C351003AEB98 /* RZXTexture.m */; };
 		D4EDE0591B41C6F8003AEB98 /* RZXStaticTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = D4EDE0571B41C6F8003AEB98 /* RZXStaticTexture.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -309,6 +313,10 @@
 		D4E0D8301C6B8D1300CC2358 /* RZXMath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RZXMath.h; sourceTree = "<group>"; };
 		D4E557261B44714C000665E3 /* RZXMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXMesh.h; sourceTree = "<group>"; };
 		D4E557271B44714C000665E3 /* RZXMesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXMesh.m; sourceTree = "<group>"; };
+		D4EB4DED1CE61CFB00823913 /* RZXMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXMaterial.h; sourceTree = "<group>"; };
+		D4EB4DEE1CE61CFB00823913 /* RZXMaterial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXMaterial.m; sourceTree = "<group>"; };
+		D4EB4DF31CE61F5200823913 /* RZXColor+RZXExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RZXColor+RZXExtensions.h"; sourceTree = "<group>"; };
+		D4EB4DF41CE61F5200823913 /* RZXColor+RZXExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RZXColor+RZXExtensions.m"; sourceTree = "<group>"; };
 		D4EDE0531B41C351003AEB98 /* RZXTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXTexture.h; sourceTree = "<group>"; };
 		D4EDE0541B41C351003AEB98 /* RZXTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXTexture.m; sourceTree = "<group>"; };
 		D4EDE0571B41C6F8003AEB98 /* RZXStaticTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXStaticTexture.h; sourceTree = "<group>"; };
@@ -526,6 +534,8 @@
 				D4D00E3A1AE14CE700D007E4 /* RZXTransform3D.m */,
 				D4D00E2A1AE14CE700D007E4 /* RZXCamera.h */,
 				D4D00E2B1AE14CE700D007E4 /* RZXCamera.m */,
+				D4EB4DED1CE61CFB00823913 /* RZXMaterial.h */,
+				D4EB4DEE1CE61CFB00823913 /* RZXMaterial.m */,
 				D4E557261B44714C000665E3 /* RZXMesh.h */,
 				D4E557271B44714C000665E3 /* RZXMesh.m */,
 				D4D00E341AE14CE700D007E4 /* RZXQuadMesh.h */,
@@ -542,6 +552,8 @@
 				D4D00E321AE14CE700D007E4 /* RZXGLView.m */,
 				D40C6CBA1B3B3D0A0093FD69 /* NSValue+RZXExtensions.h */,
 				D40C6CBB1B3B3D0A0093FD69 /* NSValue+RZXExtensions.m */,
+				D4EB4DF31CE61F5200823913 /* RZXColor+RZXExtensions.h */,
+				D4EB4DF41CE61F5200823913 /* RZXColor+RZXExtensions.m */,
 				D4D00EA01AE1545B00D007E4 /* Private */,
 				D4D00E121AE14CB900D007E4 /* Supporting Files */,
 			);
@@ -754,12 +766,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4EB4DF51CE61F5200823913 /* RZXColor+RZXExtensions.h in Headers */,
 				D4D00E3C1AE14CE700D007E4 /* RazeCore.h in Headers */,
 				D4D00E4C1AE14CE700D007E4 /* RZXTransform3D.h in Headers */,
 				D4D00E411AE14CE700D007E4 /* RZXGLContext.h in Headers */,
 				D4EDE0611B41CEE6003AEB98 /* RZXDynamicTexture.h in Headers */,
 				D40F7EC11CD563F400C21979 /* RZXCubeMesh.h in Headers */,
 				D4D00E4E1AE14CE700D007E4 /* RZXUpdateable.h in Headers */,
+				D4EB4DEF1CE61CFB00823913 /* RZXMaterial.h in Headers */,
 				D4EDE0591B41C6F8003AEB98 /* RZXStaticTexture.h in Headers */,
 				D4D00E431AE14CE700D007E4 /* RZXBase.h in Headers */,
 				D4EDE0551B41C351003AEB98 /* RZXTexture.h in Headers */,
@@ -1264,8 +1278,10 @@
 				D40F7EC21CD563F400C21979 /* RZXCubeMesh.m in Sources */,
 				D4D00E4D1AE14CE700D007E4 /* RZXTransform3D.m in Sources */,
 				D4D00E451AE14CE700D007E4 /* RZXGLView.m in Sources */,
+				D4EB4DF01CE61CFB00823913 /* RZXMaterial.m in Sources */,
 				D4EDE05E1B41C906003AEB98 /* RZXCache.m in Sources */,
 				D4EDE0561B41C351003AEB98 /* RZXTexture.m in Sources */,
+				D4EB4DF61CE61F5200823913 /* RZXColor+RZXExtensions.m in Sources */,
 				D40C6CBD1B3B3D0A0093FD69 /* NSValue+RZXExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

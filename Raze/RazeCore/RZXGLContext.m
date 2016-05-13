@@ -191,6 +191,22 @@
     }
 }
 
+- (void)setBlendEnabled:(BOOL)blendEnabled
+{
+    if ( _blendEnabled != blendEnabled ) {
+        [self runBlock:^(RZXGLContext *context) {
+            if ( blendEnabled ) {
+                glEnable(GL_BLEND);
+            }
+            else {
+                glDisable(GL_BLEND);
+            }
+        }];
+
+        _blendEnabled = blendEnabled;
+    }
+}
+
 - (void)setCullFace:(GLenum)cullFace
 {
     if ( _cullFace != cullFace ) {

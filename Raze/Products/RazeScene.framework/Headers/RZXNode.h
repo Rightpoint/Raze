@@ -21,6 +21,11 @@
  */
 @interface RZXNode : RZXGPUObject <RZXRenderable, RZXUpdateable>
 
+/**
+ *  An identifier for use by your application.
+ */
+@property (copy, nonatomic) NSString *name;
+
 @property (strong, nonatomic) RZXTransform3D *transform;
 @property (strong, nonatomic) RZXEffect *effect;
 @property (strong, nonatomic) RZXCamera *camera;
