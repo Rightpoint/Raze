@@ -25,27 +25,27 @@
 /**
  *  Color emitted by the surface. Default is clearColor.
  */
-@property (nonatomic, assign) RZXColor *emissionColor;
+@property (nonatomic, strong) RZXColor *emissionColor;
 
 /**
  *  Default surface color. Default is blackColor.
  */
-@property (nonatomic, assign) RZXColor *surfaceColor;
+@property (nonatomic, strong) RZXColor *surfaceColor;
 
 /**
  *  Ambient light contribution. Default is whiteColor.
  */
-@property (nonatomic, assign) RZXColor *ambientColor;
+@property (nonatomic, strong) RZXColor *ambientColor;
 
 /**
  *  Diffuse light contribution. Default is whiteColor.
  */
-@property (nonatomic, assign) RZXColor *diffuseColor;
+@property (nonatomic, strong) RZXColor *diffuseColor;
 
 /**
  *  Specular light contribution. Default is blackColor.
  */
-@property (nonatomic, assign) RZXColor *specularColor;
+@property (nonatomic, strong) RZXColor *specularColor;
 
 /**
  *  Exponent for sharpening specular highlights. Default is 0.0.
