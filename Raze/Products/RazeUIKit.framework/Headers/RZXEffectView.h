@@ -53,4 +53,7 @@
 
 - (void)setMultisampleLevel:(GLsizei)multisampleLevel __attribute__((unavailable("RZXEffectView does not support multisample antialiasing.")));
 
+- (id<RZXGLViewDelegate>)delegate __attribute__((unavailable("RZXEffectView does not support delegation.")));
+- (void)setDelegate:(id<RZXGLViewDelegate>)delegate __attribute__((unavailable("RZXEffectView does not support delegation.")));
+
 @end
