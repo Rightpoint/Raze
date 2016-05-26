@@ -18,7 +18,6 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
 @property (nonatomic, readwrite, getter = isLinked) BOOL linked;
 
 @property (strong, nonatomic) NSCache *uniforms;
-@property (strong, nonatomic) NSCache *uniformValues;
 
 @end
 
@@ -47,10 +46,20 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
     return effect;
 }
 
+- (instancetype)init
+{
+    return [self initWithVertexShader:nil fragmentShader:nil];
+}
+
 - (instancetype)initWithVertexShader:(NSString *)vsh fragmentShader:(NSString *)fsh
 {
-    self = [super init];
-    if ( self ) {
+    if ( (self = [super init]) ) {
+        _modelViewMatrix = GLKMatrix4Identity;
+        _projectionMatrix = GLKMatrix4Identity;
+        _normalMatrix = GLKMatrix3Identity;
+
+        _uniforms = [[NSCache alloc] init];
+
         _vshSrc = vsh;
         _fshSrc = fsh;
     }
@@ -315,49 +324,16 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
 
 #pragma mark - private methods
 
-- (instancetype)init
-{
-    if ( (self = [super init]) ) {
-        _modelViewMatrix = GLKMatrix4Identity;
-        _projectionMatrix = GLKMatrix4Identity;
-        _normalMatrix = GLKMatrix3Identity;
-
-        _uniforms = [[NSCache alloc] init];
-        _uniformValues = [[NSCache alloc] init];
-    }
-    return self;
-}
-
 - (void)setUniform:(NSString *)uniformName value:(const void *)value length:(size_t)bytes setter:(void (^)(GLint location))setter
 {
-    if ( ![self uniformValueCacheHit:uniformName value:value length:bytes] ) {
-        GLint location = [self uniformLoc:uniformName];
+    GLint location = [self uniformLoc:uniformName];
 
-        if ( location >= 0 ) {
-            [self.configuredContext runBlock:^(RZXGLContext *context) {
-                [self bindGL];
-                setter(location);
-            }];
-
-            NSData *valueData = [NSData dataWithBytes:value length:bytes];
-            [self.uniformValues setObject:valueData forKey:uniformName];
-        }
+    if ( location >= 0 ) {
+        [self.configuredContext runBlock:^(RZXGLContext *context) {
+            [self bindGL];
+            setter(location);
+        }];
     }
-}
-
-- (BOOL)uniformValueCacheHit:(NSString *)uniformName value:(const void *)value length:(size_t)length
-{
-    BOOL hit = NO;
-
-    NSData *cachedValue = [self.uniformValues objectForKey:uniformName];
-
-    if ( cachedValue != nil ) {
-        NSData *newValue = [[NSData alloc] initWithBytesNoCopy:(void *)value length:length freeWhenDone:NO];
-
-        hit = [cachedValue isEqualToData:newValue];
-    }
-
-    return hit;
 }
 
 @end
