@@ -65,22 +65,9 @@
 {
     [super rzx_update:dt];
 
-    NSSet *collisions = [self.physicsWorld computeCollisions];
+    [self.physicsWorld rzx_update:dt];
 
-    for ( RZXCollision *collision in collisions ) {
-        // TODO: began/end contact callbacks
-
-        // Revert updates to pre-collision state
-        [collision.first revertToPreviousTransform];
-        [collision.first.body.node revertToSnapshot];
-        [collision.second revertToPreviousTransform];
-        [collision.second.body.node revertToSnapshot];
-    }
-
-    // Save latest valid state
-    [self.physicsWorld enumerateCollidersWithBlock:^(RZXCollider *collider, BOOL *stop) {
-        [collider.body.node snapshotCurrentTransform];
-    }];
+    // TODO: compute collisions
 
     [self didSimulatePhysics];
 }

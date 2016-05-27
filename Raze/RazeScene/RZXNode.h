@@ -81,7 +81,7 @@
 
 #pragma mark - RZXNode + Physics Extensions
 
-@interface RZXNode ()
+@interface RZXNode () <RZXPhysicsObject>
 
 @property (strong, nonatomic) RZXPhysicsBody *physicsBody;
 

@@ -9,13 +9,6 @@
 #import <RazePhysics/RZXPhysicsBody.h>
 #import <RazePhysics/RZXCollider_Private.h>
 
-@interface RZXPhysicsBody()
-
-// For RZXScene integration
-@property (weak, nonatomic) id node;
-
-@end
-
 @implementation RZXPhysicsBody
 
 + (instancetype)bodyWithCollider:(RZXCollider *)collider

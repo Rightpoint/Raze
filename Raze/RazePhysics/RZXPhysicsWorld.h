@@ -6,21 +6,22 @@
 //  Copyright (c) 2016 Raizlabs. All rights reserved.
 //
 
-#import <RazePhysics/RZXCollider.h>
+#import <RazeCore/RZXUpdateable.h>
+#import <RazePhysics/RZXPhysicsBody.h>
 
 @class RZXCollision;
 
-typedef void (^RZXColliderEnumerationBlock)(RZXCollider *collider, BOOL *stop);
+typedef void (^RZXPhysicsBodyEnumeration)(RZXPhysicsBody *body, BOOL *stop);
 
-@interface RZXPhysicsWorld : NSObject
+@interface RZXPhysicsWorld : NSObject <RZXUpdateable>
 
-- (void)addCollider:(RZXCollider *)collider;
-- (void)removeCollider:(RZXCollider *)collider;
+- (void)addBody:(RZXPhysicsBody *)body;
+- (void)removeBody:(RZXPhysicsBody *)body;
 
-- (RZXCollider *)colliderAtPoint:(GLKVector3)point;
+- (RZXPhysicsBody *)bodyAtPoint:(GLKVector3)point;
 
-- (void)enumerateCollidersWithBlock:(RZXColliderEnumerationBlock)block;
-- (void)enumerateCollidersAtPoint:(GLKVector3)point withBlock:(RZXColliderEnumerationBlock)block;
+- (void)enumerateBodiesWithBlock:(RZXPhysicsBodyEnumeration)block;
+- (void)enumerateBodiesAtPoint:(GLKVector3)point withBlock:(RZXPhysicsBodyEnumeration)block;
 
 - (NSSet *)computeCollisions;
 
@@ -28,7 +29,7 @@ typedef void (^RZXColliderEnumerationBlock)(RZXCollider *collider, BOOL *stop);
 
 @interface RZXCollision : NSObject
 
-@property (strong, nonatomic) RZXCollider *first;
-@property (strong, nonatomic) RZXCollider *second;
+@property (strong, nonatomic) RZXPhysicsBody *first;
+@property (strong, nonatomic) RZXPhysicsBody *second;
 
 @end

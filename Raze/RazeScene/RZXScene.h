@@ -35,7 +35,7 @@
 + (Class)rootNodeClass;
 
 /**
- *  Called once the physics pass has run after the update phase, just before the render phase.
+ *  Called once the physics pass has run after the update phase, but before the render phase.
  *  Any changes to to the physics system in this method will not be applied until the next frame.
  */
 - (void)didSimulatePhysics;

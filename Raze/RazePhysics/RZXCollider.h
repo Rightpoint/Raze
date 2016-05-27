@@ -32,12 +32,4 @@
  */
 @property (weak, nonatomic, readonly) RZXPhysicsWorld *world;
 
-/**
- *  Sets the collider's current transform in world space.
- *  @note The transform is copied by the receiver.
- *
- *  @param transform The collider's transform in world space coordinates.
- */
-- (void)setWorldTransform:(RZXTransform3D *)transform;
-
 @end

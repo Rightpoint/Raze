@@ -42,10 +42,12 @@
 
 - (RZXSphere)boundingSphere
 {
-    GLKVector3 scale = self.transform.scale;
+    RZXTransform3D *transform = self.body.representedObject.worldTransform ?: [RZXTransform3D transform];
+
+    GLKVector3 scale = transform.scale;
 
     return (RZXSphere) {
-        .center = GLKVector3Add(_center, self.transform.translation),
+        .center = GLKVector3Add(_center, transform.translation),
         .radius = _radius * MAX(scale.x, MAX(scale.y, scale.z))
     };
 }

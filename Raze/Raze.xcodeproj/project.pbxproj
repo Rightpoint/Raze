@@ -54,6 +54,7 @@
 		D46EDCF61B545874002AD0B7 /* RZXAnimationBase.h in Headers */ = {isa = PBXBuildFile; fileRef = D46EDCF51B545874002AD0B7 /* RZXAnimationBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D46EDCFD1B545B30002AD0B7 /* RZXBasicAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = D46EDCFB1B545B30002AD0B7 /* RZXBasicAnimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D46EDCFE1B545B30002AD0B7 /* RZXBasicAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = D46EDCFC1B545B30002AD0B7 /* RZXBasicAnimation.m */; };
+		D46EF0F81CF8CCE200FDDEF3 /* RZXPhysicsBody_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = D46EF0F71CF8CCE200FDDEF3 /* RZXPhysicsBody_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		D47841671B5E834D00CBFE49 /* RZXEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = D47841651B5E834D00CBFE49 /* RZXEffect.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D47841681B5E834D00CBFE49 /* RZXEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = D47841661B5E834D00CBFE49 /* RZXEffect.m */; };
 		D478416B1B5E838800CBFE49 /* RazeEffects.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D00E541AE14D1300D007E4 /* RazeEffects.framework */; };
@@ -244,6 +245,7 @@
 		D46EDCF51B545874002AD0B7 /* RZXAnimationBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXAnimationBase.h; sourceTree = "<group>"; };
 		D46EDCFB1B545B30002AD0B7 /* RZXBasicAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXBasicAnimation.h; sourceTree = "<group>"; };
 		D46EDCFC1B545B30002AD0B7 /* RZXBasicAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXBasicAnimation.m; sourceTree = "<group>"; };
+		D46EF0F71CF8CCE200FDDEF3 /* RZXPhysicsBody_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXPhysicsBody_Private.h; sourceTree = "<group>"; };
 		D47841651B5E834D00CBFE49 /* RZXEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXEffect.h; sourceTree = "<group>"; };
 		D47841661B5E834D00CBFE49 /* RZXEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXEffect.m; sourceTree = "<group>"; };
 		D47841CC1B5ED70A00CBFE49 /* RZXGrayscaleEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXGrayscaleEffect.h; sourceTree = "<group>"; };
@@ -446,6 +448,7 @@
 			isa = PBXGroup;
 			children = (
 				D4C5B0531C8A2DCD00256957 /* RZXCollider_Private.h */,
+				D46EF0F71CF8CCE200FDDEF3 /* RZXPhysicsBody_Private.h */,
 				D401109B1C8A829F008B5DF7 /* RZXGeometry.h */,
 			);
 			path = Private;
@@ -676,6 +679,7 @@
 			files = (
 				D4C5B04B1C8A2C4100256957 /* RZXBoxCollider.h in Headers */,
 				D401109D1C8A829F008B5DF7 /* RZXGeometry.h in Headers */,
+				D46EF0F81CF8CCE200FDDEF3 /* RZXPhysicsBody_Private.h in Headers */,
 				D4F1BCB21CAEF2B1006B4717 /* RZXPhysicsWorld.h in Headers */,
 				D4F1BCBB1CAF0112006B4717 /* RZXPhysicsBody.h in Headers */,
 				D4C5B0401C8A2B4F00256957 /* RazePhysics.h in Headers */,

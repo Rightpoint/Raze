@@ -14,31 +14,13 @@
 - (instancetype)init
 {
     if ( self = [super init] ) {
-        _previousTransform = [RZXTransform3D transform];
-        _transform = [RZXTransform3D transform];
         _active = YES;
     }
 
     return self;
 }
 
-- (void)setWorldTransform:(RZXTransform3D *)transform
-{
-    self.transform = transform;
-}
-
 #pragma mark - private
-
-- (void)setTransform:(RZXTransform3D *)transform
-{
-    self.previousTransform = _transform;
-    _transform = (transform != nil) ? [transform copy] : [RZXTransform3D transform];
-}
-
-- (void)revertToPreviousTransform
-{
-    _transform = _previousTransform;
-}
 
 - (BOOL)pointInside:(GLKVector3)point
 {

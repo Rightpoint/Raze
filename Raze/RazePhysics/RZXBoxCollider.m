@@ -51,10 +51,12 @@
 
 - (RZXSphere)boundingSphere
 {
-    RZXBox boundingBox = _untransformedBoundingBox;
-    RZXBoxScale(&boundingBox, self.transform.scale);
+    RZXTransform3D *transform = self.body.representedObject.worldTransform ?: [RZXTransform3D transform];
 
-    GLKVector3 center = GLKVector3Add(_center, self.transform.translation);
+    RZXBox boundingBox = _untransformedBoundingBox;
+    RZXBoxScale(&boundingBox, transform.scale);
+
+    GLKVector3 center = GLKVector3Add(_center, transform.translation);
 
     return (RZXSphere) {
         .center = center,
@@ -64,14 +66,16 @@
 
 - (RZXBox)boundingBox
 {
+    RZXTransform3D *transform = self.body.representedObject.worldTransform ?: [RZXTransform3D transform];
+
     RZXBox boundingBox = _untransformedBoundingBox;
 
-    if ( GLKQuaternionAngle(self.transform.rotation) == 0.0f ) {
-        RZXBoxTranslate(&boundingBox, self.transform.translation);
-        RZXBoxScale(&boundingBox, self.transform.scale);
+    if ( GLKQuaternionAngle(transform.rotation) == 0.0f ) {
+        RZXBoxTranslate(&boundingBox, transform.translation);
+        RZXBoxScale(&boundingBox, transform.scale);
     }
     else {
-        RZXBoxTransform(&boundingBox, self.transform.modelMatrix);
+        RZXBoxTransform(&boundingBox, transform.modelMatrix);
     }
 
     return boundingBox;

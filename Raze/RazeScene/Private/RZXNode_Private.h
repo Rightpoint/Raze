@@ -15,19 +15,4 @@
 
 @property (weak, nonatomic) RZXScene *scene;
 
-- (void)snapshotCurrentTransform;
-- (void)revertToSnapshot;
-
-@end
-
-@interface RZXPhysicsBody ()
-
-@property (weak, nonatomic) RZXNode *node;
-
-@end
-
-@interface RZXCollider ()
-
-- (void)revertToPreviousTransform;
-
 @end

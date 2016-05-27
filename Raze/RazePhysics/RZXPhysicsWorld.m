@@ -9,76 +9,77 @@
 
 #import <RazePhysics/RZXPhysicsWorld.h>
 #import <RazePhysics/RZXCollider_Private.h>
+#import <RazePhysics/RZXPhysicsBody_Private.h>
 
 @implementation RZXPhysicsWorld {
-    NSMutableSet *_colliders;
+    NSMutableSet *_bodies;
 }
 
 - (instancetype)init
 {
     if ( (self = [super init]) ) {
-        _colliders = [NSMutableSet set];
+        _bodies = [NSMutableSet set];
     }
 
     return self;
 }
 
-- (void)addCollider:(RZXCollider *)collider
+- (void)addBody:(RZXPhysicsBody *)body
 {
-    if ( collider != nil ) {
-        [_colliders addObject:collider];
-        collider.world = self;
+    if ( body != nil ) {
+        [_bodies addObject:body];
+        body.world = self;
     }
 }
 
-- (void)removeCollider:(RZXCollider *)collider
+- (void)removeBody:(RZXPhysicsBody *)body
 {
-    if ( collider != nil ) {
-        [_colliders removeObject:collider];
+    if ( body != nil ) {
+        [_bodies removeObject:body];
 
-        if ( collider.world == self ) {
-            collider.world = nil;
+        if ( body.world == self ) {
+            body.world = nil;
         }
     }
 }
 
-- (RZXCollider *)colliderAtPoint:(GLKVector3)point
+- (RZXPhysicsBody *)bodyAtPoint:(GLKVector3)point
 {
-    __block RZXCollider *collider = nil;
+    __block RZXPhysicsBody *body = nil;
 
-    [self enumerateCollidersAtPoint:point withBlock:^(RZXCollider *c, BOOL *stop) {
-        collider = c;
+    [self enumerateBodiesAtPoint:point withBlock:^(RZXPhysicsBody *b, BOOL *stop) {
+        body = b;
         *stop = YES;
     }];
 
-    return collider;
+    return body;
 }
 
-- (void)enumerateCollidersAtPoint:(GLKVector3)point withBlock:(RZXColliderEnumerationBlock)block
+- (void)enumerateBodiesAtPoint:(GLKVector3)point withBlock:(RZXPhysicsBodyEnumeration)block
 {
-    [self enumerateCollidersWithBlock:^(RZXCollider *collider, BOOL *stop) {
-        if ( [collider pointInside:point] ) {
-            block(collider, stop);
+    [self enumerateBodiesWithBlock:^(RZXPhysicsBody *body, BOOL *stop) {
+        if ( [body.collider pointInside:point] ) {
+            block(body, stop);
         }
     }];
 }
 
-- (void)enumerateCollidersWithBlock:(void (^)(RZXCollider *, BOOL *))block
+- (void)enumerateBodiesWithBlock:(RZXPhysicsBodyEnumeration)block
 {
-    [_colliders enumerateObjectsUsingBlock:block];
+    [_bodies enumerateObjectsUsingBlock:block];
 }
 
 - (NSSet *)computeCollisions
 {
     NSMutableSet *collisions = [NSMutableSet set];
 
-    for ( RZXCollider *first in _colliders ) {
-        if ( !first.active ) {
+    for ( RZXPhysicsBody *first in _bodies ) {
+        if ( !first.collider.active ) {
             continue;
         }
 
-        for ( RZXCollider *second in _colliders ) {
-            if ( first == second || !second.active ) {
+        for ( RZXPhysicsBody *second in _bodies ) {
+            if ( first == second || !second.collider.active ) {
                 continue;
             }
 
@@ -86,7 +87,7 @@
             collision.first = first;
             collision.second = second;
 
-            if ( ![collisions containsObject:collision] && [first collidesWith:second] ) {
+            if ( ![collisions containsObject:collision] && [first.collider collidesWith:second.collider] ) {
                 [collisions addObject:collision];
             }
         }
@@ -95,7 +96,16 @@
     return [collisions copy];
 }
 
+#pragma mark - RZXUpdateable
+
+- (void)rzx_update:(NSTimeInterval)dt
+{
+    // TODO: update physics state
+}
+
 @end
+
+#pragma mark - RZXCollision
 
 @implementation RZXCollision
 

@@ -23,8 +23,6 @@
 
 @property (strong, nonatomic) NSMutableDictionary *mutableAnimations;
 
-@property (copy, nonatomic) RZXTransform3D *snapshotTransform;
-
 @end
 
 @implementation RZXNode
@@ -87,22 +85,6 @@
 - (NSArray *)children
 {
     return [self.mutableChildren copy];
-}
-
-- (void)setPhysicsBody:(RZXPhysicsBody *)physicsBody
-{
-    if ( _physicsBody != physicsBody ) {
-        RZXScene *scene = self.scene;
-
-        if ( scene != nil) {
-            [scene.physicsWorld removeCollider:_physicsBody.collider];
-            [scene.physicsWorld addCollider:physicsBody.collider];
-        }
-
-        _physicsBody.node = nil;
-        _physicsBody = physicsBody;
-        _physicsBody.node = self;
-    }
 }
 
 - (void)addChild:(RZXNode *)child
@@ -311,6 +293,27 @@
 
 #pragma mark - Physics
 
+- (RZXTransform3D *)worldTransform
+{
+    return [self.scene convertTransform:self.transform fromNode:self];
+}
+
+- (void)setPhysicsBody:(RZXPhysicsBody *)physicsBody
+{
+    if ( _physicsBody != physicsBody ) {
+        RZXScene *scene = self.scene;
+
+        if ( scene != nil) {
+            [scene.physicsWorld removeBody:_physicsBody];
+            [scene.physicsWorld addBody:physicsBody];
+        }
+
+        _physicsBody.representedObject = nil;
+        _physicsBody = physicsBody;
+        _physicsBody.representedObject = self;
+    }
+}
+
 - (void)didBeginContact:(RZXCollider *)collider
 {
     // subclass override
@@ -393,12 +396,6 @@
     for ( RZXNode *child in self.children ) {
         [child rzx_update:dt];
     }
-
-    // Update the collider with the current world transform of the node
-    if ( self.physicsBody.collider != nil ) {
-        RZXTransform3D *worldTransform = [self.scene convertTransform:self.transform fromNode:self];
-        [self.physicsBody.collider setWorldTransform:worldTransform];
-    }
 }
 
 #pragma mark - RZXRenderable
@@ -428,33 +425,22 @@
     if ( _scene != scene ) {
         _scene = scene;
 
-        RZXCollider *collider = self.physicsBody.collider;
+        RZXPhysicsBody *body = self.physicsBody;
 
-        if ( collider != nil ) {
+        if ( body != nil ) {
             if ( scene == nil ) {
-                [scene.physicsWorld removeCollider:collider];
+                [scene.physicsWorld removeBody:body];
             }
             else {
-                [scene.physicsWorld addCollider:collider];
+                [scene.physicsWorld addBody:body];
             }
         }
 
+        for ( RZXNode *child in self.children ) {
+            child.scene = scene;
+        }
+
         [self didMoveToScene:scene];
-    }
-}
-
-- (void)snapshotCurrentTransform
-{
-    self.snapshotTransform = _transform;
-}
-
-- (void)revertToSnapshot
-{
-    NSAssert(_snapshotTransform != nil, @"Failed to revert to snapshot because snapshot doesn't exist!");
-
-    if ( _snapshotTransform != nil ) {
-        _transform = _snapshotTransform;
-        _snapshotTransform = nil;
     }
 }
 
@@ -468,6 +454,16 @@
         current = current.parent;
     }
 
+}
+
+@end
+
+@implementation RZXPhysicsBody (RZXNode)
+
+- (RZXNode *)node
+{
+    id<RZXPhysicsObject> representedObject = self.representedObject;
+    return [representedObject isKindOfClass:[RZXNode class]] ? (RZXNode *)representedObject : nil;
 }
 
 @end
