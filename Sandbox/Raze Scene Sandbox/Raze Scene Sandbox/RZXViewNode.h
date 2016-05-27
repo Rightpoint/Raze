@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
+@import RazeCore;
 @import RazeUIKit;
 
 #import <RazeScene/RazeScene.h>

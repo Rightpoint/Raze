@@ -193,17 +193,17 @@
 
 - (void)rotateXBy:(float)angle
 {
-    [self rotateBy:GLKQuaternionMakeWithAngleAndAxis(angle, 1.0f, 0.0f, 0.0f)];
+    [self rotateXTo:_eulerAngles.x + angle];
 }
 
 - (void)rotateYBy:(float)angle
 {
-    [self rotateBy:GLKQuaternionMakeWithAngleAndAxis(angle, 0.0f, 1.0f, 0.0f)];
+    [self rotateYTo:_eulerAngles.y + angle];
 }
 
 - (void)rotateZBy:(float)angle
 {
-    [self rotateBy:GLKQuaternionMakeWithAngleAndAxis(angle, 0.0f, 0.0f, 1.0f)];
+    [self rotateZTo:_eulerAngles.z + angle];
 }
 
 - (void)rotateBy:(GLKQuaternion)rotation

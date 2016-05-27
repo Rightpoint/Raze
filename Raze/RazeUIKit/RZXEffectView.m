@@ -192,8 +192,10 @@
 
         [context invalidateFramebufferAttachments:s_GLDiscards count:1];
 
-        glBindRenderbuffer(GL_RENDERBUFFER, self->_crb);
-        [context presentRenderbuffer:GL_RENDERBUFFER];
+        if ( !self.isPaused ) {
+            glBindRenderbuffer(GL_RENDERBUFFER, self->_crb);
+            [context presentRenderbuffer:GL_RENDERBUFFER];
+        }
 
         [context invalidateFramebufferAttachments:s_GLDiscards+1 count:1];
 

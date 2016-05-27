@@ -47,6 +47,8 @@
 		D40F5E761B61562B005A6394 /* RZXConvolutionEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = D40F5E741B61562B005A6394 /* RZXConvolutionEffect.m */; };
 		D40F5E791B617A32005A6394 /* RZXImageFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = D40F5E771B617A32005A6394 /* RZXImageFilter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D40F5E7A1B617A32005A6394 /* RZXImageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = D40F5E781B617A32005A6394 /* RZXImageFilter.m */; };
+		D40F7EC11CD563F400C21979 /* RZXCubeMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = D40F7EBF1CD563F400C21979 /* RZXCubeMesh.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D40F7EC21CD563F400C21979 /* RZXCubeMesh.m in Sources */ = {isa = PBXBuildFile; fileRef = D40F7EC01CD563F400C21979 /* RZXCubeMesh.m */; };
 		D46EDCF31B5455A2002AD0B7 /* RZXNode+RZXAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = D46EDCF11B5455A2002AD0B7 /* RZXNode+RZXAnimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D46EDCF41B5455A2002AD0B7 /* RZXNode+RZXAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = D46EDCF21B5455A2002AD0B7 /* RZXNode+RZXAnimation.m */; };
 		D46EDCF61B545874002AD0B7 /* RZXAnimationBase.h in Headers */ = {isa = PBXBuildFile; fileRef = D46EDCF51B545874002AD0B7 /* RZXAnimationBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -101,6 +103,10 @@
 		D4E0D8321C6B8D5A00CC2358 /* RZXMath.h in Headers */ = {isa = PBXBuildFile; fileRef = D4E0D8301C6B8D1300CC2358 /* RZXMath.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4E557281B44714C000665E3 /* RZXMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = D4E557261B44714C000665E3 /* RZXMesh.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4E557291B44714C000665E3 /* RZXMesh.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E557271B44714C000665E3 /* RZXMesh.m */; };
+		D4EB4DEF1CE61CFB00823913 /* RZXMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = D4EB4DED1CE61CFB00823913 /* RZXMaterial.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D4EB4DF01CE61CFB00823913 /* RZXMaterial.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EB4DEE1CE61CFB00823913 /* RZXMaterial.m */; };
+		D4EB4DF51CE61F5200823913 /* RZXColor+RZXExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = D4EB4DF31CE61F5200823913 /* RZXColor+RZXExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D4EB4DF61CE61F5200823913 /* RZXColor+RZXExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EB4DF41CE61F5200823913 /* RZXColor+RZXExtensions.m */; };
 		D4EDE0551B41C351003AEB98 /* RZXTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = D4EDE0531B41C351003AEB98 /* RZXTexture.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4EDE0561B41C351003AEB98 /* RZXTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EDE0541B41C351003AEB98 /* RZXTexture.m */; };
 		D4EDE0591B41C6F8003AEB98 /* RZXStaticTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = D4EDE0571B41C6F8003AEB98 /* RZXStaticTexture.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -231,6 +237,8 @@
 		D40F5E741B61562B005A6394 /* RZXConvolutionEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXConvolutionEffect.m; sourceTree = "<group>"; };
 		D40F5E771B617A32005A6394 /* RZXImageFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXImageFilter.h; sourceTree = "<group>"; };
 		D40F5E781B617A32005A6394 /* RZXImageFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXImageFilter.m; sourceTree = "<group>"; };
+		D40F7EBF1CD563F400C21979 /* RZXCubeMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXCubeMesh.h; sourceTree = "<group>"; };
+		D40F7EC01CD563F400C21979 /* RZXCubeMesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXCubeMesh.m; sourceTree = "<group>"; };
 		D46EDCF11B5455A2002AD0B7 /* RZXNode+RZXAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RZXNode+RZXAnimation.h"; sourceTree = "<group>"; };
 		D46EDCF21B5455A2002AD0B7 /* RZXNode+RZXAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RZXNode+RZXAnimation.m"; sourceTree = "<group>"; };
 		D46EDCF51B545874002AD0B7 /* RZXAnimationBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXAnimationBase.h; sourceTree = "<group>"; };
@@ -289,6 +297,10 @@
 		D4E0D8301C6B8D1300CC2358 /* RZXMath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RZXMath.h; sourceTree = "<group>"; };
 		D4E557261B44714C000665E3 /* RZXMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXMesh.h; sourceTree = "<group>"; };
 		D4E557271B44714C000665E3 /* RZXMesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXMesh.m; sourceTree = "<group>"; };
+		D4EB4DED1CE61CFB00823913 /* RZXMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXMaterial.h; sourceTree = "<group>"; };
+		D4EB4DEE1CE61CFB00823913 /* RZXMaterial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXMaterial.m; sourceTree = "<group>"; };
+		D4EB4DF31CE61F5200823913 /* RZXColor+RZXExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RZXColor+RZXExtensions.h"; sourceTree = "<group>"; };
+		D4EB4DF41CE61F5200823913 /* RZXColor+RZXExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RZXColor+RZXExtensions.m"; sourceTree = "<group>"; };
 		D4EDE0531B41C351003AEB98 /* RZXTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXTexture.h; sourceTree = "<group>"; };
 		D4EDE0541B41C351003AEB98 /* RZXTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXTexture.m; sourceTree = "<group>"; };
 		D4EDE0571B41C6F8003AEB98 /* RZXStaticTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXStaticTexture.h; sourceTree = "<group>"; };
@@ -489,10 +501,14 @@
 				D4D00E3A1AE14CE700D007E4 /* RZXTransform3D.m */,
 				D4D00E2A1AE14CE700D007E4 /* RZXCamera.h */,
 				D4D00E2B1AE14CE700D007E4 /* RZXCamera.m */,
+				D4EB4DED1CE61CFB00823913 /* RZXMaterial.h */,
+				D4EB4DEE1CE61CFB00823913 /* RZXMaterial.m */,
 				D4E557261B44714C000665E3 /* RZXMesh.h */,
 				D4E557271B44714C000665E3 /* RZXMesh.m */,
 				D4D00E341AE14CE700D007E4 /* RZXQuadMesh.h */,
 				D4D00E351AE14CE700D007E4 /* RZXQuadMesh.m */,
+				D40F7EBF1CD563F400C21979 /* RZXCubeMesh.h */,
+				D40F7EC01CD563F400C21979 /* RZXCubeMesh.m */,
 				D4EDE0531B41C351003AEB98 /* RZXTexture.h */,
 				D4EDE0541B41C351003AEB98 /* RZXTexture.m */,
 				D4EDE0571B41C6F8003AEB98 /* RZXStaticTexture.h */,
@@ -503,6 +519,8 @@
 				D4D00E321AE14CE700D007E4 /* RZXGLView.m */,
 				D40C6CBA1B3B3D0A0093FD69 /* NSValue+RZXExtensions.h */,
 				D40C6CBB1B3B3D0A0093FD69 /* NSValue+RZXExtensions.m */,
+				D4EB4DF31CE61F5200823913 /* RZXColor+RZXExtensions.h */,
+				D4EB4DF41CE61F5200823913 /* RZXColor+RZXExtensions.m */,
 				D4D00EA01AE1545B00D007E4 /* Private */,
 				D4D00E121AE14CB900D007E4 /* Supporting Files */,
 			);
@@ -671,11 +689,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4EB4DF51CE61F5200823913 /* RZXColor+RZXExtensions.h in Headers */,
 				D4D00E3C1AE14CE700D007E4 /* RazeCore.h in Headers */,
 				D4D00E4C1AE14CE700D007E4 /* RZXTransform3D.h in Headers */,
 				D4D00E411AE14CE700D007E4 /* RZXGLContext.h in Headers */,
 				D4EDE0611B41CEE6003AEB98 /* RZXDynamicTexture.h in Headers */,
+				D40F7EC11CD563F400C21979 /* RZXCubeMesh.h in Headers */,
 				D4D00E4E1AE14CE700D007E4 /* RZXUpdateable.h in Headers */,
+				D4EB4DEF1CE61CFB00823913 /* RZXMaterial.h in Headers */,
 				D4EDE0591B41C6F8003AEB98 /* RZXStaticTexture.h in Headers */,
 				D4D00E431AE14CE700D007E4 /* RZXBase.h in Headers */,
 				D4EDE0551B41C351003AEB98 /* RZXTexture.h in Headers */,
@@ -969,7 +990,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=RazeScene\nFMK_VERSION=1.0.0\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nINSTALL_DIR=${SRCROOT}/Products/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework\n\n# Building both architectures.\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\n\n# Copies files\ncp -R \"${DEVICE_DIR}/Headers/\" \"${INSTALL_DIR}/Headers\"\ncp -R \"${DEVICE_DIR}/Modules/\" \"${INSTALL_DIR}/Modules\"\ncp \"${DEVICE_DIR}/Info.plist\" \"${INSTALL_DIR}/Info.plist\"\n\n# Merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/${FMK_NAME}\" \"${SIMULATOR_DIR}/${FMK_NAME}\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\nrm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=RazeScene\nFMK_VERSION=1.0.0\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nINSTALL_DIR=${SRCROOT}/Products/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework\n\n# workaround for bitcode generation problem with Xcode 7.3\nunset TOOLCHAINS\n\n# Building both architectures.\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\n\n# Copies files\ncp -R \"${DEVICE_DIR}/Headers/\" \"${INSTALL_DIR}/Headers\"\ncp -R \"${DEVICE_DIR}/Modules/\" \"${INSTALL_DIR}/Modules\"\ncp \"${DEVICE_DIR}/Info.plist\" \"${INSTALL_DIR}/Info.plist\"\n\n# Merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/${FMK_NAME}\" \"${SIMULATOR_DIR}/${FMK_NAME}\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\nrm -r \"${WRK_DIR}\"";
 		};
 		D4D00EB81AE15F2600D007E4 /* RazeCore */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -983,7 +1004,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=RazeCore\nFMK_VERSION=1.0.0\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nINSTALL_DIR=${SRCROOT}/Products/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework\n\n# Building both architectures.\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\n\n# Copies files\ncp -R \"${DEVICE_DIR}/Headers/\" \"${INSTALL_DIR}/Headers\"\ncp -R \"${DEVICE_DIR}/Modules/\" \"${INSTALL_DIR}/Modules\"\ncp \"${DEVICE_DIR}/Info.plist\" \"${INSTALL_DIR}/Info.plist\"\n\n# Merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/${FMK_NAME}\" \"${SIMULATOR_DIR}/${FMK_NAME}\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\nrm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=RazeCore\nFMK_VERSION=1.0.0\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nINSTALL_DIR=${SRCROOT}/Products/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework\n\n# workaround for bitcode generation problem with Xcode 7.3\nunset TOOLCHAINS\n\n# Building both architectures.\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\n\n# Copies files\ncp -R \"${DEVICE_DIR}/Headers/\" \"${INSTALL_DIR}/Headers\"\ncp -R \"${DEVICE_DIR}/Modules/\" \"${INSTALL_DIR}/Modules\"\ncp \"${DEVICE_DIR}/Info.plist\" \"${INSTALL_DIR}/Info.plist\"\n\n# Merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/${FMK_NAME}\" \"${SIMULATOR_DIR}/${FMK_NAME}\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\nrm -r \"${WRK_DIR}\"";
 		};
 		D4D00EB91AE15FCA00D007E4 /* RazeEffects */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -997,7 +1018,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=RazeEffects\nFMK_VERSION=1.0.0\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nINSTALL_DIR=${SRCROOT}/Products/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework\n\n# Building both architectures.\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\n\n# Copies files\ncp -R \"${DEVICE_DIR}/Headers/\" \"${INSTALL_DIR}/Headers\"\ncp -R \"${DEVICE_DIR}/Modules/\" \"${INSTALL_DIR}/Modules\"\ncp \"${DEVICE_DIR}/Info.plist\" \"${INSTALL_DIR}/Info.plist\"\n\n# Merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/${FMK_NAME}\" \"${SIMULATOR_DIR}/${FMK_NAME}\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\nrm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=RazeEffects\nFMK_VERSION=1.0.0\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nINSTALL_DIR=${SRCROOT}/Products/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework\n\n# workaround for bitcode generation problem with Xcode 7.3\nunset TOOLCHAINS\n\n# Building both architectures.\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\n\n# Copies files\ncp -R \"${DEVICE_DIR}/Headers/\" \"${INSTALL_DIR}/Headers\"\ncp -R \"${DEVICE_DIR}/Modules/\" \"${INSTALL_DIR}/Modules\"\ncp \"${DEVICE_DIR}/Info.plist\" \"${INSTALL_DIR}/Info.plist\"\n\n# Merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/${FMK_NAME}\" \"${SIMULATOR_DIR}/${FMK_NAME}\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\nrm -r \"${WRK_DIR}\"";
 		};
 		D4D00EBA1AE15FD900D007E4 /* RazeUIKit */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1011,7 +1032,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=RazeUIKit\nFMK_VERSION=1.0.0\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nINSTALL_DIR=${SRCROOT}/Products/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework\n\n# Building both architectures.\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\n\n# Copies files\ncp -R \"${DEVICE_DIR}/Headers/\" \"${INSTALL_DIR}/Headers\"\ncp -R \"${DEVICE_DIR}/Modules/\" \"${INSTALL_DIR}/Modules\"\ncp \"${DEVICE_DIR}/Info.plist\" \"${INSTALL_DIR}/Info.plist\"\n\n# Merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/${FMK_NAME}\" \"${SIMULATOR_DIR}/${FMK_NAME}\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\nrm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=RazeUIKit\nFMK_VERSION=1.0.0\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nINSTALL_DIR=${SRCROOT}/Products/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework\n\n# workaround for bitcode generation problem with Xcode 7.3\nunset TOOLCHAINS\n\n# Building both architectures.\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\n\n# Copies files\ncp -R \"${DEVICE_DIR}/Headers/\" \"${INSTALL_DIR}/Headers\"\ncp -R \"${DEVICE_DIR}/Modules/\" \"${INSTALL_DIR}/Modules\"\ncp \"${DEVICE_DIR}/Info.plist\" \"${INSTALL_DIR}/Info.plist\"\n\n# Merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/${FMK_NAME}\" \"${SIMULATOR_DIR}/${FMK_NAME}\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\nrm -r \"${WRK_DIR}\"";
 		};
 		D4EF0F571B50507F001EA85F /* RazeAnimation */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1025,7 +1046,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=RazeAnimation\nFMK_VERSION=1.0.0\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nINSTALL_DIR=${SRCROOT}/Products/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework\n\n# Building both architectures.\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\n\n# Copies files\ncp -R \"${DEVICE_DIR}/Headers/\" \"${INSTALL_DIR}/Headers\"\ncp -R \"${DEVICE_DIR}/Modules/\" \"${INSTALL_DIR}/Modules\"\ncp \"${DEVICE_DIR}/Info.plist\" \"${INSTALL_DIR}/Info.plist\"\n\n# Merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/${FMK_NAME}\" \"${SIMULATOR_DIR}/${FMK_NAME}\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\nrm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=RazeAnimation\nFMK_VERSION=1.0.0\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nINSTALL_DIR=${SRCROOT}/Products/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos/${FMK_NAME}.framework\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator/${FMK_NAME}.framework\n\n# workaround for bitcode generation problem with Xcode 7.3\nunset TOOLCHAINS\n\n# Building both architectures.\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphoneos\nxcodebuild -configuration \"Release\" -target \"${FMK_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\n\n# Copies files\ncp -R \"${DEVICE_DIR}/Headers/\" \"${INSTALL_DIR}/Headers\"\ncp -R \"${DEVICE_DIR}/Modules/\" \"${INSTALL_DIR}/Modules\"\ncp \"${DEVICE_DIR}/Info.plist\" \"${INSTALL_DIR}/Info.plist\"\n\n# Merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/${FMK_NAME}\" \"${SIMULATOR_DIR}/${FMK_NAME}\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\nrm -r \"${WRK_DIR}\"";
 		};
 		D4F0244E1CB01FC100D9E21D /* Raze Physics */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1081,10 +1102,13 @@
 				D4EDE0621B41CEE6003AEB98 /* RZXDynamicTexture.m in Sources */,
 				D4EDE05A1B41C6F8003AEB98 /* RZXStaticTexture.m in Sources */,
 				D4D00E3E1AE14CE700D007E4 /* RZXCamera.m in Sources */,
+				D40F7EC21CD563F400C21979 /* RZXCubeMesh.m in Sources */,
 				D4D00E4D1AE14CE700D007E4 /* RZXTransform3D.m in Sources */,
 				D4D00E451AE14CE700D007E4 /* RZXGLView.m in Sources */,
+				D4EB4DF01CE61CFB00823913 /* RZXMaterial.m in Sources */,
 				D4EDE05E1B41C906003AEB98 /* RZXCache.m in Sources */,
 				D4EDE0561B41C351003AEB98 /* RZXTexture.m in Sources */,
+				D4EB4DF61CE61F5200823913 /* RZXColor+RZXExtensions.m in Sources */,
 				D40C6CBD1B3B3D0A0093FD69 /* NSValue+RZXExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1233,6 +1257,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "-fembed-bitcode";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.raizlabs.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1240,6 +1265,7 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WARNING_CFLAGS = "-Qunused-arguments";
 			};
 			name = Debug;
 		};
@@ -1284,6 +1310,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = "-fembed-bitcode";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.raizlabs.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1292,6 +1319,7 @@
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WARNING_CFLAGS = "-Qunused-arguments";
 			};
 			name = Release;
 		};
@@ -1463,6 +1491,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "-fembed-bitcode";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.raizlabs.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1470,6 +1499,7 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WARNING_CFLAGS = "-Qunused-arguments";
 			};
 			name = Debug;
 		};
@@ -1514,6 +1544,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = "-fembed-bitcode";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.raizlabs.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1522,6 +1553,7 @@
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WARNING_CFLAGS = "-Qunused-arguments";
 			};
 			name = Release;
 		};
@@ -1573,6 +1605,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "-fembed-bitcode";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.raizlabs.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1580,6 +1613,7 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WARNING_CFLAGS = "-Qunused-arguments";
 			};
 			name = Debug;
 		};
@@ -1624,6 +1658,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = "-fembed-bitcode";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.raizlabs.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1632,6 +1667,7 @@
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WARNING_CFLAGS = "-Qunused-arguments";
 			};
 			name = Release;
 		};
@@ -1683,6 +1719,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "-fembed-bitcode";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.raizlabs.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1690,6 +1727,7 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WARNING_CFLAGS = "-Qunused-arguments";
 			};
 			name = Debug;
 		};
@@ -1734,6 +1772,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = "-fembed-bitcode";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.raizlabs.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1742,6 +1781,7 @@
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WARNING_CFLAGS = "-Qunused-arguments";
 			};
 			name = Release;
 		};
@@ -1750,8 +1790,10 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_CFLAGS = "-fembed-bitcode";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				WARNING_CFLAGS = "-Qunused-arguments";
 			};
 			name = Debug;
 		};
@@ -1760,8 +1802,10 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_CFLAGS = "-fembed-bitcode";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				WARNING_CFLAGS = "-Qunused-arguments";
 			};
 			name = Release;
 		};
@@ -1812,6 +1856,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "-fembed-bitcode";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.raizlabs.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1819,6 +1864,7 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WARNING_CFLAGS = "-Qunused-arguments";
 			};
 			name = Debug;
 		};
@@ -1862,6 +1908,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = "-fembed-bitcode";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.raizlabs.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1870,6 +1917,7 @@
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WARNING_CFLAGS = "-Qunused-arguments";
 			};
 			name = Release;
 		};

@@ -74,7 +74,13 @@ static NSString* const kRZXAnimationCompletionBlockKey = @"_RZXAnimationCompleti
     RZXAnimationState *state = self.rzx_state;
 
     state.currentTime += dt;
-    state.repetition += dt / self.duration;
+
+    if ( self.duration != 0.0 ) {
+        state.repetition += dt / self.duration;
+    }
+    else {
+        state.repetition = 0.0f;
+    }
 }
 
 @end

@@ -21,7 +21,6 @@
     self = [super init];
     if ( self ) {
         _up = GLKVector3Make(0.0f, 1.0f, 0.0f);
-        _transform = [RZXTransform3D transform];
     }
     return self;
 }
@@ -29,6 +28,14 @@
 - (void)dealloc
 {
     [self invalidateProjectionMatrixCache];
+}
+
+- (RZXTransform3D *)transform
+{
+    if ( _transform == nil ) {
+        _transform = [RZXTransform3D transform];
+    }
+    return _transform;
 }
 
 - (void)setUp:(GLKVector3)up
@@ -101,6 +108,23 @@
     m.m30 = tx;         m.m31 = ty;         m.m32 = tz;         m.m33 = 1;
     
     return m;
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    RZXCamera *copy = [[[self class] alloc] init];
+
+    copy.name = self.name;
+    copy.transform = [self.transform copy];
+    copy.up = self.up;
+    copy.fieldOfView = self.fieldOfView;
+    copy.aspectRatio = self.aspectRatio;
+    copy.near = self.near;
+    copy.far = self.far;
+
+    return copy;
 }
 
 #pragma mark - private methods

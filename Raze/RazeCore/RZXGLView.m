@@ -15,9 +15,16 @@
 @property (strong, nonatomic) RZXGLContext *context;
 @property (strong, nonatomic) RZXRenderLoop *renderLoop;
 
+@property (assign, nonatomic, readwrite) NSTimeInterval previousFrameDuration;
+
 @end
 
-@implementation RZXGLView
+@implementation RZXGLView {
+    struct {
+        BOOL respondsToUpdate;
+        BOOL respondsToRender;
+    } _delegateFlags;
+}
 
 @synthesize context = _context;
 
@@ -67,6 +74,11 @@
     return [CAEAGLLayer class];
 }
 
+- (GLKVector2)resolution
+{
+    return GLKVector2Make(_backingWidth, _backingHeight);
+}
+
 - (void)setFrame:(CGRect)frame
 {
     [super setFrame:frame];
@@ -79,6 +91,14 @@
     [super setBounds:bounds];
 
     [self updateBuffersWithSize:bounds.size];
+}
+
+- (void)setContentScaleFactor:(CGFloat)contentScaleFactor
+{
+    [super setContentScaleFactor:contentScaleFactor];
+
+    self.layer.contentsScale = contentScaleFactor;
+    [self updateBuffersWithSize:self.bounds.size];
 }
 
 - (void)setMultisampleLevel:(GLsizei)multisampleLevel
@@ -108,6 +128,13 @@
 {
     _framesPerSecond = framesPerSecond;
     self.renderLoop.preferredFPS = framesPerSecond;
+}
+
+- (void)setDelegate:(id<RZXGLViewDelegate>)delegate
+{
+    _delegate = delegate;
+    _delegateFlags.respondsToUpdate = [delegate respondsToSelector:@selector(glView:update:)];
+    _delegateFlags.respondsToRender = [delegate respondsToSelector:@selector(glViewRender:)];
 }
 
 - (void)setNeedsDisplay
@@ -175,6 +202,8 @@
     static const GLenum s_GLDiscards[] = {GL_DEPTH_ATTACHMENT, GL_COLOR_ATTACHMENT0};
 
     [self.context runBlock:^(RZXGLContext *context) {
+        CFTimeInterval start = CACurrentMediaTime();
+
         context.clearColor = self.backgroundColor.CGColor;
         context.depthTestEnabled = YES;
         
@@ -186,14 +215,20 @@
 
         [self.model rzx_render];
 
+        if ( self->_delegateFlags.respondsToRender ) {
+            [self.delegate glViewRender:self];
+        }
+
         [context invalidateFramebufferAttachments:s_GLDiscards count:1];
 
         if (self.multisampleLevel > 0) {
             [context resolveFramebuffer:_fbo multisampleFramebuffer:_msFbo size:(CGSize){.width = _backingWidth, .height = _backingHeight}];
         }
 
-        glBindRenderbuffer(GL_RENDERBUFFER, _crb);
-        [context presentRenderbuffer:GL_RENDERBUFFER];
+        if ( !self.isPaused ) {
+            glBindRenderbuffer(GL_RENDERBUFFER, _crb);
+            [context presentRenderbuffer:GL_RENDERBUFFER];
+        }
 
         [context invalidateFramebufferAttachments:s_GLDiscards+1 count:1];
 
@@ -201,6 +236,8 @@
         glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
         glFlush();
+
+        self.previousFrameDuration = (CACurrentMediaTime() - start);
     } wait:!self.isMultithreaded];
 }
 
@@ -208,7 +245,9 @@
 
 - (void)rzx_update:(NSTimeInterval)dt
 {
-    // subclass override
+    if ( _delegateFlags.respondsToUpdate ) {
+        [self.delegate glView:self update:dt];
+    }
 }
 
 #pragma mark - RZXRenderable
@@ -231,6 +270,8 @@
     self.backgroundColor = [UIColor clearColor];
     self.opaque = NO;
     self.userInteractionEnabled = NO;
+
+    self.multithreaded = YES;
 
     self.context = [RZXGLContext defaultContext];
 

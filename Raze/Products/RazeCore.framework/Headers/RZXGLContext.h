@@ -27,6 +27,7 @@
 @property (assign, nonatomic) CGColorRef clearColor; // default nil (opaque black)
 @property (assign, nonatomic, getter=isDepthTestEnabled) BOOL depthTestEnabled; // default NO
 @property (assign, nonatomic, getter=isStencilTestEnabled) BOOL stencilTestEnabled; // default NO
+@property (assign, nonatomic, getter=isBlendEnabled) BOOL blendEnabled; // default NO
 @property (assign, nonatomic) GLenum cullFace; // default GL_BACK
 @property (assign, nonatomic) GLenum activeTexture; // default GL_TEXTURE0
 

@@ -21,11 +21,16 @@ OBJC_EXTERN NSInteger const kRZXQuadMeshMaxSubdivisions;
 /** Initialize a quad with a specific number of subdivisions. */
 + (instancetype)quadWithSubdivisionLevel:(NSInteger)subdivisons;
 
+- (instancetype)initWithSubdivisionLevel:(NSInteger)subdivisions;
+
 @end
 
 @interface RZXQuadMesh (RZXUnavailable)
 
 // The mesh data will be procedurally generated rather then loaded from a file.
 + (instancetype)meshWithName:(NSString *)name usingCache:(BOOL)useCache UNAVAILABLE_ATTRIBUTE;
+- (instancetype)initWithName:(NSString *)name usingCache:(BOOL)useCache UNAVAILABLE_ATTRIBUTE;
+
+- (instancetype)initWithVertexProvider:(RZXMeshDataProvider )vertexProvider indexProvider:(RZXMeshDataProvider)indexProvider attributes:(NSArray *)vertexAttributes UNAVAILABLE_ATTRIBUTE;
 
 @end

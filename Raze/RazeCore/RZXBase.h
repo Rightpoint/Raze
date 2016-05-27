@@ -20,10 +20,14 @@
 #if TARGET_OS_IPHONE
 #import <OpenGLES/ES2/glext.h>
 #import <OpenGLES/ES3/glext.h>
+#import <UIKit/UIColor.h>
+#import <UIKit/UIFont.h>
 #define RZXColor UIColor
 #define RZXFont  UIFont
 #else
 #include <OpenGL/gl3ext.h>
+#import <AppKit/NSColor.h>
+#import <AppKit/NSFont.h>
 #define RZXColor NSColor
 #define RZXFont  NSFont
 #endif

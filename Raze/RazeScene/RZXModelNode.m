@@ -6,33 +6,60 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <RazeCore/RZXTexture.h>
-#import <RazeCore/RZXMesh.h>
 #import <RazeScene/RZXModelNode.h>
+#import <RazeCore/RZXMaterial.h>
+#import <RazeCore/RZXMesh.h>
 
 @implementation RZXModelNode
+
++ (instancetype)modelNodeWithMesh:(RZXMesh *)mesh
+{
+    return [[self alloc] initWithMesh:mesh];
+}
 
 + (instancetype)modelNodeWithMesh:(RZXMesh *)mesh texture:(RZXTexture *)texture
 {
     return [[self alloc] initWithMesh:mesh texture:texture];
 }
 
++ (instancetype)modelNodeWithMesh:(RZXMesh *)mesh material:(RZXMaterial *)material
+{
+    return [[self alloc] initWithMesh:mesh material:material];
+}
+
+- (instancetype)init
+{
+    return [self initWithMesh:nil material:nil];
+}
+
+- (instancetype)initWithMesh:(RZXMesh *)mesh
+{
+    return [self initWithMesh:mesh texture:nil];
+}
+
 - (instancetype)initWithMesh:(RZXMesh *)mesh texture:(RZXTexture *)texture
 {
-    self = [super init];
-    if (self) {
-        _mesh = mesh;
-        _texture = texture;
+    if ( (self = [self initWithMesh:mesh material:nil]) ) {
+        self.material.texture = texture;
     }
     return self;
 }
 
-- (RZXTexture *)texture
+- (instancetype)initWithMesh:(RZXMesh *)mesh material:(RZXMaterial *)material
 {
-    if ( _texture == nil ) {
-        _texture = [[RZXTexture alloc] init];
+    if ( (self = [super init]) ) {
+        _mesh = mesh;
+        _material = material;
     }
-    return _texture;
+    return self;
+}
+
+- (RZXMaterial *)material
+{
+    if ( _material == nil ) {
+        _material = [RZXMaterial material];
+    }
+    return _material;
 }
 
 - (RZXMesh *)mesh
@@ -56,19 +83,19 @@
 
 - (BOOL)setupGL
 {
-    return ([super setupGL] && [self.texture setupGL] && [self.mesh setupGL]);
+    return ([super setupGL] && [self.material setupGL] && [self.mesh setupGL]);
 }
 
 - (BOOL)bindGL
 {
-    return ([super bindGL] && [self.texture bindGL] && [self.mesh bindGL]);
+    return ([super bindGL] && [self.material bindGL] && [self.mesh bindGL]);
 }
 
 - (void)teardownGL
 {
     [super teardownGL];
 
-    [self.texture teardownGL];
+    [self.material teardownGL];
     [self.mesh teardownGL];
 }
 
