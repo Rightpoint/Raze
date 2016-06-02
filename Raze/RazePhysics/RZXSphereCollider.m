@@ -72,18 +72,37 @@
     return RZXSphereContainsPoint(self.boundingSphere, point);
 }
 
-- (BOOL)collidesWith:(RZXCollider *)other
+- (RZXContact *)generateContact:(RZXCollider *)other
 {
-    BOOL collides = NO;
+    RZXContact *contact = nil;
+
+    RZXSphere bounds = self.boundingSphere;
 
     if ( [other isKindOfClass:[RZXBoxCollider class]] ) {
-        collides = RZXSphereIntersectsBox(self.boundingSphere, other.boundingBox);
+        RZXBox otherBounds = other.boundingBox;
+
+        GLKVector3 nearestPoint = RZXBoxGetNearestPoint(otherBounds, bounds.center);
+        GLKVector3 diff = GLKVector3Subtract(bounds.center, nearestPoint);
+
+        if ( GLKVector3Length(diff) <= bounds.radius ) {
+            contact = [[RZXContact alloc] init];
+            contact.normal = GLKVector3Normalize(diff);
+            contact.distance = GLKVector3Length(diff);
+        }
     }
     else if ( [other isKindOfClass:[RZXSphereCollider class]] ) {
-        collides = RZXSphereIntersectsSphere(self.boundingSphere, other.boundingSphere);
+        RZXSphere otherBounds = other.boundingSphere;
+
+        if ( RZXSphereIntersectsSphere(bounds, otherBounds) ) {
+            GLKVector3 diff = GLKVector3Subtract(bounds.center, otherBounds.center);
+
+            contact = [[RZXContact alloc] init];
+            contact.normal = GLKVector3Normalize(diff);
+            contact.distance = GLKVector3Length(diff);
+        }
     }
 
-    return collides;
+    return contact;
 }
 
 @end

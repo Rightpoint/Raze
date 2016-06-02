@@ -142,6 +142,8 @@
 		D4F1BCB81CAEFBFE006B4717 /* RZXNode_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = D4F1BCB71CAEFBFE006B4717 /* RZXNode_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		D4F1BCBB1CAF0112006B4717 /* RZXPhysicsBody.h in Headers */ = {isa = PBXBuildFile; fileRef = D4F1BCB91CAF0112006B4717 /* RZXPhysicsBody.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4F1BCBC1CAF0112006B4717 /* RZXPhysicsBody.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F1BCBA1CAF0112006B4717 /* RZXPhysicsBody.m */; };
+		D4F244131D00A160001098D4 /* RZXContact.h in Headers */ = {isa = PBXBuildFile; fileRef = D4F244111D00A160001098D4 /* RZXContact.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D4F244141D00A160001098D4 /* RZXContact.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F244121D00A160001098D4 /* RZXContact.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -337,6 +339,8 @@
 		D4F1BCB71CAEFBFE006B4717 /* RZXNode_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXNode_Private.h; sourceTree = "<group>"; };
 		D4F1BCB91CAF0112006B4717 /* RZXPhysicsBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXPhysicsBody.h; sourceTree = "<group>"; };
 		D4F1BCBA1CAF0112006B4717 /* RZXPhysicsBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXPhysicsBody.m; sourceTree = "<group>"; };
+		D4F244111D00A160001098D4 /* RZXContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXContact.h; sourceTree = "<group>"; };
+		D4F244121D00A160001098D4 /* RZXContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXContact.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -438,6 +442,8 @@
 				D4C5B04A1C8A2C4100256957 /* RZXBoxCollider.m */,
 				D4C5B04D1C8A2C5000256957 /* RZXSphereCollider.h */,
 				D4C5B04E1C8A2C5000256957 /* RZXSphereCollider.m */,
+				D4F244111D00A160001098D4 /* RZXContact.h */,
+				D4F244121D00A160001098D4 /* RZXContact.m */,
 				D4C5B0511C8A2C9600256957 /* Private */,
 				D4C5B0521C8A2C9B00256957 /* Supporting Files */,
 			);
@@ -685,6 +691,7 @@
 				D4C5B0401C8A2B4F00256957 /* RazePhysics.h in Headers */,
 				D4C5B04F1C8A2C5000256957 /* RZXSphereCollider.h in Headers */,
 				D4C5B0541C8A2DCD00256957 /* RZXCollider_Private.h in Headers */,
+				D4F244131D00A160001098D4 /* RZXContact.h in Headers */,
 				D4C5B0471C8A2C1F00256957 /* RZXCollider.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1089,6 +1096,7 @@
 				D4C5B0501C8A2C5000256957 /* RZXSphereCollider.m in Sources */,
 				D4C5B04C1C8A2C4100256957 /* RZXBoxCollider.m in Sources */,
 				D4F1BCBC1CAF0112006B4717 /* RZXPhysicsBody.m in Sources */,
+				D4F244141D00A160001098D4 /* RZXContact.m in Sources */,
 				D4C5B0481C8A2C1F00256957 /* RZXCollider.m in Sources */,
 				D4F1BCB31CAEF2B1006B4717 /* RZXPhysicsWorld.m in Sources */,
 			);

@@ -9,6 +9,7 @@
 #import <RazePhysics/RZXCollider.h>
 #import <RazePhysics/RZXGeometry.h>
 #import <RazePhysics/RZXPhysicsBody.h>
+#import <RazePhysics/RZXContact.h>
 
 @interface RZXCollider ()
 
@@ -18,6 +19,7 @@
 @property (weak, nonatomic) RZXPhysicsBody *body;
 
 - (BOOL)pointInside:(GLKVector3)point;
-- (BOOL)collidesWith:(RZXCollider *)other;
+
+- (RZXContact *)generateContact:(RZXCollider *)other;
 
 @end

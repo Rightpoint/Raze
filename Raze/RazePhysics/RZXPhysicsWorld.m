@@ -69,65 +69,49 @@
     [_bodies enumerateObjectsUsingBlock:block];
 }
 
-- (NSSet *)computeCollisions
-{
-    NSMutableSet *collisions = [NSMutableSet set];
-
-    for ( RZXPhysicsBody *first in _bodies ) {
-        if ( !first.collider.active ) {
-            continue;
-        }
-
-        for ( RZXPhysicsBody *second in _bodies ) {
-            if ( first == second || !second.collider.active ) {
-                continue;
-            }
-
-            RZXCollision *collision = [[RZXCollision alloc] init];
-            collision.first = first;
-            collision.second = second;
-
-            if ( ![collisions containsObject:collision] && [first.collider collidesWith:second.collider] ) {
-                [collisions addObject:collision];
-            }
-        }
-    }
-
-    return [collisions copy];
-}
-
 #pragma mark - RZXUpdateable
 
 - (void)rzx_update:(NSTimeInterval)dt
 {
-    // TODO: update physics state
-}
+    NSArray *bodies = _bodies.allObjects;
 
-@end
+    GLKVector3 gravity = GLKVector3MultiplyScalar(self.gravity, dt);
 
-#pragma mark - RZXCollision
-
-@implementation RZXCollision
-
-- (BOOL)isEqual:(id)object
-{
-    BOOL equal = NO;
-
-    if ( object == self ) {
-        equal = YES;
-    }
-    else if ( [object isKindOfClass:[self class]] ) {
-        RZXCollision *other = (RZXCollision *)object;
-        equal = (_first == other.first && _second == other.second) ||
-                (_first == other.second && _second == other.first);
+    for ( RZXPhysicsBody *body in bodies ) {
+        if ( body.isDynamic && body.isAffectedByGravity && body.mass > 0.0 ) {
+            [body applyImpulse:gravity];
+        }
     }
 
-    return equal;
+    [self resolveContactsForBodies:bodies];
+
+    for ( RZXPhysicsBody *body in bodies ) {
+        [body rzx_update:dt];
+    }
 }
 
-- (NSUInteger)hash
+#pragma mark - private
+
+- (void)resolveContactsForBodies:(NSArray *)bodies
 {
-    return (_first.hash ^ _second.hash);
+    // iterate all pairs of bodies
+    for ( NSUInteger i = 0; i< bodies.count; ++i ) {
+        for ( NSUInteger j = i + 1; j < bodies.count; ++j ) {
+            RZXPhysicsBody *first = bodies[i];
+            RZXPhysicsBody *second = bodies[j];
+
+            RZXContact *contact = [first generateContact:second];
+
+            if ( contact != nil ) {
+                [self resolveContact:contact];
+            }
+        }
+    }
+}
+
+- (void)resolveContact:(RZXContact *)contact
+{
+    // TODO: resolve the contact
 }
 
 @end

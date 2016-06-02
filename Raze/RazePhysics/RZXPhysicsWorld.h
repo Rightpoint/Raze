@@ -15,6 +15,8 @@ typedef void (^RZXPhysicsBodyEnumeration)(RZXPhysicsBody *body, BOOL *stop);
 
 @interface RZXPhysicsWorld : NSObject <RZXUpdateable>
 
+@property (assign, nonatomic) GLKVector3 gravity;
+
 - (void)addBody:(RZXPhysicsBody *)body;
 - (void)removeBody:(RZXPhysicsBody *)body;
 
@@ -22,14 +24,5 @@ typedef void (^RZXPhysicsBodyEnumeration)(RZXPhysicsBody *body, BOOL *stop);
 
 - (void)enumerateBodiesWithBlock:(RZXPhysicsBodyEnumeration)block;
 - (void)enumerateBodiesAtPoint:(GLKVector3)point withBlock:(RZXPhysicsBodyEnumeration)block;
-
-- (NSSet *)computeCollisions;
-
-@end
-
-@interface RZXCollision : NSObject
-
-@property (strong, nonatomic) RZXPhysicsBody *first;
-@property (strong, nonatomic) RZXPhysicsBody *second;
 
 @end

@@ -86,18 +86,25 @@
     return RZXBoxContainsPoint(self.boundingBox, point);
 }
 
-- (BOOL)collidesWith:(RZXCollider *)other
+- (RZXContact *)generateContact:(RZXCollider *)other
 {
-    BOOL collides = NO;
+    RZXContact *contact = nil;
 
     if ( [other isKindOfClass:[RZXBoxCollider class]] ) {
-        collides = RZXBoxIntersectsBox(self.boundingBox, other.boundingBox);
+        RZXBox bounds = self.boundingBox;
+        RZXBox otherBounds = other.boundingBox;
+
+        if ( RZXBoxIntersectsBox(bounds, otherBounds) ) {
+            // TODO: compute correct normal and distance
+            contact = [[RZXContact alloc] init];
+        }
     }
     else if ( [other isKindOfClass:[RZXSphereCollider class]] ) {
-        collides = RZXBoxIntersectsSphere(self.boundingBox, other.boundingSphere);
+        contact = [other generateContact:self];
+        contact.normal = GLKVector3Negate(contact.normal);
     }
 
-    return collides;
+    return contact;
 }
 
 @end

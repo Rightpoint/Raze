@@ -22,7 +22,7 @@ typedef struct _RZXSphere {
 
 GLK_INLINE bool RZXSphereIntersectsSphere(RZXSphere s1, RZXSphere s2)
 {
-    return GLKVector3Distance(s1.center, s2.center) < (s1.radius + s2.radius);
+    return GLKVector3Distance(s1.center, s2.center) <= (s1.radius + s2.radius);
 }
 
 GLK_INLINE bool RZXSphereIntersectsBox(RZXSphere s, RZXBox b)
@@ -41,7 +41,7 @@ GLK_INLINE bool RZXSphereIntersectsBox(RZXSphere s, RZXBox b)
         }
     }
 
-    return (r2 > 0.0);
+    return (r2 >= 0.0);
 }
 
 GLK_INLINE bool RZXSphereContainsPoint(RZXSphere s, GLKVector3 p)
@@ -51,17 +51,23 @@ GLK_INLINE bool RZXSphereContainsPoint(RZXSphere s, GLKVector3 p)
 
 GLK_INLINE bool RZXBoxIntersectsBox(RZXBox b1, RZXBox b2)
 {
-    return(b1.max.x > b2.min.x &&
-           b1.min.x < b2.max.x &&
-           b1.max.y > b2.min.y &&
-           b1.min.y < b2.max.y &&
-           b1.max.z > b2.min.z &&
-           b1.min.z < b2.max.z);
+    return(b1.max.x >= b2.min.x &&
+           b1.min.x <= b2.max.x &&
+           b1.max.y >= b2.min.y &&
+           b1.min.y <= b2.max.y &&
+           b1.max.z >= b2.min.z &&
+           b1.min.z <= b2.max.z);
 }
 
 GLK_INLINE bool RZXBoxIntersectsSphere(RZXBox b, RZXSphere s)
 {
     return RZXSphereIntersectsBox(s, b);
+}
+
+GLK_INLINE GLKVector3 RZXBoxGetCenter(RZXBox b)
+{
+    GLKVector3 bounds = GLKVector3Subtract(b.max, b.min);
+    return GLKVector3Add(b.min, GLKVector3MultiplyScalar(bounds, 0.5f));
 }
 
 GLK_INLINE bool RZXBoxContainsPoint(RZXBox b, GLKVector3 p)
@@ -108,6 +114,15 @@ GLK_INLINE void RZXBoxTransform(RZXBox *b, GLKMatrix4 t)
 
     b->min = min;
     b->max = max;
+}
+
+GLK_INLINE GLKVector3 RZXBoxGetNearestPoint(RZXBox b, GLKVector3 p)
+{
+    return GLKVector3Make(
+        MAX(b.min.x, MIN(p.x, b.max.x)),
+        MAX(b.min.y, MIN(p.y, b.max.y)),
+        MAX(b.min.z, MIN(p.z, b.max.z))
+    );
 }
 
 #endif

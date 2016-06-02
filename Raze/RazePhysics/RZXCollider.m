@@ -24,12 +24,14 @@
 
 - (BOOL)pointInside:(GLKVector3)point
 {
+    [NSException raise:NSGenericException format:@"%@ is an abstract class. Please instantiate a concrete subclass instead", [self class]];
     return NO;
 }
 
-- (BOOL)collidesWith:(RZXCollider *)other
+- (RZXContact *)generateContact:(RZXCollider *)other
 {
-    return NO;
+    [NSException raise:NSGenericException format:@"%@ is an abstract class. Please instantiate a concrete subclass instead", [self class]];
+    return nil;
 }
 
 @end
