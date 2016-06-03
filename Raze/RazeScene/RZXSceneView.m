@@ -13,17 +13,19 @@
 
 - (instancetype)initWithFrame:(CGRect)frame scene:(RZXScene *)scene
 {
-    self = [self initWithFrame:frame];
-    if (self) {
+    if ( (self = [self initWithFrame:frame]) ) {
         self.scene = scene;
     }
     return self;
 }
 
+- (RZXScene *)scene
+{
+    return [self.model isKindOfClass:[RZXScene class]] ? self.model : nil;
+}
+
 - (void)setScene:(RZXScene *)scene
 {
-    _scene = scene;
-
     [_context runBlock:^(RZXGLContext *context) {
         [scene setupGL];
     }];
@@ -34,8 +36,13 @@
 - (void)setupGL
 {
     [super setupGL];
-
     [self.scene setupGL];
+}
+
+- (void)teardownGL
+{
+    [super teardownGL];
+    [self.scene teardownGL];
 }
 
 #pragma mark - drawing
@@ -48,7 +55,7 @@
 
 - (void)display
 {
-    self.scene.resolution = GLKVector2Make(_backingWidth, _backingHeight);
+    self.scene.resolution = self.resolution;
     [super display];
 }
 

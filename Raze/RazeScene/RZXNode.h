@@ -12,12 +12,14 @@
 #import <RazeCore/RZXRenderable.h>
 #import <RazeCore/RZXUpdateable.h>
 
+#import <RazePhysics/RZXPhysicsBody.h>
+
 @class RZXTransform3D;
 @class RZXEffect;
 @class RZXCamera;
 
 /**
- *  The base unit of any scene object. In most cases anything applied to a node (transform, camera, effect, animation) will also be applied to that node's children if the child node does not have a value specified.
+ *  The base class of any object in a scene.
  */
 @interface RZXNode : RZXGPUObject <RZXRenderable, RZXUpdateable>
 
@@ -26,7 +28,7 @@
  */
 @property (copy, nonatomic) NSString *name;
 
-@property (strong, nonatomic) RZXTransform3D *transform;
+@property (copy, nonatomic) RZXTransform3D *transform;
 @property (strong, nonatomic) RZXEffect *effect;
 @property (strong, nonatomic) RZXCamera *camera;
 
@@ -42,12 +44,54 @@
 
 - (void)removeFromParent;
 
+/**
+ *  Called when the node is added to or removed from a parent node.
+ *  The default implementation of this method does nothing, but subclasses may override.
+ *
+ *  @param parent The new parent of the receiver, or nil if the receiver was removed from its parent.
+ */
+- (void)didMoveToParent:(RZXNode *)parent;
+
+/**
+ *  Returs YES if the receiver is an immediate or distant child of `node` or if `view` is the receiver itself.
+ */
+- (BOOL)isDescendantOfNode:(RZXNode *)node;
+
 - (GLKMatrix4)modelMatrix;
 - (GLKMatrix4)viewMatrix;
 - (GLKMatrix4)projectionMatrix;
 
+- (GLKVector3)convertPoint:(GLKVector3)point fromNode:(RZXNode *)node;
+- (GLKVector3)convertPoint:(GLKVector3)point toNode:(RZXNode *)node;
+
+- (GLKVector3)convertScale:(GLKVector3)scale fromNode:(RZXNode *)node;
+- (GLKVector3)convertScale:(GLKVector3)scale toNode:(RZXNode *)node;
+
+- (GLKQuaternion)convertRotation:(GLKQuaternion)rotation fromNode:(RZXNode *)node;
+- (GLKQuaternion)convertRotation:(GLKQuaternion)rotation toNode:(RZXNode *)node;
+
+- (RZXTransform3D *)convertTransform:(RZXTransform3D *)transform fromNode:(RZXNode *)node;
+- (RZXTransform3D *)convertTransform:(RZXTransform3D *)transform toNode:(RZXNode *)node;
+
 - (void)addAnimation:(CAAnimation *)animation forKey:(NSString *)key;
 - (CAAnimation *)animationForKey:(NSString *)key;
 - (void)removeAnimationForKey:(NSString *)key;
+
+@end
+
+#pragma mark - RZXNode + Physics Extensions
+
+@interface RZXNode () <RZXPhysicsObject>
+
+@property (strong, nonatomic) RZXPhysicsBody *physicsBody;
+
+- (void)didBeginContact:(RZXCollider *)collider;
+- (void)didEndContact:(RZXCollider *)collider;
+
+@end
+
+@interface RZXPhysicsBody (RZXNode)
+
+@property (weak, nonatomic, readonly) RZXNode *node;
 
 @end

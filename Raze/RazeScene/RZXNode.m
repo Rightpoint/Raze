@@ -12,6 +12,9 @@
 #import <RazeAnimation/RZXAnimatable.h>
 
 #import <RazeScene/RZXNode.h>
+#import <RazeScene/RZXNode_Private.h>
+
+#import <RazeScene/RZXScene.h>
 
 @interface RZXNode ()
 
@@ -93,12 +96,31 @@
 {
     [self.mutableChildren insertObject:child atIndex:index];
     child.parent = self;
+    child.scene = self.scene;
 }
 
 - (void)removeFromParent
 {
     [self.parent.mutableChildren removeObject:self];
     self.parent = nil;
+    self.scene = nil;
+}
+
+- (void)didMoveToParent:(RZXNode *)parent
+{
+    // subclass override
+}
+
+- (BOOL)isDescendantOfNode:(RZXNode *)node
+{
+    __block BOOL descendant = NO;
+
+    [self traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+        descendant = (ancestor == node);
+        *stop = descendant;
+    }];
+
+    return descendant;
 }
 
 - (GLKMatrix4)modelMatrix
@@ -134,6 +156,122 @@
     return projectionMatrix;
 }
 
+- (GLKVector3)convertPoint:(GLKVector3)point fromNode:(RZXNode *)node
+{
+    __block GLKVector3 convertedPoint = point;
+
+    if ( node != self && [node isDescendantOfNode:self] ) {
+        [node.parent traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+            convertedPoint = RZXMatrix4TransformVector3(ancestor.transform.modelMatrix, convertedPoint);
+            *stop = (ancestor == self);
+        }];
+    }
+
+    return convertedPoint;
+}
+
+- (GLKVector3)convertPoint:(GLKVector3)point toNode:(RZXNode *)node
+{
+    __block GLKVector3 convertedPoint = point;
+
+    if ( [node isDescendantOfNode:self] ) {
+        [node traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+            GLKMatrix4 invertedTransform = GLKMatrix4Invert(ancestor.transform.modelMatrix, NULL);
+            convertedPoint = RZXMatrix4TransformVector3(invertedTransform, convertedPoint);
+            *stop = (ancestor.parent == self);
+        }];
+    }
+
+    return convertedPoint;
+}
+
+- (GLKVector3)convertScale:(GLKVector3)scale fromNode:(RZXNode *)node
+{
+    __block GLKVector3 convertedScale = scale;
+
+    if ( node != self && [node isDescendantOfNode:self] ) {
+        [node.parent traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+            convertedScale = GLKVector3Multiply(convertedScale, ancestor.transform.scale);
+            *stop = (ancestor == self);
+        }];
+    }
+
+    return convertedScale;
+}
+
+- (GLKVector3)convertScale:(GLKVector3)scale toNode:(RZXNode *)node
+{
+    __block GLKVector3 convertedScale = scale;
+
+    if ( [node isDescendantOfNode:self] ) {
+        [node traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+            convertedScale = GLKVector3Divide(convertedScale, ancestor.transform.scale);
+            *stop = (ancestor.parent == self);
+        }];
+    }
+
+    return convertedScale;
+}
+
+- (GLKQuaternion)convertRotation:(GLKQuaternion)rotation fromNode:(RZXNode *)node
+{
+    __block GLKQuaternion convertedRotation = rotation;
+
+    if ( node != self && [node isDescendantOfNode:self] ) {
+        [node.parent traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+            convertedRotation = GLKQuaternionMultiply(convertedRotation, ancestor.transform.rotation);
+            *stop = (ancestor == self);
+        }];
+    }
+
+    return convertedRotation;
+}
+
+- (GLKQuaternion)convertRotation:(GLKQuaternion)rotation toNode:(RZXNode *)node
+{
+    __block GLKQuaternion convertedRotation = rotation;
+
+    if ( [node isDescendantOfNode:self] ) {
+        [node traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+            GLKQuaternion invertedRotation = GLKQuaternionInvert(ancestor.transform.rotation);
+            convertedRotation = GLKQuaternionMultiply(convertedRotation, invertedRotation);
+            *stop = (ancestor.parent == self);
+        }];
+    }
+
+    return convertedRotation;
+}
+
+- (RZXTransform3D *)convertTransform:(RZXTransform3D *)transform fromNode:(RZXNode *)node
+{
+    RZXTransform3D *convertedTransform = [transform copy];
+
+    if ( node != self && [node isDescendantOfNode:self] && node != self ) {
+        [node.parent traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+            [convertedTransform transformBy:ancestor.transform];
+            *stop = (ancestor == self);
+        }];
+    }
+
+    return convertedTransform;
+}
+
+- (RZXTransform3D *)convertTransform:(RZXTransform3D *)transform toNode:(RZXNode *)node
+{
+    RZXTransform3D *convertedTransform = [transform copy];
+
+    if ( [node isDescendantOfNode:self] ) {
+        [node traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+            [convertedTransform transformBy:[ancestor.transform invertedTransform]];
+            *stop = (ancestor.parent == self);
+        }];
+    }
+
+    return convertedTransform;
+}
+
+#pragma mark - Animation
+
 - (void)addAnimation:(CAAnimation *)animation forKey:(NSString *)key
 {
     animation = [animation copy];
@@ -151,6 +289,39 @@
 {
     [self.mutableAnimations[key] rzx_interrupt];
     [self.mutableAnimations removeObjectForKey:key];
+}
+
+#pragma mark - Physics
+
+- (RZXTransform3D *)worldTransform
+{
+    return [self.scene convertTransform:self.transform fromNode:self];
+}
+
+- (void)setPhysicsBody:(RZXPhysicsBody *)physicsBody
+{
+    if ( _physicsBody != physicsBody ) {
+        RZXScene *scene = self.scene;
+
+        if ( scene != nil) {
+            [scene.physicsWorld removeBody:_physicsBody];
+            [scene.physicsWorld addBody:physicsBody];
+        }
+
+        _physicsBody.representedObject = nil;
+        _physicsBody = physicsBody;
+        _physicsBody.representedObject = self;
+    }
+}
+
+- (void)didBeginContact:(RZXCollider *)collider
+{
+    // subclass override
+}
+
+- (void)didEndContact:(RZXCollider *)collider
+{
+    // subclass override
 }
 
 #pragma mark - RZXGPUObject overrides
@@ -231,10 +402,68 @@
 
 - (void)rzx_render
 {
+    // TODO: because this method is called on a background thread, it should be thread safe
     for ( RZXNode *child in self.children ) {
         [child bindGL];
         [child rzx_render];
     }
+}
+
+#pragma mark - private methods
+
+- (void)setParent:(RZXNode *)parent
+{
+    if ( _parent != parent ) {
+        _parent = parent;
+
+        [self didMoveToParent:parent];
+    }
+}
+
+- (void)setScene:(RZXScene *)scene
+{
+    if ( _scene != scene ) {
+        _scene = scene;
+
+        RZXPhysicsBody *body = self.physicsBody;
+
+        if ( body != nil ) {
+            if ( scene == nil ) {
+                [scene.physicsWorld removeBody:body];
+            }
+            else {
+                [scene.physicsWorld addBody:body];
+            }
+        }
+
+        for ( RZXNode *child in self.children ) {
+            child.scene = scene;
+        }
+
+        [self didMoveToScene:scene];
+    }
+}
+
+- (void)traverseAncestorsWithBlock:(void (^)(RZXNode *ancestor, BOOL *stop))traversalBlock
+{
+    RZXNode *current = self;
+    BOOL stop = NO;
+
+    while ( current != nil && !stop ) {
+        traversalBlock(current, &stop);
+        current = current.parent;
+    }
+
+}
+
+@end
+
+@implementation RZXPhysicsBody (RZXNode)
+
+- (RZXNode *)node
+{
+    id<RZXPhysicsObject> representedObject = self.representedObject;
+    return [representedObject isKindOfClass:[RZXNode class]] ? (RZXNode *)representedObject : nil;
 }
 
 @end

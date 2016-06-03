@@ -6,6 +6,7 @@
 //
 
 #import <RazeCore/RZXTransform3D.h>
+#import <RazeCore/RZXMath.h>
 #import <RazeCore/NSValue+RZXExtensions.h>
 
 @implementation RZXTransform3D {
@@ -26,7 +27,7 @@
 
 - (instancetype)init
 {
-    return [self initWithTranslation:GLKVector3Make(0.0f, 0.0f, 0.0f) rotation:GLKQuaternionIdentity scale:GLKVector3Make(1.0f, 1.0f, 1.0f)];
+    return [self initWithTranslation:RZXVector3Zero rotation:GLKQuaternionIdentity scale:GLKVector3Make(1.0f, 1.0f, 1.0f)];
 }
 
 - (void)dealloc
@@ -223,6 +224,37 @@
 - (void)rotateZTo:(float)angle
 {
     self.eulerAngles = GLKVector3Make(_eulerAngles.x, _eulerAngles.y, angle);
+}
+
+- (void)transformBy:(RZXTransform3D *)transform
+{
+    _translation = GLKVector3Add(_translation, transform.translation);
+    _scale = GLKVector3Multiply(_scale, transform.scale);
+    _rotation = GLKQuaternionMultiply(_rotation, transform.rotation);
+
+    [self invalidateModelMatrixCache];
+}
+
+- (void)invert
+{
+    _translation = GLKVector3Negate(_translation);
+    _scale = GLKVector3Make(1.0 / _scale.x, 1.0 / _scale.y, 1.0 / _scale.z);
+    _rotation = GLKQuaternionInvert(_rotation);
+
+    [self invalidateModelMatrixCache];
+}
+
+- (RZXTransform3D *)invertedTransform
+{
+    RZXTransform3D *inverted = [self copy];
+    [inverted invert];
+
+    return inverted;
+}
+
+- (GLKVector3)transformPoint:(GLKVector3)point
+{
+    return RZXMatrix4TransformVector3(self.modelMatrix, point);
 }
 
 #pragma mark - NSCopying

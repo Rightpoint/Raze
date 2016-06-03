@@ -1,0 +1,6 @@
+framework module RazePhysics {
+  umbrella header "RazePhysics.h"
+
+  export *
+  module * { export * }
+}

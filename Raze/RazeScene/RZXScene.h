@@ -8,6 +8,10 @@
 
 #import <RazeScene/RZXNode.h>
 
+@class RZXPhysicsWorld;
+
+#pragma mark - RZXScene
+
 @interface RZXScene : RZXNode
 
 /**
@@ -17,6 +21,11 @@
  */
 @property (nonatomic, readonly) RZXNode *rootNode;
 
+/**
+ *  The physics world associated with the scene.
+ */
+@property (nonatomic, readonly) RZXPhysicsWorld *physicsWorld;
+
 + (instancetype)scene;
 + (instancetype)sceneWithEffect:(RZXEffect *)effect;
 
@@ -24,5 +33,30 @@
  *  The class to use when initializing the scene's root node.
  */
 + (Class)rootNodeClass;
+
+/**
+ *  Called once the physics pass has run after the update phase, but before the render phase.
+ *  Any changes to to the physics system in this method will not be applied until the next frame.
+ */
+- (void)didSimulatePhysics;
+
+@end
+
+#pragma mark - RZXNode + RZXScene
+
+@interface RZXNode (RZXScene)
+
+/**
+ *  The scene at the root of the receiver's node heirarchy.
+ */
+@property (weak, nonatomic, readonly) RZXScene *scene;
+
+/**
+ *  Called when the node is added to or removed from a scene.
+ *  The default implementation of this method does nothing, but subclasses may override.
+ *
+ *  @param scene The scene the receiver moved to, or nil if the receiver was removed from a scene.
+ */
+- (void)didMoveToScene:(RZXScene *)scene;
 
 @end

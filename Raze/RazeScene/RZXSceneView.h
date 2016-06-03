@@ -15,7 +15,6 @@
  */
 @interface RZXSceneView : RZXGLView
 
-// TODO: elimineate confusion between two seperate core renderables (scene here and model in RZXGLView)
 @property (strong, nonatomic) RZXScene *scene;
 
 - (instancetype)initWithFrame:(CGRect)frame scene:(RZXScene *)scene;

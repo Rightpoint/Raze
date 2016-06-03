@@ -27,6 +27,9 @@
 		D436E46B1B74FE39006E9B26 /* RazeUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D436E46A1B74FE39006E9B26 /* RazeUIKit.framework */; };
 		D436E46C1B74FE39006E9B26 /* RazeUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D436E46A1B74FE39006E9B26 /* RazeUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D4EF0FA01B505D3F001EA85F /* RazeAnimation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D4EF0F9E1B505D3F001EA85F /* RazeAnimation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D4F024501CB020C000D9E21D /* RazePhysics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D4F0244F1CB020C000D9E21D /* RazePhysics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D4F024531CB022B200D9E21D /* circle-tester.mesh in Resources */ = {isa = PBXBuildFile; fileRef = D4F024511CB022B200D9E21D /* circle-tester.mesh */; };
+		D4F024541CB022B200D9E21D /* cube-tester.mesh in Resources */ = {isa = PBXBuildFile; fileRef = D4F024521CB022B200D9E21D /* cube-tester.mesh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,6 +39,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				D4F024501CB020C000D9E21D /* RazePhysics.framework in Embed Frameworks */,
 				8A6ECFC41B34611D00743DBF /* RazeCore.framework in Embed Frameworks */,
 				D436E46C1B74FE39006E9B26 /* RazeUIKit.framework in Embed Frameworks */,
 				D4EF0FA01B505D3F001EA85F /* RazeAnimation.framework in Embed Frameworks */,
@@ -72,6 +76,9 @@
 		D436E4681B74FD0E006E9B26 /* RZXViewNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXViewNode.m; sourceTree = "<group>"; };
 		D436E46A1B74FE39006E9B26 /* RazeUIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeUIKit.framework; path = "$(TARGET_BUILD_DIR)/RazeUIKit.framework"; sourceTree = "<group>"; };
 		D4EF0F9E1B505D3F001EA85F /* RazeAnimation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazeAnimation.framework; path = "$(TARGET_BUILD_DIR)/RazeAnimation.framework"; sourceTree = "<group>"; };
+		D4F0244F1CB020C000D9E21D /* RazePhysics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RazePhysics.framework; path = "$(TARGET_BUILD_DIR)/RazePhysics.framework"; sourceTree = "<group>"; };
+		D4F024511CB022B200D9E21D /* circle-tester.mesh */ = {isa = PBXFileReference; lastKnownFileType = file; path = "circle-tester.mesh"; sourceTree = "<group>"; };
+		D4F024521CB022B200D9E21D /* cube-tester.mesh */ = {isa = PBXFileReference; lastKnownFileType = file; path = "cube-tester.mesh"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +96,8 @@
 		8A4A47A71B750C1F00BAF117 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D4F024511CB022B200D9E21D /* circle-tester.mesh */,
+				D4F024521CB022B200D9E21D /* cube-tester.mesh */,
 				8A6933651B75368C00B267C9 /* retroOffice.mesh */,
 				8A4A47B61B7519C900BAF117 /* officeTexture.png */,
 				8A4A47AC1B750EE000BAF117 /* officeScreen.mesh */,
@@ -103,6 +112,7 @@
 		8AE987381AE19C550058F441 = {
 			isa = PBXGroup;
 			children = (
+				D4F0244F1CB020C000D9E21D /* RazePhysics.framework */,
 				D436E46A1B74FE39006E9B26 /* RazeUIKit.framework */,
 				D4EF0F9E1B505D3F001EA85F /* RazeAnimation.framework */,
 				8A6ECFC11B34611D00743DBF /* RazeCore.framework */,
@@ -212,9 +222,11 @@
 				8A1D8BF31B73FC9D00E2DE2E /* razeRedTexture.png in Resources */,
 				8A4B51381B74D0290028816F /* greyTexture.png in Resources */,
 				8AE987551AE19C550058F441 /* LaunchScreen.xib in Resources */,
+				D4F024531CB022B200D9E21D /* circle-tester.mesh in Resources */,
 				8A4A47AB1B750ED800BAF117 /* officeBanner.mesh in Resources */,
 				8A4A47AD1B750EE000BAF117 /* officeScreen.mesh in Resources */,
 				8AE987521AE19C550058F441 /* Images.xcassets in Resources */,
+				D4F024541CB022B200D9E21D /* cube-tester.mesh in Resources */,
 				8A6933661B75368C00B267C9 /* retroOffice.mesh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

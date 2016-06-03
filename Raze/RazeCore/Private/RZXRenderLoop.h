@@ -19,8 +19,6 @@
 
 @property (assign, nonatomic) NSInteger preferredFPS; // default 30
 
-+ (instancetype)renderLoop;
-
 - (void)setUpdateTarget:(id<RZXUpdateable>)updateTarget;
 - (void)setRenderTarget:(id<RZXRenderable>)renderTarget;
 

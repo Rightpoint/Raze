@@ -167,7 +167,7 @@
 {
     [self updateBuffersWithSize:self.bounds.size];
 
-    self.renderLoop = [RZXRenderLoop renderLoop];
+    self.renderLoop = [[RZXRenderLoop alloc] init];
     [self.renderLoop setUpdateTarget:self];
     [self.renderLoop setRenderTarget:self];
 
@@ -238,7 +238,7 @@
         glFlush();
 
         self.previousFrameDuration = (CACurrentMediaTime() - start);
-    } wait:NO];
+    } wait:!self.isMultithreaded];
 }
 
 #pragma mark - RZUpdateable
@@ -270,6 +270,8 @@
     self.backgroundColor = [UIColor clearColor];
     self.opaque = NO;
     self.userInteractionEnabled = NO;
+
+    self.multithreaded = YES;
 
     self.context = [RZXGLContext defaultContext];
 
