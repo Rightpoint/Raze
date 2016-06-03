@@ -1,0 +1,36 @@
+//
+//  RZXModeNodel.h
+//  RazeScene
+//
+//  Created by John Stricker on 4/17/15.
+//  Copyright (c) 2015 Raizlabs. All rights reserved.
+//
+
+#import <RazeScene/RZXNode.h>
+
+@class RZXMesh;
+@class RZXTexture;
+@class RZXMaterial;
+
+/**
+ *  The basic node used for 3D Models. It contains a mesh object containing the model's construction data and a texture object that will be applied to the model.
+ */
+@interface RZXModelNode : RZXNode
+
+// Contains the model data used by this node
+@property (strong, nonatomic) RZXMesh *mesh;
+
+/**
+ *  Material to use when rendering the model.
+ */
+@property (strong, nonatomic) RZXMaterial *material;
+
++ (instancetype)modelNodeWithMesh:(RZXMesh *)mesh;
++ (instancetype)modelNodeWithMesh:(RZXMesh *)mesh texture:(RZXTexture *)texture;
++ (instancetype)modelNodeWithMesh:(RZXMesh *)mesh material:(RZXMaterial *)material;
+
+- (instancetype)initWithMesh:(RZXMesh *)mesh;
+- (instancetype)initWithMesh:(RZXMesh *)mesh texture:(RZXTexture *)texture;
+- (instancetype)initWithMesh:(RZXMesh *)mesh material:(RZXMaterial *)material;
+
+@end

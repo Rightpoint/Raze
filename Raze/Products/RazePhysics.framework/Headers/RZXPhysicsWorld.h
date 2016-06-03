@@ -6,29 +6,27 @@
 //  Copyright (c) 2016 Raizlabs. All rights reserved.
 //
 
-#import <RazePhysics/RZXCollider.h>
+#import <RazeCore/RZXUpdateable.h>
+#import <RazePhysics/RZXPhysicsBody.h>
 
 @class RZXCollision;
 
-typedef void (^RZXColliderEnumerationBlock)(RZXCollider *collider, BOOL *stop);
+typedef void (^RZXPhysicsBodyEnumeration)(RZXPhysicsBody *body, BOOL *stop);
 
-@interface RZXPhysicsWorld : NSObject
+@interface RZXPhysicsWorld : NSObject <RZXUpdateable>
 
-- (void)addCollider:(RZXCollider *)collider;
-- (void)removeCollider:(RZXCollider *)collider;
+/**
+ *  Constant acceleration applied to all physics bodies.
+ *  Deault is (0.0, -9.8, 0.0).
+ */
+@property (assign, nonatomic) GLKVector3 gravity;
 
-- (RZXCollider *)colliderAtPoint:(GLKVector3)point;
+- (void)addBody:(RZXPhysicsBody *)body;
+- (void)removeBody:(RZXPhysicsBody *)body;
 
-- (void)enumerateCollidersWithBlock:(RZXColliderEnumerationBlock)block;
-- (void)enumerateCollidersAtPoint:(GLKVector3)point withBlock:(RZXColliderEnumerationBlock)block;
+- (RZXPhysicsBody *)bodyAtPoint:(GLKVector3)point;
 
-- (NSSet *)computeCollisions;
-
-@end
-
-@interface RZXCollision : NSObject
-
-@property (strong, nonatomic) RZXCollider *first;
-@property (strong, nonatomic) RZXCollider *second;
+- (void)enumerateBodiesWithBlock:(RZXPhysicsBodyEnumeration)block;
+- (void)enumerateBodiesAtPoint:(GLKVector3)point withBlock:(RZXPhysicsBodyEnumeration)block;
 
 @end

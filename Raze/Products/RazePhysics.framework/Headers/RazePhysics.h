@@ -19,3 +19,4 @@ FOUNDATION_EXPORT const unsigned char RazePhysicsVersionString[];
 #import <RazePhysics/RZXCollider.h>
 #import <RazePhysics/RZXBoxCollider.h>
 #import <RazePhysics/RZXSphereCollider.h>
+#import <RazePhysics/RZXContact.h>
