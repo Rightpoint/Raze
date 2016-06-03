@@ -16,6 +16,5 @@
 @property (strong, nonatomic) RZXPhysicsBody *second;
 
 @property (assign, nonatomic) GLKVector3 normal;
-@property (assign, nonatomic) float distance;
 
 @end

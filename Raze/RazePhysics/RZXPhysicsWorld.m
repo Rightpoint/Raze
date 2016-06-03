@@ -19,6 +19,7 @@
 {
     if ( (self = [super init]) ) {
         _bodies = [NSMutableSet set];
+        _gravity = GLKVector3Make(0.0f, -9.8f, 0.0f);
     }
 
     return self;
@@ -79,7 +80,7 @@
 
     for ( RZXPhysicsBody *body in bodies ) {
         if ( body.isDynamic && body.isAffectedByGravity && body.mass > 0.0 ) {
-            [body applyImpulse:gravity];
+            [body adjustVelocity:gravity];
         }
     }
 
@@ -94,7 +95,7 @@
 
 - (void)resolveContactsForBodies:(NSArray *)bodies
 {
-    // iterate all pairs of bodies
+    // iterate over all pairs of bodies
     for ( NSUInteger i = 0; i< bodies.count; ++i ) {
         for ( NSUInteger j = i + 1; j < bodies.count; ++j ) {
             RZXPhysicsBody *first = bodies[i];
@@ -111,7 +112,25 @@
 
 - (void)resolveContact:(RZXContact *)contact
 {
-    // TODO: resolve the contact
+    RZXPhysicsBody *first = contact.first;
+    RZXPhysicsBody *second = contact.second;
+
+    GLKVector3 normal = contact.normal;
+    GLKVector3 relativeVelocity = GLKVector3Subtract(first.velocity, second.velocity);
+
+    float relativeNormalVelocity = GLKVector3DotProduct(relativeVelocity, normal);
+
+    if ( relativeNormalVelocity < 0.0f ) {
+        float totalInverseMass = MAX(FLT_EPSILON, (first.inverseMass + second.inverseMass));
+        float cor = 0.5f * (first.restitution + second.restitution);
+
+        float magnitude = (1.0f + cor) * relativeNormalVelocity / totalInverseMass;
+
+        GLKVector3 impulse = GLKVector3MultiplyScalar(normal, magnitude);
+
+        [first adjustVelocity:GLKVector3MultiplyScalar(impulse, -first.inverseMass)];
+        [second adjustVelocity:GLKVector3MultiplyScalar(impulse, second.inverseMass)];
+    }
 }
 
 @end

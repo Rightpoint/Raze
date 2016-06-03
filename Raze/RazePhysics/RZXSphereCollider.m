@@ -87,7 +87,6 @@
         if ( GLKVector3Length(diff) <= bounds.radius ) {
             contact = [[RZXContact alloc] init];
             contact.normal = GLKVector3Normalize(diff);
-            contact.distance = GLKVector3Length(diff);
         }
     }
     else if ( [other isKindOfClass:[RZXSphereCollider class]] ) {
@@ -98,7 +97,6 @@
 
             contact = [[RZXContact alloc] init];
             contact.normal = GLKVector3Normalize(diff);
-            contact.distance = GLKVector3Length(diff);
         }
     }
 

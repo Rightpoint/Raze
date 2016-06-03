@@ -15,6 +15,10 @@ typedef void (^RZXPhysicsBodyEnumeration)(RZXPhysicsBody *body, BOOL *stop);
 
 @interface RZXPhysicsWorld : NSObject <RZXUpdateable>
 
+/**
+ *  Constant acceleration applied to all physics bodies.
+ *  Deault is (0.0, -9.8, 0.0).
+ */
 @property (assign, nonatomic) GLKVector3 gravity;
 
 - (void)addBody:(RZXPhysicsBody *)body;

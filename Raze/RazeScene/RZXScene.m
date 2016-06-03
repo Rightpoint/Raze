@@ -67,8 +67,6 @@
 
     [self.physicsWorld rzx_update:dt];
 
-    // TODO: compute collisions
-
     [self didSimulatePhysics];
 }
 

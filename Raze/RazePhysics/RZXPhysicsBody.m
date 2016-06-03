@@ -9,16 +9,29 @@
 #import <RazePhysics/RZXPhysicsBody.h>
 #import <RazePhysics/RZXPhysicsBody_Private.h>
 
-@implementation RZXPhysicsBody
+@implementation RZXPhysicsBody {
+    float _inverseMass;
+}
 
 + (instancetype)bodyWithCollider:(RZXCollider *)collider
 {
     return [[self alloc] initWithCollider:collider];
 }
 
-- (instancetype)initWithCollider:(RZXCollider *)collider
+- (instancetype)init
 {
     if ( (self = [super init]) ) {
+        _mass = 1.0f;
+        _inverseMass = 1.0f;
+        _dynamic = YES;
+        _affectedByGravity = YES;
+    }
+    return self;
+}
+
+- (instancetype)initWithCollider:(RZXCollider *)collider
+{
+    if ( (self = [self init]) ) {
         self.collider = collider;
     }
     return self;
@@ -26,7 +39,7 @@
 
 - (void)setMass:(float)mass
 {
-    _mass = mass;
+    _mass = MAX(0.0f, mass);
     _inverseMass = (mass != 0.0f) ? (1.0f / mass) : 0.0f;
 }
 
@@ -49,10 +62,21 @@
 
 - (void)applyImpulse:(GLKVector3)impulse
 {
-    self.velocity = GLKVector3Add(self.velocity, impulse);
+    [self adjustVelocity:GLKVector3MultiplyScalar(impulse, self.inverseMass)];
 }
 
 #pragma mark - private methods
+
+- (float)inverseMass
+{
+    // non-dynamic bodies are treated as if they have infinite mass
+    return self.isDynamic ? _inverseMass : 0.0f;
+}
+
+- (void)adjustVelocity:(GLKVector3)dv
+{
+    self.velocity = GLKVector3Add(self.velocity, dv);
+}
 
 - (RZXContact *)generateContact:(RZXPhysicsBody *)other
 {
@@ -71,10 +95,8 @@
 
 - (void)rzx_update:(NSTimeInterval)dt
 {
-    if ( self.isDynamic ) {
-        GLKVector3 movement = GLKVector3MultiplyScalar(self.velocity, dt);
-        [self.representedObject.transform translateBy:movement];
-    }
+    GLKVector3 movement = GLKVector3MultiplyScalar(self.velocity, dt);
+    [self.representedObject.transform translateBy:movement];
 }
 
 @end
