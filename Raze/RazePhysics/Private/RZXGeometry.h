@@ -11,118 +11,129 @@
 
 #include <RazeCore/RZXMath.h>
 
-typedef struct _RZXBox {
-    GLKVector3 min, max;
-} RZXBox;
+#pragma mark - Definitions
 
 typedef struct _RZXSphere {
     GLKVector3 center;
     float radius;
 } RZXSphere;
 
-GLK_INLINE bool RZXSphereIntersectsSphere(RZXSphere s1, RZXSphere s2)
+typedef struct _RZXBox {
+    GLKVector3 center;
+    GLKVector3 radius;
+    GLKVector3 axes[3]; // orthonormal vectors storing the xyz axes transformed to local space
+} RZXBox;
+
+typedef struct _RZXLineSegment
 {
-    return GLKVector3Distance(s1.center, s2.center) <= (s1.radius + s2.radius);
-}
+    GLKVector3 p1, p2;
+} RZXLineSegment;
 
-GLK_INLINE bool RZXSphereIntersectsBox(RZXSphere s, RZXBox b)
+typedef struct _RZXLine
 {
-    float r2 = s.radius * s.radius;
+    GLKVector3 p0, v;  // line of form p0 + vt
+} RZXLine;
 
-    // Check if the closest point of approach is within the radius of the sphere
-    for ( int i = 0; i < 3; ++i ) {
-        if ( s.center.v[i] < b.min.v[i] ) {
-            float diff = s.center.v[i] - b.min.v[i];
-            r2 -= (diff * diff);
-        }
-        else if ( s.center.v[i] > b.max.v[i] ) {
-            float diff = s.center.v[i] - b.max.v[i];
-            r2 -= (diff * diff);
-        }
-    }
-
-    return (r2 >= 0.0);
-}
+#pragma mark - Spheres
 
 GLK_INLINE bool RZXSphereContainsPoint(RZXSphere s, GLKVector3 p)
 {
     return (GLKVector3Distance(s.center, p) < s.radius);
 }
 
-GLK_INLINE bool RZXBoxIntersectsBox(RZXBox b1, RZXBox b2)
+
+GLK_INLINE bool RZXSphereIntersectsSphere(RZXSphere s1, RZXSphere s2)
 {
-    return(b1.max.x >= b2.min.x &&
-           b1.min.x <= b2.max.x &&
-           b1.max.y >= b2.min.y &&
-           b1.min.y <= b2.max.y &&
-           b1.max.z >= b2.min.z &&
-           b1.min.z <= b2.max.z);
+    return GLKVector3Distance(s1.center, s2.center) <= (s1.radius + s2.radius);
 }
 
-GLK_INLINE bool RZXBoxIntersectsSphere(RZXBox b, RZXSphere s)
+#pragma mark - Boxes
+
+GLK_INLINE GLKVector3 RZXBoxGetSize(RZXBox b)
 {
-    return RZXSphereIntersectsBox(s, b);
+    return GLKVector3MultiplyScalar(b.radius, 2.0f);
 }
 
-GLK_INLINE GLKVector3 RZXBoxGetCenter(RZXBox b)
+GLK_INLINE GLKQuaternion RZXBoxGetRotation(RZXBox b)
 {
-    GLKVector3 bounds = GLKVector3Subtract(b.max, b.min);
-    return GLKVector3Add(b.min, GLKVector3MultiplyScalar(bounds, 0.5f));
-}
+    GLKMatrix3 mat;
 
-GLK_INLINE bool RZXBoxContainsPoint(RZXBox b, GLKVector3 p)
-{
-    return (p.x >= b.min.x && p.x <= b.max.x &&
-            p.y >= b.min.y && p.y <= b.max.y &&
-            p.z >= b.min.z && p.z <= b.max.z);
-}
-
-GLK_INLINE void RZXBoxTranslate(RZXBox *b, GLKVector3 trans)
-{
-    b->min = GLKVector3Add(b->min, trans);
-    b->max = GLKVector3Add(b->max, trans);
-}
-
-GLK_INLINE void RZXBoxScale(RZXBox *b, GLKVector3 scale)
-{
-    GLKVector3 center = GLKVector3MultiplyScalar(GLKVector3Subtract(b->max, b->min), 0.5f);
-
-    b->min = GLKVector3Add(center, GLKVector3Multiply(GLKVector3Subtract(b->min, center), scale));
-    b->max = GLKVector3Add(center, GLKVector3Multiply(GLKVector3Subtract(b->max, center), scale));
-}
-
-GLK_INLINE void RZXBoxTransform(RZXBox *b, GLKMatrix4 t)
-{
-    GLKVector3 corners[8];
-
-    GLKVector3 min = b->min;
-    GLKVector3 max = b->max;
-
-    corners[0] = RZXMatrix4TransformVector3(t, min);
-    corners[1] = RZXMatrix4TransformVector3(t, GLKVector3Make(min.x, min.y, max.z));
-    corners[2] = RZXMatrix4TransformVector3(t, GLKVector3Make(min.x, max.y, max.z));
-    corners[3] = RZXMatrix4TransformVector3(t, GLKVector3Make(min.x, max.y, min.z));
-    corners[4] = RZXMatrix4TransformVector3(t, GLKVector3Make(max.x, min.y, min.z));
-    corners[5] = RZXMatrix4TransformVector3(t, GLKVector3Make(max.x, min.y, max.z));
-    corners[6] = RZXMatrix4TransformVector3(t, max);
-    corners[7] = RZXMatrix4TransformVector3(t, GLKVector3Make(max.x, min.y, min.z));
-
-    for ( int i = 0; i < 8; ++i ) {
-        min = GLKVector3Minimum(min, corners[i]);
-        max = GLKVector3Maximum(max, corners[i]);
+    for ( int c = 0; c < 3; ++c ) {
+        for ( int r = 0; r < 3; ++r ) {
+            mat.m[3 * c + r] = GLKVector3DotProduct(b.axes[c], b.axes[r]);
+        }
     }
 
-    b->min = min;
-    b->max = max;
+    return GLKQuaternionMakeWithMatrix3(mat);
 }
 
 GLK_INLINE GLKVector3 RZXBoxGetNearestPoint(RZXBox b, GLKVector3 p)
 {
-    return GLKVector3Make(
-        MAX(b.min.x, MIN(p.x, b.max.x)),
-        MAX(b.min.y, MIN(p.y, b.max.y)),
-        MAX(b.min.z, MIN(p.z, b.max.z))
-    );
+    // From Christer Ericson's Real-Time Collision Detection, p.133.
+
+    GLKVector3 dir = GLKVector3Subtract(p, b.center);
+    GLKVector3 nearest = b.center;
+
+    for ( int i = 0; i < 3; ++i ) {
+        float dist = GLKVector3DotProduct(dir, b.axes[i]);
+        dist = MAX(-b.radius.v[i], MIN(dist, b.radius.v[i]));
+
+        // walk along the axis to the edge of the box
+        nearest = GLKVector3Add(nearest, GLKVector3MultiplyScalar(b.axes[i], dist));
+    }
+
+    return nearest;
+}
+
+GLK_INLINE bool RZXBoxContainsPoint(RZXBox b, GLKVector3 p)
+{
+    GLKVector3 diff = GLKVector3Subtract(p, b.center);
+
+    for ( int i = 0; i < 3; ++i ) {
+        if ( abs(GLKVector3DotProduct(diff, b.axes[i])) > b.radius.v[i] ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+GLK_INLINE void RZXBoxTranslate(RZXBox *b, GLKVector3 trans)
+{
+    b->center = GLKVector3Add(b->center, trans);
+}
+
+GLK_INLINE void RZXBoxScale(RZXBox *b, GLKVector3 scale)
+{
+    b->radius = GLKVector3Multiply(b->radius, scale);
+}
+
+GLK_INLINE void RZXBoxRotate(RZXBox *b, GLKQuaternion q)
+{
+    for ( int i = 0; i < 3; ++i ) {
+        b->axes[i] = GLKVector3Normalize(GLKQuaternionRotateVector3(q, b->axes[i]));
+    }
+}
+
+GLK_INLINE RZXBox RZXBoxMakeAxisAligned(GLKVector3 center, GLKVector3 r)
+{
+    RZXBox b = (RZXBox) {
+        .center = center,
+        .radius = r,
+    };
+
+    for ( int i = 0; i < 3; ++i ) {
+        b.axes[i] = GLKMatrix3GetRow(GLKMatrix3Identity, i);
+    }
+
+    return b;
+}
+
+GLK_INLINE RZXBox RZXBoxMake(GLKVector3 c, GLKVector3 r, GLKQuaternion q)
+{
+    RZXBox b = RZXBoxMakeAxisAligned(c, r);
+    RZXBoxRotate(&b, q);
+    return b;
 }
 
 #endif

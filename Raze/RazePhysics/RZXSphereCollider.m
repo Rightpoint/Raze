@@ -56,15 +56,9 @@
 {
     RZXSphere boundingSphere = self.boundingSphere;
 
-    GLKVector3 boxMin = GLKVector3Make(boundingSphere.center.x - 0.5 * boundingSphere.radius,
-                                       boundingSphere.center.y - 0.5 * boundingSphere.radius,
-                                       boundingSphere.center.z - 0.5 * boundingSphere.radius);
+    GLKVector3 boxRadius = GLKVector3Make(boundingSphere.radius, boundingSphere.radius, boundingSphere.radius);
 
-    GLKVector3 boxMax = GLKVector3Make(boundingSphere.center.x + 0.5 * boundingSphere.radius,
-                                       boundingSphere.center.y + 0.5 * boundingSphere.radius,
-                                       boundingSphere.center.z + 0.5 * boundingSphere.radius);
-
-    return (RZXBox) { .min = boxMin, .max = boxMax };
+    return RZXBoxMakeAxisAligned(boundingSphere.center, boxRadius);
 }
 
 - (BOOL)pointInside:(GLKVector3)point
@@ -83,20 +77,23 @@
 
         GLKVector3 nearestPoint = RZXBoxGetNearestPoint(otherBounds, bounds.center);
         GLKVector3 diff = GLKVector3Subtract(bounds.center, nearestPoint);
+        float dist = GLKVector3Length(diff);
 
-        if ( GLKVector3Length(diff) <= bounds.radius ) {
+        if ( dist <= bounds.radius ) {
             contact = [[RZXContact alloc] init];
-            contact.normal = GLKVector3Normalize(diff);
+            contact.normal = GLKVector3DivideScalar(diff, dist);
         }
     }
     else if ( [other isKindOfClass:[RZXSphereCollider class]] ) {
         RZXSphere otherBounds = other.boundingSphere;
 
-        if ( RZXSphereIntersectsSphere(bounds, otherBounds) ) {
-            GLKVector3 diff = GLKVector3Subtract(bounds.center, otherBounds.center);
+        GLKVector3 diff = GLKVector3Subtract(bounds.center, otherBounds.center);
+        float dist = GLKVector3Length(diff);
+
+        if ( dist <= bounds.radius ) {
 
             contact = [[RZXContact alloc] init];
-            contact.normal = GLKVector3Normalize(diff);
+            contact.normal = GLKVector3DivideScalar(diff, dist);
         }
     }
 
