@@ -453,7 +453,6 @@
         traversalBlock(current, &stop);
         current = current.parent;
     }
-
 }
 
 @end

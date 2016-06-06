@@ -10,6 +10,7 @@
 #import <RazePhysics/RZXPhysicsBody_Private.h>
 
 @implementation RZXPhysicsBody {
+    NSHashTable *_contactedBodies;
     float _inverseMass;
 }
 
@@ -21,6 +22,9 @@
 - (instancetype)init
 {
     if ( (self = [super init]) ) {
+        _contactedBodies = [NSHashTable weakObjectsHashTable];
+        _categoryMask = 0xFFFF;
+        _collisionMask = 0xFFFF;
         _mass = 1.0f;
         _inverseMass = 1.0f;
         _dynamic = YES;
@@ -35,6 +39,11 @@
         self.collider = collider;
     }
     return self;
+}
+
+- (NSSet *)contactedBodies
+{
+    return [_contactedBodies setRepresentation];
 }
 
 - (void)setMass:(float)mass
@@ -76,6 +85,16 @@
 - (void)adjustVelocity:(GLKVector3)dv
 {
     self.velocity = GLKVector3Add(self.velocity, dv);
+}
+
+- (void)addContactedBody:(RZXPhysicsBody *)other
+{
+    [_contactedBodies addObject:other];
+}
+
+- (void)clearContactedBodies
+{
+    [_contactedBodies removeAllObjects];
 }
 
 - (RZXContact *)generateContact:(RZXPhysicsBody *)other

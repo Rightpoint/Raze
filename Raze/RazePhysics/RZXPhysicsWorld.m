@@ -82,6 +82,8 @@
         if ( body.isDynamic && body.isAffectedByGravity && body.mass > 0.0 ) {
             [body adjustVelocity:gravity];
         }
+
+        [body clearContactedBodies];
     }
 
     [self resolveContactsForBodies:bodies];
@@ -104,6 +106,9 @@
             RZXContact *contact = [first generateContact:second];
 
             if ( contact != nil ) {
+                [first addContactedBody:second];
+                [second addContactedBody:first];
+
                 [self resolveContact:contact];
             }
         }
@@ -128,8 +133,13 @@
 
         GLKVector3 impulse = GLKVector3MultiplyScalar(normal, magnitude);
 
-        [first adjustVelocity:GLKVector3MultiplyScalar(impulse, -first.inverseMass)];
-        [second adjustVelocity:GLKVector3MultiplyScalar(impulse, second.inverseMass)];
+        if ( first.collisionMask & second.categoryMask != 0 ) {
+            [first adjustVelocity:GLKVector3MultiplyScalar(impulse, -first.inverseMass)];
+        }
+
+        if ( second.collisionMask & first.categoryMask != 0 ) {
+            [second adjustVelocity:GLKVector3MultiplyScalar(impulse, second.inverseMass)];
+        }
     }
 }
 
