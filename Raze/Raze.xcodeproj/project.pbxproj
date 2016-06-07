@@ -26,6 +26,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		00E19EF81D06144E006E59EA /* RZXGeometryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E19EF71D06144E006E59EA /* RZXGeometryTests.m */; };
+		00E19EFA1D06144E006E59EA /* RazePhysics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4C5B03D1C8A2B4F00256957 /* RazePhysics.framework */; };
 		8A63B3FD1AF3DE0D00E86B66 /* RazeScene.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A63B3FC1AF3DE0D00E86B66 /* RazeScene.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8A63B41F1AF3DE7C00E86B66 /* RZXModelNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A63B4131AF3DE7C00E86B66 /* RZXModelNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8A63B4201AF3DE7C00E86B66 /* RZXModelNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A63B4141AF3DE7C00E86B66 /* RZXModelNode.m */; };
@@ -147,6 +149,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		00E19EFB1D06144E006E59EA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4D00E041AE14C9300D007E4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D4C5B03C1C8A2B4F00256957;
+			remoteInfo = RazePhysics;
+		};
 		8A63B4291AF3DFAE00E86B66 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D4D00E041AE14C9300D007E4 /* Project object */;
@@ -220,6 +229,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		00E19EF51D06144E006E59EA /* RazePhysicsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RazePhysicsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E19EF71D06144E006E59EA /* RZXGeometryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RZXGeometryTests.m; sourceTree = "<group>"; };
+		00E19EF91D06144E006E59EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8A63B3F81AF3DE0C00E86B66 /* RazeScene.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RazeScene.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A63B3FB1AF3DE0D00E86B66 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8A63B3FC1AF3DE0D00E86B66 /* RazeScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RazeScene.h; sourceTree = "<group>"; };
@@ -344,6 +356,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		00E19EF21D06144E006E59EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00E19EFA1D06144E006E59EA /* RazePhysics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8A63B3F41AF3DE0C00E86B66 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -398,6 +418,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		00E19EF61D06144E006E59EA /* RazePhysicsTests */ = {
+			isa = PBXGroup;
+			children = (
+				00E19EF71D06144E006E59EA /* RZXGeometryTests.m */,
+				00E19EF91D06144E006E59EA /* Info.plist */,
+			);
+			path = RazePhysicsTests;
+			sourceTree = "<group>";
+		};
 		8A63B3F91AF3DE0D00E86B66 /* RazeScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -477,6 +506,7 @@
 				8A63B3F91AF3DE0D00E86B66 /* RazeScene */,
 				D4EF0F3C1B50501F001EA85F /* RazeAnimation */,
 				D4C5B03E1C8A2B4F00256957 /* RazePhysics */,
+				00E19EF61D06144E006E59EA /* RazePhysicsTests */,
 				D4D00E101AE14CB900D007E4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -490,6 +520,7 @@
 				8A63B3F81AF3DE0C00E86B66 /* RazeScene.framework */,
 				D4EF0F3B1B50501F001EA85F /* RazeAnimation.framework */,
 				D4C5B03D1C8A2B4F00256957 /* RazePhysics.framework */,
+				00E19EF51D06144E006E59EA /* RazePhysicsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -771,6 +802,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		00E19EF41D06144E006E59EA /* RazePhysicsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00E19EFD1D06144E006E59EA /* Build configuration list for PBXNativeTarget "RazePhysicsTests" */;
+			buildPhases = (
+				00E19EF11D06144E006E59EA /* Sources */,
+				00E19EF21D06144E006E59EA /* Frameworks */,
+				00E19EF31D06144E006E59EA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				00E19EFC1D06144E006E59EA /* PBXTargetDependency */,
+			);
+			name = RazePhysicsTests;
+			productName = RazePhysicsTests;
+			productReference = 00E19EF51D06144E006E59EA /* RazePhysicsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		8A63B3F71AF3DE0C00E86B66 /* RazeScene */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8A63B40B1AF3DE0D00E86B66 /* Build configuration list for PBXNativeTarget "RazeScene" */;
@@ -897,6 +946,9 @@
 			attributes = {
 				LastUpgradeCheck = 0700;
 				TargetAttributes = {
+					00E19EF41D06144E006E59EA = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
 					8A63B3F71AF3DE0C00E86B66 = {
 						CreatedOnToolsVersion = 6.3.1;
 					};
@@ -939,11 +991,19 @@
 				D4EF0F3A1B50501F001EA85F /* RazeAnimation */,
 				D4D00EAD1AE15ECE00D007E4 /* Raze */,
 				D4C5B03C1C8A2B4F00256957 /* RazePhysics */,
+				00E19EF41D06144E006E59EA /* RazePhysicsTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		00E19EF31D06144E006E59EA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8A63B3F61AF3DE0C00E86B66 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1076,6 +1136,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		00E19EF11D06144E006E59EA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00E19EF81D06144E006E59EA /* RZXGeometryTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8A63B3F31AF3DE0C00E86B66 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1168,6 +1236,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		00E19EFC1D06144E006E59EA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D4C5B03C1C8A2B4F00256957 /* RazePhysics */;
+			targetProxy = 00E19EFB1D06144E006E59EA /* PBXContainerItemProxy */;
+		};
 		8A63B42A1AF3DFAE00E86B66 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D4D00E0E1AE14CB900D007E4 /* RazeCore */;
@@ -1221,6 +1294,94 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		00E19EFE1D06144E006E59EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = RazePhysicsTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.raizlabs.RazePhysicsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		00E19EFF1D06144E006E59EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = RazePhysicsTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.raizlabs.RazePhysicsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		8A63B40C1AF3DE0D00E86B66 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1936,6 +2097,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		00E19EFD1D06144E006E59EA /* Build configuration list for PBXNativeTarget "RazePhysicsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00E19EFE1D06144E006E59EA /* Debug */,
+				00E19EFF1D06144E006E59EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		8A63B40B1AF3DE0D00E86B66 /* Build configuration list for PBXNativeTarget "RazeScene" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

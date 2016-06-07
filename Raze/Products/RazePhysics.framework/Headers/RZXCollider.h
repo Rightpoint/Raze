@@ -11,6 +11,10 @@
 @class RZXPhysicsWorld;
 @class RZXPhysicsBody;
 
+/**
+ *  An abstract class representing a collision volume.
+ *  Use a concrete subclass that best represents the shape of the physics object.
+ */
 @interface RZXCollider : NSObject
 
 @property (copy, nonatomic) NSString *identifier;

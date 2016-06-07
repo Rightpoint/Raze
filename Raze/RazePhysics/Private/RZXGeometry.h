@@ -38,7 +38,7 @@ typedef struct _RZXLine
 
 GLK_INLINE bool RZXSphereContainsPoint(RZXSphere s, GLKVector3 p)
 {
-    return (GLKVector3Distance(s.center, p) < s.radius);
+    return (GLKVector3Distance(s.center, p) <= s.radius);
 }
 
 
@@ -90,7 +90,7 @@ GLK_INLINE bool RZXBoxContainsPoint(RZXBox b, GLKVector3 p)
     GLKVector3 diff = GLKVector3Subtract(p, b.center);
 
     for ( int i = 0; i < 3; ++i ) {
-        if ( abs(GLKVector3DotProduct(diff, b.axes[i])) > b.radius.v[i] ) {
+        if ( fabs(GLKVector3DotProduct(diff, b.axes[i])) > b.radius.v[i] ) {
             return false;
         }
     }
