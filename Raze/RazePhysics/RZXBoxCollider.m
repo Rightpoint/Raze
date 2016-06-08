@@ -100,8 +100,8 @@
     RZXContact *contact = nil;
 
     if ( [other isKindOfClass:[RZXBoxCollider class]] ) {
-        RZXBox bounds = self.boundingBox;
-        RZXBox otherBounds = other.boundingBox;
+//        RZXBox bounds = self.boundingBox;
+//        RZXBox otherBounds = other.boundingBox;
 
         // TODO: compute correct normal and distance
     }

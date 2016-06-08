@@ -79,7 +79,7 @@
     GLKVector3 gravity = GLKVector3MultiplyScalar(self.gravity, dt);
 
     for ( RZXPhysicsBody *body in bodies ) {
-        if ( body.isDynamic && body.isAffectedByGravity && body.mass > 0.0 ) {
+        if ( body.isDynamic && body.isAffectedByGravity && body.mass > 0.0f ) {
             [body adjustVelocity:gravity];
         }
 
@@ -133,11 +133,11 @@
 
         GLKVector3 impulse = GLKVector3MultiplyScalar(normal, magnitude);
 
-        if ( first.collisionMask & second.categoryMask != 0 ) {
+        if ( (first.collisionMask & second.categoryMask) != 0 ) {
             [first adjustVelocity:GLKVector3MultiplyScalar(impulse, -first.inverseMass)];
         }
 
-        if ( second.collisionMask & first.categoryMask != 0 ) {
+        if ( (second.collisionMask & first.categoryMask) != 0 ) {
             [second adjustVelocity:GLKVector3MultiplyScalar(impulse, second.inverseMass)];
         }
     }
