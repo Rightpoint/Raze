@@ -22,6 +22,18 @@
 
 #pragma mark - private
 
+- (RZXBox)boundingBox
+{
+    [NSException raise:NSGenericException format:@"%@ is an abstract class. Please instantiate a concrete subclass instead", [self class]];
+    return (RZXBox){};
+}
+
+- (RZXSphere)boundingSphere
+{
+    [NSException raise:NSGenericException format:@"%@ is an abstract class. Please instantiate a concrete subclass instead", [self class]];
+    return (RZXSphere){};
+}
+
 - (BOOL)pointInside:(GLKVector3)point
 {
     [NSException raise:NSGenericException format:@"%@ is an abstract class. Please instantiate a concrete subclass instead", [self class]];

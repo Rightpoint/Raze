@@ -199,21 +199,6 @@ GLK_INLINE GLKVector3 RZXHullGetPoint(RZXHull h, unsigned int idx)
     return *(GLKVector3 *)point;
 }
 
-GLK_INLINE GLKVector3 RZXHullSupport(RZXHull hull, GLKVector3 v)
-{
-    unsigned int idx = 0;
-    float maxDot = GLKVector3DotProduct(RZXHullGetPoint(hull, 0), v);
-
-    for ( unsigned int i = 1; i < hull.n; ++i ) {
-        float dot = GLKVector3DotProduct(RZXHullGetPoint(hull, i), v);
-
-        if ( dot > maxDot ) {
-            maxDot = dot;
-            idx = i;
-        }
-    }
-
-    return RZXHullGetPoint(hull, idx);
-}
+GLK_EXTERN bool RZXHullIntersectsHull(RZXHull h1, RZXHull h2);
 
 #endif
