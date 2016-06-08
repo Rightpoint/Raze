@@ -13,6 +13,14 @@
 
 #pragma mark - Definitions
 
+typedef struct _RZXLineSegment {
+    GLKVector3 p1, p2;
+} RZXLineSegment;
+
+typedef struct _RZXLine {
+    GLKVector3 p0, v;  // line of the form p0 + vt
+} RZXLine;
+
 typedef struct _RZXSphere {
     GLKVector3 center;
     float radius;
@@ -24,15 +32,63 @@ typedef struct _RZXBox {
     GLKVector3 axes[3]; // orthonormal vectors storing the xyz axes transformed to local space
 } RZXBox;
 
-typedef struct _RZXLineSegment
-{
-    GLKVector3 p1, p2;
-} RZXLineSegment;
+typedef struct _RZXHull {
+    const void *points;
+    size_t stride;
+    unsigned int n;
+} RZXHull;
 
-typedef struct _RZXLine
+#pragma mark - Lines
+
+GLK_INLINE GLKVector3 RZXLineGetIntersection(RZXLine l1, RZXLine l2, float *t, float *s)
 {
-    GLKVector3 p0, v;  // line of form p0 + vt
-} RZXLine;
+    if ( fabsf(GLKVector3DotProduct(l1.v, l2.v)) == GLKVector3Length(l1.v) * GLKVector3Length(l2.v) ) {
+        // lines are parallel, so no intersection
+        *t = INFINITY;
+        *s = INFINITY;
+        return GLKVector3Make(INFINITY, INFINITY, INFINITY);
+    }
+
+    GLKVector3 diff = GLKVector3Subtract(l2.p0, l1.p0);
+
+    // find an axis for which l2 is non-zero
+    int a0 = 0;
+
+    if ( l2.v.y != 0.0f ) {
+        a0 = 1;
+    }
+    else if ( l2.v.z != 0.0f ) {
+        a0 = 2;
+    }
+
+    // solve equations for other 2 axes
+    int a1 = (a0 + 3 - 1) % 3;
+    int a2 = (a0 + 1) % 3;
+
+    float denom = (l2.v.v[a1] * l1.v.v[a0] - l2.v.v[a0] * l1.v.v[a1]);
+
+    if ( denom != 0.0f ) {
+        *t = (diff.v[a0] * l2.v.v[a1] - l2.v.v[a0] * diff.v[a1]) / denom;
+    }
+    else {
+        float denom2 = (l2.v.v[a2] * l1.v.v[a0] - l2.v.v[a0] * l1.v.v[a2]);
+
+        if ( denom2 != 0.0f ) {
+            *t = (diff.v[a0] * l2.v.v[a2] - l2.v.v[a0] * diff.v[a2]) / denom2;
+        }
+        else {
+            // lines are skew, no intersection
+            *t = INFINITY;
+            *s = INFINITY;
+            return GLKVector3Make(INFINITY, INFINITY, INFINITY);
+        }
+    }
+
+    // plug t back in to find s
+    *s = (-diff.v[a0] + (*t * l1.v.v[a0])) / l2.v.v[a0];
+
+    return GLKVector3Add(GLKVector3MultiplyScalar(l1.v, *t), l1.p0);
+}
 
 #pragma mark - Spheres
 
@@ -40,7 +96,6 @@ GLK_INLINE bool RZXSphereContainsPoint(RZXSphere s, GLKVector3 p)
 {
     return (GLKVector3Distance(s.center, p) < s.radius);
 }
-
 
 GLK_INLINE bool RZXSphereIntersectsSphere(RZXSphere s1, RZXSphere s2)
 {
@@ -56,7 +111,7 @@ GLK_INLINE GLKVector3 RZXBoxGetSize(RZXBox b)
 
 GLK_INLINE GLKQuaternion RZXBoxGetRotation(RZXBox b)
 {
-    GLKMatrix3 mat;
+    GLKMatrix3 mat = GLKMatrix3Identity;
 
     for ( int c = 0; c < 3; ++c ) {
         for ( int r = 0; r < 3; ++r ) {
@@ -90,7 +145,7 @@ GLK_INLINE bool RZXBoxContainsPoint(RZXBox b, GLKVector3 p)
     GLKVector3 diff = GLKVector3Subtract(p, b.center);
 
     for ( int i = 0; i < 3; ++i ) {
-        if ( abs(GLKVector3DotProduct(diff, b.axes[i])) > b.radius.v[i] ) {
+        if ( fabsf(GLKVector3DotProduct(diff, b.axes[i])) > b.radius.v[i] ) {
             return false;
         }
     }
@@ -134,6 +189,31 @@ GLK_INLINE RZXBox RZXBoxMake(GLKVector3 c, GLKVector3 r, GLKQuaternion q)
     RZXBox b = RZXBoxMakeAxisAligned(c, r);
     RZXBoxRotate(&b, q);
     return b;
+}
+
+#pragma mark - Hulls
+
+GLK_INLINE GLKVector3 RZXHullGetPoint(RZXHull h, unsigned int idx)
+{
+    const char *point = ((const char *)h.points) + idx * h.stride;
+    return *(GLKVector3 *)point;
+}
+
+GLK_INLINE GLKVector3 RZXHullSupport(RZXHull hull, GLKVector3 v)
+{
+    unsigned int idx = 0;
+    float maxDot = GLKVector3DotProduct(RZXHullGetPoint(hull, 0), v);
+
+    for ( unsigned int i = 1; i < hull.n; ++i ) {
+        float dot = GLKVector3DotProduct(RZXHullGetPoint(hull, i), v);
+
+        if ( dot > maxDot ) {
+            maxDot = dot;
+            idx = i;
+        }
+    }
+
+    return RZXHullGetPoint(hull, idx);
 }
 
 #endif
