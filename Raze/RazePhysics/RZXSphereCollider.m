@@ -10,6 +10,7 @@
 #import <RazePhysics/RZXCollider_Private.h>
 
 #import <RazePhysics/RZXBoxCollider.h>
+#import <RazePhysics/RZXMeshCollider.h>
 
 @implementation RZXSphereCollider {
     RZXSphere _untransformedSphere;
@@ -115,10 +116,13 @@
         float dist = GLKVector3Length(diff);
 
         if ( dist <= bounds.radius ) {
-
             contact = [[RZXContact alloc] init];
             contact.normal = GLKVector3DivideScalar(diff, dist);
         }
+    }
+    else if ( [other isKindOfClass:[RZXMeshCollider class]] ) {
+        contact = [other generateContact:self];
+        contact.normal = GLKVector3Negate(contact.normal);
     }
 
     return contact;

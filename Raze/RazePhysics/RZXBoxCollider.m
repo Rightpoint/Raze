@@ -10,6 +10,7 @@
 #import <RazePhysics/RZXCollider_Private.h>
 
 #import <RazePhysics/RZXSphereCollider.h>
+#import <RazePhysics/RZXMeshCollider.h>
 
 @implementation RZXBoxCollider {
     RZXBox _untransformedBox;
@@ -79,12 +80,7 @@
 
 - (RZXSphere)boundingSphere
 {
-    RZXBox box = self.boundingBox;
-
-    return (RZXSphere) {
-        .center = box.center,
-        .radius = MAX(box.radius.x, MAX(box.radius.y, box.radius.z))
-    };
+    return RZXBoxGetBoundingSphere(self.boundingBox);
 }
 
 - (RZXBox)boundingBox
@@ -116,6 +112,10 @@
         // TODO: compute correct normal and distance
     }
     else if ( [other isKindOfClass:[RZXSphereCollider class]] ) {
+        contact = [other generateContact:self];
+        contact.normal = GLKVector3Negate(contact.normal);
+    }
+    else if ( [other isKindOfClass:[RZXMeshCollider class]] ) {
         contact = [other generateContact:self];
         contact.normal = GLKVector3Negate(contact.normal);
     }

@@ -94,12 +94,18 @@ GLK_INLINE GLKVector3 RZXLineGetIntersection(RZXLine l1, RZXLine l2, float *t, f
 
 GLK_INLINE bool RZXSphereContainsPoint(RZXSphere s, GLKVector3 p)
 {
-    return (GLKVector3Distance(s.center, p) < s.radius);
+    return (GLKVector3Distance(s.center, p) <= s.radius);
 }
 
 GLK_INLINE bool RZXSphereIntersectsSphere(RZXSphere s1, RZXSphere s2)
 {
-    return GLKVector3Distance(s1.center, s2.center) <= (s1.radius + s2.radius);
+    GLKVector3 d = GLKVector3Subtract(s1.center, s2.center);
+
+    float d2 = d.x * d.x + d.y * d.y + d.z * d.z;
+    float r = (s1.radius + s2.radius);
+    float r2 = r * r;
+
+    return d2 <= r2;
 }
 
 #pragma mark - Boxes
@@ -138,6 +144,14 @@ GLK_INLINE GLKVector3 RZXBoxGetNearestPoint(RZXBox b, GLKVector3 p)
     }
 
     return nearest;
+}
+
+GLK_INLINE RZXSphere RZXBoxGetBoundingSphere(RZXBox box)
+{
+    return (RZXSphere) {
+        .center = box.center,
+        .radius = MAX(box.radius.x, MAX(box.radius.y, box.radius.z))
+    };
 }
 
 GLK_INLINE bool RZXBoxContainsPoint(RZXBox b, GLKVector3 p)
@@ -199,6 +213,35 @@ GLK_INLINE GLKVector3 RZXHullGetPoint(RZXHull h, unsigned int idx)
     return *(GLKVector3 *)point;
 }
 
+GLK_INLINE RZXBox RZXHullGetOBB(RZXHull hull)
+{
+    // TODO: this currently returns an AABB. Should return an OBB.
+
+    GLKVector3 min = RZXHullGetPoint(hull, 0);
+    GLKVector3 max = RZXHullGetPoint(hull, 0);
+
+    for ( unsigned int i = 1; i < hull.n; ++i ) {
+        GLKVector3 p = RZXHullGetPoint(hull, i);
+
+        min.x = MIN(min.x, p.x);
+        min.y = MIN(min.y, p.y);
+        min.z = MIN(min.z, p.z);
+
+        max.x = MAX(max.x, p.x);
+        max.y = MAX(max.y, p.y);
+        max.z = MAX(max.z, p.z);
+    }
+
+    GLKVector3 size = GLKVector3Subtract(max, min);
+    GLKVector3 radius = GLKVector3MultiplyScalar(size, 0.5f);
+
+    return RZXBoxMakeAxisAligned(GLKVector3Add(min, radius), radius);
+}
+
+GLK_EXTERN bool RZXHullContainsPoint(RZXHull hull, GLKVector3 p, GLKMatrix4 *transform);
+
+GLK_EXTERN bool RZXHullIntersectsSphere(RZXHull hull, RZXSphere sphere);
+GLK_EXTERN bool RZXHullIntersectsBox(RZXHull hull, RZXBox box);
 GLK_EXTERN bool RZXHullIntersectsHull(RZXHull h1, RZXHull h2);
 
 #endif

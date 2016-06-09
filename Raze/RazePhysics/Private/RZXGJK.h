@@ -14,14 +14,15 @@
 
 #include <RazePhysics/RZXGeometry.h>
 
-// cap the number of iterations to avoid rare ping-ponging due to floating point precision issues
+// Cap the number of iterations to avoid rare ping-ponging due to floating point precision issues
 static unsigned int kRZXGJKMaxIterations = 32;
 
+// Return the supporting point for normalized direction v.
 typedef GLKVector3 (^RZXGJKSupport)(GLKVector3 v);
 
 typedef struct _RZXGJK
 {
-    GLKVector3 v;       // current search direction
+    GLKVector3 v;       // current search direction (normalized)
     GLKVector3 sim[3];  // points in the simplex, ordered such that the origin is above the simplex
     unsigned int n;     // number of points in the current simplex
 } RZXGJK;
