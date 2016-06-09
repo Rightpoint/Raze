@@ -37,12 +37,13 @@ typedef NSData* (^RZXMeshDataProvider)(id mesh);
  *  Creates a new RZXMesh object.
  *
  *  @param name     The name of the .mesh file to load. The main bundle will be searched for a .mesh file with this name.
- *  @param useCache If YES, the mesh checks the cache for an existing VAO object before creating a new one. 
+ *
+ *  @note The mesh checks the cache for an existing VAO object before creating a new one.
  *  If none is found, a new object is created and then cached.
  *
  */
-+ (instancetype)meshWithName:(NSString *)name usingCache:(BOOL)useCache;
-- (instancetype)initWithName:(NSString *)name usingCache:(BOOL)useCache;
++ (instancetype)meshWithName:(NSString *)name;
+- (instancetype)initWithName:(NSString *)name;
 
 /**
  *  Initialize a new mesh with procedurally generated vertex and optional index data.

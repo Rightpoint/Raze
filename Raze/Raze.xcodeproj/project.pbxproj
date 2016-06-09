@@ -147,6 +147,11 @@
 		D4F1BCBC1CAF0112006B4717 /* RZXPhysicsBody.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F1BCBA1CAF0112006B4717 /* RZXPhysicsBody.m */; };
 		D4F244131D00A160001098D4 /* RZXContact.h in Headers */ = {isa = PBXBuildFile; fileRef = D4F244111D00A160001098D4 /* RZXContact.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4F244141D00A160001098D4 /* RZXContact.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F244121D00A160001098D4 /* RZXContact.m */; };
+		D4F49AF91D09AECF0027AA8E /* RZXGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F49AF71D09AECF0027AA8E /* RZXGeometry.m */; };
+		D4FBCE4C1D0897E00085CA28 /* RZXMeshCollider.h in Headers */ = {isa = PBXBuildFile; fileRef = D4FBCE4A1D0897E00085CA28 /* RZXMeshCollider.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D4FBCE4D1D0897E00085CA28 /* RZXMeshCollider.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FBCE4B1D0897E00085CA28 /* RZXMeshCollider.m */; };
+		D4FBCE4E1D0898340085CA28 /* RZXGJK.h in Headers */ = {isa = PBXBuildFile; fileRef = D4FBCE491D0897880085CA28 /* RZXGJK.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		D4FBCE571D08B9540085CA28 /* RZXGJK.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FBCE551D08B9540085CA28 /* RZXGJK.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -356,6 +361,11 @@
 		D4F1BCBA1CAF0112006B4717 /* RZXPhysicsBody.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXPhysicsBody.m; sourceTree = "<group>"; };
 		D4F244111D00A160001098D4 /* RZXContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXContact.h; sourceTree = "<group>"; };
 		D4F244121D00A160001098D4 /* RZXContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXContact.m; sourceTree = "<group>"; };
+		D4F49AF71D09AECF0027AA8E /* RZXGeometry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXGeometry.m; sourceTree = "<group>"; };
+		D4FBCE491D0897880085CA28 /* RZXGJK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RZXGJK.h; sourceTree = "<group>"; };
+		D4FBCE4A1D0897E00085CA28 /* RZXMeshCollider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXMeshCollider.h; sourceTree = "<group>"; };
+		D4FBCE4B1D0897E00085CA28 /* RZXMeshCollider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXMeshCollider.m; sourceTree = "<group>"; };
+		D4FBCE551D08B9540085CA28 /* RZXGJK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXGJK.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -483,6 +493,8 @@
 				D4C5B04A1C8A2C4100256957 /* RZXBoxCollider.m */,
 				D4C5B04D1C8A2C5000256957 /* RZXSphereCollider.h */,
 				D4C5B04E1C8A2C5000256957 /* RZXSphereCollider.m */,
+				D4FBCE4A1D0897E00085CA28 /* RZXMeshCollider.h */,
+				D4FBCE4B1D0897E00085CA28 /* RZXMeshCollider.m */,
 				D4F244111D00A160001098D4 /* RZXContact.h */,
 				D4F244121D00A160001098D4 /* RZXContact.m */,
 				D4C5B0511C8A2C9600256957 /* Private */,
@@ -497,6 +509,9 @@
 				D4C5B0531C8A2DCD00256957 /* RZXCollider_Private.h */,
 				D46EF0F71CF8CCE200FDDEF3 /* RZXPhysicsBody_Private.h */,
 				D401109B1C8A829F008B5DF7 /* RZXGeometry.h */,
+				D4F49AF71D09AECF0027AA8E /* RZXGeometry.m */,
+				D4FBCE491D0897880085CA28 /* RZXGJK.h */,
+				D4FBCE551D08B9540085CA28 /* RZXGJK.m */,
 			);
 			path = Private;
 			sourceTree = "<group>";
@@ -728,10 +743,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4C5B04B1C8A2C4100256957 /* RZXBoxCollider.h in Headers */,
+				D4FBCE4C1D0897E00085CA28 /* RZXMeshCollider.h in Headers */,
 				D401109D1C8A829F008B5DF7 /* RZXGeometry.h in Headers */,
 				D46EF0F81CF8CCE200FDDEF3 /* RZXPhysicsBody_Private.h in Headers */,
 				D4F1BCB21CAEF2B1006B4717 /* RZXPhysicsWorld.h in Headers */,
 				D4F1BCBB1CAF0112006B4717 /* RZXPhysicsBody.h in Headers */,
+				D4FBCE4E1D0898340085CA28 /* RZXGJK.h in Headers */,
 				D4C5B0401C8A2B4F00256957 /* RazePhysics.h in Headers */,
 				D4C5B04F1C8A2C5000256957 /* RZXSphereCollider.h in Headers */,
 				D4C5B0541C8A2DCD00256957 /* RZXCollider_Private.h in Headers */,
@@ -1177,8 +1194,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4C5B0501C8A2C5000256957 /* RZXSphereCollider.m in Sources */,
+				D4FBCE4D1D0897E00085CA28 /* RZXMeshCollider.m in Sources */,
+				D4FBCE571D08B9540085CA28 /* RZXGJK.m in Sources */,
 				D4C5B04C1C8A2C4100256957 /* RZXBoxCollider.m in Sources */,
 				D4F1BCBC1CAF0112006B4717 /* RZXPhysicsBody.m in Sources */,
+				D4F49AF91D09AECF0027AA8E /* RZXGeometry.m in Sources */,
 				D4F244141D00A160001098D4 /* RZXContact.m in Sources */,
 				D4C5B0481C8A2C1F00256957 /* RZXCollider.m in Sources */,
 				D4F1BCB31CAEF2B1006B4717 /* RZXPhysicsWorld.m in Sources */,

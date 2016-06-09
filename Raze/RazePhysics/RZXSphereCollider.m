@@ -10,8 +10,11 @@
 #import <RazePhysics/RZXCollider_Private.h>
 
 #import <RazePhysics/RZXBoxCollider.h>
+#import <RazePhysics/RZXMeshCollider.h>
 
-@implementation RZXSphereCollider
+@implementation RZXSphereCollider {
+    RZXSphere _untransformedSphere;
+}
 
 + (instancetype)colliderWithRadius:(float)radius
 {
@@ -31,11 +34,33 @@
 - (instancetype)initWithRadius:(float)radius center:(GLKVector3)center
 {
     if ( (self = [super init]) ) {
-        _radius = radius;
-        _center = center;
+        _untransformedSphere = (RZXSphere) {
+            .center = center,
+            .radius = radius
+        };
     }
 
     return self;
+}
+
+- (GLKVector3)center
+{
+    return _untransformedSphere.center;
+}
+
+- (float)radius
+{
+    return _untransformedSphere.radius;
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    RZXSphereCollider *copy = [super copyWithZone:zone];
+    copy->_untransformedSphere = _untransformedSphere;
+
+    return copy;
 }
 
 #pragma mark - private
@@ -47,8 +72,8 @@
     GLKVector3 scale = transform.scale;
 
     return (RZXSphere) {
-        .center = GLKVector3Add(_center, transform.translation),
-        .radius = _radius * MAX(scale.x, MAX(scale.y, scale.z))
+        .center = GLKVector3Add(_untransformedSphere.center, transform.translation),
+        .radius = _untransformedSphere.radius * MAX(scale.x, MAX(scale.y, scale.z))
     };
 }
 
@@ -91,10 +116,13 @@
         float dist = GLKVector3Length(diff);
 
         if ( dist <= bounds.radius ) {
-
             contact = [[RZXContact alloc] init];
             contact.normal = GLKVector3DivideScalar(diff, dist);
         }
+    }
+    else if ( [other isKindOfClass:[RZXMeshCollider class]] ) {
+        contact = [other generateContact:self];
+        contact.normal = GLKVector3Negate(contact.normal);
     }
 
     return contact;

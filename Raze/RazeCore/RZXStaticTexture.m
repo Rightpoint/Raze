@@ -11,21 +11,20 @@
 
 @interface RZXStaticTexture ()
 
-@property (assign, nonatomic) BOOL usingCache;
 @property (assign, nonatomic) BOOL usingMipmapping;
 
 @end
 
 @implementation RZXStaticTexture
 
-+ (instancetype)textureFromFile:(NSString *)fileName usingCache:(BOOL)useCache
++ (instancetype)textureFromFile:(NSString *)fileName
 {
-    return [[self alloc] initWithFileName:fileName useMipMapping:NO useCache:useCache];
+    return [[self alloc] initWithFileName:fileName useMipMapping:NO];
 }
 
-+ (instancetype)mipmappedTextureFromFile:(NSString *)fileName usingCache:(BOOL)useCache
++ (instancetype)mipmappedTextureFromFile:(NSString *)fileName
 {
-    return [[self alloc] initWithFileName:fileName useMipMapping:YES useCache:useCache];
+    return [[self alloc] initWithFileName:fileName useMipMapping:YES];
 }
 
 #pragma mark - RZXGPUObject overrides
@@ -34,7 +33,7 @@
 {
     RZXGPUObjectTeardownBlock teardown = nil;
 
-    RZXCache *cache = self.usingCache ? [self.configuredContext cacheForClass:[RZXStaticTexture class]] : nil;
+    RZXCache *cache = [self.configuredContext cacheForClass:[RZXStaticTexture class]];
     if ( cache[self.fileName] == nil ) {
         teardown = [super teardownHandler];
     }
@@ -49,22 +48,19 @@
 
 - (void)teardownGL
 {
-    if ( self.usingCache ) {
-        RZXCache *cache = [self.configuredContext cacheForClass:[RZXStaticTexture class]];
-        [cache releaseObjectForKey:self.fileName];
-    }
+    RZXCache *cache = [self.configuredContext cacheForClass:[RZXStaticTexture class]];
+    [cache releaseObjectForKey:self.fileName];
 
     [super teardownGL];
 }
 
 #pragma mark - private methods
 
-- (instancetype)initWithFileName:(NSString *)fileName useMipMapping:(BOOL)useMipMapping useCache:(BOOL)useCache
+- (instancetype)initWithFileName:(NSString *)fileName useMipMapping:(BOOL)useMipMapping
 {
     self = [super init];
     if (self) {
         _fileName = fileName;
-        _usingCache = useCache;
         _usingMipmapping = useMipMapping;
     }
     return self;
@@ -74,7 +70,7 @@
 {
     BOOL assigned = NO;
 
-    RZXCache *cache = self.usingCache ? [self.configuredContext cacheForClass:[RZXStaticTexture class]] : nil;
+    RZXCache *cache = [self.configuredContext cacheForClass:[RZXStaticTexture class]];
 
     GLKTextureInfo *cachedTextureInfo = cache[self.fileName];
 
@@ -108,11 +104,8 @@
             }
             else {
                 [self applyTextureInfo:textureInfo];
+                cache[self.fileName] = textureInfo;
 
-                if ( self.usingCache ) {
-                    cache[self.fileName] = textureInfo;
-                }
-                
                 assigned = YES;
             }
         }

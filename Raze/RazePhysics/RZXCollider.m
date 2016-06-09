@@ -13,14 +13,36 @@
 
 - (instancetype)init
 {
-    if ( self = [super init] ) {
+    if ( (self = [super init]) ) {
         _active = YES;
     }
 
     return self;
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    RZXCollider *copy = [[[self class] alloc] init];
+    copy->_active = _active;
+
+    return copy;
+}
+
 #pragma mark - private
+
+- (RZXBox)boundingBox
+{
+    [NSException raise:NSGenericException format:@"%@ is an abstract class. Please instantiate a concrete subclass instead", [self class]];
+    return (RZXBox){};
+}
+
+- (RZXSphere)boundingSphere
+{
+    [NSException raise:NSGenericException format:@"%@ is an abstract class. Please instantiate a concrete subclass instead", [self class]];
+    return (RZXSphere){};
+}
 
 - (BOOL)pointInside:(GLKVector3)point
 {

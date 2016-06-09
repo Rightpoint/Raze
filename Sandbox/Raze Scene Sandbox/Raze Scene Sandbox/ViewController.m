@@ -9,6 +9,8 @@
 #import "ViewController.h"
 #import "RZXViewNode.h"
 
+@import RazePhysics;
+
 @interface ViewController () <UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet RZXSceneView *sceneView;
@@ -38,20 +40,38 @@
     RZXScene *scene = [RZXScene sceneWithEffect: effect];
 
     float ratio = CGRectGetWidth(self.view.bounds) / CGRectGetHeight(self.view.bounds);
-    scene.camera = [RZXCamera cameraWithFieldOfView:GLKMathDegreesToRadians(35) aspectRatio:ratio nearClipping:0.001 farClipping:50];
-    [scene.camera.transform setTranslation:GLKVector3Make(0.0, 1.0, 3.9)];
+    scene.camera = [RZXCamera cameraWithFieldOfView:GLKMathDegreesToRadians(35) aspectRatio:ratio nearClipping:0.001 farClipping:100];
+    [scene.camera.transform setTranslation:GLKVector3Make(0.0, 5.0, 10.0)];
     [scene.camera.transform rotateXBy:-0.25];
 
     self.sceneView.scene = scene;
 
-    RZXMesh *officeMesh = [RZXMesh meshWithName:@"retroOffice" usingCache:YES];
-    RZXStaticTexture *officeTexture = [RZXStaticTexture textureFromFile:@"officeTexture.png" usingCache:YES];
+    RZXMesh *officeMesh = [RZXMesh meshWithName:@"retroOffice"];
+    RZXStaticTexture *officeTexture = [RZXStaticTexture textureFromFile:@"officeTexture.png"];
 
     RZXModelNode *officeNode = [RZXModelNode modelNodeWithMesh:officeMesh texture:officeTexture];
     [scene.rootNode addChild:officeNode];
+    [officeNode.transform setTranslation:GLKVector3Make(0.0f, 8.0, -8.0)];
     self.officeNode = officeNode;
 
-    RZXMesh *screenMesh = [RZXMesh meshWithName:@"officeScreen" usingCache:YES];
+    officeNode.physicsBody = [RZXPhysicsBody bodyWithCollider:[RZXSphereCollider colliderWithRadius:1.0]];
+    officeNode.physicsBody.restitution = 0.3f;
+
+    RZXStaticTexture *greyTex = [RZXStaticTexture textureFromFile:@"greyTexture.png"];
+    RZXModelNode *quad = [RZXModelNode modelNodeWithMesh:[RZXQuadMesh quad] texture:greyTex];
+
+    quad.physicsBody = [RZXPhysicsBody bodyWithCollider:[RZXBoxCollider colliderWithSize:GLKVector3Make(1.0, 1.0, 0.1)]];
+//    quad.physicsBody.affectedByGravity = NO;
+    quad.physicsBody.dynamic = NO;
+    quad.physicsBody.restitution = 0.3f;
+
+    [quad.transform setTranslation:GLKVector3Make(0.0, -2.0, 0.0)];
+    [quad.transform setScale:GLKVector3Make(50.0, 50.0, 1.0)];
+    [quad.transform rotateXBy:-M_PI_2];
+
+    [scene.rootNode addChild:quad];
+
+    RZXMesh *screenMesh = [RZXMesh meshWithName:@"officeScreen"];
     RZXViewNode *screenNode = [RZXViewNode nodeWithView:self.tableView.superview];
     screenNode.mesh = screenMesh;
     [officeNode addChild:screenNode];
