@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D4D00E191AE14CB900D007E4"
-               BuildableName = "RazeCoreTests.xctest"
-               BlueprintName = "RazeCoreTests"
+               BlueprintIdentifier = "00250CE51D09B11200DFD96D"
+               BuildableName = "RazeTests.xctest"
+               BlueprintName = "RazeTests"
                ReferencedContainer = "container:Raze.xcodeproj">
             </BuildableReference>
          </TestableReference>

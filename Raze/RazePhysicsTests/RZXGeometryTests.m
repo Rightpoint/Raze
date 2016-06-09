@@ -56,7 +56,7 @@
 
     //test overflow
     sphere.center = GLKVector3Make(FLT_MAX, FLT_MAX, FLT_MAX);
-    sphere.radius = FLT_MAX;
+	sphere.radius = INFINITY;
     point = GLKVector3Make(FLT_MAX, FLT_MAX, FLT_MAX);
     XCTAssert(RZXSphereContainsPoint(sphere, point));
 
@@ -207,7 +207,6 @@
     //identity
     RZXBoxScale(&box, scale);
     XCTAssert(GLKVector3AllEqualToVector3(box.radius, expectedRadius));
-
 
     scale = GLKVector3Make(1, 2, 3);
     expectedRadius = GLKVector3Make(1, 2, 3);
