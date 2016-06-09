@@ -54,8 +54,16 @@ bool RZXHullIntersectsSphere(RZXHull hull, RZXSphere sphere)
 
 bool RZXHullIntersectsBox(RZXHull hull, RZXBox box)
 {
-    // TODO
-    return false;
+    GLKVector3 corners[8];
+    RZXBoxGetCorners(box, corners);
+
+    RZXHull boxHull = (RZXHull){
+        .points = (const void *)corners,
+        .n = 8,
+        .stride = sizeof(GLKVector3)
+    };
+
+    return RZXHullIntersectsHull(hull, boxHull);
 }
 
 bool RZXHullIntersectsHull(RZXHull h1, RZXHull h2)

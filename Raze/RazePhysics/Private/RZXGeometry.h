@@ -128,6 +128,24 @@ GLK_INLINE GLKQuaternion RZXBoxGetRotation(RZXBox b)
     return GLKQuaternionMakeWithMatrix3(mat);
 }
 
+GLK_INLINE void RZXBoxGetCorners(RZXBox b, GLKVector3 *corners)
+{
+    GLKVector3 c = b.center;
+    GLKVector3 r = b.radius;
+
+    // front
+    corners[0] = GLKVector3Make(c.x + r.x, c.y - r.y, c.z + r.z);
+    corners[1] = GLKVector3Make(c.x + r.x, c.y + r.y, c.z + r.z);
+    corners[2] = GLKVector3Make(c.x - r.x, c.y + r.y, c.z + r.z);
+    corners[3] = GLKVector3Make(c.x - r.x, c.y - r.y, c.z + r.z);
+
+    //back
+    corners[4] = GLKVector3Make(c.x + r.x, c.y - r.y, c.z - r.z);
+    corners[5] = GLKVector3Make(c.x + r.x, c.y + r.y, c.z - r.z);
+    corners[6] = GLKVector3Make(c.x - r.x, c.y + r.y, c.z - r.z);
+    corners[7] = GLKVector3Make(c.x - r.x, c.y - r.y, c.z - r.z);
+}
+
 GLK_INLINE GLKVector3 RZXBoxGetNearestPoint(RZXBox b, GLKVector3 p)
 {
     // From Christer Ericson's Real-Time Collision Detection, p.133.
