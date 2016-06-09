@@ -65,6 +65,16 @@
     return RZXBoxGetRotation(_untransformedBox);
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    RZXBoxCollider *copy = [super copyWithZone:zone];
+    copy->_untransformedBox = _untransformedBox;
+
+    return copy;
+}
+
 #pragma mark - private
 
 - (RZXSphere)boundingSphere

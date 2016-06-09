@@ -14,8 +14,8 @@
  */
 @interface RZXSphereCollider : RZXCollider
 
-@property (nonatomic, readonly) float radius;
 @property (nonatomic, readonly) GLKVector3 center;
+@property (nonatomic, readonly) float radius;
 
 + (instancetype)colliderWithRadius:(float)radius;
 + (instancetype)colliderWithRadius:(float)radius center:(GLKVector3)center;

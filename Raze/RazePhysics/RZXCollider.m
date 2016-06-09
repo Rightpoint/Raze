@@ -20,6 +20,16 @@
     return self;
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    RZXCollider *copy = [[[self class] alloc] init];
+    copy->_active = _active;
+
+    return copy;
+}
+
 #pragma mark - private
 
 - (RZXBox)boundingBox
