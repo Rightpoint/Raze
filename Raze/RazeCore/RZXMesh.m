@@ -25,8 +25,6 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 
 @property (copy, nonatomic) NSArray *vertexAttributes;
 
-@property (assign, nonatomic) BOOL useCache;
-
 @end
 
 @implementation RZXMesh {
@@ -36,16 +34,15 @@ NSString* const kRZXMeshFileExtension = @"mesh";
     GLuint _vertexCount;
 }
 
-+ (instancetype)meshWithName:(NSString *)name usingCache:(BOOL)useCache
++ (instancetype)meshWithName:(NSString *)name
 {
-    return [[self alloc] initWithName:name usingCache:useCache];
+    return [[self alloc] initWithName:name];
 }
 
-- (instancetype)initWithName:(NSString *)name usingCache:(BOOL)useCache
+- (instancetype)initWithName:(NSString *)name
 {
     if ( (self = [super init]) ) {
         self.meshName = [name stringByDeletingPathExtension];
-        self.useCache = useCache;
         self.renderMode = GL_TRIANGLES;
 
         self.vertexAttributes = @[ [RZXVertexAttribute attributeWithIndex:kRZXVertexAttribPosition count:3],
@@ -59,7 +56,6 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 - (instancetype)initWithVertexProvider:(RZXMeshDataProvider)vertexProvider indexProvider:(RZXMeshDataProvider)indexProvider attributes:(NSArray *)vertexAttributes
 {
     if ( (self = [super init]) ) {
-        self.useCache = YES;
         self.renderMode = GL_TRIANGLES;
         self.vertexProvider = vertexProvider;
         self.indexProvider = indexProvider;
@@ -80,7 +76,7 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 {
     RZXGPUObjectTeardownBlock teardown = nil;
 
-    RZXCache *cache = self.useCache ? [self.configuredContext cacheForClass:[RZXMesh class]] : nil;
+    RZXCache *cache = [self.configuredContext cacheForClass:[RZXMesh class]];
 
     if ( cache[self.cacheKey] == nil ) {
         GLuint vao = _vao;
@@ -99,7 +95,7 @@ NSString* const kRZXMeshFileExtension = @"mesh";
     BOOL setup = [super setupGL];
 
     if ( setup ) {
-        RZXCache *cache = self.useCache ? [self.configuredContext cacheForClass:[RZXMesh class]] : nil;
+        RZXCache *cache = [self.configuredContext cacheForClass:[RZXMesh class]];
 
         NSString *cacheKey = self.cacheKey;
         NSDictionary *cachedAttributes = cache[cacheKey];
@@ -116,7 +112,7 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 
             setup = [self setupWithVertexProvider:vertexProvider indexProvider:indexProvider];
 
-            if ( setup && self.useCache ) {
+            if ( setup ) {
                 cache[cacheKey] = [self cacheAttributes];
             }
         }
@@ -146,10 +142,8 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 
 - (void)teardownGL
 {
-    if ( self.useCache ) {
-        RZXCache *cache = [self.configuredContext cacheForClass:[RZXMesh class]];
-        [cache releaseObjectForKey:self.cacheKey];
-    }
+    RZXCache *cache = [self.configuredContext cacheForClass:[RZXMesh class]];
+    [cache releaseObjectForKey:self.cacheKey];
 
     _vao = 0;
     _bufferSet.vbo = 0;
