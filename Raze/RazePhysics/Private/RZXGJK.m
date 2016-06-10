@@ -29,7 +29,7 @@ GLK_INLINE GLKVector3 RZXVector3CrossABA(GLKVector3 a, GLKVector3 b)
     return GLKVector3CrossProduct(GLKVector3CrossProduct(a, b), a);
 }
 
-GLK_INLINE bool RZXGJKUpdateEdge(RZXGJK *gjk, GLKVector3 edge, RZXGJKSupport s)
+GLK_INLINE void RZXGJKUpdateEdge(RZXGJK *gjk, GLKVector3 edge, RZXGJKSupport s)
 {
     gjk->sim[0] = s;
 
@@ -37,11 +37,9 @@ GLK_INLINE bool RZXGJKUpdateEdge(RZXGJK *gjk, GLKVector3 edge, RZXGJKSupport s)
     gjk->v = GLKVector3Normalize(RZXVector3CrossABA(edge, GLKVector3Negate(s.p)));
 
     gjk->n = 2;
-
-    return false;
 }
 
-GLK_INLINE bool RZXGJKUpdateEdgeCCW(RZXGJK *gjk, GLKVector3 edge, RZXGJKSupport s)
+GLK_INLINE void RZXGJKUpdateEdgeCCW(RZXGJK *gjk, GLKVector3 edge, RZXGJKSupport s)
 {
     gjk->sim[1] = gjk->sim[0];
     gjk->sim[0] = s;
@@ -50,11 +48,9 @@ GLK_INLINE bool RZXGJKUpdateEdgeCCW(RZXGJK *gjk, GLKVector3 edge, RZXGJKSupport 
     gjk->v = GLKVector3Normalize(RZXVector3CrossABA(edge, GLKVector3Negate(s.p)));
 
     gjk->n = 2;
-
-    return false;
 }
 
-GLK_INLINE bool RZXGJKUpdateTriangle(RZXGJK *gjk, GLKVector3 normal, RZXGJKSupport s)
+GLK_INLINE void RZXGJKUpdateTriangle(RZXGJK *gjk, GLKVector3 normal, RZXGJKSupport s)
 {
     if ( GLKVector3DotProduct(normal, s.p) < 0.0f ) {
         gjk->sim[2] = gjk->sim[0];
@@ -73,54 +69,53 @@ GLK_INLINE bool RZXGJKUpdateTriangle(RZXGJK *gjk, GLKVector3 normal, RZXGJKSuppo
     }
     
     gjk->n = 3;
-
-    return false;
 }
 
-GLK_INLINE bool RZXGJKUpdateFace(RZXGJK *gjk, GLKVector3 e1, GLKVector3 e2, GLKVector3 normal, RZXGJKSupport s)
+GLK_INLINE void RZXGJKUpdateFace(RZXGJK *gjk, GLKVector3 e1, GLKVector3 e2, GLKVector3 normal, RZXGJKSupport s)
 {
     // check if origin is outside the face, nearest to e1
     if ( GLKVector3DotProduct(GLKVector3CrossProduct(e1, normal), s.p) < 0.0f ) {
-        return RZXGJKUpdateEdgeCCW(gjk, e1, s);
+        RZXGJKUpdateEdgeCCW(gjk, e1, s);
     }
 
     // check if origin is outside the face, nearest to e2
-    if ( GLKVector3DotProduct(GLKVector3CrossProduct(normal, e2), s.p) < 0.0f ) {
-        return RZXGJKUpdateEdge(gjk, e2, s);
+    else if ( GLKVector3DotProduct(GLKVector3CrossProduct(normal, e2), s.p) < 0.0f ) {
+        RZXGJKUpdateEdge(gjk, e2, s);
     }
 
-    // else, origin must be within the prism formed by extending the face along its normal
-
-    return RZXGJKUpdateTriangle(gjk, normal, s);
+    // origin must be within the prism formed by extending the face along its normal
+    else {
+        RZXGJKUpdateTriangle(gjk, normal, s);
+    }
 }
 
-GLK_INLINE bool RZXGJKUpdateFaceSelect(RZXGJK *gjk, GLKVector3 e1, GLKVector3 e2, GLKVector3 e3, GLKVector3 n1, GLKVector3 n2, RZXGJKSupport s)
+GLK_INLINE void RZXGJKUpdateFaceSelect(RZXGJK *gjk, GLKVector3 e1, GLKVector3 e2, GLKVector3 e3, GLKVector3 n1, GLKVector3 n2, RZXGJKSupport s)
 {
     if ( GLKVector3DotProduct(GLKVector3CrossProduct(n1, e2), s.p) < 0.0f ) {
         // rotate points
         gjk->sim[0] = gjk->sim[1];
         gjk->sim[1] = gjk->sim[2];
 
-        return RZXGJKUpdateFace(gjk, e2, e3, n2, s);
+        RZXGJKUpdateFace(gjk, e2, e3, n2, s);
     }
+    else {
+        RZXGJKUpdateTriangle(gjk, n1, s);
 
-    return RZXGJKUpdateTriangle(gjk, n1, s);
+    }
 }
 
 #pragma mark - Update
 
-GLK_INLINE bool RZXGJKUpdate0(RZXGJK *gjk, RZXGJKSupport s)
+GLK_INLINE void RZXGJKUpdate0(RZXGJK *gjk, RZXGJKSupport s)
 {
     gjk->sim[0] = s;
     ++gjk->n;
 
     // point directly towards the origin next
     gjk->v = GLKVector3Normalize(GLKVector3Negate(s.p));
-
-    return false;
 }
 
-GLK_INLINE bool RZXGJKUpdate1(RZXGJK *gjk, RZXGJKSupport s)
+GLK_INLINE void RZXGJKUpdate1(RZXGJK *gjk, RZXGJKSupport s)
 {
     gjk->sim[1] = gjk->sim[0];
     gjk->sim[0] = s;
@@ -129,11 +124,9 @@ GLK_INLINE bool RZXGJKUpdate1(RZXGJK *gjk, RZXGJKSupport s)
     // next direction points towards origin and is perpendicular to the line segment
     GLKVector3 diff = GLKVector3Subtract(gjk->sim[1].p, s.p);
     gjk->v = GLKVector3Normalize(RZXVector3CrossABA(diff, GLKVector3Negate(s.p)));
-
-    return false;
 }
 
-GLK_INLINE bool RZXGJKUpdate2(RZXGJK *gjk, RZXGJKSupport s)
+GLK_INLINE void RZXGJKUpdate2(RZXGJK *gjk, RZXGJKSupport s)
 {
     // edges of the triangle
     GLKVector3 e1 = GLKVector3Subtract(gjk->sim[0].p, s.p);
@@ -142,10 +135,10 @@ GLK_INLINE bool RZXGJKUpdate2(RZXGJK *gjk, RZXGJKSupport s)
     // normal of the triangle
     GLKVector3 normal = GLKVector3CrossProduct(e1, e2);
 
-    return RZXGJKUpdateFace(gjk, e1, e2, normal, s);
+    RZXGJKUpdateFace(gjk, e1, e2, normal, s);
 }
 
-GLK_INLINE bool RZXGJKUpdate3(RZXGJK *gjk, RZXGJKSupport s)
+GLK_INLINE void RZXGJKUpdate3(RZXGJK *gjk, RZXGJKSupport s)
 {
     // triangle edges
     GLKVector3 edges[3];
@@ -171,16 +164,18 @@ GLK_INLINE bool RZXGJKUpdate3(RZXGJK *gjk, RZXGJKSupport s)
     }
 
     switch ( aboveFaces ) {
-        // origin is within the tetrahedron, report intersection
+        // origin is within the tetrahedron (intersection)
+        // construct the final simplex
         case RZXGJKFaceNone: {
             gjk->sim[3] = s;
             gjk->n = 4;
-            return true;
+            break;
         }
 
         // origin is above only the plane formed by e0 x e1
         case RZXGJKFace0: {
-            return RZXGJKUpdateFace(gjk, edges[0], edges[1], normals[0], s);
+            RZXGJKUpdateFace(gjk, edges[0], edges[1], normals[0], s);
+            break;
         }
 
         // origin is above only the plane formed by e1 x e2
@@ -189,7 +184,8 @@ GLK_INLINE bool RZXGJKUpdate3(RZXGJK *gjk, RZXGJKSupport s)
             gjk->sim[0] = gjk->sim[1];
             gjk->sim[1] = gjk->sim[2];
 
-            return RZXGJKUpdateFace(gjk, edges[1], edges[2], normals[1], s);
+            RZXGJKUpdateFace(gjk, edges[1], edges[2], normals[1], s);
+            break;
         }
 
         // origin is above only the plane formed by e2 x e0
@@ -198,12 +194,14 @@ GLK_INLINE bool RZXGJKUpdate3(RZXGJK *gjk, RZXGJKSupport s)
             gjk->sim[1] = gjk->sim[0];
             gjk->sim[0] = gjk->sim[2];
 
-            return RZXGJKUpdateFace(gjk, edges[2], edges[0], normals[2], s);
+            RZXGJKUpdateFace(gjk, edges[2], edges[0], normals[2], s);
+            break;
         }
 
         // origin is above both e0 x e1 and e1 x e2
         case RZXGJKFace01: {
-            return RZXGJKUpdateFaceSelect(gjk, edges[0], edges[1], edges[2], normals[0], normals[1], s);
+            RZXGJKUpdateFaceSelect(gjk, edges[0], edges[1], edges[2], normals[0], normals[1], s);
+            break;
         }
 
         // origin is above both e1 x e2 and e2 x e0
@@ -214,7 +212,8 @@ GLK_INLINE bool RZXGJKUpdate3(RZXGJK *gjk, RZXGJKSupport s)
             gjk->sim[1] = gjk->sim[2];
             gjk->sim[2] = tmp;
 
-            return RZXGJKUpdateFaceSelect(gjk, edges[1], edges[2], edges[0], normals[1], normals[2], s);
+            RZXGJKUpdateFaceSelect(gjk, edges[1], edges[2], edges[0], normals[1], normals[2], s);
+            break;
         }
 
         // origin is above both e2 x e0 and e0 x e1
@@ -225,32 +224,29 @@ GLK_INLINE bool RZXGJKUpdate3(RZXGJK *gjk, RZXGJKSupport s)
             gjk->sim[0] = gjk->sim[2];
             gjk->sim[2] = tmp;
 
-            return RZXGJKUpdateFaceSelect(gjk, edges[2], edges[0], edges[1], normals[2], normals[0], s);
+            RZXGJKUpdateFaceSelect(gjk, edges[2], edges[0], edges[1], normals[2], normals[0], s);
+            break;
         }
-    }
 
-    // somehow created a degenerate simplex
-    NSCAssert(false, @"RZXGJK encounted degenerate simplex.");
-    return false;
+        // somehow created a degenerate simplex
+        default:
+            NSCAssert(false, @"RZXGJK encounted degenerate simplex.");
+    }
 }
 
-bool RZXGJKUpdate(RZXGJK *gjk, RZXGJKSupport s)
+void RZXGJKUpdate(RZXGJK *gjk, RZXGJKSupport s)
 {
-    if ( GLKVector3AllEqualToVector3(s.p, RZXVector3Zero) ) {
-        // if point is the origin, we're done (intersection found)
-        return true;
-    }
-
     switch ( gjk->n ) {
-        case 0: return RZXGJKUpdate0(gjk, s);
-        case 1: return RZXGJKUpdate1(gjk, s);
-        case 2: return RZXGJKUpdate2(gjk, s);
-        case 3: return RZXGJKUpdate3(gjk, s);
-    }
+        case 0: RZXGJKUpdate0(gjk, s); break;
+        case 1: RZXGJKUpdate1(gjk, s); break;
+        case 2: RZXGJKUpdate2(gjk, s); break;
+        case 3: RZXGJKUpdate3(gjk, s); break;
 
-    // something went wrong
-    NSCAssert(false, @"RZXGJK encounted unexpected number of simplex points before update (%i).", gjk->n);
-    return false;
+        // something went wrong
+        default: {
+            NSCAssert(false, @"RZXGJK encounted unexpected number of simplex points before update (%i).", gjk->n);
+        }
+    }
 }
 
 bool RZXGJKIntersection(RZXGJK *gjk, RZXGJKSupportMapping support)
@@ -263,12 +259,14 @@ bool RZXGJKIntersection(RZXGJK *gjk, RZXGJKSupportMapping support)
             return false;
         }
 
-        if ( RZXGJKUpdate(gjk, next) ) {
-            // the resulting simplex contained the origin, therefore there is an intersection
+        RZXGJKUpdate(gjk, next);
+
+        if ( gjk->n == 4 ) {
+            // the resulting simplex contains the origin
             return true;
         }
     }
 
-    // out of iterations, report an intersection (which is probably true)
-    return true;
+    // out of iterations (extremely rare case, often due to poor support mappings)
+    return false;
 }

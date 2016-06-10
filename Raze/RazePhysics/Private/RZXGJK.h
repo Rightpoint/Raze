@@ -14,14 +14,14 @@
 
 #include <RazePhysics/RZXGeometry.h>
 
-// Cap the number of iterations to avoid rare ping-ponging due to floating point precision issues
-static unsigned int kRZXGJKMaxIterations = 32;
+// Cap the number of iterations to avoid rare ping-ponging scenarios
+static unsigned int kRZXGJKMaxIterations = 64;
 
 typedef struct _RZXGJKSupport {
     GLKVector3 p;   // support point of the Minkowski difference
 
     GLKVector3 s;   // support point of the first polytope
-    // NOTE: the support point of the second polytope can be derived from p and s if needed
+                    // NOTE: the support point of the second polytope can be derived from p and s if needed
 } RZXGJKSupport;
 
 typedef struct _RZXGJK {
@@ -41,7 +41,7 @@ GLK_INLINE RZXGJK RZXGJKStart()
     };
 }
 
-GLK_EXTERN bool RZXGJKUpdate(RZXGJK *gjk, RZXGJKSupport s);
+GLK_EXTERN void RZXGJKUpdate(RZXGJK *gjk, RZXGJKSupport s);
 
 // Returns whether an intersection was found.
 // If `true`, then gjk->sim will contain the simplex enclosing the origin.
