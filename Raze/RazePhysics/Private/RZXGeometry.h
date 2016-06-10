@@ -223,6 +223,8 @@ GLK_INLINE RZXBox RZXBoxMake(GLKVector3 c, GLKVector3 r, GLKQuaternion q)
     return b;
 }
 
+GLK_EXTERN bool RZXBoxIntersectsBox(RZXBox b1, RZXBox b2);
+
 #pragma mark - Hulls
 
 GLK_INLINE GLKVector3 RZXHullGetPoint(RZXHull h, unsigned int idx)
