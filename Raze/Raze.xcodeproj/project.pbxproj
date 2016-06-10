@@ -155,13 +155,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		00250CEC1D09B11200DFD96D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D4D00E041AE14C9300D007E4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D4D00E0E1AE14CB900D007E4;
-			remoteInfo = RazeCore;
-		};
 		8A63B4291AF3DFAE00E86B66 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D4D00E041AE14C9300D007E4 /* Project object */;
@@ -226,6 +219,13 @@
 			remoteInfo = RazeCore;
 		};
 		D4F1BCAE1CAEF284006B4717 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4D00E041AE14C9300D007E4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D4C5B03C1C8A2B4F00256957;
+			remoteInfo = RazePhysics;
+		};
+		D4F49B071D0B0D390027AA8E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D4D00E041AE14C9300D007E4 /* Project object */;
 			proxyType = 1;
@@ -834,7 +834,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				00250CED1D09B11200DFD96D /* PBXTargetDependency */,
+				D4F49B081D0B0D390027AA8E /* PBXTargetDependency */,
 			);
 			name = RazeTests;
 			productName = RazeCoreTests;
@@ -1262,11 +1262,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		00250CED1D09B11200DFD96D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D4D00E0E1AE14CB900D007E4 /* RazeCore */;
-			targetProxy = 00250CEC1D09B11200DFD96D /* PBXContainerItemProxy */;
-		};
 		8A63B42A1AF3DFAE00E86B66 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D4D00E0E1AE14CB900D007E4 /* RazeCore */;
@@ -1316,6 +1311,11 @@
 			isa = PBXTargetDependency;
 			target = D4C5B03C1C8A2B4F00256957 /* RazePhysics */;
 			targetProxy = D4F1BCAE1CAEF284006B4717 /* PBXContainerItemProxy */;
+		};
+		D4F49B081D0B0D390027AA8E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D4C5B03C1C8A2B4F00256957 /* RazePhysics */;
+			targetProxy = D4F49B071D0B0D390027AA8E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

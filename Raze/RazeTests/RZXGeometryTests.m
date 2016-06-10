@@ -9,6 +9,8 @@
 #import <XCTest/XCTest.h>
 #import "RZXGeometry.h"
 
+@import RazePhysics;
+
 @interface RazeGeometryTests : XCTestCase
 
 @end
@@ -229,7 +231,30 @@
 }
 
 - (void)testRZXBoxIntersection {
-    
+    RZXBox b1 = RZXBoxMakeAxisAligned(RZXVector3Zero, GLKVector3Make(1.0f, 1.0f, 1.0f));
+    RZXBox b2 = RZXBoxMakeAxisAligned(GLKVector3Make(0.5f, 0.5f, 0.5f), GLKVector3Make(1.0f, 1.0f, 1.0f));
+
+    // simple intersection
+    XCTAssert(RZXBoxIntersectsBox(b1, b2));
+
+    // single point intersection (corner)
+    b2.center = GLKVector3Make(2.0f, 2.0f, 2.0f);
+    XCTAssert(RZXBoxIntersectsBox(b1, b2));
+
+    // no intersection
+    b2.center = GLKVector3Make(3.0f, 3.0f, 3.0f);
+    XCTAssertFalse(RZXBoxIntersectsBox(b1, b2));
+
+    // introduce rotation
+    GLKVector3 axis = GLKVector3Normalize(GLKVector3Make(1.0f, 1.0f, 1.0f));
+    RZXBoxRotate(&b1, GLKQuaternionMakeWithAngleAndVector3Axis(M_PI_4, axis));
+    RZXBoxRotate(&b2, GLKQuaternionMakeWithAngleAndVector3Axis(-0.5f * M_PI_4, axis));
+    RZXBoxScale(&b1, GLKVector3Make(2.0f, 2.0f, 2.0f));
+    XCTAssert(RZXBoxIntersectsBox(b1, b2));
+
+    // no intersection w/ rotation
+    b2.center = GLKVector3Make(5.0f, 5.0f, 5.0f);
+    XCTAssertFalse(RZXBoxIntersectsBox(b1, b2));
 }
 
 
