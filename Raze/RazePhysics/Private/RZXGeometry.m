@@ -87,7 +87,7 @@ bool RZXHullIntersectsHull(RZXHull h1, RZXHull h2)
 {
     RZXGJKSupportMapping support = ^RZXGJKSupport (GLKVector3 v) {
         GLKVector3 s1 = RZXHullSupport(h1, v);
-        GLKVector3 s2 = RZXHullSupport(h2, v);
+        GLKVector3 s2 = RZXHullSupport(h2, GLKVector3Negate(v));
 
         // S(v⃗) = S1(v⃗) − S2(−v⃗)
         return (RZXGJKSupport){ .p = GLKVector3Subtract(s1, s2), .s = s1 };

@@ -12,10 +12,30 @@
 
 @interface RZXPhysicsBody : NSObject
 
+/**
+ *  An identifier for use by your application.
+ */
+@property (copy, nonatomic) NSString *name;
+
 @property (strong, nonatomic) id<RZXPhysicsObject> representedObject;
 @property (strong, nonatomic) RZXCollider *collider;
 
+/**
+ *  The physics world that the body exists in.
+ */
 @property (weak, nonatomic, readonly) RZXPhysicsWorld *world;
+
+/**
+ *  The category mask used when testing whether two bodies should collide.
+ *  Default is 0xFFFF.
+ */
+@property (assign, nonatomic) uint32_t categoryMask;
+
+/**
+ *  The body colides with another body when other.categoryMask bitwise and-ed with the collisionMask is non-zero.
+ *  Default is 0xFFFF, meaning the body will collide with everything.
+ */
+@property (assign, nonatomic) uint32_t collisionMask;
 
 /**
  *  Mass of the body. 
@@ -44,6 +64,11 @@
  *  Whether the body should be affected by gravitional force. Default is YES.
  */
 @property (assign, nonatomic, getter=isAffectedByGravity) BOOL affectedByGravity;
+
+/**
+ *  The set of bodies currently in contact with the receiver.
+ */
+@property (nonatomic, readonly) NSSet *contactedBodies;
 
 + (instancetype)bodyWithCollider:(RZXCollider *)collider;
 - (instancetype)initWithCollider:(RZXCollider *)collider;
