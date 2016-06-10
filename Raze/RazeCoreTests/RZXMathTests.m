@@ -66,9 +66,9 @@
 					RZXQuaternionGetEulerAngles(original, &a, &b, &c);
 					GLKQuaternion converted = GLKQuaternionNormalize(RZXQuaternionMakeEuler(a, b, c));
 
-					XCTAssertEqualWithAccuracy(original.x, converted.x, ACCURACY, "failed when x = %f, rad = %f",x,rad);
-					XCTAssertEqualWithAccuracy(original.y, converted.y, ACCURACY, "failed when y = %f, rad = %f",y,rad);
-					XCTAssertEqualWithAccuracy(original.z, converted.z, ACCURACY, "failed when z = %f, rad = %f",z,rad);
+					XCTAssertEqualWithAccuracy(original.x, converted.x, ACCURACY);
+					XCTAssertEqualWithAccuracy(original.y, converted.y, ACCURACY);
+					XCTAssertEqualWithAccuracy(original.z, converted.z, ACCURACY);
 					XCTAssertEqualWithAccuracy(original.w, converted.w, ACCURACY);
 				}
 			}
