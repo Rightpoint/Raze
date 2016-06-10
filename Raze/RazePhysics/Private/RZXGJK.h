@@ -14,9 +14,6 @@
 
 #include <RazePhysics/RZXGeometry.h>
 
-// Cap the number of iterations to avoid rare ping-ponging scenarios
-static unsigned int kRZXGJKMaxIterations = 64;
-
 typedef struct _RZXGJKSupport {
     GLKVector3 p;   // support point of the Minkowski difference
 
@@ -33,7 +30,7 @@ typedef struct _RZXGJK {
 // Return the supporting point for normalized direction v.
 typedef RZXGJKSupport (^RZXGJKSupportMapping)(GLKVector3 v);
 
-GLK_INLINE RZXGJK RZXGJKStart()
+GLK_INLINE RZXGJK RZXGJKStart(void)
 {
     return (RZXGJK) {
         .v = GLKVector3Make(1.0f, 0.0f, 0.0f), // arbitrary starting vector
@@ -46,5 +43,9 @@ GLK_EXTERN void RZXGJKUpdate(RZXGJK *gjk, RZXGJKSupport s);
 // Returns whether an intersection was found.
 // If `true`, then gjk->sim will contain the simplex enclosing the origin.
 GLK_EXTERN bool RZXGJKIntersection(RZXGJK *gjk, RZXGJKSupportMapping support);
+
+// Returns the contact normal of the intersection using the EPA algorithm.
+// gjk should contain a tetrahedron simplex (gjk->n = 4)
+GLK_EXTERN bool RZXGJKGetContactData(const RZXGJK *gjk, RZXGJKSupportMapping support, RZXContactData *data);
 
 #endif

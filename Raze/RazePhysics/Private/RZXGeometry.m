@@ -40,7 +40,7 @@ GLK_INLINE GLKVector3 RZXHullSupport(RZXHull hull, GLKVector3 v)
     return RZXHullGetPoint(hull, idx);
 }
 
-bool RZXBoxIntersectsBox(RZXBox b1, RZXBox b2)
+bool RZXBoxIntersectsBox(RZXBox b1, RZXBox b2, RZXContactData *data)
 {
     GLKVector3 corners[8];
     RZXBoxGetCorners(b1, corners);
@@ -51,10 +51,10 @@ bool RZXBoxIntersectsBox(RZXBox b1, RZXBox b2)
         .stride = sizeof(GLKVector3)
     };
 
-    return RZXHullIntersectsBox(boxHull, b2);
+    return RZXHullIntersectsBox(boxHull, b2, data);
 }
 
-bool RZXHullIntersectsSphere(RZXHull hull, RZXSphere sphere)
+bool RZXHullIntersectsSphere(RZXHull hull, RZXSphere sphere, RZXContactData *data)
 {
     RZXGJKSupportMapping support = ^RZXGJKSupport (GLKVector3 v) {
         GLKVector3 s1 = RZXHullSupport(hull, v);
@@ -66,10 +66,13 @@ bool RZXHullIntersectsSphere(RZXHull hull, RZXSphere sphere)
 
     RZXGJK gjk = RZXGJKStart();
 
-    return RZXGJKIntersection(&gjk, support);
+    if ( RZXGJKIntersection(&gjk, support) ) {
+        return RZXGJKGetContactData(&gjk, support, data);
+    }
+    return false;
 }
 
-bool RZXHullIntersectsBox(RZXHull hull, RZXBox box)
+bool RZXHullIntersectsBox(RZXHull hull, RZXBox box, RZXContactData *data)
 {
     GLKVector3 corners[8];
     RZXBoxGetCorners(box, corners);
@@ -80,10 +83,10 @@ bool RZXHullIntersectsBox(RZXHull hull, RZXBox box)
         .stride = sizeof(GLKVector3)
     };
 
-    return RZXHullIntersectsHull(hull, boxHull);
+    return RZXHullIntersectsHull(hull, boxHull, data);
 }
 
-bool RZXHullIntersectsHull(RZXHull h1, RZXHull h2)
+bool RZXHullIntersectsHull(RZXHull h1, RZXHull h2, RZXContactData *data)
 {
     RZXGJKSupportMapping support = ^RZXGJKSupport (GLKVector3 v) {
         GLKVector3 s1 = RZXHullSupport(h1, v);
@@ -95,5 +98,8 @@ bool RZXHullIntersectsHull(RZXHull h1, RZXHull h2)
     
     RZXGJK gjk = RZXGJKStart();
 
-    return RZXGJKIntersection(&gjk, support);
+    if ( RZXGJKIntersection(&gjk, support) ) {
+        return RZXGJKGetContactData(&gjk, support, data);
+    }
+    return false;
 }

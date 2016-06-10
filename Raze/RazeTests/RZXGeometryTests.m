@@ -72,26 +72,30 @@
 
     sphere2 = sphere1;
 
+    RZXContactData contactData;
+
     //identity
-    XCTAssert(RZXSphereIntersectsSphere(sphere1, sphere2) == true);
+    XCTAssert(RZXSphereIntersectsSphere(sphere1, sphere2, &contactData));
+    XCTAssertEqual(contactData.distance, 0.0f);
 
     //same centers
     sphere2.radius = sphere1.radius / 2.0f;
-    XCTAssert(RZXSphereIntersectsSphere(sphere1, sphere2) == true);
+    XCTAssert(RZXSphereIntersectsSphere(sphere1, sphere2, &contactData));
+    XCTAssertEqual(contactData.distance, sphere2.radius);
 
     //touching surfaces
     sphere1.radius = sphere2.radius = 10.0f;
     sphere1.center.x = -10.0f;
     sphere2.center.x = 10.0f;
-    XCTAssert(RZXSphereIntersectsSphere(sphere1, sphere2) == true);
+    XCTAssert(RZXSphereIntersectsSphere(sphere1, sphere2, NULL));
 
     //barely not touching
     sphere2.center.x += (1.0/100000.0);
-    XCTAssert(RZXSphereIntersectsSphere(sphere1, sphere2) == false);
+    XCTAssertFalse(RZXSphereIntersectsSphere(sphere1, sphere2, NULL));
 
     //not touching
     sphere2.center.x += 1;
-    XCTAssert(RZXSphereIntersectsSphere(sphere1, sphere2) == false);
+    XCTAssertFalse(RZXSphereIntersectsSphere(sphere1, sphere2, NULL));
 
 }
 
@@ -235,26 +239,26 @@
     RZXBox b2 = RZXBoxMakeAxisAligned(GLKVector3Make(0.5f, 0.5f, 0.5f), GLKVector3Make(1.0f, 1.0f, 1.0f));
 
     // simple intersection
-    XCTAssert(RZXBoxIntersectsBox(b1, b2));
+    XCTAssert(RZXBoxIntersectsBox(b1, b2, NULL));
 
     // single point intersection (corner)
     b2.center = GLKVector3Make(2.0f, 2.0f, 2.0f);
-    XCTAssert(RZXBoxIntersectsBox(b1, b2));
+    XCTAssert(RZXBoxIntersectsBox(b1, b2, NULL));
 
     // no intersection
     b2.center = GLKVector3Make(3.0f, 3.0f, 3.0f);
-    XCTAssertFalse(RZXBoxIntersectsBox(b1, b2));
+    XCTAssertFalse(RZXBoxIntersectsBox(b1, b2, NULL));
 
     // introduce rotation
     GLKVector3 axis = GLKVector3Normalize(GLKVector3Make(1.0f, 1.0f, 1.0f));
     RZXBoxRotate(&b1, GLKQuaternionMakeWithAngleAndVector3Axis(M_PI_4, axis));
     RZXBoxRotate(&b2, GLKQuaternionMakeWithAngleAndVector3Axis(-0.5f * M_PI_4, axis));
     RZXBoxScale(&b1, GLKVector3Make(2.0f, 2.0f, 2.0f));
-    XCTAssert(RZXBoxIntersectsBox(b1, b2));
+    XCTAssert(RZXBoxIntersectsBox(b1, b2, NULL));
 
     // no intersection w/ rotation
     b2.center = GLKVector3Make(5.0f, 5.0f, 5.0f);
-    XCTAssertFalse(RZXBoxIntersectsBox(b1, b2));
+    XCTAssertFalse(RZXBoxIntersectsBox(b1, b2, NULL));
 }
 
 

@@ -85,7 +85,7 @@
 {
     RZXContact *contact = nil;
 
-    if ( RZXSphereIntersectsSphere(self.boundingSphere, other.boundingSphere) ) {
+    if ( RZXSphereIntersectsSphere(self.boundingSphere, other.boundingSphere, NULL) ) {
         if ( [other isKindOfClass:[RZXBoxCollider class]] ) {
             // TODO
         }

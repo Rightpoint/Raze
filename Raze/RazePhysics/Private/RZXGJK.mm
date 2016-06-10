@@ -10,6 +10,11 @@
 // See Also: http://realtimecollisiondetection.net/pubs/SIGGRAPH04_Ericson_GJK_notes.pdf
 
 #import <RazePhysics/RZXGJK.h>
+#import <list>
+
+// Cap the number of iterations to avoid rare ping-ponging scenarios
+static const unsigned int kRZXGJKMaxIterations = 64;
+static const float kRZXEPATerminationThreshold = 1e3f;
 
 typedef NS_OPTIONS(int, RZXGJKFaces) {
     RZXGJKFaceNone  = 0,
@@ -268,5 +273,124 @@ bool RZXGJKIntersection(RZXGJK *gjk, RZXGJKSupportMapping support)
     }
 
     // out of iterations (extremely rare case, often due to poor support mappings)
+    return false;
+}
+
+#pragma mark - EPA
+
+typedef struct _RZXEPATriangle {
+    RZXGJKSupport points[3];
+    GLKVector3 normal;
+} RZXEPATriangle;
+
+typedef struct _RZXEPAEdge {
+    RZXGJKSupport p0, p1;
+} RZXEPAEdge;
+
+GLK_INLINE RZXEPATriangle RZXEPATriangleMake(RZXGJKSupport a, RZXGJKSupport b, RZXGJKSupport c)
+{
+    RZXEPATriangle t;
+    t.points[0] = a;
+    t.points[1] = b;
+    t.points[2] = c;
+
+    t.normal = GLKVector3CrossProduct(GLKVector3Subtract(b.p, a.p), GLKVector3Subtract(c.p, a.p));
+    t.normal = GLKVector3Normalize(t.normal);
+
+    return t;
+}
+
+GLK_INLINE float RZXEPATriangleGetDistanceFromOrigin(RZXEPATriangle t)
+{
+    return fabsf(GLKVector3DotProduct(t.normal, t.points[0].p));
+}
+
+GLK_INLINE bool RZXEPATriangleVisibleFromPoint(RZXEPATriangle t, GLKVector3 p)
+{
+    GLKVector3 diff = GLKVector3Subtract(p, t.points[0].p);
+    return (GLKVector3DotProduct(t.normal, diff) > 0.0f);
+}
+
+GLK_INLINE void RZXEPAEdgeListInsertTriangle(std::list<RZXEPAEdge> &list, RZXEPATriangle t)
+{
+    RZXEPAEdge edges[3];
+
+    edges[0] = (RZXEPAEdge){ .p0 = t.points[0], .p1 = t.points[1] };
+    edges[1] = (RZXEPAEdge){ .p0 = t.points[1], .p1 = t.points[2] };
+    edges[2] = (RZXEPAEdge){ .p0 = t.points[2], .p1 = t.points[0] };
+
+    for ( unsigned int i = 0; i < 3; ++i ) {
+        for ( auto it = list.begin(); it != list.end(); ++it ) {
+            // if an opposite edge is found, remove it and don't insert the new one
+            if ( GLKVector3AllEqualToVector3(edges[i].p0.p, it->p1.p) && GLKVector3AllEqualToVector3(edges[i].p1.p, it->p0.p) ) {
+                list.erase(it);
+                break;
+            }
+
+            list.emplace_back(edges[i]);
+        }
+    }
+
+}
+
+// EPA as described by http://allenchou.net/2013/12/game-physics-contact-generation-epa/
+// Adapted from http://hacktank.net/blog/?p=119
+bool RZXGJKGetContactData(const RZXGJK *gjk, RZXGJKSupportMapping support, RZXContactData *data)
+{
+    NSCAssert(gjk->n == 4, @"RZXGJK requires a tetrahedron to compute contact normals.");
+
+    std::list<RZXEPATriangle> triangles;
+    std::list<RZXEPAEdge> edges;
+
+    triangles.emplace_back(RZXEPATriangleMake(gjk->sim[0], gjk->sim[1], gjk->sim[2]));
+    triangles.emplace_back(RZXEPATriangleMake(gjk->sim[0], gjk->sim[2], gjk->sim[3]));
+    triangles.emplace_back(RZXEPATriangleMake(gjk->sim[0], gjk->sim[3], gjk->sim[1]));
+    triangles.emplace_back(RZXEPATriangleMake(gjk->sim[1], gjk->sim[3], gjk->sim[2]));
+
+    for ( unsigned int i = 0; i < kRZXGJKMaxIterations; ++i ) {
+        RZXEPATriangle nearestTriangle = *triangles.begin();
+        float nearestDist = RZXEPATriangleGetDistanceFromOrigin(nearestTriangle);
+
+        // find the triangle nearest to the origin
+        for ( auto it = ++triangles.begin(); it != triangles.end(); ++it ) {
+            float dist = RZXEPATriangleGetDistanceFromOrigin(*it);
+
+            if ( dist < nearestDist ) {
+                nearestDist = dist;
+                nearestTriangle = *it;
+            }
+        }
+
+        // compute the support point along triangle's normal
+        RZXGJKSupport next = support(nearestTriangle.normal);
+
+        // if the next point doesn't move farther from the origin, we've found the closest triangle
+        if ( GLKVector3DotProduct(nearestTriangle.normal, next.p) - nearestDist < kRZXEPATerminationThreshold ) {
+            if ( data != NULL ) {
+                data->normal = GLKVector3Negate(nearestTriangle.normal);
+                data->distance = RZXEPATriangleGetDistanceFromOrigin(nearestTriangle);
+            }
+            return true;
+        }
+
+        // remove triangles visible from the support point
+        for ( auto it = triangles.begin(); it != triangles.end(); ++it) {
+            if ( RZXEPATriangleVisibleFromPoint(*it, next.p) ) {
+                RZXEPAEdgeListInsertTriangle(edges, *it);
+
+                it = triangles.erase(it);
+                --it;
+            }
+        }
+
+        // create new triangles from the edges of the removed triangles
+        for(auto it = edges.begin(); it != edges.end(); it++) {
+            triangles.emplace_back(RZXEPATriangleMake(next ,it->p0, it->p1));
+        }
+
+        edges.clear();
+    }
+
+    // ran out of iterations, a rare case probably caused by numerical instability.
     return false;
 }

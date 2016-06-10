@@ -8,6 +8,7 @@
 
 #import <RazePhysics/RZXBoxCollider.h>
 #import <RazePhysics/RZXCollider_Private.h>
+#import <RazePhysics/RZXContact_Private.h>
 
 #import <RazePhysics/RZXSphereCollider.h>
 #import <RazePhysics/RZXMeshCollider.h>
@@ -104,16 +105,19 @@
 - (RZXContact *)generateContact:(RZXCollider *)other
 {
     RZXContact *contact = nil;
+    RZXContactData contactData;
+
+    RZXBox bounds = self.boundingBox;
 
     if ( [other isKindOfClass:[RZXBoxCollider class]] ) {
-//        RZXBox bounds = self.boundingBox;
-//        RZXBox otherBounds = other.boundingBox;
-
-        // TODO: compute correct normal and distance
+        if ( RZXBoxIntersectsBox(bounds, other.boundingBox, &contactData) ) {
+            contact = [[RZXContact alloc] initWithContactData:contactData];
+        }
     }
     else if ( [other isKindOfClass:[RZXSphereCollider class]] ) {
-        contact = [other generateContact:self];
-        contact.normal = GLKVector3Negate(contact.normal);
+        if ( RZXBoxIntersectsSphere(bounds, other.boundingSphere, &contactData) ) {
+            contact = [[RZXContact alloc] initWithContactData:contactData];
+        }
     }
     else if ( [other isKindOfClass:[RZXMeshCollider class]] ) {
         contact = [other generateContact:self];

@@ -38,6 +38,12 @@ typedef struct _RZXHull {
     unsigned int n;
 } RZXHull;
 
+typedef struct _RZXContactData {
+    GLKVector3 point;   // contact point (NOT YET IMPLEMENTED)
+    GLKVector3 normal;  // collision normal
+    float distance;     // penetration distance
+} RZXContactData;
+
 #pragma mark - Lines
 
 GLK_INLINE GLKVector3 RZXLineGetIntersection(RZXLine l1, RZXLine l2, float *t, float *s)
@@ -97,15 +103,21 @@ GLK_INLINE bool RZXSphereContainsPoint(RZXSphere s, GLKVector3 p)
     return (GLKVector3Distance(s.center, p) <= s.radius);
 }
 
-GLK_INLINE bool RZXSphereIntersectsSphere(RZXSphere s1, RZXSphere s2)
+GLK_INLINE bool RZXSphereIntersectsSphere(RZXSphere s1, RZXSphere s2, RZXContactData *data)
 {
-    GLKVector3 d = GLKVector3Subtract(s1.center, s2.center);
+    GLKVector3 diff = GLKVector3Subtract(s1.center, s2.center);
+    float dist = GLKVector3Length(diff);
 
-    float d2 = d.x * d.x + d.y * d.y + d.z * d.z;
-    float r = (s1.radius + s2.radius);
-    float r2 = r * r;
+    if ( dist <= s1.radius + s2.radius ) {
+        if ( data != NULL) {
+            data->normal = GLKVector3DivideScalar(diff, dist);
+            data->distance = (s1.radius - s2.radius - dist);
+        }
+        
+        return true;
+    }
 
-    return d2 <= r2;
+    return false;
 }
 
 #pragma mark - Boxes
@@ -223,7 +235,25 @@ GLK_INLINE RZXBox RZXBoxMake(GLKVector3 c, GLKVector3 r, GLKQuaternion q)
     return b;
 }
 
-GLK_EXTERN bool RZXBoxIntersectsBox(RZXBox b1, RZXBox b2);
+GLK_INLINE bool RZXBoxIntersectsSphere(RZXBox b, RZXSphere s, RZXContactData *data)
+{
+    GLKVector3 nearestPoint = RZXBoxGetNearestPoint(b, s.center);
+    GLKVector3 diff = GLKVector3Subtract(nearestPoint, s.center);
+    float dist = GLKVector3Length(diff);
+
+    if ( dist <= s.radius ) {
+        if ( data != NULL ) {
+            data->normal = GLKVector3DivideScalar(diff, dist);
+            data->distance = (s.radius - dist);
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+GLK_EXTERN bool RZXBoxIntersectsBox(RZXBox b1, RZXBox b2, RZXContactData *data);
 
 #pragma mark - Hulls
 
@@ -260,8 +290,8 @@ GLK_INLINE RZXBox RZXHullGetOBB(RZXHull hull)
 
 GLK_EXTERN bool RZXHullContainsPoint(RZXHull hull, GLKVector3 p, GLKMatrix4 *transform);
 
-GLK_EXTERN bool RZXHullIntersectsSphere(RZXHull hull, RZXSphere sphere);
-GLK_EXTERN bool RZXHullIntersectsBox(RZXHull hull, RZXBox box);
-GLK_EXTERN bool RZXHullIntersectsHull(RZXHull h1, RZXHull h2);
+GLK_EXTERN bool RZXHullIntersectsSphere(RZXHull hull, RZXSphere sphere, RZXContactData *data);
+GLK_EXTERN bool RZXHullIntersectsBox(RZXHull hull, RZXBox box, RZXContactData *data);
+GLK_EXTERN bool RZXHullIntersectsHull(RZXHull h1, RZXHull h2, RZXContactData *data);
 
 #endif

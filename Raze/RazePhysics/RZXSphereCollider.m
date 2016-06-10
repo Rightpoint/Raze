@@ -8,6 +8,7 @@
 
 #import <RazePhysics/RZXSphereCollider.h>
 #import <RazePhysics/RZXCollider_Private.h>
+#import <RazePhysics/RZXContact_Private.h>
 
 #import <RazePhysics/RZXBoxCollider.h>
 #import <RazePhysics/RZXMeshCollider.h>
@@ -98,26 +99,13 @@
     RZXSphere bounds = self.boundingSphere;
 
     if ( [other isKindOfClass:[RZXBoxCollider class]] ) {
-        RZXBox otherBounds = other.boundingBox;
-
-        GLKVector3 nearestPoint = RZXBoxGetNearestPoint(otherBounds, bounds.center);
-        GLKVector3 diff = GLKVector3Subtract(bounds.center, nearestPoint);
-        float dist = GLKVector3Length(diff);
-
-        if ( dist <= bounds.radius ) {
-            contact = [[RZXContact alloc] init];
-            contact.normal = GLKVector3DivideScalar(diff, dist);
-        }
+        contact = [other generateContact:self];
+        contact.normal = GLKVector3Negate(contact.normal);
     }
     else if ( [other isKindOfClass:[RZXSphereCollider class]] ) {
-        RZXSphere otherBounds = other.boundingSphere;
-
-        GLKVector3 diff = GLKVector3Subtract(bounds.center, otherBounds.center);
-        float dist = GLKVector3Length(diff);
-
-        if ( dist <= bounds.radius ) {
-            contact = [[RZXContact alloc] init];
-            contact.normal = GLKVector3DivideScalar(diff, dist);
+        RZXContactData contactData;
+        if ( RZXSphereIntersectsSphere(bounds, other.boundingSphere, &contactData) ) {
+            contact = [[RZXContact alloc] initWithContactData:contactData];
         }
     }
     else if ( [other isKindOfClass:[RZXMeshCollider class]] ) {
