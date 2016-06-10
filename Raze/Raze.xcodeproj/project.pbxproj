@@ -27,8 +27,6 @@
 
 /* Begin PBXBuildFile section */
 		00250CEB1D09B11200DFD96D /* RazeCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D00E0F1AE14CB900D007E4 /* RazeCore.framework */; };
-		00250CF11D09B13400DFD96D /* RZXGeometryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E19EF71D06144E006E59EA /* RZXGeometryTests.m */; };
-		00250CF31D09B18100DFD96D /* RZXMathTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00250CF21D09B18100DFD96D /* RZXMathTests.m */; };
 		8A63B3FD1AF3DE0D00E86B66 /* RazeScene.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A63B3FC1AF3DE0D00E86B66 /* RazeScene.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8A63B41F1AF3DE7C00E86B66 /* RZXModelNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A63B4131AF3DE7C00E86B66 /* RZXModelNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8A63B4201AF3DE7C00E86B66 /* RZXModelNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A63B4141AF3DE7C00E86B66 /* RZXModelNode.m */; };
@@ -148,6 +146,8 @@
 		D4F244131D00A160001098D4 /* RZXContact.h in Headers */ = {isa = PBXBuildFile; fileRef = D4F244111D00A160001098D4 /* RZXContact.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4F244141D00A160001098D4 /* RZXContact.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F244121D00A160001098D4 /* RZXContact.m */; };
 		D4F49AF91D09AECF0027AA8E /* RZXGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F49AF71D09AECF0027AA8E /* RZXGeometry.m */; };
+		D4F49B001D0B09DF0027AA8E /* RZXGeometryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F49AFD1D0B09DF0027AA8E /* RZXGeometryTests.m */; };
+		D4F49B011D0B09DF0027AA8E /* RZXMathTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F49AFE1D0B09DF0027AA8E /* RZXMathTests.m */; };
 		D4FBCE4C1D0897E00085CA28 /* RZXMeshCollider.h in Headers */ = {isa = PBXBuildFile; fileRef = D4FBCE4A1D0897E00085CA28 /* RZXMeshCollider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4FBCE4D1D0897E00085CA28 /* RZXMeshCollider.m in Sources */ = {isa = PBXBuildFile; fileRef = D4FBCE4B1D0897E00085CA28 /* RZXMeshCollider.m */; };
 		D4FBCE4E1D0898340085CA28 /* RZXGJK.h in Headers */ = {isa = PBXBuildFile; fileRef = D4FBCE491D0897880085CA28 /* RZXGJK.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -236,10 +236,6 @@
 
 /* Begin PBXFileReference section */
 		00250CE61D09B11200DFD96D /* RazeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RazeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		00250CEA1D09B11200DFD96D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00250CF21D09B18100DFD96D /* RZXMathTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXMathTests.m; sourceTree = "<group>"; };
-		00E19EF71D06144E006E59EA /* RZXGeometryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RZXGeometryTests.m; path = ../RazePhysicsTests/RZXGeometryTests.m; sourceTree = "<group>"; };
-		00E19EF91D06144E006E59EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8A63B3F81AF3DE0C00E86B66 /* RazeScene.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RazeScene.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A63B3FB1AF3DE0D00E86B66 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8A63B3FC1AF3DE0D00E86B66 /* RazeScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RazeScene.h; sourceTree = "<group>"; };
@@ -362,6 +358,9 @@
 		D4F244111D00A160001098D4 /* RZXContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXContact.h; sourceTree = "<group>"; };
 		D4F244121D00A160001098D4 /* RZXContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXContact.m; sourceTree = "<group>"; };
 		D4F49AF71D09AECF0027AA8E /* RZXGeometry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXGeometry.m; sourceTree = "<group>"; };
+		D4F49AFC1D0B09DF0027AA8E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = RazeTests/Info.plist; sourceTree = SOURCE_ROOT; };
+		D4F49AFD1D0B09DF0027AA8E /* RZXGeometryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RZXGeometryTests.m; path = RazeTests/RZXGeometryTests.m; sourceTree = SOURCE_ROOT; };
+		D4F49AFE1D0B09DF0027AA8E /* RZXMathTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RZXMathTests.m; path = RazeTests/RZXMathTests.m; sourceTree = SOURCE_ROOT; };
 		D4FBCE491D0897880085CA28 /* RZXGJK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RZXGJK.h; sourceTree = "<group>"; };
 		D4FBCE4A1D0897E00085CA28 /* RZXMeshCollider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXMeshCollider.h; sourceTree = "<group>"; };
 		D4FBCE4B1D0897E00085CA28 /* RZXMeshCollider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXMeshCollider.m; sourceTree = "<group>"; };
@@ -431,22 +430,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00250CE71D09B11200DFD96D /* RazeCoreTests */ = {
+		00250CE71D09B11200DFD96D /* RazeTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E19EF71D06144E006E59EA /* RZXGeometryTests.m */,
-				00250CF21D09B18100DFD96D /* RZXMathTests.m */,
-				00250CEA1D09B11200DFD96D /* Info.plist */,
+				D4F49AFC1D0B09DF0027AA8E /* Info.plist */,
+				D4F49AFD1D0B09DF0027AA8E /* RZXGeometryTests.m */,
+				D4F49AFE1D0B09DF0027AA8E /* RZXMathTests.m */,
 			);
+			name = RazeTests;
 			path = RazeCoreTests;
-			sourceTree = "<group>";
-		};
-		00E19EF61D06144E006E59EA /* RazePhysicsTests */ = {
-			isa = PBXGroup;
-			children = (
-				00E19EF91D06144E006E59EA /* Info.plist */,
-			);
-			path = RazePhysicsTests;
 			sourceTree = "<group>";
 		};
 		8A63B3F91AF3DE0D00E86B66 /* RazeScene */ = {
@@ -533,8 +525,7 @@
 				8A63B3F91AF3DE0D00E86B66 /* RazeScene */,
 				D4EF0F3C1B50501F001EA85F /* RazeAnimation */,
 				D4C5B03E1C8A2B4F00256957 /* RazePhysics */,
-				00E19EF61D06144E006E59EA /* RazePhysicsTests */,
-				00250CE71D09B11200DFD96D /* RazeCoreTests */,
+				00250CE71D09B11200DFD96D /* RazeTests */,
 				D4D00E101AE14CB900D007E4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -1171,8 +1162,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00250CF31D09B18100DFD96D /* RZXMathTests.m in Sources */,
-				00250CF11D09B13400DFD96D /* RZXGeometryTests.m in Sources */,
+				D4F49B011D0B09DF0027AA8E /* RZXMathTests.m in Sources */,
+				D4F49B001D0B09DF0027AA8E /* RZXGeometryTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1365,11 +1356,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = RazeCoreTests/Info.plist;
+				INFOPLIST_FILE = RazeTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.raizlabs.RazeCoreTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.raizlabs.RazeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1407,11 +1398,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = RazeCoreTests/Info.plist;
+				INFOPLIST_FILE = RazeTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.raizlabs.RazeCoreTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.raizlabs.RazeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -2140,6 +2131,7 @@
 				00250CEF1D09B11200DFD96D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8A63B40B1AF3DE0D00E86B66 /* Build configuration list for PBXNativeTarget "RazeScene" */ = {
 			isa = XCConfigurationList;
