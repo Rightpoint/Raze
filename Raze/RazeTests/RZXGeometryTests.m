@@ -1,19 +1,19 @@
 //
-//  RazePhysicsTests.m
-//  RazePhysicsTests
+//  RazeGeometryTests.m
+//  RazeTests
 //
 //  Created by Jason Clark on 6/6/16.
-//
+//  Copyright (c) 2016 Raizlabs. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
 #import "RZXGeometry.h"
 
-@interface RazePhysicsTests : XCTestCase
+@interface RazeGeometryTests : XCTestCase
 
 @end
 
-@implementation RazePhysicsTests
+@implementation RazeGeometryTests
 
 #pragma mark - Spheres
 
@@ -95,7 +95,7 @@
 
 #pragma mark - Boxes
 
--(void)testRZBoxGetSize {
+-(void)testRZXBoxGetSize {
     RZXBox box;
     box.center = GLKVector3Make(0, 0, 0);
     box.radius = GLKVector3Make(10, 10, 10);
@@ -127,7 +127,7 @@
 
 }
 
--(void)testRZBoxGetRotation {
+-(void)testRZXBoxGetRotation {
     RZXBox box;
     box.center = GLKVector3Make(0, 0, 0);
     box.radius = GLKVector3Make(1, 1, 1);
@@ -141,11 +141,11 @@
     XCTAssert([result isEqualToString: expectedResult], "expected '%@' to equal '%@'", result, expectedResult);
 }
 
--(void)testRZBoxGetNearestPoint {
+-(void)testRZXBoxGetNearestPoint {
 
 }
 
--(void)testRZBoxContainsPoint {
+-(void)testRZXBoxContainsPoint {
     RZXBox box;
     box.center = GLKVector3Make(0, 0, 0);
     box.radius = GLKVector3Make(1, 1, 1);
@@ -178,7 +178,7 @@
 
 }
 
--(void)testRZBoxTranslate {
+-(void)testRZXBoxTranslate {
     RZXBox box;
     box.center = GLKVector3Make(0, 0, 0);
 
@@ -198,7 +198,7 @@
     XCTAssert(GLKVector3AllEqualToVector3(box.center, expectedLocation));
 }
 
--(void)testRZBoxScale {
+-(void)testRZXBoxScale {
     RZXBox box;
     box.radius = GLKVector3Make(1, 1, 1);
     GLKVector3 scale = GLKVector3Make(1, 1, 1);
@@ -224,8 +224,12 @@
     XCTAssert(GLKVector3AllEqualToVector3(box.radius, expectedRadius));
 }
 
--(void)testRZBoxRotate {
+-(void)testRZXBoxRotate {
 
+}
+
+- (void)testRZXBoxIntersection {
+    
 }
 
 

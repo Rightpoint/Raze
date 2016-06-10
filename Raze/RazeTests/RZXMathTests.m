@@ -1,15 +1,16 @@
 //
 //  RZXMathTests.m
-//  Raze
+//  RazeTests
 //
 //  Created by Jason Clark on 6/9/16.
-//
+//  Copyright (c) 2016 Raizlabs. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
 #import "RZXMath.h"
 
 #define ACCURACY 0.001
+
 @interface RZXMathTests : XCTestCase
 
 @end
