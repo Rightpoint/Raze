@@ -56,9 +56,12 @@ bool RZXBoxIntersectsBox(RZXBox b1, RZXBox b2)
 
 bool RZXHullIntersectsSphere(RZXHull hull, RZXSphere sphere)
 {
-    RZXGJKSupport support = ^GLKVector3 (GLKVector3 v) {
+    RZXGJKSupportMapping support = ^RZXGJKSupport (GLKVector3 v) {
+        GLKVector3 s1 = RZXHullSupport(hull, v);
+        GLKVector3 s2 = RZXSphereSupport(sphere, GLKVector3Negate(v));
+
         // S(v⃗) = S1(v⃗) − S2(−v⃗)
-        return GLKVector3Subtract(RZXHullSupport(hull, v), RZXSphereSupport(sphere, GLKVector3Negate(v)));
+        return (RZXGJKSupport){ .p = GLKVector3Subtract(s1, s2), .s = s1 };
     };
 
     RZXGJK gjk = RZXGJKStart();
@@ -82,9 +85,12 @@ bool RZXHullIntersectsBox(RZXHull hull, RZXBox box)
 
 bool RZXHullIntersectsHull(RZXHull h1, RZXHull h2)
 {
-    RZXGJKSupport support = ^GLKVector3 (GLKVector3 v) {
+    RZXGJKSupportMapping support = ^RZXGJKSupport (GLKVector3 v) {
+        GLKVector3 s1 = RZXHullSupport(h1, v);
+        GLKVector3 s2 = RZXHullSupport(h2, v);
+
         // S(v⃗) = S1(v⃗) − S2(−v⃗)
-        return GLKVector3Subtract(RZXHullSupport(h1, v), RZXHullSupport(h2, GLKVector3Negate(v)));
+        return (RZXGJKSupport){ .p = GLKVector3Subtract(s1, s2), .s = s1 };
     };
     
     RZXGJK gjk = RZXGJKStart();

@@ -17,15 +17,21 @@
 // Cap the number of iterations to avoid rare ping-ponging due to floating point precision issues
 static unsigned int kRZXGJKMaxIterations = 32;
 
-// Return the supporting point for normalized direction v.
-typedef GLKVector3 (^RZXGJKSupport)(GLKVector3 v);
+typedef struct _RZXGJKSupport {
+    GLKVector3 p;   // support point of the Minkowski difference
 
-typedef struct _RZXGJK
-{
-    GLKVector3 v;       // current search direction (normalized)
-    GLKVector3 sim[3];  // points in the simplex, ordered such that the origin is above the simplex
-    unsigned int n;     // number of points in the current simplex
+    GLKVector3 s;   // support point of the first polytope
+    // NOTE: the support point of the second polytope can be derived from p and s if needed
+} RZXGJKSupport;
+
+typedef struct _RZXGJK {
+    GLKVector3 v;           // current search direction (normalized)
+    RZXGJKSupport sim[4];   // points in the simplex, ordered such that the origin is above the simplex
+    unsigned int n;         // number of points in the current simplex
 } RZXGJK;
+
+// Return the supporting point for normalized direction v.
+typedef RZXGJKSupport (^RZXGJKSupportMapping)(GLKVector3 v);
 
 GLK_INLINE RZXGJK RZXGJKStart()
 {
@@ -35,8 +41,10 @@ GLK_INLINE RZXGJK RZXGJKStart()
     };
 }
 
-GLK_EXTERN bool RZXGJKUpdate(RZXGJK *gjk, GLKVector3 p);
+GLK_EXTERN bool RZXGJKUpdate(RZXGJK *gjk, RZXGJKSupport s);
 
-GLK_EXTERN bool RZXGJKIntersection(RZXGJK *gjk, RZXGJKSupport support);
+// Returns whether an intersection was found.
+// If `true`, then gjk->sim will contain the simplex enclosing the origin.
+GLK_EXTERN bool RZXGJKIntersection(RZXGJK *gjk, RZXGJKSupportMapping support);
 
 #endif
