@@ -40,6 +40,20 @@ GLK_INLINE GLKVector3 RZXHullSupport(RZXHull hull, GLKVector3 v)
     return RZXHullGetPoint(hull, idx);
 }
 
+bool RZXBoxIntersectsBox(RZXBox b1, RZXBox b2)
+{
+    GLKVector3 corners[8];
+    RZXBoxGetCorners(b1, corners);
+
+    RZXHull boxHull = (RZXHull){
+        .points = (const void *)corners,
+        .n = 8,
+        .stride = sizeof(GLKVector3)
+    };
+
+    return RZXHullIntersectsBox(boxHull, b2);
+}
+
 bool RZXHullIntersectsSphere(RZXHull hull, RZXSphere sphere)
 {
     RZXGJKSupport support = ^GLKVector3 (GLKVector3 v) {
@@ -54,8 +68,16 @@ bool RZXHullIntersectsSphere(RZXHull hull, RZXSphere sphere)
 
 bool RZXHullIntersectsBox(RZXHull hull, RZXBox box)
 {
-    // TODO
-    return false;
+    GLKVector3 corners[8];
+    RZXBoxGetCorners(box, corners);
+
+    RZXHull boxHull = (RZXHull){
+        .points = (const void *)corners,
+        .n = 8,
+        .stride = sizeof(GLKVector3)
+    };
+
+    return RZXHullIntersectsHull(hull, boxHull);
 }
 
 bool RZXHullIntersectsHull(RZXHull h1, RZXHull h2)
