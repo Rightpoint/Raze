@@ -86,13 +86,15 @@
 
 - (RZXBox)boundingBox
 {
-    RZXTransform3D *transform = self.body.representedObject.worldTransform ?: [RZXTransform3D transform];
-
     RZXBox box = _untransformedBox;
 
-    RZXBoxTranslate(&box, transform.translation);
-    RZXBoxRotate(&box, transform.rotation);
-    RZXBoxScale(&box, transform.scale);
+    RZXTransform3D *transform = self.worldTransform;
+
+    if ( transform != nil ) {
+        RZXBoxTranslate(&box, transform.translation);
+        RZXBoxRotate(&box, transform.rotation);
+        RZXBoxScale(&box, transform.scale);
+    }
 
     return box;
 }

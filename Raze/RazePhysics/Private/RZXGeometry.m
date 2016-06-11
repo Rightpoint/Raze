@@ -23,8 +23,14 @@ GLK_INLINE GLKVector3 RZXSphereSupport(RZXSphere sphere, GLKVector3 v)
 // The point in the hull most distant along v is called a "supporting point"
 // These are not necessarily unique
 // For a polyhedron, a vertex can always be selected as a supporting point
-GLK_INLINE GLKVector3 RZXHullSupport(RZXHull hull, GLKVector3 v)
+GLK_INLINE GLKVector3 RZXHullSupport(RZXHull hull, RZXTRS *trs, GLKVector3 v)
 {
+    // convert direction to local space if necessary
+    if ( trs != NULL ) {
+        v = GLKQuaternionRotateVector3(GLKQuaternionInvert(trs->rotation), v);
+        v = GLKVector3Normalize(v);
+    }
+
     unsigned int idx = 0;
     float maxDot = GLKVector3DotProduct(RZXHullGetPoint(hull, 0), v);
 
@@ -37,7 +43,14 @@ GLK_INLINE GLKVector3 RZXHullSupport(RZXHull hull, GLKVector3 v)
         }
     }
 
-    return RZXHullGetPoint(hull, idx);
+    GLKVector3 p = RZXHullGetPoint(hull, idx);
+
+    if ( trs != NULL ) {
+        // convert to world space
+        p = RZXMatrix4TransformVector3(trs->transform, p);
+    }
+
+    return p;
 }
 
 bool RZXBoxIntersectsBox(RZXBox b1, RZXBox b2, RZXContactData *data)
@@ -51,13 +64,13 @@ bool RZXBoxIntersectsBox(RZXBox b1, RZXBox b2, RZXContactData *data)
         .stride = sizeof(GLKVector3)
     };
 
-    return RZXHullIntersectsBox(boxHull, b2, data);
+    return RZXHullIntersectsBox(boxHull, NULL, b2, data);
 }
 
-bool RZXHullIntersectsSphere(RZXHull hull, RZXSphere sphere, RZXContactData *data)
+bool RZXHullIntersectsSphere(RZXHull hull, RZXTRS *trs, RZXSphere sphere, RZXContactData *data)
 {
     RZXGJKSupportMapping support = ^RZXGJKSupport (GLKVector3 v) {
-        GLKVector3 s1 = RZXHullSupport(hull, v);
+        GLKVector3 s1 = RZXHullSupport(hull, trs, v);
         GLKVector3 s2 = RZXSphereSupport(sphere, GLKVector3Negate(v));
 
         // S(v⃗) = S1(v⃗) − S2(−v⃗)
@@ -72,7 +85,7 @@ bool RZXHullIntersectsSphere(RZXHull hull, RZXSphere sphere, RZXContactData *dat
     return false;
 }
 
-bool RZXHullIntersectsBox(RZXHull hull, RZXBox box, RZXContactData *data)
+bool RZXHullIntersectsBox(RZXHull hull, RZXTRS *trs, RZXBox box, RZXContactData *data)
 {
     GLKVector3 corners[8];
     RZXBoxGetCorners(box, corners);
@@ -83,14 +96,14 @@ bool RZXHullIntersectsBox(RZXHull hull, RZXBox box, RZXContactData *data)
         .stride = sizeof(GLKVector3)
     };
 
-    return RZXHullIntersectsHull(hull, boxHull, data);
+    return RZXHullIntersectsHull(hull, trs, boxHull, NULL, data);
 }
 
-bool RZXHullIntersectsHull(RZXHull h1, RZXHull h2, RZXContactData *data)
+bool RZXHullIntersectsHull(RZXHull h1, RZXTRS *t1, RZXHull h2, RZXTRS *t2, RZXContactData *data)
 {
     RZXGJKSupportMapping support = ^RZXGJKSupport (GLKVector3 v) {
-        GLKVector3 s1 = RZXHullSupport(h1, v);
-        GLKVector3 s2 = RZXHullSupport(h2, GLKVector3Negate(v));
+        GLKVector3 s1 = RZXHullSupport(h1, t1, v);
+        GLKVector3 s2 = RZXHullSupport(h2, t2, GLKVector3Negate(v));
 
         // S(v⃗) = S1(v⃗) − S2(−v⃗)
         return (RZXGJKSupport){ .p = GLKVector3Subtract(s1, s2), .s = s1 };

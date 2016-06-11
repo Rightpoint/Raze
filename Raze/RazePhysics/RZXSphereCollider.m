@@ -68,7 +68,7 @@
 
 - (RZXSphere)boundingSphere
 {
-    RZXTransform3D *transform = self.body.representedObject.worldTransform ?: [RZXTransform3D transform];
+    RZXTransform3D *transform = self.worldTransform ?: [RZXTransform3D transform];
 
     GLKVector3 scale = transform.scale;
 
@@ -95,6 +95,7 @@
 - (RZXContact *)generateContact:(RZXCollider *)other
 {
     RZXContact *contact = nil;
+    RZXContactData contactData;
 
     RZXSphere bounds = self.boundingSphere;
 
@@ -103,7 +104,6 @@
         contact.normal = GLKVector3Negate(contact.normal);
     }
     else if ( [other isKindOfClass:[RZXSphereCollider class]] ) {
-        RZXContactData contactData;
         if ( RZXSphereIntersectsSphere(bounds, other.boundingSphere, &contactData) ) {
             contact = [[RZXContact alloc] initWithContactData:contactData];
         }

@@ -32,6 +32,11 @@
 
 #pragma mark - private
 
+- (RZXTransform3D *)worldTransform
+{
+    return self.body.representedObject.worldTransform;
+}
+
 - (RZXBox)boundingBox
 {
     [NSException raise:NSGenericException format:@"%@ is an abstract class. Please instantiate a concrete subclass instead", [self class]];

@@ -8,7 +8,7 @@
 
 #import <RazePhysics/RZXMeshCollider.h>
 #import <RazePhysics/RZXCollider_Private.h>
-#import <RazePhysics/RZXGJK.h>
+#import <RazePhysics/RZXContact_Private.h>
 
 #import <RazePhysics/RZXSphereCollider.h>
 #import <RazePhysics/RZXBoxCollider.h>
@@ -39,20 +39,22 @@
 
 - (RZXBox)boundingBox
 {
-    RZXTransform3D *transform = self.body.representedObject.worldTransform ?: [RZXTransform3D transform];
-
     RZXBox box = _untransformedBox;
 
-    RZXBoxTranslate(&box, transform.translation);
-    RZXBoxRotate(&box, transform.rotation);
-    RZXBoxScale(&box, transform.scale);
+    RZXTransform3D *transform = self.worldTransform;
+
+    if ( transform != nil ) {
+        RZXBoxTranslate(&box, transform.translation);
+        RZXBoxRotate(&box, transform.rotation);
+        RZXBoxScale(&box, transform.scale);
+    }
 
     return box;
 }
 
 - (RZXSphere)boundingSphere
 {
-    RZXTransform3D *transform = self.body.representedObject.worldTransform ?: [RZXTransform3D transform];
+    RZXTransform3D *transform = self.worldTransform ?: [RZXTransform3D transform];
 
     GLKVector3 scale = transform.scale;
 
@@ -67,7 +69,7 @@
     BOOL contains = NO;
 
     if ( RZXBoxContainsPoint(self.boundingBox, point) ) {
-        RZXTransform3D *transform = self.body.representedObject.worldTransform;
+        RZXTransform3D *transform = self.worldTransform;
 
         if ( transform != nil ) {
             GLKMatrix4 transformMatrix = transform.modelMatrix;
@@ -84,16 +86,42 @@
 - (RZXContact *)generateContact:(RZXCollider *)other
 {
     RZXContact *contact = nil;
+    RZXContactData contactData;
 
     if ( RZXSphereIntersectsSphere(self.boundingSphere, other.boundingSphere, NULL) ) {
+        RZXTransform3D *transform = self.worldTransform;
+
+        RZXTRS trs = (RZXTRS) {
+            .transform = transform.modelMatrix,
+            .rotation = transform.rotation
+        };
+
+        RZXTRS *trsPtr = (transform != nil) ? &trs : NULL;
+
         if ( [other isKindOfClass:[RZXBoxCollider class]] ) {
-            // TODO
+            if ( RZXHullIntersectsBox(_untransformedHull, trsPtr, other.boundingBox, &contactData) ) {
+                contact = [[RZXContact alloc] initWithContactData:contactData];
+            }
         }
         else if ( [other isKindOfClass:[RZXSphereCollider class]] ) {
-            // TODO
+            if ( RZXHullIntersectsSphere(_untransformedHull, trsPtr, other.boundingSphere, &contactData) ) {
+                contact = [[RZXContact alloc] initWithContactData:contactData];
+            }
         }
         else if ( [other isKindOfClass:[RZXMeshCollider class]] ) {
-            // TODO
+            RZXTransform3D *otherTransform = other.worldTransform;
+
+            RZXTRS otherTrs = (RZXTRS) {
+                .transform = otherTransform.modelMatrix,
+                .rotation = otherTransform.rotation
+            };
+
+            RZXTRS *otherTrsPtr = (otherTransform != nil) ? &otherTrs : NULL;
+            RZXHull otherHull = ((RZXMeshCollider *)other)->_untransformedHull;
+
+            if ( RZXHullIntersectsHull(_untransformedHull, trsPtr, otherHull, otherTrsPtr, &contactData) ) {
+                contact = [[RZXContact alloc] initWithContactData:contactData];
+            }
         }
     }
 

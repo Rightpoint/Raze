@@ -38,6 +38,11 @@ typedef struct _RZXHull {
     unsigned int n;
 } RZXHull;
 
+typedef struct _RZXTRS {
+    GLKMatrix4 transform;   // the full TRS transform matrix
+    GLKQuaternion rotation; // just the rotation component of the transform
+} RZXTRS;
+
 typedef struct _RZXContactData {
     GLKVector3 point;   // contact point (NOT YET IMPLEMENTED)
     GLKVector3 normal;  // collision normal
@@ -290,8 +295,8 @@ GLK_INLINE RZXBox RZXHullGetOBB(RZXHull hull)
 
 GLK_EXTERN bool RZXHullContainsPoint(RZXHull hull, GLKVector3 p, GLKMatrix4 *transform);
 
-GLK_EXTERN bool RZXHullIntersectsSphere(RZXHull hull, RZXSphere sphere, RZXContactData *data);
-GLK_EXTERN bool RZXHullIntersectsBox(RZXHull hull, RZXBox box, RZXContactData *data);
-GLK_EXTERN bool RZXHullIntersectsHull(RZXHull h1, RZXHull h2, RZXContactData *data);
+GLK_EXTERN bool RZXHullIntersectsSphere(RZXHull hull, RZXTRS *trs, RZXSphere sphere, RZXContactData *data);
+GLK_EXTERN bool RZXHullIntersectsBox(RZXHull hull, RZXTRS *trs, RZXBox box, RZXContactData *data);
+GLK_EXTERN bool RZXHullIntersectsHull(RZXHull h1, RZXTRS *t1, RZXHull h2, RZXTRS *t2, RZXContactData *data);
 
 #endif
