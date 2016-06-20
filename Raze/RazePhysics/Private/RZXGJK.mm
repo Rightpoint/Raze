@@ -58,19 +58,19 @@ GLK_INLINE void RZXGJKUpdateEdgeCCW(RZXGJK *gjk, GLKVector3 edge, RZXGJKSupport 
 GLK_INLINE void RZXGJKUpdateTriangle(RZXGJK *gjk, GLKVector3 normal, RZXGJKSupport s)
 {
     if ( GLKVector3DotProduct(normal, s.p) < 0.0f ) {
-        gjk->sim[2] = gjk->sim[0];
-        gjk->sim[0] = s;
-
-        // origin is below triangle
-        gjk->v = GLKVector3Normalize(GLKVector3Negate(normal));
-    }
-    else {
         gjk->sim[2] = gjk->sim[1];
         gjk->sim[1] = gjk->sim[0];
         gjk->sim[0] = s;
 
         // origin is above triangle
         gjk->v = GLKVector3Normalize(normal);
+    }
+    else {
+        gjk->sim[2] = gjk->sim[0];
+        gjk->sim[0] = s;
+
+        // origin is below triangle
+        gjk->v = GLKVector3Normalize(GLKVector3Negate(normal));
     }
     
     gjk->n = 3;
@@ -114,7 +114,7 @@ GLK_INLINE void RZXGJKUpdateFaceSelect(RZXGJK *gjk, GLKVector3 e1, GLKVector3 e2
 GLK_INLINE void RZXGJKUpdate0(RZXGJK *gjk, RZXGJKSupport s)
 {
     gjk->sim[0] = s;
-    ++gjk->n;
+    gjk->n = 1;
 
     // point directly towards the origin next
     gjk->v = GLKVector3Normalize(GLKVector3Negate(s.p));
@@ -122,13 +122,8 @@ GLK_INLINE void RZXGJKUpdate0(RZXGJK *gjk, RZXGJKSupport s)
 
 GLK_INLINE void RZXGJKUpdate1(RZXGJK *gjk, RZXGJKSupport s)
 {
-    gjk->sim[1] = gjk->sim[0];
-    gjk->sim[0] = s;
-    ++gjk->n;
-
-    // next direction points towards origin and is perpendicular to the line segment
-    GLKVector3 diff = GLKVector3Subtract(gjk->sim[1].p, s.p);
-    gjk->v = GLKVector3Normalize(RZXVector3CrossABA(diff, GLKVector3Negate(s.p)));
+    GLKVector3 edge = GLKVector3Subtract(gjk->sim[0].p, s.p);
+    RZXGJKUpdateEdgeCCW(gjk, edge, s);
 }
 
 GLK_INLINE void RZXGJKUpdate2(RZXGJK *gjk, RZXGJKSupport s)
