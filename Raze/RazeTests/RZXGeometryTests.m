@@ -259,6 +259,12 @@
     // no intersection w/ rotation
     b2.center = GLKVector3Make(5.0f, 5.0f, 5.0f);
     XCTAssertFalse(RZXBoxIntersectsBox(b1, b2, NULL));
+
+    // would intersect if not rotated
+    b1 = RZXBoxMakeAxisAligned(GLKVector3Make(0.0f, 8.0f, -8.0f), GLKVector3Make(1.0f, 1.0f, 1.0f));
+    b2 = RZXBoxMakeAxisAligned(GLKVector3Make(0.0f, -2.0f, 0.0f), GLKVector3Make(25.0f, 25.0f, 0.1f));
+    RZXBoxRotate(&b2, GLKQuaternionMakeWithAngleAndAxis(M_PI_2, 1.0f, 0.0f, 0.0f));
+    XCTAssertFalse(RZXBoxIntersectsBox(b1, b2, NULL));
 }
 
 
