@@ -73,7 +73,6 @@
 + (instancetype)bodyWithCollider:(RZXCollider *)collider;
 - (instancetype)initWithCollider:(RZXCollider *)collider;
 
-- (void)applyForce:(GLKVector3)force;
 - (void)applyImpulse:(GLKVector3)impulse;
 
 @end
@@ -82,5 +81,8 @@
 
 @property (nonatomic, readonly) RZXTransform3D *transform;
 @property (nonatomic, readonly) RZXTransform3D *worldTransform;
+
+- (void)willSimulatePhysics;
+- (void)didSimulatePhysics;
 
 @end

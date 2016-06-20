@@ -22,7 +22,7 @@
 - (instancetype)init
 {
     if ( (self = [super init]) ) {
-        _contactedBodies = [NSHashTable weakObjectsHashTable];
+        _contactedBodies = [NSHashTable hashTableWithOptions:NSHashTableWeakMemory | NSPointerFunctionsObjectPointerPersonality];
         _categoryMask = 0xFFFF;
         _collisionMask = 0xFFFF;
         _mass = 1.0f;
@@ -64,11 +64,6 @@
     _collider.body = self;
 }
 
-- (void)applyForce:(GLKVector3)force
-{
-    // TODO: apply the force
-}
-
 - (void)applyImpulse:(GLKVector3)impulse
 {
     [self adjustVelocity:GLKVector3MultiplyScalar(impulse, self.inverseMass)];
@@ -87,14 +82,19 @@
     self.velocity = GLKVector3Add(self.velocity, dv);
 }
 
+- (void)prepareForUpdates
+{
+    [self.representedObject willSimulatePhysics];
+}
+
+- (void)finalizeUpdates
+{
+    [self.representedObject didSimulatePhysics];
+}
+
 - (void)addContactedBody:(RZXPhysicsBody *)other
 {
     [_contactedBodies addObject:other];
-}
-
-- (void)clearContactedBodies
-{
-    [_contactedBodies removeAllObjects];
 }
 
 - (RZXContact *)generateContact:(RZXPhysicsBody *)other

@@ -125,13 +125,7 @@
 
 - (GLKMatrix4)modelMatrix
 {
-    GLKMatrix4 modelMatrix = self.transform ? self.transform.modelMatrix : GLKMatrix4Identity;
-    
-    if ( self.parent != nil ) {
-        modelMatrix = GLKMatrix4Multiply([self.parent modelMatrix], modelMatrix);
-    }
-    
-    return modelMatrix;
+    return self.worldTransform.modelMatrix;
 }
 
 - (GLKMatrix4)viewMatrix
@@ -295,7 +289,17 @@
 
 - (RZXTransform3D *)worldTransform
 {
-    return [self.scene convertTransform:self.transform fromNode:self];
+    return self.scene ? [self.scene convertTransform:self.transform fromNode:self] : self.transform;
+}
+
+- (void)willSimulatePhysics
+{
+    // subclass override
+}
+
+- (void)didSimulatePhysics
+{
+    // subclass override
 }
 
 - (void)setPhysicsBody:(RZXPhysicsBody *)physicsBody

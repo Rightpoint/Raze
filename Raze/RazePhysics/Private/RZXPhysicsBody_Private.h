@@ -18,8 +18,10 @@
 
 - (void)adjustVelocity:(GLKVector3)dv;
 
+- (void)prepareForUpdates;
+- (void)finalizeUpdates;
+
 - (void)addContactedBody:(RZXPhysicsBody *)other;
-- (void)clearContactedBodies;
 
 - (RZXContact *)generateContact:(RZXPhysicsBody *)other;
 

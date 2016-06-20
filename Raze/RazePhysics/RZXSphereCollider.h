@@ -6,7 +6,6 @@
 //  Copyright (c) 2016 Raizlabs. All rights reserved.
 //
 
-#import <RazeCore/RZXMath.h>
 #import <RazePhysics/RZXCollider.h>
 
 /**

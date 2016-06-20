@@ -13,12 +13,16 @@
 
 @implementation RZXPhysicsWorld {
     NSMutableSet *_bodies;
+    NSMutableSet *_currentContacts;
+    NSMutableSet *_frameContacts;
 }
 
 - (instancetype)init
 {
     if ( (self = [super init]) ) {
         _bodies = [NSMutableSet set];
+        _currentContacts = [NSMutableSet set];
+        _frameContacts = [NSMutableSet set];
         _gravity = GLKVector3Make(0.0f, -9.8f, 0.0f);
     }
 
@@ -79,18 +83,29 @@
     GLKVector3 gravity = GLKVector3MultiplyScalar(self.gravity, dt);
 
     for ( RZXPhysicsBody *body in bodies ) {
+        [body prepareForUpdates];
+
         if ( body.isDynamic && body.isAffectedByGravity && body.mass > 0.0f ) {
             [body adjustVelocity:gravity];
         }
-
-        [body clearContactedBodies];
     }
 
     [self resolveContactsForBodies:bodies];
 
     for ( RZXPhysicsBody *body in bodies ) {
         [body rzx_update:dt];
+        [body finalizeUpdates];
     }
+
+    if ( self.delegate != nil ) {
+        [self notifyContactDelegate];
+    }
+
+    NSMutableSet *tmp = _currentContacts;
+    _currentContacts = _frameContacts;
+    _frameContacts = tmp;
+
+    [_frameContacts removeAllObjects];
 }
 
 #pragma mark - private
@@ -110,6 +125,7 @@
                 [second addContactedBody:first];
 
                 [self resolveContact:contact];
+                [_frameContacts addObject:contact];
             }
         }
     }
@@ -140,6 +156,23 @@
         if ( (second.collisionMask & first.categoryMask) != 0 ) {
             [second adjustVelocity:GLKVector3MultiplyScalar(impulse, second.inverseMass)];
         }
+    }
+}
+
+- (void)notifyContactDelegate
+{
+    NSMutableSet *newContacts = [_frameContacts mutableCopy];
+    [newContacts minusSet:_currentContacts];
+
+    for ( RZXContact *contact in newContacts ) {
+        [self.delegate contactDidBegin:contact];
+    }
+
+    NSMutableSet *oldContacts = [_currentContacts mutableCopy];
+    [oldContacts minusSet:_frameContacts];
+
+    for ( RZXContact *contact in oldContacts ) {
+        [self.delegate contactDidEnd:contact];
     }
 }
 
