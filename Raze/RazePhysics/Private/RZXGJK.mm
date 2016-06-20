@@ -362,7 +362,7 @@ bool RZXGJKGetContactData(const RZXGJK *gjk, RZXGJKSupportMapping support, RZXCo
         // if the next point doesn't move farther from the origin, we've found the closest triangle
         if ( GLKVector3DotProduct(nearestTriangle.normal, next.p) - nearestDist < kRZXEPATerminationThreshold ) {
             if ( data != NULL ) {
-                data->normal = GLKVector3Negate(nearestTriangle.normal);
+                data->normal = nearestTriangle.normal;
                 data->distance = RZXEPATriangleGetDistanceFromOrigin(nearestTriangle);
             }
             return true;
