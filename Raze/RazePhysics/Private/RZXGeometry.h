@@ -147,20 +147,27 @@ GLK_INLINE GLKQuaternion RZXBoxGetRotation(RZXBox b)
 
 GLK_INLINE void RZXBoxGetCorners(RZXBox b, GLKVector3 *corners)
 {
-    GLKVector3 c = b.center;
     GLKVector3 r = b.radius;
 
-    // front
-    corners[0] = GLKVector3Make(c.x + r.x, c.y - r.y, c.z + r.z);
-    corners[1] = GLKVector3Make(c.x + r.x, c.y + r.y, c.z + r.z);
-    corners[2] = GLKVector3Make(c.x - r.x, c.y + r.y, c.z + r.z);
-    corners[3] = GLKVector3Make(c.x - r.x, c.y - r.y, c.z + r.z);
+    GLKMatrix3 basis = GLKMatrix3MakeWithColumns(b.axes[0], b.axes[1], b.axes[2]);
 
-    //back
-    corners[4] = GLKVector3Make(c.x + r.x, c.y - r.y, c.z - r.z);
-    corners[5] = GLKVector3Make(c.x + r.x, c.y + r.y, c.z - r.z);
-    corners[6] = GLKVector3Make(c.x - r.x, c.y + r.y, c.z - r.z);
-    corners[7] = GLKVector3Make(c.x - r.x, c.y - r.y, c.z - r.z);
+    GLKVector3 radii[] = {
+        // front
+        GLKVector3Make(+r.x, -r.y, +r.z),
+        GLKVector3Make(+r.x, +r.y, +r.z),
+        GLKVector3Make(-r.x, +r.y, +r.z),
+        GLKVector3Make(-r.x, -r.y, +r.z),
+
+        //back
+        GLKVector3Make(+r.x, -r.y, -r.z),
+        GLKVector3Make(+r.x, +r.y, -r.z),
+        GLKVector3Make(-r.x, +r.y, -r.z),
+        GLKVector3Make(-r.x, -r.y, -r.z)
+    };
+
+    for ( int i = 0; i < 8; ++i ) {
+        corners[i] = GLKVector3Add(b.center, GLKMatrix3MultiplyVector3(basis, radii[i]));
+    }
 }
 
 GLK_INLINE GLKVector3 RZXBoxGetNearestPoint(RZXBox b, GLKVector3 p)
