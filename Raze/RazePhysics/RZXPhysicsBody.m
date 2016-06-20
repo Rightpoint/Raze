@@ -23,8 +23,6 @@
 {
     if ( (self = [super init]) ) {
         _contactedBodies = [NSHashTable hashTableWithOptions:NSHashTableWeakMemory | NSPointerFunctionsObjectPointerPersonality];
-        _categoryMask = 0xFFFF;
-        _collisionMask = 0xFFFF;
         _mass = 1.0f;
         _inverseMass = 1.0f;
         _dynamic = YES;

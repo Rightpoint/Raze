@@ -14,6 +14,8 @@
 - (instancetype)init
 {
     if ( (self = [super init]) ) {
+        _categoryMask = 0xFFFF;
+        _collisionMask = 0xFFFF;
         _active = YES;
     }
 
