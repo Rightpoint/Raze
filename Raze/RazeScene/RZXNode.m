@@ -318,16 +318,6 @@
     }
 }
 
-- (void)didBeginContact:(RZXCollider *)collider
-{
-    // subclass override
-}
-
-- (void)didEndContact:(RZXCollider *)collider
-{
-    // subclass override
-}
-
 #pragma mark - RZXGPUObject overrides
 
 - (BOOL)setupGL
