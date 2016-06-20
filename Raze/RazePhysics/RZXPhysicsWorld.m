@@ -141,21 +141,19 @@
 
     float relativeNormalVelocity = GLKVector3DotProduct(relativeVelocity, normal);
 
-    if ( relativeNormalVelocity < 0.0f ) {
-        float totalInverseMass = MAX(FLT_EPSILON, (first.inverseMass + second.inverseMass));
-        float cor = 0.5f * (first.restitution + second.restitution);
+    float totalInverseMass = MAX(FLT_EPSILON, (first.inverseMass + second.inverseMass));
+    float cor = 0.5f * (first.restitution + second.restitution);
 
-        float magnitude = (1.0f + cor) * relativeNormalVelocity / totalInverseMass;
+    float magnitude = (1.0f + cor) * relativeNormalVelocity / totalInverseMass;
 
-        GLKVector3 impulse = GLKVector3MultiplyScalar(normal, magnitude);
+    GLKVector3 impulse = GLKVector3MultiplyScalar(normal, magnitude);
 
-        if ( (first.collider.collisionMask & second.collider.categoryMask) != 0 ) {
-            [first adjustVelocity:GLKVector3MultiplyScalar(impulse, -first.inverseMass)];
-        }
+    if ( (first.collider.collisionMask & second.collider.categoryMask) != 0 ) {
+        [first adjustVelocity:GLKVector3MultiplyScalar(impulse, -first.inverseMass)];
+    }
 
-        if ( (second.collider.collisionMask & first.collider.categoryMask) != 0 ) {
-            [second adjustVelocity:GLKVector3MultiplyScalar(impulse, second.inverseMass)];
-        }
+    if ( (second.collider.collisionMask & first.collider.categoryMask) != 0 ) {
+        [second adjustVelocity:GLKVector3MultiplyScalar(impulse, second.inverseMass)];
     }
 }
 
