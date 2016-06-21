@@ -15,7 +15,7 @@
 
 @implementation RZXMeshCollider {
     RZXHull _untransformedHull;
-    RZXBox _untransformedBox;
+    RZXBox _untransformedBox; // an AABB
     RZXSphere _untransformedSphere;
 }
 
@@ -28,7 +28,7 @@
 {
     if ( (self = [super init]) ) {
         // TODO: store untransformed hull
-        _untransformedBox = RZXHullGetOBB(_untransformedHull);
+        _untransformedBox = RZXHullGetAABB(_untransformedHull);
         _untransformedSphere = RZXBoxGetBoundingSphere(_untransformedBox);
     }
 
@@ -39,6 +39,8 @@
 
 - (RZXBox)boundingBox
 {
+    // NOTE: since _untransformedBox is an AABB, this is not the min volume OBB of the hull,
+    // but this is fine because the boundingBox is used only for approximations
     RZXBox box = _untransformedBox;
 
     RZXTransform3D *transform = self.worldTransform;

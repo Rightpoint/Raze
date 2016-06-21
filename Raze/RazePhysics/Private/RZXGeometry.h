@@ -275,10 +275,8 @@ GLK_INLINE GLKVector3 RZXHullGetPoint(RZXHull h, unsigned int idx)
     return *(GLKVector3 *)point;
 }
 
-GLK_INLINE RZXBox RZXHullGetOBB(RZXHull hull)
+GLK_INLINE RZXBox RZXHullGetAABB(RZXHull hull)
 {
-    // TODO: this currently returns an AABB. Should return an OBB.
-
     GLKVector3 min = RZXHullGetPoint(hull, 0);
     GLKVector3 max = RZXHullGetPoint(hull, 0);
 
