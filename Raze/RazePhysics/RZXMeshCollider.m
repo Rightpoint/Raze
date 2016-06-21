@@ -45,11 +45,11 @@
     NSUInteger positionOffset = [mesh offsetOfAttribute:kRZXVertexAttribPosition];
 
     if ( vertexSize <= 0 ) {
-        RZXLog(@"%@ failed to intialize with %@, because the mesh vertex size was 0.", NSStringFromClass(self));
+        RZXLog(@"RZXMeshCollider failed to intialize with %@, because the mesh vertex size was 0.", mesh);
         self = nil;
     }
     else if ( positionOffset == NSNotFound ) {
-        RZXLog(@"%@ failed to intialize with %@, because the mesh did not have kRZXVertexAttribPosition as a vertex attribute.", NSStringFromClass(self));
+        RZXLog(@"RZXMeshCollider failed to intialize with %@, because the mesh did not have kRZXVertexAttribPosition as a vertex attribute.", mesh);
         self = nil;
     }
     else if ( (self = [super init]) ) {

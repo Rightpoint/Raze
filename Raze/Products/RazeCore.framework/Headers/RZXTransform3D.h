@@ -26,7 +26,15 @@
 @property (nonatomic, readonly) GLKMatrix4 modelMatrix;
 
 + (instancetype)transform;
++ (instancetype)transformWithTranslation:(GLKVector3)trans;
++ (instancetype)transformWithRotation:(GLKQuaternion)rot;
++ (instancetype)transformWithScale:(GLKVector3)scale;
 + (instancetype)transformWithTranslation:(GLKVector3)trans rotation:(GLKQuaternion)rot scale:(GLKVector3)scale;
+
+- (instancetype)initWithTranslation:(GLKVector3)trans;
+- (instancetype)initWithRotation:(GLKQuaternion)rot;
+- (instancetype)initWithScale:(GLKVector3)scale;
+- (instancetype)initWithTranslation:(GLKVector3)trans rotation:(GLKQuaternion)rot scale:(GLKVector3)scale;
 
 // delta is added to current value
 - (void)translateXBy:(float)dx;
@@ -66,6 +74,10 @@
  */
 - (void)transformBy:(RZXTransform3D *)transform;
 
+/**
+ *  Returns a new transform created by concatenating transform with the receiver.
+ */
+- (instancetype)transformedBy:(RZXTransform3D *)transform;
 
 /**
  *  Inverts the receiver's translation, scale, and rotation properties.

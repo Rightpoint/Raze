@@ -17,25 +17,23 @@
  */
 @property (copy, nonatomic) NSString *name;
 
+/**
+ *  The model object that the body represents.
+ *  @note If using the `RazeScene` module, the `representedObject` will be an `RZXNode`,
+ *  and should not be set directly.
+ */
 @property (strong, nonatomic) id<RZXPhysicsObject> representedObject;
+
+/**
+ *  The collision volume attached to the body that defines the shape of the body.
+ *  Default is `nil`.
+ */
 @property (strong, nonatomic) RZXCollider *collider;
 
 /**
  *  The physics world that the body exists in.
  */
 @property (weak, nonatomic, readonly) RZXPhysicsWorld *world;
-
-/**
- *  The category mask used when testing whether two bodies should collide.
- *  Default is 0xFFFF.
- */
-@property (assign, nonatomic) uint32_t categoryMask;
-
-/**
- *  The body colides with another body when other.categoryMask bitwise and-ed with the collisionMask is non-zero.
- *  Default is 0xFFFF, meaning the body will collide with everything.
- */
-@property (assign, nonatomic) uint32_t collisionMask;
 
 /**
  *  Mass of the body. 
@@ -67,13 +65,13 @@
 
 /**
  *  The set of bodies currently in contact with the receiver.
+ *  @note If the receiver does not have a collider attached, then this set will always be empty.
  */
 @property (nonatomic, readonly) NSSet *contactedBodies;
 
 + (instancetype)bodyWithCollider:(RZXCollider *)collider;
 - (instancetype)initWithCollider:(RZXCollider *)collider;
 
-- (void)applyForce:(GLKVector3)force;
 - (void)applyImpulse:(GLKVector3)impulse;
 
 @end
@@ -82,5 +80,8 @@
 
 @property (nonatomic, readonly) RZXTransform3D *transform;
 @property (nonatomic, readonly) RZXTransform3D *worldTransform;
+
+- (void)willSimulatePhysics;
+- (void)didSimulatePhysics;
 
 @end
