@@ -139,21 +139,35 @@
     GLKVector3 normal = contact.normal;
     GLKVector3 relativeVelocity = GLKVector3Subtract(first.velocity, second.velocity);
 
+    float firstInvMass = first.inverseMass;
+    float secondInvMass = second.inverseMass;
+
     float relativeNormalVelocity = GLKVector3DotProduct(relativeVelocity, normal);
 
-    float totalInverseMass = MAX(FLT_EPSILON, (first.inverseMass + second.inverseMass));
+    float totalInverseMass = MAX(FLT_EPSILON, (firstInvMass + secondInvMass));
     float cor = 0.5f * (first.restitution + second.restitution);
 
     float magnitude = (1.0f + cor) * relativeNormalVelocity / totalInverseMass;
 
     GLKVector3 impulse = GLKVector3MultiplyScalar(normal, magnitude);
 
-    if ( (first.collider.collisionMask & second.collider.categoryMask) != 0 ) {
-        [first adjustVelocity:GLKVector3MultiplyScalar(impulse, -first.inverseMass)];
-    }
+    BOOL firstCollides = first.isDynamic && (first.collider.collisionMask & second.collider.categoryMask) != 0;
+    BOOL secondCollides = second.isDynamic && (second.collider.collisionMask & first.collider.categoryMask) != 0;
 
-    if ( (second.collider.collisionMask & first.collider.categoryMask) != 0 ) {
-        [second adjustVelocity:GLKVector3MultiplyScalar(impulse, second.inverseMass)];
+    if ( firstCollides && secondCollides ) {
+        [first adjustVelocity:GLKVector3MultiplyScalar(impulse, -firstInvMass)];
+        [first adjustPosition:GLKVector3MultiplyScalar(normal, (firstInvMass / totalInverseMass) * contact.distance)];
+
+        [second adjustVelocity:GLKVector3MultiplyScalar(impulse, secondInvMass)];
+        [second adjustPosition:GLKVector3MultiplyScalar(normal, -(secondInvMass / totalInverseMass) * contact.distance)];
+    }
+    else if ( firstCollides ) {
+        [first adjustVelocity:GLKVector3MultiplyScalar(impulse, -firstInvMass)];
+        [first adjustPosition:GLKVector3MultiplyScalar(normal, contact.distance)];
+    }
+    else if ( secondCollides ) {
+        [second adjustVelocity:GLKVector3MultiplyScalar(impulse, secondInvMass)];
+        [second adjustPosition:GLKVector3MultiplyScalar(normal, -contact.distance)];
     }
 }
 

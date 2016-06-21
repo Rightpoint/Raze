@@ -47,7 +47,7 @@
 - (void)setMass:(float)mass
 {
     _mass = MAX(0.0f, mass);
-    _inverseMass = (mass != 0.0f) ? (1.0f / mass) : 0.0f;
+    _inverseMass = (mass != 0.0f) ? (1.0f / mass) : INFINITY;
 }
 
 - (void)setRestitution:(float)restitution
@@ -78,6 +78,11 @@
 - (void)adjustVelocity:(GLKVector3)dv
 {
     self.velocity = GLKVector3Add(self.velocity, dv);
+}
+
+- (void)adjustPosition:(GLKVector3)movement
+{
+    [self.representedObject.transform translateBy:movement];
 }
 
 - (void)prepareForUpdates
@@ -113,7 +118,7 @@
 - (void)rzx_update:(NSTimeInterval)dt
 {
     GLKVector3 movement = GLKVector3MultiplyScalar(self.velocity, dt);
-    [self.representedObject.transform translateBy:movement];
+    [self adjustPosition:movement];
 }
 
 @end
