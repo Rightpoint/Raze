@@ -14,7 +14,7 @@
 
 // Cap the number of iterations to avoid rare ping-ponging scenarios
 static const unsigned int kRZXGJKMaxIterations = 64;
-static const float kRZXEPATerminationThreshold = 1e3f;
+static const float kRZXEPATerminationThreshold = 1e-3f;
 
 typedef NS_OPTIONS(int, RZXGJKFaces) {
     RZXGJKFaceNone  = 0,
@@ -315,17 +315,20 @@ GLK_INLINE void RZXEPAEdgeListInsertTriangle(std::list<RZXEPAEdge> &list, RZXEPA
     edges[2] = (RZXEPAEdge){ .p0 = t.points[2], .p1 = t.points[0] };
 
     for ( unsigned int i = 0; i < 3; ++i ) {
-        for ( auto it = list.begin(); it != list.end(); ++it ) {
+        bool addEdge = true;
+
+        for ( auto it = list.begin(); addEdge && it != list.end(); ++it ) {
             // if an opposite edge is found, remove it and don't insert the new one
             if ( GLKVector3AllEqualToVector3(edges[i].p0.p, it->p1.p) && GLKVector3AllEqualToVector3(edges[i].p1.p, it->p0.p) ) {
                 list.erase(it);
-                break;
+                addEdge = false;
             }
+        }
 
+        if ( addEdge ) {
             list.emplace_back(edges[i]);
         }
     }
-
 }
 
 // EPA as described by http://allenchou.net/2013/12/game-physics-contact-generation-epa/
@@ -362,7 +365,7 @@ bool RZXGJKGetContactData(const RZXGJK *gjk, RZXGJKSupportMapping support, RZXCo
         // if the next point doesn't move farther from the origin, we've found the closest triangle
         if ( GLKVector3DotProduct(nearestTriangle.normal, next.p) - nearestDist < kRZXEPATerminationThreshold ) {
             if ( data != NULL ) {
-                data->normal = nearestTriangle.normal;
+                data->normal = GLKVector3Negate(nearestTriangle.normal);
                 data->distance = RZXEPATriangleGetDistanceFromOrigin(nearestTriangle);
             }
             return true;

@@ -57,7 +57,7 @@
 
         _untransformedHull = (RZXHull) {
             .points = ((const char *)_vertexData.bytes) + positionOffset,
-            .n = _vertexData.length / vertexSize,
+            .n = (GLsizei)_vertexData.length / vertexSize,
             .stride = vertexSize
         };
 
