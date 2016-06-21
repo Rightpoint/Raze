@@ -38,7 +38,7 @@
             setup = YES;
         }
         else {
-            RZXLog(@"Failed to setup %@: No active context!", NSStringFromClass([self class]));
+            RZXLog(@"Failed to setup %@: No active context!", self);
         }
     }
 

@@ -32,10 +32,10 @@ typedef NSData* (^RZXMeshDataProvider)(id mesh);
 /** The key to use when caching the mesh. */
 @property (nonatomic, readonly) NSString *cacheKey;
 
-/** An array of `RZXVertexAttribute` defining the attributes of each vertex in the mesh. */
+/** An array of RZXVertexAttribute defining the attributes of each vertex in the mesh. */
 @property (strong, nonatomic, readonly) NSArray *vertexAttributes;
 
-/** The size, in bytes, of each vertex based on the receiver's `vertexAttributes`. */
+/** The size, in bytes, of each vertex based on the receiver's vertexAttributes. */
 @property (nonatomic, readonly) GLsizei vertexSize;
 
 // Load .mesh file. Use of cache means that if this file has already been loaded, then the buffer values will simply be copied rather then reloading the file and creating a new OpenGL VAO.
@@ -69,14 +69,25 @@ typedef NSData* (^RZXMeshDataProvider)(id mesh);
 
 /**
  *  Returns interleaved vertex data for the mesh.
- *  @note The mesh's vertex provider is invoked each time this method is called.
+ *  @note Vertices are cached once loaded or retrieved from a data provider.
+ *  @see setNeedsUpdate
  */
 - (NSData *)vertices;
+
+/** 
+ *  Returns the byte offset into each vertex of the attribute with the given index.
+ *  For example, you could pass kRZXVertexAttribPosition to retrieve the offset of the position attribute.
+ *
+ *  @return  The byte offset into each vertex of the attribute with the given index, 
+ *  or NSNotFound if the receiver's vertices don't have the specified attribute.
+
+ */
+- (NSUInteger)offsetOfAttribute:(GLuint)index;
 
 /**
  *  Flags the mesh as needing to update its GPU buffer due to changes in the geometry.
  *  This method returns immediately and updates the GPU the next time the mesh is rendered,
- *  by calling `teardownGL` and then `setupGL`.
+ *  by calling teardownGL and then setupGL.
  *  You should call this method whenever the data returned by the mesh's vertex or index providers changes.
  *  @note Calling this method on a mesh created from a file has no effect, because the mesh is not mutable.
  */
