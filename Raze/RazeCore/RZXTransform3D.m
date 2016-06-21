@@ -17,7 +17,22 @@
 
 + (instancetype)transform
 {
-    return [[[self class] alloc] init];
+    return [[self alloc] init];
+}
+
++ (instancetype)transformWithTranslation:(GLKVector3)trans
+{
+    return [[self alloc] initWithTranslation:trans];
+}
+
++ (instancetype)transformWithRotation:(GLKQuaternion)rot
+{
+    return [[self alloc] initWithRotation:rot];
+}
+
++ (instancetype)transformWithScale:(GLKVector3)scale
+{
+    return [[self alloc] initWithScale:scale];
 }
 
 + (instancetype)transformWithTranslation:(GLKVector3)trans rotation:(GLKQuaternion)rot scale:(GLKVector3)scale
@@ -27,7 +42,35 @@
 
 - (instancetype)init
 {
-    return [self initWithTranslation:RZXVector3Zero rotation:GLKQuaternionIdentity scale:GLKVector3Make(1.0f, 1.0f, 1.0f)];
+    return [self initWithTranslation:RZXVector3Zero rotation:GLKQuaternionIdentity scale:RZXVector3One];
+}
+
+- (instancetype)initWithTranslation:(GLKVector3)trans
+{
+    return [self initWithTranslation:trans rotation:GLKQuaternionIdentity scale:RZXVector3One];
+}
+
+- (instancetype)initWithRotation:(GLKQuaternion)rot
+{
+    return [self initWithTranslation:RZXVector3Zero rotation:rot scale:RZXVector3One];
+}
+
+- (instancetype)initWithScale:(GLKVector3)scale
+{
+    return [self initWithTranslation:RZXVector3Zero rotation:GLKQuaternionIdentity scale:scale];
+}
+
+- (instancetype)initWithTranslation:(GLKVector3)trans rotation:(GLKQuaternion)rot scale:(GLKVector3)scale
+{
+    self = [super init];
+    if ( self ) {
+        _translation = trans;
+        _rotation = rot;
+        _scale = scale;
+
+        _cachedModelMatrix = NULL;
+    }
+    return self;
 }
 
 - (void)dealloc
@@ -228,11 +271,21 @@
 
 - (void)transformBy:(RZXTransform3D *)transform
 {
-    _translation = GLKVector3Add(_translation, transform.translation);
-    _scale = GLKVector3Multiply(_scale, transform.scale);
-    _rotation = GLKQuaternionMultiply(_rotation, transform.rotation);
+    if ( transform != nil ) {
+        _translation = GLKVector3Add(_translation, transform.translation);
+        _scale = GLKVector3Multiply(_scale, transform.scale);
+        _rotation = GLKQuaternionMultiply(_rotation, transform.rotation);
 
-    [self invalidateModelMatrixCache];
+        [self invalidateModelMatrixCache];
+    }
+}
+
+- (instancetype)transformedBy:(RZXTransform3D *)transform
+{
+    RZXTransform3D *transformed = [self copy];
+    [transformed transformBy:transform];
+
+    return transformed;
 }
 
 - (void)invert
@@ -268,21 +321,6 @@
     copy.scale = _scale;
     
     return copy;
-}
-
-#pragma mark - private methods
-
-- (instancetype)initWithTranslation:(GLKVector3)trans rotation:(GLKQuaternion)rot scale:(GLKVector3)scale
-{
-    self = [super init];
-    if ( self ) {
-        _translation = trans;
-        _rotation = rot;
-        _scale = scale;
-        
-        _cachedModelMatrix = NULL;
-    }
-    return self;
 }
 
 - (void)invalidateModelMatrixCache

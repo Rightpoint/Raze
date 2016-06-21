@@ -11,6 +11,12 @@
 #import <GLKit/GLKMath.h>
 
 static const GLKVector3 RZXVector3Zero = (GLKVector3){ 0.0f, 0.0f, 0.0f };
+static const GLKVector3 RZXVector3One = (GLKVector3){ 1.0f, 1.0f, 1.0f };
+
+GLK_INLINE GLKVector3 RZXVector3MakeScalar(float s)
+{
+    return GLKVector3Make(s, s, s);
+}
 
 // Handles the singularity at +/-M_PI_2 pitch
 GLK_INLINE float RZXSafeASin(float x)
