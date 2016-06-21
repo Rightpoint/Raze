@@ -17,6 +17,7 @@
 
 @implementation RZXMeshCollider {
     NSData *_vertexData;
+    RZXTransform3D *_transform;
 
     RZXHull _untransformedHull;
     RZXBox _untransformedBox; // an AABB
@@ -28,7 +29,17 @@
     return [[self alloc] initWithConvexMesh:mesh];
 }
 
++ (instancetype)colliderWithConvexMesh:(RZXMesh *)mesh transform:(RZXTransform3D *)transform
+{
+    return [[self alloc] initWithConvexMesh:mesh transform:transform];
+}
+
 - (instancetype)initWithConvexMesh:(RZXMesh *)mesh
+{
+    return [self initWithConvexMesh:mesh transform:nil];
+}
+
+- (instancetype)initWithConvexMesh:(RZXMesh *)mesh transform:(RZXTransform3D *)transform
 {
     GLsizei vertexSize = mesh.vertexSize;
     NSUInteger positionOffset = [mesh offsetOfAttribute:kRZXVertexAttribPosition];
@@ -52,12 +63,25 @@
 
         _untransformedBox = RZXHullGetAABB(_untransformedHull);
         _untransformedSphere = RZXBoxGetBoundingSphere(_untransformedBox);
-    }
 
+        _transform = transform;
+    }
+    
     return self;
 }
 
 #pragma mark - private
+
+- (RZXTransform3D *)worldTransform
+{
+    RZXTransform3D *world = [super worldTransform];
+
+    if ( _transform != nil ) {
+        world = [_transform transformedBy:world];
+    }
+
+    return world;
+}
 
 - (RZXBox)boundingBox
 {
