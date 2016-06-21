@@ -9,6 +9,10 @@
 #import <RazeCore/RZXMesh.h>
 #import <RazeCore/RZXCache.h>
 
+typedef struct _RZXBufferSet {
+    GLuint vbo, ibo;
+} RZXBufferSet;
+
 static NSString* const kRZXMeshAttributeVAO = @"RZXMeshName";
 static NSString* const kRZXMeshAttributeIndexCount = @"RZXMeshIndexCount";
 static NSString* const kRZXMeshAttributeVertices = @"RZXMeshVertices";

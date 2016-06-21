@@ -14,10 +14,6 @@ OBJC_EXTERN NSString* const kRZXMeshFileExtension;
 @class RZXMesh;
 @class RZXVertexAttribute;
 
-typedef struct _RZXBufferSet {
-    GLuint vbo, ibo;
-} RZXBufferSet;
-
 typedef NSData* (^RZXMeshDataProvider)(id mesh);
 
 /**
