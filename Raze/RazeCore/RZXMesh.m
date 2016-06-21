@@ -291,20 +291,25 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 
             NSData *vertexData = [[NSData alloc] initWithBytesNoCopy:uniqueVertexArray length:uniqueVertexArraySize freeWhenDone:YES];
 
-            NSData *indexData = [[NSData alloc] initWithBytesNoCopy:indexArray length:indexArraySize freeWhenDone:YES];
-
             *vertexProvider = ^NSData* (id mesh) {
                 return vertexData;
             };
 
-            *indexProvider = ^NSData* (id mesh) {
-                return indexData;
-            };
+            if ( indexProvider != NULL ) {
+                NSData *indexData = [[NSData alloc] initWithBytesNoCopy:indexArray length:indexArraySize freeWhenDone:YES];
+
+                *indexProvider = ^NSData* (id mesh) {
+                    return indexData;
+                };
+            }
         }
     }
     else {
         *vertexProvider = self.vertexProvider;
-        *indexProvider = self.indexProvider;
+
+        if ( indexProvider != NULL ) {
+            *indexProvider = self.indexProvider;
+        }
     }
 }
 
@@ -340,6 +345,7 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 {
     _vertexData = vertexProvider(self);
 
+    // a mesh without a cache key is mutable
     GLenum bufferUsage = (self.cacheKey == nil) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW;
 
     glGenBuffers(1, &_bufferSet.vbo);
