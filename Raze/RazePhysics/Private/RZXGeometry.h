@@ -34,8 +34,8 @@ typedef struct _RZXBox {
 
 typedef struct _RZXHull {
     const void *points;
-    size_t stride;
     unsigned int n;
+    size_t stride;
 } RZXHull;
 
 typedef struct _RZXTRS {

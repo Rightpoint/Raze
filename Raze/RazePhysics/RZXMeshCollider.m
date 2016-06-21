@@ -10,10 +10,14 @@
 #import <RazePhysics/RZXCollider_Private.h>
 #import <RazePhysics/RZXContact_Private.h>
 
+#import <RazeCore/RZXMesh.h>
+
 #import <RazePhysics/RZXSphereCollider.h>
 #import <RazePhysics/RZXBoxCollider.h>
 
 @implementation RZXMeshCollider {
+    NSData *_vertexData;
+
     RZXHull _untransformedHull;
     RZXBox _untransformedBox; // an AABB
     RZXSphere _untransformedSphere;
@@ -26,8 +30,26 @@
 
 - (instancetype)initWithConvexMesh:(RZXMesh *)mesh
 {
-    if ( (self = [super init]) ) {
-        // TODO: store untransformed hull
+    GLsizei vertexSize = mesh.vertexSize;
+    NSUInteger positionOffset = [mesh offsetOfAttribute:kRZXVertexAttribPosition];
+
+    if ( vertexSize <= 0 ) {
+        RZXLog(@"%@ failed to intialize with %@, because the mesh vertex size was 0.", NSStringFromClass(self));
+        self = nil;
+    }
+    else if ( positionOffset == NSNotFound ) {
+        RZXLog(@"%@ failed to intialize with %@, because the mesh did not have kRZXVertexAttribPosition as a vertex attribute.", NSStringFromClass(self));
+        self = nil;
+    }
+    else if ( (self = [super init]) ) {
+        _vertexData = [mesh vertices];
+
+        _untransformedHull = (RZXHull) {
+            .points = ((const char *)_vertexData.bytes) + positionOffset,
+            .n = _vertexData.length / vertexSize,
+            .stride = vertexSize
+        };
+
         _untransformedBox = RZXHullGetAABB(_untransformedHull);
         _untransformedSphere = RZXBoxGetBoundingSphere(_untransformedBox);
     }
