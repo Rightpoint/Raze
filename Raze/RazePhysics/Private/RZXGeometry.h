@@ -283,13 +283,8 @@ GLK_INLINE RZXBox RZXHullGetAABB(RZXHull hull)
     for ( unsigned int i = 1; i < hull.n; ++i ) {
         GLKVector3 p = RZXHullGetPoint(hull, i);
 
-        min.x = MIN(min.x, p.x);
-        min.y = MIN(min.y, p.y);
-        min.z = MIN(min.z, p.z);
-
-        max.x = MAX(max.x, p.x);
-        max.y = MAX(max.y, p.y);
-        max.z = MAX(max.z, p.z);
+        min = GLKVector3Minimum(min, p);
+        max = GLKVector3Maximum(max, p);
     }
 
     GLKVector3 size = GLKVector3Subtract(max, min);
