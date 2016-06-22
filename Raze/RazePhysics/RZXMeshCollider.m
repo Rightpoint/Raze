@@ -64,10 +64,25 @@
         _untransformedBox = RZXHullGetAABB(_untransformedHull);
         _untransformedSphere = RZXBoxGetBoundingSphere(_untransformedBox);
 
-        _transform = transform;
+        _transform = [transform copy];
     }
     
     return self;
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    RZXMeshCollider *copy = [super copyWithZone:zone];
+
+    copy->_vertexData = _vertexData;
+    copy->_transform = [_transform copy];
+    copy->_untransformedHull = _untransformedHull;
+    copy->_untransformedBox = _untransformedBox;
+    copy->_untransformedSphere = _untransformedSphere;
+
+    return copy;
 }
 
 #pragma mark - private

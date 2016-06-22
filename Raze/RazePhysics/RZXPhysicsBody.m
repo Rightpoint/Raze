@@ -67,6 +67,23 @@
     [self adjustVelocity:GLKVector3MultiplyScalar(impulse, self.inverseMass)];
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    RZXPhysicsBody *copy = [[[self class] alloc] init];
+
+    copy.name = self.name;
+    copy.collider = self.collider;
+    copy.mass = self.mass;
+    copy.restitution = self.restitution;
+    copy.velocity = self.velocity;
+    copy.dynamic = self.isDynamic;
+    copy.affectedByGravity = self.isAffectedByGravity;
+
+    return copy;
+}
+
 #pragma mark - private methods
 
 - (float)inverseMass
