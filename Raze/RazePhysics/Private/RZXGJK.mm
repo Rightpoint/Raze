@@ -14,7 +14,7 @@
 
 // Cap the number of iterations to avoid rare ping-ponging scenarios
 static const unsigned int kRZXGJKMaxIterations = 64;
-static const float kRZXEPATerminationThreshold = 1e-3f;
+static const float kRZXGJKTerminationThreshold = 1e-3f;
 
 typedef NS_OPTIONS(int, RZXGJKFaces) {
     RZXGJKFaceNone  = 0,
@@ -254,7 +254,7 @@ bool RZXGJKIntersection(RZXGJK *gjk, RZXGJKSupportMapping support)
     for ( unsigned int i = 0; i < kRZXGJKMaxIterations; ++i ) {
         RZXGJKSupport next = support(gjk->v);
 
-        if ( GLKVector3DotProduct(next.p, gjk->v) < 0.0f ) {
+        if ( GLKVector3DotProduct(next.p, gjk->v) < kRZXGJKTerminationThreshold ) {
             // not approaching origin, no intersection
             return false;
         }
@@ -295,18 +295,18 @@ GLK_INLINE RZXEPATriangle RZXEPATriangleMake(RZXGJKSupport a, RZXGJKSupport b, R
     return t;
 }
 
-GLK_INLINE float RZXEPATriangleGetDistanceFromOrigin(RZXEPATriangle t)
+GLK_INLINE float RZXEPATriangleGetDistanceFromOrigin(const RZXEPATriangle &t)
 {
     return fabsf(GLKVector3DotProduct(t.normal, t.points[0].p));
 }
 
-GLK_INLINE bool RZXEPATriangleVisibleFromPoint(RZXEPATriangle t, GLKVector3 p)
+GLK_INLINE bool RZXEPATriangleVisibleFromPoint(const RZXEPATriangle &t, GLKVector3 p)
 {
     GLKVector3 diff = GLKVector3Subtract(p, t.points[0].p);
     return (GLKVector3DotProduct(t.normal, diff) > 0.0f);
 }
 
-GLK_INLINE void RZXEPAEdgeListInsertTriangle(std::list<RZXEPAEdge> &list, RZXEPATriangle t)
+GLK_INLINE void RZXEPAEdgeListInsertTriangle(std::list<RZXEPAEdge> &list, const RZXEPATriangle &t)
 {
     RZXEPAEdge edges[3];
 
@@ -345,7 +345,7 @@ bool RZXGJKGetContactData(const RZXGJK *gjk, RZXGJKSupportMapping support, RZXCo
     triangles.emplace_back(RZXEPATriangleMake(gjk->sim[0], gjk->sim[3], gjk->sim[1]));
     triangles.emplace_back(RZXEPATriangleMake(gjk->sim[1], gjk->sim[3], gjk->sim[2]));
 
-    for ( unsigned int i = 0; i < kRZXGJKMaxIterations; ++i ) {
+    for ( unsigned int i = 0; i < kRZXGJKMaxIterations && triangles.size() > 0; ++i ) {
         RZXEPATriangle nearestTriangle = *triangles.begin();
         float nearestDist = RZXEPATriangleGetDistanceFromOrigin(nearestTriangle);
 
@@ -363,7 +363,7 @@ bool RZXGJKGetContactData(const RZXGJK *gjk, RZXGJKSupportMapping support, RZXCo
         RZXGJKSupport next = support(nearestTriangle.normal);
 
         // if the next point doesn't move farther from the origin, we've found the closest triangle
-        if ( GLKVector3DotProduct(nearestTriangle.normal, next.p) - nearestDist < kRZXEPATerminationThreshold ) {
+        if ( GLKVector3DotProduct(nearestTriangle.normal, next.p) - nearestDist < kRZXGJKTerminationThreshold ) {
             if ( data != NULL ) {
                 data->normal = GLKVector3Negate(nearestTriangle.normal);
                 data->distance = RZXEPATriangleGetDistanceFromOrigin(nearestTriangle);
@@ -389,6 +389,7 @@ bool RZXGJKGetContactData(const RZXGJK *gjk, RZXGJKSupportMapping support, RZXCo
         edges.clear();
     }
 
-    // ran out of iterations, a rare case probably caused by numerical instability.
+    // either ran out of iterations (a rare case probably caused by numerical instability),
+    // or something went wrong and there were no triangles left
     return false;
 }
