@@ -75,9 +75,10 @@
 - (void)transformBy:(RZXTransform3D *)transform;
 
 /**
- *  Returns a new transform created by concatenating transform with the receiver.
+ *  Contactenates the receiver with the given transform with left multiplication.
+ *  The result is equivalent to [transform transformBy:self].
  */
-- (instancetype)transformedBy:(RZXTransform3D *)transform;
+- (void)leftTransformBy:(RZXTransform3D *)transform;
 
 /**
  *  Inverts the receiver's translation, scale, and rotation properties.

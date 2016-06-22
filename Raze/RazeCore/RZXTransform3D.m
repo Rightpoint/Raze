@@ -10,7 +10,8 @@
 #import <RazeCore/NSValue+RZXExtensions.h>
 
 @implementation RZXTransform3D {
-    GLKMatrix4 *_cachedModelMatrix;
+    GLKMatrix4 _cachedModelMatrix;
+    BOOL _cached;
 }
 
 #pragma mark - lifecycle
@@ -67,8 +68,6 @@
         _translation = trans;
         _rotation = rot;
         _scale = scale;
-
-        _cachedModelMatrix = NULL;
     }
     return self;
 }
@@ -105,23 +104,25 @@
 
 - (GLKMatrix4)modelMatrix
 {
-    @synchronized (self) {
-        if ( _cachedModelMatrix == NULL ) {
-            GLKMatrix4 scale = GLKMatrix4MakeScale(_scale.x, _scale.y, _scale.z);
-            GLKMatrix4 rotation = GLKMatrix4MakeWithQuaternion(_rotation);
-            
-            GLKMatrix4 mat = GLKMatrix4Multiply(rotation, scale);
-            
-            mat.m[12] += _translation.x;
-            mat.m[13] += _translation.y;
-            mat.m[14] += _translation.z;
-            
-            _cachedModelMatrix = (GLKMatrix4 *)malloc(sizeof(GLKMatrix4));
-            memcpy(_cachedModelMatrix, &mat, sizeof(GLKMatrix4));
-        }
+    if ( !_cached ) {
+        GLKVector3 t = _translation;
+        GLKVector3 s = _scale;
+        GLKQuaternion r = _rotation;
+
+        GLKMatrix4 scale = GLKMatrix4MakeScale(s.x, s.y, s.z);
+        GLKMatrix4 rotation = GLKMatrix4MakeWithQuaternion(r);
         
-        return *_cachedModelMatrix;
+        GLKMatrix4 mat = GLKMatrix4Multiply(rotation, scale);
+        
+        mat.m[12] += t.x;
+        mat.m[13] += t.y;
+        mat.m[14] += t.z;
+
+        _cachedModelMatrix = mat;
+        _cached = true;
     }
+    
+    return _cachedModelMatrix;
 }
 
 - (void)setTranslation:(GLKVector3)translation
@@ -280,12 +281,15 @@
     }
 }
 
-- (instancetype)transformedBy:(RZXTransform3D *)transform
+- (void)leftTransformBy:(RZXTransform3D *)transform
 {
-    RZXTransform3D *transformed = [self copy];
-    [transformed transformBy:transform];
+    if ( transform != nil ) {
+        _translation = GLKVector3Add(transform.translation, _translation);
+        _scale = GLKVector3Multiply(transform.scale, _scale);
+        _rotation = GLKQuaternionMultiply(transform.rotation, _rotation);
 
-    return transformed;
+        [self invalidateModelMatrixCache];
+    }
 }
 
 - (void)invert
@@ -325,10 +329,7 @@
 
 - (void)invalidateModelMatrixCache
 {
-    @synchronized (self) {
-        free(_cachedModelMatrix);
-        _cachedModelMatrix = NULL;
-    }
+   _cached = false;
 }
 
 @end

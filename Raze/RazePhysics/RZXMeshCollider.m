@@ -92,7 +92,7 @@
     RZXTransform3D *world = [super worldTransform];
 
     if ( _transform != nil ) {
-        world = [_transform transformedBy:world];
+        [world leftTransformBy:_transform];
     }
 
     return world;
