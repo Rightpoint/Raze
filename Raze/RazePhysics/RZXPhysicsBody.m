@@ -74,7 +74,7 @@
     RZXPhysicsBody *copy = [[[self class] alloc] init];
 
     copy.name = self.name;
-    copy.collider = self.collider;
+    copy.collider = [self.collider copy];
     copy.mass = self.mass;
     copy.restitution = self.restitution;
     copy.velocity = self.velocity;
