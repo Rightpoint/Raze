@@ -22,6 +22,11 @@
     return self;
 }
 
+- (BOOL)shouldCollideWith:(RZXCollider *)other
+{
+    return ((_collisionMask & other.categoryMask) != 0);
+}
+
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone

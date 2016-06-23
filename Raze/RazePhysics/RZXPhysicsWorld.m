@@ -118,14 +118,19 @@
             RZXPhysicsBody *first = bodies[i];
             RZXPhysicsBody *second = bodies[j];
 
-            RZXContact *contact = [first generateContact:second];
+            BOOL firstCollides = first.isDynamic && [first.collider shouldCollideWith:second.collider];
+            BOOL secondCollides = second.isDynamic && [second.collider shouldCollideWith:first.collider];
 
-            if ( contact != nil ) {
-                [first addContactedBody:second];
-                [second addContactedBody:first];
+            if ( firstCollides || secondCollides ) {
+                RZXContact *contact = [first generateContact:second];
 
-                [self resolveContact:contact];
-                [_frameContacts addObject:contact];
+                if ( contact != nil ) {
+                    [first addContactedBody:second];
+                    [second addContactedBody:first];
+
+                    [self resolveContact:contact];
+                    [_frameContacts addObject:contact];
+                }
             }
         }
     }
@@ -151,8 +156,8 @@
 
     GLKVector3 impulse = GLKVector3MultiplyScalar(normal, magnitude);
 
-    BOOL firstCollides = first.isDynamic && (first.collider.collisionMask & second.collider.categoryMask) != 0;
-    BOOL secondCollides = second.isDynamic && (second.collider.collisionMask & first.collider.categoryMask) != 0;
+    BOOL firstCollides = first.isDynamic && [first.collider shouldCollideWith:second.collider];
+    BOOL secondCollides = second.isDynamic && [second.collider shouldCollideWith:first.collider];
 
     if ( firstCollides && secondCollides ) {
         [first adjustVelocity:GLKVector3MultiplyScalar(impulse, -firstInvMass)];

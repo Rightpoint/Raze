@@ -48,4 +48,9 @@ typedef uint32_t RZXColliderCategory;
  */
 @property (weak, nonatomic, readonly) RZXPhysicsWorld *world;
 
+/**
+ *  Tests the given collider's categoryMask against the receiver's collisionMask.
+ */
+- (BOOL)shouldCollideWith:(RZXCollider *)other;
+
 @end
