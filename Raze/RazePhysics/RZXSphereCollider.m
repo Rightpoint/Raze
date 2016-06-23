@@ -68,14 +68,16 @@
 
 - (RZXSphere)boundingSphere
 {
-    RZXTransform3D *transform = self.worldTransform ?: [RZXTransform3D transform];
+    RZXTransform3D *transform = self.worldTransform;
 
-    GLKVector3 scale = transform.scale;
+    RZXSphere sphere = _untransformedSphere;
 
-    return (RZXSphere) {
-        .center = GLKVector3Add(_untransformedSphere.center, transform.translation),
-        .radius = _untransformedSphere.radius * MAX(scale.x, MAX(scale.y, scale.z))
-    };
+    if ( transform != nil ) {
+        RZXSphereScale(&sphere, transform.scale);
+        RZXSphereTranslate(&sphere, transform.translation);
+    }
+
+    return sphere;
 }
 
 - (RZXBox)boundingBox

@@ -108,6 +108,24 @@ GLK_INLINE bool RZXSphereContainsPoint(RZXSphere s, GLKVector3 p)
     return (GLKVector3Distance(s.center, p) <= s.radius);
 }
 
+GLK_INLINE void RZXSphereTranslate(RZXSphere *s, GLKVector3 t)
+{
+    s->center = GLKVector3Add(s->center, t);
+}
+
+GLK_INLINE void RZXSphereScale(RZXSphere *sphere, GLKVector3 scale)
+{
+    sphere->radius = sphere->radius * MAX(fabsf(scale.x), MAX(fabsf(scale.y), fabsf(scale.z)));
+}
+
+GLK_INLINE void RZXSphereScaleRelative(RZXSphere *sphere, GLKVector3 scale)
+{
+    RZXSphereScale(sphere, scale);
+
+    // adjust the center relative to the origin
+    sphere->center = GLKVector3Multiply(sphere->center, scale);
+}
+
 GLK_INLINE bool RZXSphereIntersectsSphere(RZXSphere s1, RZXSphere s2, RZXContactData *data)
 {
     GLKVector3 diff = GLKVector3Subtract(s1.center, s2.center);
@@ -190,9 +208,15 @@ GLK_INLINE GLKVector3 RZXBoxGetNearestPoint(RZXBox b, GLKVector3 p)
 
 GLK_INLINE RZXSphere RZXBoxGetBoundingSphere(RZXBox box)
 {
+    GLKVector3 halfDiagonal = RZXVector3Zero;
+
+    for ( int i = 0; i < 3; ++i ) {
+        halfDiagonal = GLKVector3Add(halfDiagonal, GLKVector3MultiplyScalar(box.axes[i], box.radius.v[i]));
+    }
+
     return (RZXSphere) {
         .center = box.center,
-        .radius = MAX(box.radius.x, MAX(box.radius.y, box.radius.z))
+        .radius = GLKVector3Length(halfDiagonal)
     };
 }
 
