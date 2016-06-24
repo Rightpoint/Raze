@@ -11,6 +11,7 @@
 #import <RazePhysics/RZXContact_Private.h>
 
 #import <RazePhysics/RZXBoxCollider.h>
+#import <RazePhysics/RZXCapsuleCollider.h>
 #import <RazePhysics/RZXMeshCollider.h>
 
 @implementation RZXSphereCollider {
@@ -109,6 +110,10 @@
         if ( RZXSphereIntersectsSphere(bounds, other.boundingSphere, &contactData) ) {
             contact = [[RZXContact alloc] initWithContactData:contactData];
         }
+    }
+    else if ( [other isKindOfClass:[RZXCapsuleCollider class]] ) {
+        contact = [other generateContact:self];
+        contact.normal = GLKVector3Negate(contact.normal);
     }
     else if ( [other isKindOfClass:[RZXMeshCollider class]] ) {
         contact = [other generateContact:self];

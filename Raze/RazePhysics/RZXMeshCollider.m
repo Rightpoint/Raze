@@ -13,6 +13,7 @@
 #import <RazeCore/RZXMesh.h>
 
 #import <RazePhysics/RZXSphereCollider.h>
+#import <RazePhysics/RZXCapsuleCollider.h>
 #import <RazePhysics/RZXBoxCollider.h>
 
 @implementation RZXMeshCollider {
@@ -172,6 +173,9 @@
             if ( RZXHullIntersectsSphere(_untransformedHull, trsPtr, other.boundingSphere, &contactData) ) {
                 contact = [[RZXContact alloc] initWithContactData:contactData];
             }
+        }
+        else if ( [other isKindOfClass:[RZXCapsuleCollider class]] ) {
+            // TODO
         }
         else if ( [other isKindOfClass:[RZXMeshCollider class]] ) {
             RZXTransform3D *otherTransform = other.worldTransform;

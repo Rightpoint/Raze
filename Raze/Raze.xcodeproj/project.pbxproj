@@ -64,6 +64,8 @@
 		D47841CF1B5ED70A00CBFE49 /* RZXGrayscaleEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = D47841CD1B5ED70A00CBFE49 /* RZXGrayscaleEffect.m */; };
 		D48424821B57EBEC009E0C29 /* RZXGPUObject.h in Headers */ = {isa = PBXBuildFile; fileRef = D48424801B57EBEC009E0C29 /* RZXGPUObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D48424831B57EBEC009E0C29 /* RZXGPUObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D48424811B57EBEC009E0C29 /* RZXGPUObject.m */; };
+		D4BA0C2E1D1DAD45007E6944 /* RZXCapsuleCollider.h in Headers */ = {isa = PBXBuildFile; fileRef = D4BA0C2C1D1DAD45007E6944 /* RZXCapsuleCollider.h */; };
+		D4BA0C2F1D1DAD45007E6944 /* RZXCapsuleCollider.m in Sources */ = {isa = PBXBuildFile; fileRef = D4BA0C2D1D1DAD45007E6944 /* RZXCapsuleCollider.m */; };
 		D4C5B0401C8A2B4F00256957 /* RazePhysics.h in Headers */ = {isa = PBXBuildFile; fileRef = D4C5B03F1C8A2B4F00256957 /* RazePhysics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4C5B0471C8A2C1F00256957 /* RZXCollider.h in Headers */ = {isa = PBXBuildFile; fileRef = D4C5B0451C8A2C1F00256957 /* RZXCollider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4C5B0481C8A2C1F00256957 /* RZXCollider.m in Sources */ = {isa = PBXBuildFile; fileRef = D4C5B0461C8A2C1F00256957 /* RZXCollider.m */; };
@@ -271,6 +273,8 @@
 		D47841CD1B5ED70A00CBFE49 /* RZXGrayscaleEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXGrayscaleEffect.m; sourceTree = "<group>"; };
 		D48424801B57EBEC009E0C29 /* RZXGPUObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXGPUObject.h; sourceTree = "<group>"; };
 		D48424811B57EBEC009E0C29 /* RZXGPUObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXGPUObject.m; sourceTree = "<group>"; };
+		D4BA0C2C1D1DAD45007E6944 /* RZXCapsuleCollider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXCapsuleCollider.h; sourceTree = "<group>"; };
+		D4BA0C2D1D1DAD45007E6944 /* RZXCapsuleCollider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXCapsuleCollider.m; sourceTree = "<group>"; };
 		D4C5B03D1C8A2B4F00256957 /* RazePhysics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RazePhysics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4C5B03F1C8A2B4F00256957 /* RazePhysics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RazePhysics.h; sourceTree = "<group>"; };
 		D4C5B0411C8A2B4F00256957 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -487,6 +491,8 @@
 				D4C5B04A1C8A2C4100256957 /* RZXBoxCollider.m */,
 				D4C5B04D1C8A2C5000256957 /* RZXSphereCollider.h */,
 				D4C5B04E1C8A2C5000256957 /* RZXSphereCollider.m */,
+				D4BA0C2C1D1DAD45007E6944 /* RZXCapsuleCollider.h */,
+				D4BA0C2D1D1DAD45007E6944 /* RZXCapsuleCollider.m */,
 				D4FBCE4A1D0897E00085CA28 /* RZXMeshCollider.h */,
 				D4FBCE4B1D0897E00085CA28 /* RZXMeshCollider.m */,
 				D4F244111D00A160001098D4 /* RZXContact.h */,
@@ -745,6 +751,7 @@
 				D4F1BCBB1CAF0112006B4717 /* RZXPhysicsBody.h in Headers */,
 				D4FBCE4E1D0898340085CA28 /* RZXGJK.h in Headers */,
 				D4C5B0401C8A2B4F00256957 /* RazePhysics.h in Headers */,
+				D4BA0C2E1D1DAD45007E6944 /* RZXCapsuleCollider.h in Headers */,
 				D4C5B04F1C8A2C5000256957 /* RZXSphereCollider.h in Headers */,
 				D4C5B0541C8A2DCD00256957 /* RZXCollider_Private.h in Headers */,
 				D4F244131D00A160001098D4 /* RZXContact.h in Headers */,
@@ -1192,6 +1199,7 @@
 				D4FBCE4D1D0897E00085CA28 /* RZXMeshCollider.m in Sources */,
 				D4FBCE571D08B9540085CA28 /* RZXGJK.mm in Sources */,
 				D4C5B04C1C8A2C4100256957 /* RZXBoxCollider.m in Sources */,
+				D4BA0C2F1D1DAD45007E6944 /* RZXCapsuleCollider.m in Sources */,
 				D4F1BCBC1CAF0112006B4717 /* RZXPhysicsBody.m in Sources */,
 				D4F49AF91D09AECF0027AA8E /* RZXGeometry.m in Sources */,
 				D4F244141D00A160001098D4 /* RZXContact.m in Sources */,

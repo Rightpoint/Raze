@@ -34,6 +34,12 @@ typedef struct _RZXBox {
     GLKVector3 axes[3]; // orthonormal vectors storing the xyz axes transformed to local space
 } RZXBox;
 
+typedef struct _RZXCapsule {
+    GLKVector3 center;
+    GLKVector3 halfAxis;
+    float radius;
+} RZXCapsule;
+
 typedef struct _RZXHull {
     const void *points;
     unsigned int n;
@@ -57,6 +63,38 @@ typedef struct _RZXLineIntersectionData {
 } RZXLineIntersectionData;
 
 #pragma mark - Lines
+
+GLK_INLINE float RZXLineSegmentGetDistanceToPoint(RZXLineSegment s, GLKVector3 p)
+{
+    float dist = 0.0f;
+
+    GLKVector3 v = GLKVector3Subtract(s.p2, s.p1);
+    GLKVector3 vp = GLKVector3Subtract(p, s.p1);
+
+    float vdvp = GLKVector3DotProduct(v, vp);
+
+    if ( vdvp <= 0.0f ) {
+        // p lies before p1 on the line
+        dist = GLKVector3Distance(s.p1, p);
+    }
+    else {
+        float vdv = GLKVector3DotProduct(v, v);
+
+        if ( vdv <= vdvp ) {
+            // p lies after p2 on the line
+            dist = GLKVector3Distance(s.p2, p);
+        }
+        else {
+            // p lies between p1 and p2, so find distance to its projection
+            float t = (vdvp / vdv);
+            GLKVector3 proj = GLKVector3Add(s.p1, GLKVector3MultiplyScalar(v, t));
+
+            dist = GLKVector3Distance(proj, p);
+        }
+    }
+
+    return dist;
+}
 
 // NOTE: does not handle degenerate lines (v = (0, 0, 0))
 GLK_EXTERN bool RZXLineIntersection(RZXLine l1, RZXLine l2, RZXLineIntersectionData *data);
@@ -250,6 +288,52 @@ GLK_INLINE bool RZXBoxIntersectsSphere(RZXBox b, RZXSphere s, RZXContactData *da
 }
 
 GLK_EXTERN bool RZXBoxIntersectsBox(RZXBox b1, RZXBox b2, RZXContactData *data);
+
+#pragma mark - Capsules
+
+GLK_INLINE RZXLineSegment RZXCapsuleGetAxis(RZXCapsule capsule)
+{
+    return (RZXLineSegment) {
+        .p1 = GLKVector3Subtract(capsule.center, capsule.halfAxis),
+        .p2 = GLKVector3Add(capsule.center, capsule.halfAxis)
+    };
+}
+
+GLK_INLINE RZXSphere RZXCapsuleGetBoundingSphere(RZXCapsule capsule)
+{
+    return (RZXSphere) {
+        .center = capsule.center,
+        .radius = GLKVector3Length(capsule.halfAxis) + capsule.radius
+    };
+}
+
+GLK_INLINE bool RZXCapsuleContainsPoint(RZXCapsule c, GLKVector3 p)
+{
+    RZXLineSegment axis = RZXCapsuleGetAxis(c);
+    return (RZXLineSegmentGetDistanceToPoint(axis, p) <= c.radius);
+}
+
+GLK_INLINE void RZXCapsuleTranslate(RZXCapsule *c, GLKVector3 trans)
+{
+    c->center = GLKVector3Add(c->center, trans);
+}
+
+GLK_INLINE void RZXCapsuleScale(RZXCapsule *c, GLKVector3 scale)
+{
+    c->halfAxis = GLKVector3Multiply(c->halfAxis, scale);
+    c->radius = c->radius * MAX(fabsf(scale.x), MAX(fabsf(scale.y), fabsf(scale.z)));
+}
+
+GLK_INLINE void RZXCapsuleRotate(RZXCapsule *c, GLKQuaternion q)
+{
+    c->halfAxis = GLKQuaternionRotateVector3(GLKQuaternionNormalize(q), c->halfAxis);
+}
+
+GLK_INLINE bool RZXCapsuleIntersectsSphere(RZXCapsule c, RZXSphere s, RZXContactData *data)
+{
+    // TODO
+    return false;
+}
 
 #pragma mark - Hulls
 

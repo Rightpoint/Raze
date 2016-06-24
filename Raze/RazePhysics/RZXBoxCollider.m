@@ -11,6 +11,7 @@
 #import <RazePhysics/RZXContact_Private.h>
 
 #import <RazePhysics/RZXSphereCollider.h>
+#import <RazePhysics/RZXCapsuleCollider.h>
 #import <RazePhysics/RZXMeshCollider.h>
 
 @implementation RZXBoxCollider {
@@ -91,9 +92,9 @@
     RZXTransform3D *transform = self.worldTransform;
 
     if ( transform != nil ) {
-        RZXBoxTranslate(&box, transform.translation);
-        RZXBoxRotate(&box, transform.rotation);
         RZXBoxScale(&box, transform.scale);
+        RZXBoxRotate(&box, transform.rotation);
+        RZXBoxTranslate(&box, transform.translation);
     }
 
     return box;
@@ -120,6 +121,9 @@
         if ( RZXBoxIntersectsSphere(bounds, other.boundingSphere, &contactData) ) {
             contact = [[RZXContact alloc] initWithContactData:contactData];
         }
+    }
+    else if ( [other isKindOfClass:[RZXCapsuleCollider class]] ) {
+        // TODO
     }
     else if ( [other isKindOfClass:[RZXMeshCollider class]] ) {
         contact = [other generateContact:self];
