@@ -297,7 +297,7 @@
 
 - (RZXTransform3D *)worldTransform
 {
-    RZXTransform3D *transform = self.transform;
+    RZXTransform3D *transform = [self.transform copy];
 
     [self.parent traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
         [transform leftTransformBy:ancestor.transform];
