@@ -64,10 +64,8 @@ typedef struct _RZXLineIntersectionData {
 
 #pragma mark - Lines
 
-GLK_INLINE float RZXLineSegmentGetDistanceToPoint(RZXLineSegment s, GLKVector3 p)
+GLK_INLINE GLKVector3 RZXLineSegmentGetNearestPoint(RZXLineSegment s, GLKVector3 p)
 {
-    float dist = 0.0f;
-
     GLKVector3 v = GLKVector3Subtract(s.p2, s.p1);
     GLKVector3 vp = GLKVector3Subtract(p, s.p1);
 
@@ -75,25 +73,20 @@ GLK_INLINE float RZXLineSegmentGetDistanceToPoint(RZXLineSegment s, GLKVector3 p
 
     if ( vdvp <= 0.0f ) {
         // p lies before p1 on the line
-        dist = GLKVector3Distance(s.p1, p);
+        return s.p1;
     }
     else {
         float vdv = GLKVector3DotProduct(v, v);
 
         if ( vdv <= vdvp ) {
-            // p lies after p2 on the line
-            dist = GLKVector3Distance(s.p2, p);
+            return s.p2;
         }
         else {
-            // p lies between p1 and p2, so find distance to its projection
+            // p lies between p1 and p2, so project onto the segment
             float t = (vdvp / vdv);
-            GLKVector3 proj = GLKVector3Add(s.p1, GLKVector3MultiplyScalar(v, t));
-
-            dist = GLKVector3Distance(proj, p);
+            return GLKVector3Add(s.p1, GLKVector3MultiplyScalar(v, t));
         }
     }
-
-    return dist;
 }
 
 // NOTE: does not handle degenerate lines (v = (0, 0, 0))
@@ -126,12 +119,12 @@ GLK_INLINE void RZXSphereScaleRelative(RZXSphere *sphere, GLKVector3 scale)
 
 GLK_INLINE bool RZXSphereIntersectsSphere(RZXSphere s1, RZXSphere s2, RZXContactData *data)
 {
-    GLKVector3 diff = GLKVector3Subtract(s1.center, s2.center);
-    float dist = GLKVector3Length(diff);
+    GLKVector3 v = GLKVector3Subtract(s1.center, s2.center);
+    float dist = GLKVector3Length(v);
 
     if ( dist <= s1.radius + s2.radius ) {
         if ( data != NULL) {
-            data->normal = GLKVector3DivideScalar(diff, dist);
+            data->normal = GLKVector3DivideScalar(v, dist);
             data->distance = (s1.radius - s2.radius - dist);
         }
         
@@ -310,7 +303,8 @@ GLK_INLINE RZXSphere RZXCapsuleGetBoundingSphere(RZXCapsule capsule)
 GLK_INLINE bool RZXCapsuleContainsPoint(RZXCapsule c, GLKVector3 p)
 {
     RZXLineSegment axis = RZXCapsuleGetAxis(c);
-    return (RZXLineSegmentGetDistanceToPoint(axis, p) <= c.radius);
+    GLKVector3 nearest = RZXLineSegmentGetNearestPoint(axis, p);
+    return (GLKVector3Distance(nearest, p) <= c.radius);
 }
 
 GLK_INLINE void RZXCapsuleTranslate(RZXCapsule *c, GLKVector3 trans)
@@ -331,7 +325,21 @@ GLK_INLINE void RZXCapsuleRotate(RZXCapsule *c, GLKQuaternion q)
 
 GLK_INLINE bool RZXCapsuleIntersectsSphere(RZXCapsule c, RZXSphere s, RZXContactData *data)
 {
-    // TODO
+    RZXLineSegment axis = RZXCapsuleGetAxis(c);
+    GLKVector3 nearestPoint = RZXLineSegmentGetNearestPoint(axis, s.center);
+
+    GLKVector3 v = GLKVector3Subtract(s.center, nearestPoint);
+    float dist = GLKVector3Length(v);
+
+    if( dist <= c.radius + s.radius ) {
+        if ( data != NULL) {
+            data->normal = GLKVector3DivideScalar(v, dist);
+            data->distance = (c.radius - s.radius - dist);
+        }
+
+        return true;
+    }
+
     return false;
 }
 
