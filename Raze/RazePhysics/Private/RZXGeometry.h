@@ -51,57 +51,15 @@ typedef struct _RZXContactData {
     float distance;     // penetration distance
 } RZXContactData;
 
+typedef struct _RZXLineIntersectionData {
+    GLKVector3 p;
+    float t, s;
+} RZXLineIntersectionData;
+
 #pragma mark - Lines
 
-GLK_INLINE GLKVector3 RZXLineGetIntersection(RZXLine l1, RZXLine l2, float *t, float *s)
-{
-    if ( fabsf(GLKVector3DotProduct(l1.v, l2.v)) == GLKVector3Length(l1.v) * GLKVector3Length(l2.v) ) {
-        // lines are parallel, so no intersection
-        *t = INFINITY;
-        *s = INFINITY;
-        return GLKVector3Make(INFINITY, INFINITY, INFINITY);
-    }
-
-    GLKVector3 diff = GLKVector3Subtract(l2.p0, l1.p0);
-
-    // find an axis for which l2 is non-zero
-    int a0 = 0;
-
-    if ( l2.v.y != 0.0f ) {
-        a0 = 1;
-    }
-    else if ( l2.v.z != 0.0f ) {
-        a0 = 2;
-    }
-
-    // solve equations for other 2 axes
-    int a1 = (a0 + 3 - 1) % 3;
-    int a2 = (a0 + 1) % 3;
-
-    float denom = (l2.v.v[a1] * l1.v.v[a0] - l2.v.v[a0] * l1.v.v[a1]);
-
-    if ( denom != 0.0f ) {
-        *t = (diff.v[a0] * l2.v.v[a1] - l2.v.v[a0] * diff.v[a1]) / denom;
-    }
-    else {
-        float denom2 = (l2.v.v[a2] * l1.v.v[a0] - l2.v.v[a0] * l1.v.v[a2]);
-
-        if ( denom2 != 0.0f ) {
-            *t = (diff.v[a0] * l2.v.v[a2] - l2.v.v[a0] * diff.v[a2]) / denom2;
-        }
-        else {
-            // lines are skew, no intersection
-            *t = INFINITY;
-            *s = INFINITY;
-            return GLKVector3Make(INFINITY, INFINITY, INFINITY);
-        }
-    }
-
-    // plug t back in to find s
-    *s = (-diff.v[a0] + (*t * l1.v.v[a0])) / l2.v.v[a0];
-
-    return GLKVector3Add(GLKVector3MultiplyScalar(l1.v, *t), l1.p0);
-}
+// NOTE: does not handle degenerate lines (v = (0, 0, 0))
+GLK_EXTERN bool RZXLineIntersection(RZXLine l1, RZXLine l2, RZXLineIntersectionData *data);
 
 #pragma mark - Spheres
 

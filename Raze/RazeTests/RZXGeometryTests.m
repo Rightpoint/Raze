@@ -267,5 +267,48 @@
     XCTAssertFalse(RZXBoxIntersectsBox(b1, b2, NULL));
 }
 
+- (void)testRZXLineIntersection {
+    RZXLine l1 = (RZXLine) { .p0 = RZXVector3Zero, .v = RZXVector3One };
+    RZXLine l2 = l1;
+
+    RZXLineIntersectionData data;
+
+    // same line
+    XCTAssert(RZXLineIntersection(l1, l2, &data));
+    XCTAssertEqual(data.t, 0.0f);
+    XCTAssertEqual(data.s, 0.0f);
+
+    // coincident lines
+    l2.p0 = GLKVector3Add(l2.p0, RZXVector3One);
+    XCTAssert(RZXLineIntersection(l1, l2, &data));
+    XCTAssertEqual(data.t, 0.0f);
+    XCTAssertEqual(data.s, 0.0f);
+
+    // opposite conincident lines
+    l2.v = GLKVector3Negate(l2.v);
+    XCTAssert(RZXLineIntersection(l1, l2, &data));
+    XCTAssertEqual(data.t, 0.0f);
+    XCTAssertEqual(data.s, 0.0f);
+
+    // parallel lines
+    l2.p0.z += 1.0f;
+    XCTAssertFalse(RZXLineIntersection(l1, l2, &data));
+    XCTAssert(isinf(data.t));
+    XCTAssert(isinf(data.s));
+
+    // skew lines
+    l1.v = GLKVector3Make(0.0f, 1.0f, 0.0f);
+    l2.v = GLKVector3Make(1.0f, 0.0f, 0.0f);
+    XCTAssertFalse(RZXLineIntersection(l1, l2, &data));
+    XCTAssert(isinf(data.t));
+    XCTAssert(isinf(data.s));
+
+    // intersecting lines
+    l2.p0 = GLKVector3Make(-1.0f, 1.0f, 0.0f);
+    XCTAssert(RZXLineIntersection(l1, l2, &data));
+    XCTAssertEqual(data.t, 1.0f);
+    XCTAssertEqual(data.s, 1.0f);
+    XCTAssert(GLKVector3AllEqualToVector3(data.p, GLKVector3Make(0.0f, 1.0f, 0.0f)));
+}
 
 @end
