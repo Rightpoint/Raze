@@ -14,7 +14,6 @@
 
 // Cap the number of iterations to avoid rare ping-ponging scenarios
 static const unsigned int kRZXGJKMaxIterations = 64;
-static const float kRZXGJKTerminationThreshold = 1e-3f;
 
 typedef NS_OPTIONS(int, RZXGJKFaces) {
     RZXGJKFaceNone  = 0,
@@ -254,7 +253,7 @@ bool RZXGJKIntersection(RZXGJK *gjk, RZXGJKSupportMapping support)
     for ( unsigned int i = 0; i < kRZXGJKMaxIterations; ++i ) {
         RZXGJKSupport next = support(gjk->v);
 
-        if ( GLKVector3DotProduct(next.p, gjk->v) < kRZXGJKTerminationThreshold ) {
+        if ( GLKVector3DotProduct(next.p, gjk->v) < 0.0f ) {
             // not approaching origin, no intersection
             return false;
         }
@@ -363,7 +362,7 @@ bool RZXGJKGetContactData(const RZXGJK *gjk, RZXGJKSupportMapping support, RZXCo
         RZXGJKSupport next = support(nearestTriangle.normal);
 
         // if the next point doesn't move farther from the origin, we've found the closest triangle
-        if ( GLKVector3DotProduct(nearestTriangle.normal, next.p) - nearestDist < kRZXGJKTerminationThreshold ) {
+        if ( GLKVector3DotProduct(nearestTriangle.normal, next.p) - nearestDist < kRZXFloatEpsilon ) {
             if ( data != NULL ) {
                 data->normal = GLKVector3Negate(nearestTriangle.normal);
                 data->distance = RZXEPATriangleGetDistanceFromOrigin(nearestTriangle);

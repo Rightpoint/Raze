@@ -13,6 +13,8 @@
 
 #pragma mark - Definitions
 
+static float const kRZXFloatEpsilon = 1e-5;
+
 typedef struct _RZXLineSegment {
     GLKVector3 p1, p2;
 } RZXLineSegment;
