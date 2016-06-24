@@ -136,22 +136,28 @@
 
 - (GLKMatrix4)viewMatrix
 {
-    GLKMatrix4 viewMatrix = self.camera ? self.camera.viewMatrix : GLKMatrix4Identity;
-    
-    if ( self.parent != nil ) {
-        viewMatrix = GLKMatrix4Multiply([self.parent viewMatrix], viewMatrix);
-    }
-    
+    __block GLKMatrix4 viewMatrix = self.camera ? self.camera.viewMatrix : GLKMatrix4Identity;
+
+    [self.parent traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+        RZXCamera *cam = ancestor.camera;
+        if ( cam != nil ) {
+            viewMatrix = GLKMatrix4Multiply(cam.viewMatrix, viewMatrix);
+        }
+    }];
+
     return viewMatrix;
 }
 
 - (GLKMatrix4)projectionMatrix
 {
-    GLKMatrix4 projectionMatrix = self.camera ? self.camera.projectionMatrix : GLKMatrix4Identity;
+    __block GLKMatrix4 projectionMatrix = self.camera ? self.camera.projectionMatrix : GLKMatrix4Identity;
     
-    if ( self.parent != nil ) {
-        projectionMatrix = GLKMatrix4Multiply([self.parent projectionMatrix], projectionMatrix);
-    }
+    [self.parent traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+        RZXCamera *cam = ancestor.camera;
+        if ( cam != nil ) {
+            projectionMatrix = GLKMatrix4Multiply(cam.projectionMatrix, projectionMatrix);
+        }
+    }];
     
     return projectionMatrix;
 }
