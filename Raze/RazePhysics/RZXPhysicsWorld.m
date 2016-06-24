@@ -13,12 +13,16 @@
 
 @implementation RZXPhysicsWorld {
     NSMutableSet *_bodies;
+    NSMutableSet *_currentContacts;
+    NSMutableSet *_frameContacts;
 }
 
 - (instancetype)init
 {
     if ( (self = [super init]) ) {
         _bodies = [NSMutableSet set];
+        _currentContacts = [NSMutableSet set];
+        _frameContacts = [NSMutableSet set];
         _gravity = GLKVector3Make(0.0f, -9.8f, 0.0f);
     }
 
@@ -79,7 +83,9 @@
     GLKVector3 gravity = GLKVector3MultiplyScalar(self.gravity, dt);
 
     for ( RZXPhysicsBody *body in bodies ) {
-        if ( body.isDynamic && body.isAffectedByGravity && body.mass > 0.0 ) {
+        [body prepareForUpdates];
+
+        if ( body.isDynamic && body.isAffectedByGravity && body.mass > 0.0f ) {
             [body adjustVelocity:gravity];
         }
     }
@@ -88,7 +94,18 @@
 
     for ( RZXPhysicsBody *body in bodies ) {
         [body rzx_update:dt];
+        [body finalizeUpdates];
     }
+
+    if ( self.delegate != nil ) {
+        [self notifyContactDelegate];
+    }
+
+    NSMutableSet *tmp = _currentContacts;
+    _currentContacts = _frameContacts;
+    _frameContacts = tmp;
+
+    [_frameContacts removeAllObjects];
 }
 
 #pragma mark - private
@@ -101,10 +118,19 @@
             RZXPhysicsBody *first = bodies[i];
             RZXPhysicsBody *second = bodies[j];
 
-            RZXContact *contact = [first generateContact:second];
+            BOOL firstCollides = first.isDynamic && [first.collider shouldCollideWith:second.collider];
+            BOOL secondCollides = second.isDynamic && [second.collider shouldCollideWith:first.collider];
 
-            if ( contact != nil ) {
-                [self resolveContact:contact];
+            if ( firstCollides || secondCollides ) {
+                RZXContact *contact = [first generateContact:second];
+
+                if ( contact != nil ) {
+                    [first addContactedBody:second];
+                    [second addContactedBody:first];
+
+                    [self resolveContact:contact];
+                    [_frameContacts addObject:contact];
+                }
             }
         }
     }
@@ -118,18 +144,52 @@
     GLKVector3 normal = contact.normal;
     GLKVector3 relativeVelocity = GLKVector3Subtract(first.velocity, second.velocity);
 
+    float firstInvMass = first.inverseMass;
+    float secondInvMass = second.inverseMass;
+
     float relativeNormalVelocity = GLKVector3DotProduct(relativeVelocity, normal);
 
-    if ( relativeNormalVelocity < 0.0f ) {
-        float totalInverseMass = MAX(FLT_EPSILON, (first.inverseMass + second.inverseMass));
-        float cor = 0.5f * (first.restitution + second.restitution);
+    float totalInverseMass = MAX(FLT_EPSILON, (firstInvMass + secondInvMass));
+    float cor = 0.5f * (first.restitution + second.restitution);
 
-        float magnitude = (1.0f + cor) * relativeNormalVelocity / totalInverseMass;
+    float magnitude = (1.0f + cor) * relativeNormalVelocity / totalInverseMass;
 
-        GLKVector3 impulse = GLKVector3MultiplyScalar(normal, magnitude);
+    GLKVector3 impulse = GLKVector3MultiplyScalar(normal, magnitude);
 
-        [first adjustVelocity:GLKVector3MultiplyScalar(impulse, -first.inverseMass)];
-        [second adjustVelocity:GLKVector3MultiplyScalar(impulse, second.inverseMass)];
+    BOOL firstCollides = first.isDynamic && [first.collider shouldCollideWith:second.collider];
+    BOOL secondCollides = second.isDynamic && [second.collider shouldCollideWith:first.collider];
+
+    if ( firstCollides && secondCollides ) {
+        [first adjustVelocity:GLKVector3MultiplyScalar(impulse, -firstInvMass)];
+        [first adjustPosition:GLKVector3MultiplyScalar(normal, (firstInvMass / totalInverseMass) * contact.distance)];
+
+        [second adjustVelocity:GLKVector3MultiplyScalar(impulse, secondInvMass)];
+        [second adjustPosition:GLKVector3MultiplyScalar(normal, -(secondInvMass / totalInverseMass) * contact.distance)];
+    }
+    else if ( firstCollides ) {
+        [first adjustVelocity:GLKVector3MultiplyScalar(impulse, -firstInvMass)];
+        [first adjustPosition:GLKVector3MultiplyScalar(normal, contact.distance)];
+    }
+    else if ( secondCollides ) {
+        [second adjustVelocity:GLKVector3MultiplyScalar(impulse, secondInvMass)];
+        [second adjustPosition:GLKVector3MultiplyScalar(normal, -contact.distance)];
+    }
+}
+
+- (void)notifyContactDelegate
+{
+    NSMutableSet *newContacts = [_frameContacts mutableCopy];
+    [newContacts minusSet:_currentContacts];
+
+    for ( RZXContact *contact in newContacts ) {
+        [self.delegate contactDidBegin:contact];
+    }
+
+    NSMutableSet *oldContacts = [_currentContacts mutableCopy];
+    [oldContacts minusSet:_frameContacts];
+
+    for ( RZXContact *contact in oldContacts ) {
+        [self.delegate contactDidEnd:contact];
     }
 }
 

@@ -125,149 +125,151 @@
 
 - (GLKMatrix4)modelMatrix
 {
-    GLKMatrix4 modelMatrix = self.transform ? self.transform.modelMatrix : GLKMatrix4Identity;
-    
-    if ( self.parent != nil ) {
-        modelMatrix = GLKMatrix4Multiply([self.parent modelMatrix], modelMatrix);
-    }
-    
+    __block GLKMatrix4 modelMatrix = self.transform.modelMatrix;
+
+    [self.parent traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+        modelMatrix = GLKMatrix4Multiply(ancestor.transform.modelMatrix, modelMatrix);
+    }];
+
     return modelMatrix;
 }
 
 - (GLKMatrix4)viewMatrix
 {
-    GLKMatrix4 viewMatrix = self.camera ? self.camera.viewMatrix : GLKMatrix4Identity;
-    
-    if ( self.parent != nil ) {
-        viewMatrix = GLKMatrix4Multiply([self.parent viewMatrix], viewMatrix);
-    }
-    
+    __block GLKMatrix4 viewMatrix = self.camera ? self.camera.viewMatrix : GLKMatrix4Identity;
+
+    [self.parent traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+        RZXCamera *cam = ancestor.camera;
+        if ( cam != nil ) {
+            viewMatrix = GLKMatrix4Multiply(cam.viewMatrix, viewMatrix);
+        }
+    }];
+
     return viewMatrix;
 }
 
 - (GLKMatrix4)projectionMatrix
 {
-    GLKMatrix4 projectionMatrix = self.camera ? self.camera.projectionMatrix : GLKMatrix4Identity;
+    __block GLKMatrix4 projectionMatrix = self.camera ? self.camera.projectionMatrix : GLKMatrix4Identity;
     
-    if ( self.parent != nil ) {
-        projectionMatrix = GLKMatrix4Multiply([self.parent projectionMatrix], projectionMatrix);
-    }
+    [self.parent traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+        RZXCamera *cam = ancestor.camera;
+        if ( cam != nil ) {
+            projectionMatrix = GLKMatrix4Multiply(cam.projectionMatrix, projectionMatrix);
+        }
+    }];
     
     return projectionMatrix;
-}
-
-- (GLKVector3)convertPoint:(GLKVector3)point fromNode:(RZXNode *)node
-{
-    __block GLKVector3 convertedPoint = point;
-
-    if ( node != self && [node isDescendantOfNode:self] ) {
-        [node.parent traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
-            convertedPoint = RZXMatrix4TransformVector3(ancestor.transform.modelMatrix, convertedPoint);
-            *stop = (ancestor == self);
-        }];
-    }
-
-    return convertedPoint;
 }
 
 - (GLKVector3)convertPoint:(GLKVector3)point toNode:(RZXNode *)node
 {
     __block GLKVector3 convertedPoint = point;
 
-    if ( [node isDescendantOfNode:self] ) {
-        [node traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
-            GLKMatrix4 invertedTransform = GLKMatrix4Invert(ancestor.transform.modelMatrix, NULL);
-            convertedPoint = RZXMatrix4TransformVector3(invertedTransform, convertedPoint);
-            *stop = (ancestor.parent == self);
-        }];
+    if ( node != self ) {
+        if ( [node isDescendantOfNode:self] ) {
+            [node traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+                GLKMatrix4 invertedTransform = GLKMatrix4Invert(ancestor.transform.modelMatrix, NULL);
+                convertedPoint = RZXMatrix4TransformVector3(invertedTransform, convertedPoint);
+                *stop = (ancestor.parent == self);
+            }];
+        }
+        else if ( node == nil || [self isDescendantOfNode:node] ) {
+            [self traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+                convertedPoint = RZXMatrix4TransformVector3(ancestor.transform.modelMatrix, convertedPoint);
+                *stop = (ancestor.parent == node);
+            }];
+        }
     }
 
     return convertedPoint;
 }
 
-- (GLKVector3)convertScale:(GLKVector3)scale fromNode:(RZXNode *)node
+- (GLKVector3)convertPoint:(GLKVector3)point fromNode:(RZXNode *)node
 {
-    __block GLKVector3 convertedScale = scale;
-
-    if ( node != self && [node isDescendantOfNode:self] ) {
-        [node.parent traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
-            convertedScale = GLKVector3Multiply(convertedScale, ancestor.transform.scale);
-            *stop = (ancestor == self);
-        }];
-    }
-
-    return convertedScale;
+    return [node convertPoint:point toNode:self];
 }
 
 - (GLKVector3)convertScale:(GLKVector3)scale toNode:(RZXNode *)node
 {
     __block GLKVector3 convertedScale = scale;
 
-    if ( [node isDescendantOfNode:self] ) {
-        [node traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
-            convertedScale = GLKVector3Divide(convertedScale, ancestor.transform.scale);
-            *stop = (ancestor.parent == self);
-        }];
+    if ( node != self ) {
+        if ( [node isDescendantOfNode:self] ) {
+            [node traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+                convertedScale = GLKVector3Divide(convertedScale, ancestor.transform.scale);
+                *stop = (ancestor.parent == self);
+            }];
+        }
+        else if ( node == nil || [self isDescendantOfNode:node] ) {
+            [self traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+                convertedScale = GLKVector3Multiply(convertedScale, ancestor.transform.scale);
+                *stop = (ancestor.parent == node);
+            }];
+        }
     }
 
     return convertedScale;
 }
 
-- (GLKQuaternion)convertRotation:(GLKQuaternion)rotation fromNode:(RZXNode *)node
+- (GLKVector3)convertScale:(GLKVector3)scale fromNode:(RZXNode *)node
 {
-    __block GLKQuaternion convertedRotation = rotation;
-
-    if ( node != self && [node isDescendantOfNode:self] ) {
-        [node.parent traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
-            convertedRotation = GLKQuaternionMultiply(convertedRotation, ancestor.transform.rotation);
-            *stop = (ancestor == self);
-        }];
-    }
-
-    return convertedRotation;
+    return [node convertScale:scale toNode:self];
 }
 
 - (GLKQuaternion)convertRotation:(GLKQuaternion)rotation toNode:(RZXNode *)node
 {
     __block GLKQuaternion convertedRotation = rotation;
 
-    if ( [node isDescendantOfNode:self] ) {
-        [node traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
-            GLKQuaternion invertedRotation = GLKQuaternionInvert(ancestor.transform.rotation);
-            convertedRotation = GLKQuaternionMultiply(convertedRotation, invertedRotation);
-            *stop = (ancestor.parent == self);
-        }];
+    if ( node != self ) {
+        if ( [node isDescendantOfNode:self] ) {
+            [node traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+                GLKQuaternion invertedRotation = GLKQuaternionInvert(ancestor.transform.rotation);
+                convertedRotation = GLKQuaternionMultiply(invertedRotation, convertedRotation);
+                *stop = (ancestor.parent == self);
+            }];
+        }
+        else if ( node == nil || [self isDescendantOfNode:node] ) {
+            [self traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+                convertedRotation = GLKQuaternionMultiply(ancestor.transform.rotation, convertedRotation);
+                *stop = (ancestor.parent == node);
+            }];
+        }
     }
 
     return convertedRotation;
 }
 
-- (RZXTransform3D *)convertTransform:(RZXTransform3D *)transform fromNode:(RZXNode *)node
+- (GLKQuaternion)convertRotation:(GLKQuaternion)rotation fromNode:(RZXNode *)node
 {
-    RZXTransform3D *convertedTransform = [transform copy];
-
-    if ( node != self && [node isDescendantOfNode:self] && node != self ) {
-        [node.parent traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
-            [convertedTransform transformBy:ancestor.transform];
-            *stop = (ancestor == self);
-        }];
-    }
-
-    return convertedTransform;
+    return [node convertRotation:rotation toNode:self];
 }
 
 - (RZXTransform3D *)convertTransform:(RZXTransform3D *)transform toNode:(RZXNode *)node
 {
     RZXTransform3D *convertedTransform = [transform copy];
 
-    if ( [node isDescendantOfNode:self] ) {
-        [node traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
-            [convertedTransform transformBy:[ancestor.transform invertedTransform]];
-            *stop = (ancestor.parent == self);
-        }];
+    if ( node != self ) {
+        if ( [node isDescendantOfNode:self] ) {
+            [node traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+                [convertedTransform leftTransformBy:[ancestor.transform invertedTransform]];
+                *stop = (ancestor.parent == self);
+            }];
+        }
+        else if ( node == nil || [self isDescendantOfNode:node] ) {
+            [self traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+                [convertedTransform leftTransformBy:ancestor.transform];
+                *stop = (ancestor.parent == node);
+            }];
+        }
     }
 
     return convertedTransform;
+}
+
+- (RZXTransform3D *)convertTransform:(RZXTransform3D *)transform fromNode:(RZXNode *)node
+{
+    return [node convertTransform:transform toNode:self];
 }
 
 #pragma mark - Animation
@@ -295,7 +297,23 @@
 
 - (RZXTransform3D *)worldTransform
 {
-    return [self.scene convertTransform:self.transform fromNode:self];
+    RZXTransform3D *transform = [self.transform copy];
+
+    [self.parent traverseAncestorsWithBlock:^(RZXNode *ancestor, BOOL *stop) {
+        [transform leftTransformBy:ancestor.transform];
+    }];
+
+    return transform;
+}
+
+- (void)willSimulatePhysics
+{
+    // subclass override
+}
+
+- (void)didSimulatePhysics
+{
+    // subclass override
 }
 
 - (void)setPhysicsBody:(RZXPhysicsBody *)physicsBody
@@ -312,16 +330,6 @@
         _physicsBody = physicsBody;
         _physicsBody.representedObject = self;
     }
-}
-
-- (void)didBeginContact:(RZXCollider *)collider
-{
-    // subclass override
-}
-
-- (void)didEndContact:(RZXCollider *)collider
-{
-    // subclass override
 }
 
 #pragma mark - RZXGPUObject overrides
@@ -453,7 +461,6 @@
         traversalBlock(current, &stop);
         current = current.parent;
     }
-
 }
 
 @end

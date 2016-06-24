@@ -17,6 +17,12 @@
 @property (nonatomic, readonly) float inverseMass;
 
 - (void)adjustVelocity:(GLKVector3)dv;
+- (void)adjustPosition:(GLKVector3)movement;
+
+- (void)prepareForUpdates;
+- (void)finalizeUpdates;
+
+- (void)addContactedBody:(RZXPhysicsBody *)other;
 
 - (RZXContact *)generateContact:(RZXPhysicsBody *)other;
 

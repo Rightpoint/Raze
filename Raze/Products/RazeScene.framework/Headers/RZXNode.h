@@ -85,9 +85,6 @@
 
 @property (strong, nonatomic) RZXPhysicsBody *physicsBody;
 
-- (void)didBeginContact:(RZXCollider *)collider;
-- (void)didEndContact:(RZXCollider *)collider;
-
 @end
 
 @interface RZXPhysicsBody (RZXNode)

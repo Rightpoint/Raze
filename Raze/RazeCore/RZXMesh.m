@@ -9,8 +9,13 @@
 #import <RazeCore/RZXMesh.h>
 #import <RazeCore/RZXCache.h>
 
-static NSString* const kRZXMeshAttributeVAO = @"RZXQuadMeshName";
-static NSString* const kRZXMeshAttributeIndices = @"RZXQuadMeshIndices";
+typedef struct _RZXBufferSet {
+    GLuint vbo, ibo;
+} RZXBufferSet;
+
+static NSString* const kRZXMeshAttributeVAO = @"RZXMeshName";
+static NSString* const kRZXMeshAttributeIndexCount = @"RZXMeshIndexCount";
+static NSString* const kRZXMeshAttributeVertices = @"RZXMeshVertices";
 
 NSString* const kRZXMeshFileExtension = @"mesh";
 
@@ -23,9 +28,7 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 @property (copy, nonatomic) RZXMeshDataProvider vertexProvider;
 @property (copy, nonatomic) RZXMeshDataProvider indexProvider;
 
-@property (copy, nonatomic) NSArray *vertexAttributes;
-
-@property (assign, nonatomic) BOOL useCache;
+@property (nonatomic, readonly) GLsizei vertexCount;
 
 @end
 
@@ -33,22 +36,24 @@ NSString* const kRZXMeshFileExtension = @"mesh";
     GLuint _vao;
     RZXBufferSet _bufferSet;
     GLuint _indexCount;
-    GLuint _vertexCount;
+
+    NSData *_vertexData;
+
+    BOOL _needsUpdate;
 }
 
-+ (instancetype)meshWithName:(NSString *)name usingCache:(BOOL)useCache
++ (instancetype)meshWithName:(NSString *)name
 {
-    return [[self alloc] initWithName:name usingCache:useCache];
+    return [[self alloc] initWithName:name];
 }
 
-- (instancetype)initWithName:(NSString *)name usingCache:(BOOL)useCache
+- (instancetype)initWithName:(NSString *)name
 {
     if ( (self = [super init]) ) {
-        self.meshName = [name stringByDeletingPathExtension];
-        self.useCache = useCache;
-        self.renderMode = GL_TRIANGLES;
+        _meshName = [name stringByDeletingPathExtension];
+        _renderMode = GL_TRIANGLES;
 
-        self.vertexAttributes = @[ [RZXVertexAttribute attributeWithIndex:kRZXVertexAttribPosition count:3],
+        _vertexAttributes = @[ [RZXVertexAttribute attributeWithIndex:kRZXVertexAttribPosition count:3],
                                    [RZXVertexAttribute attributeWithIndex:kRZXVertexAttribNormal count:3],
                                    [RZXVertexAttribute attributeWithIndex:kRZXVertexAttribTexCoord count:2] ];
     }
@@ -59,11 +64,10 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 - (instancetype)initWithVertexProvider:(RZXMeshDataProvider)vertexProvider indexProvider:(RZXMeshDataProvider)indexProvider attributes:(NSArray *)vertexAttributes
 {
     if ( (self = [super init]) ) {
-        self.useCache = YES;
-        self.renderMode = GL_TRIANGLES;
-        self.vertexProvider = vertexProvider;
-        self.indexProvider = indexProvider;
-        self.vertexAttributes = vertexAttributes;
+        _renderMode = GL_TRIANGLES;
+        _vertexProvider = vertexProvider;
+        _indexProvider = indexProvider;
+        _vertexAttributes = vertexAttributes;
     }
 
     return self;
@@ -74,13 +78,73 @@ NSString* const kRZXMeshFileExtension = @"mesh";
     return self.meshName;
 }
 
+- (GLsizei)vertexSize
+{
+    return [[self.vertexAttributes valueForKeyPath:@"@sum.count"] unsignedIntValue] * sizeof(GLfloat);
+}
+
+- (NSData *)vertices
+{
+    // first check local cache
+    NSData *vertices = _vertexData;
+
+    if ( vertices == nil ) {
+        RZXCache *cache = [self.configuredContext cacheForClass:[RZXMesh class]];
+        NSString *cacheKey = self.cacheKey;
+
+        // check global cache
+        if ( (_vertexData = cache[cacheKey][kRZXMeshAttributeVertices]) == nil ) {
+
+            // no vertices were cached, call the vertex provider
+            RZXMeshDataProvider vertexProvider = nil;
+            [self getVertexProvider:&vertexProvider indexProvider:NULL];
+
+            if ( vertexProvider != nil ) {
+                _vertexData = vertexProvider(self);
+                cache[cacheKey] = [self cacheAttributes];
+            }
+        }
+    }
+
+    return _vertexData;
+}
+
+- (NSUInteger)offsetOfAttribute:(GLuint)index
+{
+    NSUInteger offset = NSNotFound;
+
+    NSUInteger attributeIdx = [self.vertexAttributes indexOfObjectPassingTest:^BOOL(RZXVertexAttribute *attrib, NSUInteger idx, BOOL * _Nonnull stop) {
+        return (attrib.index == index);
+    }];
+
+    if ( attributeIdx != NSNotFound ) {
+        if ( attributeIdx == 0 ) {
+            offset = 0;
+        }
+        else {
+            NSArray *previousAttributes = [self.vertexAttributes subarrayWithRange:NSMakeRange(0, attributeIdx)];
+            offset = [[previousAttributes valueForKeyPath:@"@sum.count"] unsignedIntValue] * sizeof(GLfloat);
+        }
+    }
+
+    return offset;
+}
+
+- (void)setNeedsUpdate
+{
+    if ( self.cacheKey == nil ) {
+        _vertexData = nil;
+        _needsUpdate = YES;
+    }
+}
+
 #pragma mark - RZXGPUObject overrides
 
 - (RZXGPUObjectTeardownBlock)teardownHandler
 {
     RZXGPUObjectTeardownBlock teardown = nil;
 
-    RZXCache *cache = self.useCache ? [self.configuredContext cacheForClass:[RZXMesh class]] : nil;
+    RZXCache *cache = [self.configuredContext cacheForClass:[RZXMesh class]];
 
     if ( cache[self.cacheKey] == nil ) {
         GLuint vao = _vao;
@@ -99,12 +163,12 @@ NSString* const kRZXMeshFileExtension = @"mesh";
     BOOL setup = [super setupGL];
 
     if ( setup ) {
-        RZXCache *cache = self.useCache ? [self.configuredContext cacheForClass:[RZXMesh class]] : nil;
+        RZXCache *cache = [self.configuredContext cacheForClass:[RZXMesh class]];
 
         NSString *cacheKey = self.cacheKey;
         NSDictionary *cachedAttributes = cache[cacheKey];
 
-        if ( cachedAttributes != nil ) {
+        if ( cachedAttributes[kRZXMeshAttributeVAO] != 0 ) {
             [cache retainObjectForKey:cacheKey];
             [self applyCachedAttributes:cachedAttributes];
         }
@@ -116,7 +180,7 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 
             setup = [self setupWithVertexProvider:vertexProvider indexProvider:indexProvider];
 
-            if ( setup && self.useCache ) {
+            if ( setup && cacheKey != nil ) {
                 cache[cacheKey] = [self cacheAttributes];
             }
         }
@@ -135,6 +199,10 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 
     if ( bound ) {
         [self.configuredContext bindVertexArray:_vao];
+
+        if ( _needsUpdate ) {
+            [self updateBuffersWithVertexProvider:self.vertexProvider indexProvider:self.indexProvider];
+        }
     }
 
 #if RZX_DEBUG
@@ -146,16 +214,16 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 
 - (void)teardownGL
 {
-    if ( self.useCache ) {
-        RZXCache *cache = [self.configuredContext cacheForClass:[RZXMesh class]];
-        [cache releaseObjectForKey:self.cacheKey];
-    }
+    RZXCache *cache = [self.configuredContext cacheForClass:[RZXMesh class]];
+    [cache releaseObjectForKey:self.cacheKey];
+
+    [super teardownGL];
 
     _vao = 0;
     _bufferSet.vbo = 0;
     _bufferSet.ibo = 0;
-
-    [super teardownGL];
+    _indexCount = 0;
+    _vertexData = nil;
 }
 
 #pragma mark - RZXRenderable
@@ -168,21 +236,29 @@ NSString* const kRZXMeshFileExtension = @"mesh";
         glDrawElements(self.renderMode, _indexCount, GL_UNSIGNED_SHORT, NULL);
     }
     else {
-        glDrawArrays(self.renderMode, 0, _vertexCount);
+        glDrawArrays(self.renderMode, 0, self.vertexCount);
     }
 }
 
 #pragma mark - private methods
 
+- (GLsizei)vertexCount
+{
+    return ((GLsizei)_vertexData.length / self.vertexSize);
+}
+
 - (NSDictionary *)cacheAttributes
 {
-    return @{ kRZXMeshAttributeVAO : @(_vao), kRZXMeshAttributeIndices : @(_indexCount) };
+    return @{ kRZXMeshAttributeVAO : @(_vao),
+              kRZXMeshAttributeIndexCount : @(_indexCount),
+              kRZXMeshAttributeVertices : _vertexData };
 }
 
 - (void)applyCachedAttributes:(NSDictionary *)attributes
 {
     _vao = [attributes[kRZXMeshAttributeVAO] unsignedIntValue];
-    _indexCount = [attributes[kRZXMeshAttributeIndices] unsignedIntValue];
+    _indexCount = [attributes[kRZXMeshAttributeIndexCount] unsignedIntValue];
+    _vertexData = attributes[kRZXMeshAttributeVertices];
 }
 
 - (void)getVertexProvider:(RZXMeshDataProvider *)vertexProvider indexProvider:(RZXMeshDataProvider *)indexProvider
@@ -219,20 +295,25 @@ NSString* const kRZXMeshFileExtension = @"mesh";
 
             NSData *vertexData = [[NSData alloc] initWithBytesNoCopy:uniqueVertexArray length:uniqueVertexArraySize freeWhenDone:YES];
 
-            NSData *indexData = [[NSData alloc] initWithBytesNoCopy:indexArray length:indexArraySize freeWhenDone:YES];
-
             *vertexProvider = ^NSData* (id mesh) {
                 return vertexData;
             };
 
-            *indexProvider = ^NSData* (id mesh) {
-                return indexData;
-            };
+            if ( indexProvider != NULL ) {
+                NSData *indexData = [[NSData alloc] initWithBytesNoCopy:indexArray length:indexArraySize freeWhenDone:YES];
+
+                *indexProvider = ^NSData* (id mesh) {
+                    return indexData;
+                };
+            }
         }
     }
     else {
         *vertexProvider = self.vertexProvider;
-        *indexProvider = self.indexProvider;
+
+        if ( indexProvider != NULL ) {
+            *indexProvider = self.indexProvider;
+        }
     }
 }
 
@@ -244,31 +325,9 @@ NSString* const kRZXMeshFileExtension = @"mesh";
         [self.configuredContext genVertexArrays:&_vao count:1];
         [self.configuredContext bindVertexArray:_vao];
 
-        NSData *vertexData = vertexProvider(self);
+        [self createBuffersWithVertexProvider:vertexProvider indexProvider:indexProvider];
 
-        GLsizei vertexSize = [[self.vertexAttributes valueForKeyPath:@"@sum.count"] unsignedIntValue] * sizeof(GLfloat);
-
-        _vertexCount = ((GLsizei)vertexData.length / vertexSize);
-
-        glGenBuffers(1, &_bufferSet.vbo);
-        glBindBuffer(GL_ARRAY_BUFFER, _bufferSet.vbo);
-        glBufferData(GL_ARRAY_BUFFER, vertexData.length, vertexData.bytes, GL_STATIC_DRAW);
-
-        if ( indexProvider != nil ) {
-            NSData *indexData = indexProvider(self);
-
-            _indexCount = ((GLsizei)indexData.length / sizeof(GLushort));
-
-            if ( indexData != nil ) {
-                glGenBuffers(1, &_bufferSet.ibo);
-                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _bufferSet.ibo);
-                glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexData.length, indexData.bytes, GL_STATIC_DRAW);
-            }
-        }
-        else {
-            _indexCount = 0;
-        }
-
+        GLsizei vertexSize = self.vertexSize;
         NSUInteger offset = 0;
 
         for ( RZXVertexAttribute *attribute in self.vertexAttributes ) {
@@ -284,6 +343,55 @@ NSString* const kRZXMeshFileExtension = @"mesh";
     }
 
     return setup;
+}
+
+- (void)createBuffersWithVertexProvider:(RZXMeshDataProvider)vertexProvider indexProvider:(RZXMeshDataProvider)indexProvider
+{
+    _vertexData = vertexProvider(self);
+
+    // a mesh without a cache key is mutable
+    GLenum bufferUsage = (self.cacheKey == nil) ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW;
+
+    glGenBuffers(1, &_bufferSet.vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, _bufferSet.vbo);
+    glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)_vertexData.length, _vertexData.bytes, bufferUsage);
+
+    if ( indexProvider != nil ) {
+        NSData *indexData = indexProvider(self);
+
+        _indexCount = ((GLsizei)indexData.length / sizeof(GLushort));
+
+        if ( indexData != nil ) {
+            glGenBuffers(1, &_bufferSet.ibo);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _bufferSet.ibo);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)indexData.length, indexData.bytes, bufferUsage);
+        }
+    }
+    else {
+        _indexCount = 0;
+    }
+}
+
+- (void)updateBuffersWithVertexProvider:(RZXMeshDataProvider)vertexProvider indexProvider:(RZXMeshDataProvider)indexProvider
+{
+    _vertexData = vertexProvider(self);
+
+    glBindBuffer(GL_ARRAY_BUFFER, _bufferSet.vbo);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, (GLsizeiptr)_vertexData.length, _vertexData.bytes);
+
+    if ( indexProvider != nil ) {
+        NSData *indexData = indexProvider(self);
+
+        _indexCount = ((GLsizei)indexData.length / sizeof(GLushort));
+
+        if ( indexData != nil ) {
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _bufferSet.ibo);
+            glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, (GLsizeiptr)indexData.length, indexData.bytes);
+        }
+    }
+    else {
+        _indexCount = 0;
+    }
 }
 
 @end

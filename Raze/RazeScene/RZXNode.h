@@ -61,17 +61,17 @@
 - (GLKMatrix4)viewMatrix;
 - (GLKMatrix4)projectionMatrix;
 
-- (GLKVector3)convertPoint:(GLKVector3)point fromNode:(RZXNode *)node;
 - (GLKVector3)convertPoint:(GLKVector3)point toNode:(RZXNode *)node;
+- (GLKVector3)convertPoint:(GLKVector3)point fromNode:(RZXNode *)node;
 
-- (GLKVector3)convertScale:(GLKVector3)scale fromNode:(RZXNode *)node;
 - (GLKVector3)convertScale:(GLKVector3)scale toNode:(RZXNode *)node;
+- (GLKVector3)convertScale:(GLKVector3)scale fromNode:(RZXNode *)node;
 
-- (GLKQuaternion)convertRotation:(GLKQuaternion)rotation fromNode:(RZXNode *)node;
 - (GLKQuaternion)convertRotation:(GLKQuaternion)rotation toNode:(RZXNode *)node;
+- (GLKQuaternion)convertRotation:(GLKQuaternion)rotation fromNode:(RZXNode *)node;
 
-- (RZXTransform3D *)convertTransform:(RZXTransform3D *)transform fromNode:(RZXNode *)node;
 - (RZXTransform3D *)convertTransform:(RZXTransform3D *)transform toNode:(RZXNode *)node;
+- (RZXTransform3D *)convertTransform:(RZXTransform3D *)transform fromNode:(RZXNode *)node;
 
 - (void)addAnimation:(CAAnimation *)animation forKey:(NSString *)key;
 - (CAAnimation *)animationForKey:(NSString *)key;
@@ -84,9 +84,6 @@
 @interface RZXNode () <RZXPhysicsObject>
 
 @property (strong, nonatomic) RZXPhysicsBody *physicsBody;
-
-- (void)didBeginContact:(RZXCollider *)collider;
-- (void)didEndContact:(RZXCollider *)collider;
 
 @end
 

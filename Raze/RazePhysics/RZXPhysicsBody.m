@@ -10,6 +10,7 @@
 #import <RazePhysics/RZXPhysicsBody_Private.h>
 
 @implementation RZXPhysicsBody {
+    NSHashTable *_contactedBodies;
     float _inverseMass;
 }
 
@@ -21,6 +22,7 @@
 - (instancetype)init
 {
     if ( (self = [super init]) ) {
+        _contactedBodies = [NSHashTable hashTableWithOptions:NSHashTableWeakMemory | NSPointerFunctionsObjectPointerPersonality];
         _mass = 1.0f;
         _inverseMass = 1.0f;
         _dynamic = YES;
@@ -37,10 +39,15 @@
     return self;
 }
 
+- (NSSet *)contactedBodies
+{
+    return [_contactedBodies setRepresentation];
+}
+
 - (void)setMass:(float)mass
 {
     _mass = MAX(0.0f, mass);
-    _inverseMass = (mass != 0.0f) ? (1.0f / mass) : 0.0f;
+    _inverseMass = (mass != 0.0f) ? (1.0f / mass) : INFINITY;
 }
 
 - (void)setRestitution:(float)restitution
@@ -55,14 +62,26 @@
     _collider.body = self;
 }
 
-- (void)applyForce:(GLKVector3)force
-{
-    // TODO: apply the force
-}
-
 - (void)applyImpulse:(GLKVector3)impulse
 {
     [self adjustVelocity:GLKVector3MultiplyScalar(impulse, self.inverseMass)];
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    RZXPhysicsBody *copy = [[[self class] alloc] init];
+
+    copy.name = self.name;
+    copy.collider = [self.collider copy];
+    copy.mass = self.mass;
+    copy.restitution = self.restitution;
+    copy.velocity = self.velocity;
+    copy.dynamic = self.isDynamic;
+    copy.affectedByGravity = self.isAffectedByGravity;
+
+    return copy;
 }
 
 #pragma mark - private methods
@@ -76,6 +95,26 @@
 - (void)adjustVelocity:(GLKVector3)dv
 {
     self.velocity = GLKVector3Add(self.velocity, dv);
+}
+
+- (void)adjustPosition:(GLKVector3)movement
+{
+    [self.representedObject.transform translateBy:movement];
+}
+
+- (void)prepareForUpdates
+{
+    [self.representedObject willSimulatePhysics];
+}
+
+- (void)finalizeUpdates
+{
+    [self.representedObject didSimulatePhysics];
+}
+
+- (void)addContactedBody:(RZXPhysicsBody *)other
+{
+    [_contactedBodies addObject:other];
 }
 
 - (RZXContact *)generateContact:(RZXPhysicsBody *)other
@@ -96,7 +135,7 @@
 - (void)rzx_update:(NSTimeInterval)dt
 {
     GLKVector3 movement = GLKVector3MultiplyScalar(self.velocity, dt);
-    [self.representedObject.transform translateBy:movement];
+    [self adjustPosition:movement];
 }
 
 @end

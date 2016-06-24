@@ -7,6 +7,7 @@
 //
 
 #import <RazePhysics/RZXContact.h>
+#import <RazePhysics/RZXContact_Private.h>
 #import <RazePhysics/RZXPhysicsBody.h>
 
 @implementation RZXContact
@@ -30,6 +31,18 @@
 - (NSUInteger)hash
 {
     return (_first.hash ^ _second.hash);
+}
+
+#pragma mark - private
+
+- (instancetype)initWithContactData:(RZXContactData)data
+{
+    if ( (self = [self init]) ) {
+        _normal = data.normal;
+        _distance = data.distance;
+    }
+    
+    return self;
 }
 
 @end

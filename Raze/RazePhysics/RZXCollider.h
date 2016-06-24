@@ -8,12 +8,28 @@
 
 #import <RazeCore/RZXTransform3D.h>
 
+typedef uint32_t RZXColliderCategory;
+
 @class RZXPhysicsWorld;
 @class RZXPhysicsBody;
 
-@interface RZXCollider : NSObject
+/**
+ *  An abstract class representing a collision volume.
+ *  Use a concrete subclass that best represents the shape of the physics object.
+ */
+@interface RZXCollider : NSObject <NSCopying>
 
-@property (copy, nonatomic) NSString *identifier;
+/**
+ *  The category mask used when testing whether two colliders should interact.
+ *  Default is 0xFFFF.
+ */
+@property (assign, nonatomic) RZXColliderCategory categoryMask;
+
+/**
+ *  The collider interacts with another collider when other.categoryMask bitwise and-ed with the collisionMask is non-zero.
+ *  Default is 0xFFFF, meaning the collider will interact with everything.
+ */
+@property (assign, nonatomic) RZXColliderCategory collisionMask;
 
 /**
  *  Whether the collider should take part in physics calculations.
@@ -31,5 +47,10 @@
  *  The physics world in which the collider exists.
  */
 @property (weak, nonatomic, readonly) RZXPhysicsWorld *world;
+
+/**
+ *  Tests the given collider's categoryMask against the receiver's collisionMask.
+ */
+- (BOOL)shouldCollideWith:(RZXCollider *)other;
 
 @end

@@ -8,10 +8,14 @@
 
 #import <RazePhysics/RZXSphereCollider.h>
 #import <RazePhysics/RZXCollider_Private.h>
+#import <RazePhysics/RZXContact_Private.h>
 
 #import <RazePhysics/RZXBoxCollider.h>
+#import <RazePhysics/RZXMeshCollider.h>
 
-@implementation RZXSphereCollider
+@implementation RZXSphereCollider {
+    RZXSphere _untransformedSphere;
+}
 
 + (instancetype)colliderWithRadius:(float)radius
 {
@@ -31,40 +35,58 @@
 - (instancetype)initWithRadius:(float)radius center:(GLKVector3)center
 {
     if ( (self = [super init]) ) {
-        _radius = radius;
-        _center = center;
+        _untransformedSphere = (RZXSphere) {
+            .center = center,
+            .radius = radius
+        };
     }
 
     return self;
+}
+
+- (GLKVector3)center
+{
+    return _untransformedSphere.center;
+}
+
+- (float)radius
+{
+    return _untransformedSphere.radius;
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    RZXSphereCollider *copy = [super copyWithZone:zone];
+    copy->_untransformedSphere = _untransformedSphere;
+
+    return copy;
 }
 
 #pragma mark - private
 
 - (RZXSphere)boundingSphere
 {
-    RZXTransform3D *transform = self.body.representedObject.worldTransform ?: [RZXTransform3D transform];
+    RZXTransform3D *transform = self.worldTransform;
 
-    GLKVector3 scale = transform.scale;
+    RZXSphere sphere = _untransformedSphere;
 
-    return (RZXSphere) {
-        .center = GLKVector3Add(_center, transform.translation),
-        .radius = _radius * MAX(scale.x, MAX(scale.y, scale.z))
-    };
+    if ( transform != nil ) {
+        RZXSphereScale(&sphere, transform.scale);
+        RZXSphereTranslate(&sphere, transform.translation);
+    }
+
+    return sphere;
 }
 
 - (RZXBox)boundingBox
 {
     RZXSphere boundingSphere = self.boundingSphere;
 
-    GLKVector3 boxMin = GLKVector3Make(boundingSphere.center.x - 0.5 * boundingSphere.radius,
-                                       boundingSphere.center.y - 0.5 * boundingSphere.radius,
-                                       boundingSphere.center.z - 0.5 * boundingSphere.radius);
+    GLKVector3 boxRadius = GLKVector3Make(boundingSphere.radius, boundingSphere.radius, boundingSphere.radius);
 
-    GLKVector3 boxMax = GLKVector3Make(boundingSphere.center.x + 0.5 * boundingSphere.radius,
-                                       boundingSphere.center.y + 0.5 * boundingSphere.radius,
-                                       boundingSphere.center.z + 0.5 * boundingSphere.radius);
-
-    return (RZXBox) { .min = boxMin, .max = boxMax };
+    return RZXBoxMakeAxisAligned(boundingSphere.center, boxRadius);
 }
 
 - (BOOL)pointInside:(GLKVector3)point
@@ -75,29 +97,22 @@
 - (RZXContact *)generateContact:(RZXCollider *)other
 {
     RZXContact *contact = nil;
+    RZXContactData contactData;
 
     RZXSphere bounds = self.boundingSphere;
 
     if ( [other isKindOfClass:[RZXBoxCollider class]] ) {
-        RZXBox otherBounds = other.boundingBox;
-
-        GLKVector3 nearestPoint = RZXBoxGetNearestPoint(otherBounds, bounds.center);
-        GLKVector3 diff = GLKVector3Subtract(bounds.center, nearestPoint);
-
-        if ( GLKVector3Length(diff) <= bounds.radius ) {
-            contact = [[RZXContact alloc] init];
-            contact.normal = GLKVector3Normalize(diff);
-        }
+        contact = [other generateContact:self];
+        contact.normal = GLKVector3Negate(contact.normal);
     }
     else if ( [other isKindOfClass:[RZXSphereCollider class]] ) {
-        RZXSphere otherBounds = other.boundingSphere;
-
-        if ( RZXSphereIntersectsSphere(bounds, otherBounds) ) {
-            GLKVector3 diff = GLKVector3Subtract(bounds.center, otherBounds.center);
-
-            contact = [[RZXContact alloc] init];
-            contact.normal = GLKVector3Normalize(diff);
+        if ( RZXSphereIntersectsSphere(bounds, other.boundingSphere, &contactData) ) {
+            contact = [[RZXContact alloc] initWithContactData:contactData];
         }
+    }
+    else if ( [other isKindOfClass:[RZXMeshCollider class]] ) {
+        contact = [other generateContact:self];
+        contact.normal = GLKVector3Negate(contact.normal);
     }
 
     return contact;

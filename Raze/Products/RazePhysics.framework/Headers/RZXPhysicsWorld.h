@@ -8,8 +8,11 @@
 
 #import <RazeCore/RZXUpdateable.h>
 #import <RazePhysics/RZXPhysicsBody.h>
+#import <RazePhysics/RZXContact.h>
 
 @class RZXCollision;
+
+@protocol RZXPhysicsWorldDelegate;
 
 typedef void (^RZXPhysicsBodyEnumeration)(RZXPhysicsBody *body, BOOL *stop);
 
@@ -21,6 +24,8 @@ typedef void (^RZXPhysicsBodyEnumeration)(RZXPhysicsBody *body, BOOL *stop);
  */
 @property (assign, nonatomic) GLKVector3 gravity;
 
+@property (weak, nonatomic) id<RZXPhysicsWorldDelegate> delegate;
+
 - (void)addBody:(RZXPhysicsBody *)body;
 - (void)removeBody:(RZXPhysicsBody *)body;
 
@@ -28,5 +33,12 @@ typedef void (^RZXPhysicsBodyEnumeration)(RZXPhysicsBody *body, BOOL *stop);
 
 - (void)enumerateBodiesWithBlock:(RZXPhysicsBodyEnumeration)block;
 - (void)enumerateBodiesAtPoint:(GLKVector3)point withBlock:(RZXPhysicsBodyEnumeration)block;
+
+@end
+
+@protocol RZXPhysicsWorldDelegate <NSObject>
+
+- (void)contactDidBegin:(RZXContact *)contact;
+- (void)contactDidEnd:(RZXContact *)contact;
 
 @end

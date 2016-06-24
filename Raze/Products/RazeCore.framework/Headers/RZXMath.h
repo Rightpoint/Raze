@@ -11,18 +11,24 @@
 #import <GLKit/GLKMath.h>
 
 static const GLKVector3 RZXVector3Zero = (GLKVector3){ 0.0f, 0.0f, 0.0f };
+static const GLKVector3 RZXVector3One = (GLKVector3){ 1.0f, 1.0f, 1.0f };
+
+GLK_INLINE GLKVector3 RZXVector3MakeScalar(float s)
+{
+    return GLKVector3Make(s, s, s);
+}
 
 // Handles the singularity at +/-M_PI_2 pitch
 GLK_INLINE float RZXSafeASin(float x)
 {
-    float asin;
+    float result;
 
-    if ( isnan(x) )          asin = 0.0f;
-    else if ( x >= 1.0f )    asin = M_PI_2;
-    else if ( x <= -1.0f )   asin = -M_PI_2;
-    else                     asin = asinf(x);
+    if ( isnan(x) )          result = 0.0f;
+    else if ( x >= 1.0f )    result = M_PI_2;
+    else if ( x <= -1.0f )   result = -M_PI_2;
+    else                     result = asinf(x);
 
-    return asin;
+    return result;
 }
 
 GLK_INLINE void RZXQuaternionGetEulerAngles(GLKQuaternion q, float *x, float *y, float *z)

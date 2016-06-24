@@ -23,20 +23,22 @@
 
 - (BOOL)setupGL
 {
-    // TODO: when supporting multiple contexts, also ensure that the current context is the configured context
+    RZXGLContext *currentContext = [RZXGLContext currentContext];
+
     BOOL setup = (self.configuredContext != nil);
 
+    if ( setup && currentContext != nil && currentContext != self.configuredContext ) {
+        [self teardownGL];
+        setup = NO;
+    }
+
     if ( !setup ) {
-        // TODO: when supporting multiple contexts, also teardown in previous context
-
-        RZXGLContext *currentContext = [RZXGLContext currentContext];
-
         if ( currentContext != nil ) {
             self.configuredContext = currentContext;
             setup = YES;
         }
         else {
-            RZXLog(@"Failed to setup %@: No active context!", NSStringFromClass([self class]));
+            RZXLog(@"Failed to setup %@: No active context!", self);
         }
     }
 
@@ -45,8 +47,14 @@
 
 - (BOOL)bindGL
 {
-    // TODO: when supporting multiple contexts, also ensure that the current context is the configured context
+    RZXGLContext *currentContext = [RZXGLContext currentContext];
+
     BOOL bound = (self.configuredContext != nil);
+
+    if ( bound && currentContext != nil && currentContext != self.configuredContext ) {
+        [self teardownGL];
+        bound = NO;
+    }
 
     if ( !bound ) {
         bound = [self setupGL];

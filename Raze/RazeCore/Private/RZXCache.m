@@ -67,9 +67,11 @@
 {
     __block id object = nil;
 
-    dispatch_sync(self.cacheQueue, ^{
-        object = self.cachedObjects[key];
-    });
+    if ( key != nil ) {
+        dispatch_sync(self.cacheQueue, ^{
+            object = self.cachedObjects[key];
+        });
+    }
 
     return object;
 }

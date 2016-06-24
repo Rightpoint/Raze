@@ -21,7 +21,7 @@
 
 - (RZXScene *)scene
 {
-    return [self.model isKindOfClass:[RZXScene class]] ? self.model : nil;
+    return [self.model isKindOfClass:[RZXScene class]] ? (RZXScene *)self.model : nil;
 }
 
 - (void)setScene:(RZXScene *)scene

@@ -17,6 +17,7 @@
 @property (nonatomic, readonly) RZXSphere boundingSphere;
 
 @property (weak, nonatomic) RZXPhysicsBody *body;
+@property (nonatomic, readonly) RZXTransform3D *worldTransform;
 
 - (BOOL)pointInside:(GLKVector3)point;
 

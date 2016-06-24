@@ -8,21 +8,28 @@
 
 #import <RazePhysics/RZXBoxCollider.h>
 #import <RazePhysics/RZXCollider_Private.h>
+#import <RazePhysics/RZXContact_Private.h>
 
 #import <RazePhysics/RZXSphereCollider.h>
+#import <RazePhysics/RZXMeshCollider.h>
 
 @implementation RZXBoxCollider {
-    RZXBox _untransformedBoundingBox;
+    RZXBox _untransformedBox;
 }
 
 + (instancetype)colliderWithSize:(GLKVector3)size
 {
-    return [self colliderWithSize:size center:RZXVector3Zero];
+    return [[self alloc] initWithSize:size];
 }
 
 + (instancetype)colliderWithSize:(GLKVector3)size center:(GLKVector3)center
 {
     return [[self alloc] initWithSize:size center:center];
+}
+
++ (instancetype)colliderWithSize:(GLKVector3)size center:(GLKVector3)center rotation:(GLKQuaternion)rotation
+{
+    return [[self alloc] initWithSize:size center:center rotation:rotation];
 }
 
 - (instancetype)initWithSize:(GLKVector3)size
@@ -32,53 +39,64 @@
 
 - (instancetype)initWithSize:(GLKVector3)size center:(GLKVector3)center
 {
+    return [self initWithSize:size center:center rotation:GLKQuaternionIdentity];
+}
+
+- (instancetype)initWithSize:(GLKVector3)size center:(GLKVector3)center rotation:(GLKQuaternion)rotation
+{
     if ( (self = [super init]) ) {
-        _size = size;
-        _center = center;
-
         GLKVector3 halfSize = GLKVector3MultiplyScalar(size, 0.5f);
-
-        _untransformedBoundingBox = (RZXBox) {
-            .min = GLKVector3Subtract(center, halfSize),
-            .max = GLKVector3Add(center, halfSize)
-        };
+        _untransformedBox = RZXBoxMake(center, halfSize, rotation);
     }
 
     return self;
+}
+
+- (GLKVector3)size
+{
+    return RZXBoxGetSize(_untransformedBox);
+}
+
+- (GLKVector3)center
+{
+    return _untransformedBox.center;
+}
+
+- (GLKQuaternion)rotation
+{
+    return RZXBoxGetRotation(_untransformedBox);
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    RZXBoxCollider *copy = [super copyWithZone:zone];
+    copy->_untransformedBox = _untransformedBox;
+
+    return copy;
 }
 
 #pragma mark - private
 
 - (RZXSphere)boundingSphere
 {
-    RZXTransform3D *transform = self.body.representedObject.worldTransform ?: [RZXTransform3D transform];
-
-    RZXBox boundingBox = _untransformedBoundingBox;
-    RZXBoxScale(&boundingBox, transform.scale);
-
-    GLKVector3 center = GLKVector3Add(_center, transform.translation);
-
-    return (RZXSphere) {
-        .center = center,
-        .radius = GLKVector3Distance(center, boundingBox.min)
-    };
+    return RZXBoxGetBoundingSphere(self.boundingBox);
 }
 
 - (RZXBox)boundingBox
 {
-    RZXTransform3D *transform = self.body.representedObject.worldTransform ?: [RZXTransform3D transform];
+    RZXBox box = _untransformedBox;
 
-    RZXBox boundingBox = _untransformedBoundingBox;
+    RZXTransform3D *transform = self.worldTransform;
 
-    if ( GLKQuaternionAngle(transform.rotation) == 0.0f ) {
-        RZXBoxTranslate(&boundingBox, transform.translation);
-        RZXBoxScale(&boundingBox, transform.scale);
-    }
-    else {
-        RZXBoxTransform(&boundingBox, transform.modelMatrix);
+    if ( transform != nil ) {
+        RZXBoxTranslate(&box, transform.translation);
+        RZXBoxRotate(&box, transform.rotation);
+        RZXBoxScale(&box, transform.scale);
     }
 
-    return boundingBox;
+    return box;
 }
 
 - (BOOL)pointInside:(GLKVector3)point
@@ -89,17 +107,21 @@
 - (RZXContact *)generateContact:(RZXCollider *)other
 {
     RZXContact *contact = nil;
+    RZXContactData contactData;
+
+    RZXBox bounds = self.boundingBox;
 
     if ( [other isKindOfClass:[RZXBoxCollider class]] ) {
-        RZXBox bounds = self.boundingBox;
-        RZXBox otherBounds = other.boundingBox;
-
-        if ( RZXBoxIntersectsBox(bounds, otherBounds) ) {
-            // TODO: compute correct normal and distance
-            contact = [[RZXContact alloc] init];
+        if ( RZXBoxIntersectsBox(bounds, other.boundingBox, &contactData) ) {
+            contact = [[RZXContact alloc] initWithContactData:contactData];
         }
     }
     else if ( [other isKindOfClass:[RZXSphereCollider class]] ) {
+        if ( RZXBoxIntersectsSphere(bounds, other.boundingSphere, &contactData) ) {
+            contact = [[RZXContact alloc] initWithContactData:contactData];
+        }
+    }
+    else if ( [other isKindOfClass:[RZXMeshCollider class]] ) {
         contact = [other generateContact:self];
         contact.normal = GLKVector3Negate(contact.normal);
     }

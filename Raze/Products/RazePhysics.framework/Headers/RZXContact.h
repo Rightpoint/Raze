@@ -15,6 +15,14 @@
 @property (strong, nonatomic) RZXPhysicsBody *first;
 @property (strong, nonatomic) RZXPhysicsBody *second;
 
+/**
+ *  The collision normal.
+ */
 @property (assign, nonatomic) GLKVector3 normal;
+
+/**
+ *  Penetration distance.
+ */
+@property (assign, nonatomic) float distance;
 
 @end
