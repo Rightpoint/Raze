@@ -54,7 +54,10 @@
     [officeNode.transform setTranslation:GLKVector3Make(0.0f, 8.0, -8.0)];
     self.officeNode = officeNode;
 
-    officeNode.physicsBody = [RZXPhysicsBody bodyWithCollider:[RZXSphereCollider colliderWithRadius:1.0]];
+    RZXCubeMesh *cube = [RZXCubeMesh cube];
+    RZXMeshCollider *cubeCollider = [RZXMeshCollider colliderWithConvexMesh:cube transform:[RZXTransform3D transformWithScale:RZXVector3MakeScalar(2.0f)]];
+
+    officeNode.physicsBody = [RZXPhysicsBody bodyWithCollider:cubeCollider];
     officeNode.physicsBody.restitution = 0.3f;
 
     RZXStaticTexture *greyTex = [RZXStaticTexture textureFromFile:@"greyTexture.png"];

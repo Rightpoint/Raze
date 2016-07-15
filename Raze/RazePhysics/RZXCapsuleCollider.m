@@ -129,7 +129,9 @@
         }
     }
     else if ( [other isKindOfClass:[RZXCapsuleCollider class]] ) {
-        // TODO
+        if ( RZXCapsuleIntersectsCapsule(bounds, ((RZXCapsuleCollider *)other).transformedCapsule, &contactData) ) {
+            contact = [[RZXContact alloc] initWithContactData:contactData];
+        }
     }
     else if ( [other isKindOfClass:[RZXMeshCollider class]] ) {
         contact = [other generateContact:self];

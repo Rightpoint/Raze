@@ -15,6 +15,8 @@
 
 static float const kRZXFloatEpsilon = 1e-5;
 
+#define RZX_IS_ZERO(f) (fabsf(f) < kRZXFloatEpsilon)
+
 typedef struct _RZXLineSegment {
     GLKVector3 p1, p2;
 } RZXLineSegment;
@@ -64,9 +66,14 @@ typedef struct _RZXLineIntersectionData {
 
 #pragma mark - Lines
 
+GLK_INLINE GLKVector3 RZXLineSegmentGetDirection(RZXLineSegment s)
+{
+    return GLKVector3Subtract(s.p2, s.p1);
+}
+
 GLK_INLINE GLKVector3 RZXLineSegmentGetNearestPoint(RZXLineSegment s, GLKVector3 p)
 {
-    GLKVector3 v = GLKVector3Subtract(s.p2, s.p1);
+    GLKVector3 v = RZXLineSegmentGetDirection(s);
     GLKVector3 vp = GLKVector3Subtract(p, s.p1);
 
     float vdvp = GLKVector3DotProduct(v, vp);
@@ -87,6 +94,37 @@ GLK_INLINE GLKVector3 RZXLineSegmentGetNearestPoint(RZXLineSegment s, GLKVector3
             return GLKVector3Add(s.p1, GLKVector3MultiplyScalar(v, t));
         }
     }
+}
+
+// Adapted from http://paulbourke.net/geometry/pointlineplane/lineline.c
+GLK_INLINE RZXLineSegment RZXLineSegmentConnect(RZXLineSegment s1, RZXLineSegment s2)
+{
+    GLKVector3 dir1 = RZXLineSegmentGetDirection(s1);
+    GLKVector3 dir2 = RZXLineSegmentGetDirection(s2);
+    GLKVector3 v = GLKVector3Subtract(s1.p1, s2.p1);
+
+    float dot11 = GLKVector3DotProduct(dir1, dir1);
+    float dot12 = GLKVector3DotProduct(dir1, dir2);
+    float dot22 = GLKVector3DotProduct(dir2, dir2);
+    float dot1v = GLKVector3DotProduct(dir1, v);
+    float dot2v = GLKVector3DotProduct(dir2, v);
+
+    float denom = (dot11 * dot22 - dot12 * dot12);
+
+    // ensure non-zero denominator for parallel lines
+    if ( RZX_IS_ZERO(denom) ) {
+        denom = kRZXFloatEpsilon;
+    }
+
+    float numer = dot2v * dot12 - dot1v * dot22;
+
+    float t = (numer / denom);
+    float s = (dot2v + dot12 * t) / dot22;
+
+    return (RZXLineSegment) {
+        .p1 = GLKVector3Add(s1.p1, GLKVector3MultiplyScalar(dir1, t)),
+        .p2 = GLKVector3Add(s2.p1, GLKVector3MultiplyScalar(dir2, s))
+    };
 }
 
 // NOTE: does not handle degenerate lines (v = (0, 0, 0))
@@ -335,6 +373,28 @@ GLK_INLINE bool RZXCapsuleIntersectsSphere(RZXCapsule c, RZXSphere s, RZXContact
         if ( data != NULL) {
             data->normal = GLKVector3DivideScalar(v, dist);
             data->distance = (c.radius - s.radius - dist);
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+GLK_INLINE bool RZXCapsuleIntersectsCapsule(RZXCapsule c1, RZXCapsule c2, RZXContactData *data)
+{
+    RZXLineSegment a1 = RZXCapsuleGetAxis(c1);
+    RZXLineSegment a2 = RZXCapsuleGetAxis(c2);
+
+    RZXLineSegment connector = RZXLineSegmentConnect(a1, a2);
+
+    GLKVector3 v = RZXLineSegmentGetDirection(connector);
+    float dist = GLKVector3Length(v);
+
+    if( dist <= c1.radius + c2.radius ) {
+        if ( data != NULL) {
+            data->normal = GLKVector3DivideScalar(v, dist);
+            data->distance = (c1.radius - c2.radius - dist);
         }
 
         return true;

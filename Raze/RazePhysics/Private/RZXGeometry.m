@@ -9,8 +9,6 @@
 #import <RazePhysics/RZXGeometry.h>
 #import <RazePhysics/RZXGJK.h>
 
-#define RZX_IS_ZERO(f) (fabsf(f) < kRZXFloatEpsilon)
-
 #pragma mark - Lines
 
 bool RZXLineIntersection(RZXLine l1, RZXLine l2, RZXLineIntersectionData *data)

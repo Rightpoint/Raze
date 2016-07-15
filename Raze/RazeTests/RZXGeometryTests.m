@@ -311,4 +311,27 @@
     XCTAssert(GLKVector3AllEqualToVector3(data.p, GLKVector3Make(0.0f, 1.0f, 0.0f)));
 }
 
+- (void)testRZXLineSegmentConnect {
+    RZXLineSegment s1 = (RZXLineSegment) {
+        .p1 = GLKVector3Make(1.0f, 0.0f, 1.0f),
+        .p2 = GLKVector3Make(2.0f, 0.0f, 0.0f)
+    };
+
+    RZXLineSegment s2 = s1;
+
+    RZXLineSegment result = RZXLineSegmentConnect(s1, s2);
+
+    // conincident lines
+    XCTAssertEqual(GLKVector3Length(RZXLineSegmentGetDirection(result)), 0.0f);
+
+    // parallel lines
+    s2.p1.y += 1.0f;
+    s2.p2.y += 1.0f;
+    result = RZXLineSegmentConnect(s1, s2);
+
+    XCTAssertEqual(GLKVector3Length(RZXLineSegmentGetDirection(result)), 1.0f);
+
+    // TODO: more tests
+}
+
 @end
