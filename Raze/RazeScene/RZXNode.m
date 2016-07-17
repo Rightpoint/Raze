@@ -9,10 +9,10 @@
 #import <RazeCore/RazeCore.h>
 #import <RazeEffects/RZXEffect.h>
 #import <RazeAnimation/RZXAnimatable.h>
+#import <RazeAnimation/RazeCore+RZXAnimation.h>
 
 #import <RazeScene/RZXNode.h>
 #import <RazeScene/RZXNode_Private.h>
-
 #import <RazeScene/RZXScene.h>
 
 @interface RZXNode ()
@@ -367,6 +367,7 @@
 - (void)rzx_update:(NSTimeInterval)dt
 {
     [self.animator rzx_update:dt];
+    [self.camera rzx_update:dt];
 
     for ( RZXNode *child in self.children ) {
         [child rzx_update:dt];

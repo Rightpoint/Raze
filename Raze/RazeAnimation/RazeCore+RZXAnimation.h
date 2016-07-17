@@ -16,7 +16,7 @@
 @interface NSObject (RZXAnimation)
 @end
 
-@interface RZXCamera (RZXAnimation)
+@interface RZXCamera (RZXAnimation) <RZXUpdateable>
 
 @property (nonatomic, readonly) RZXAnimator *animator;
 

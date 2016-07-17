@@ -46,4 +46,11 @@
     objc_setAssociatedObject(self, @selector(animator), animator, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+#pragma mark - RZXUpdateable
+
+- (void)rzx_update:(NSTimeInterval)dt
+{
+    [self.animator rzx_update:dt];
+}
+
 @end
