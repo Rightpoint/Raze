@@ -36,7 +36,10 @@
 - (float)rzx_interpolationFactorForTime:(CFTimeInterval)currentTime
 {
     float t = (self.duration != 0.0) ? (currentTime / self.duration) : 1.0f;
-    return [self.timingFunction rzx_solveForNormalizedTime:t];
+    CAMediaTimingFunction *function = self.timingFunction;
+
+    // default to linear timing if no function is supplied
+    return function ? [function rzx_solveForNormalizedTime:t] : t;
 }
 
 - (id)rzx_interpolateAtTime:(CFTimeInterval)time withInterpolator:(RZXInterpolator *)interpolator currentValue:(id)currentValue
