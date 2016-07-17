@@ -7,6 +7,7 @@
 
 #import <objc/runtime.h>
 #import <RazeAnimation/CAAnimation+RZXPrivateExtensions.h>
+#import <RazeAnimation/CAMediaTimingFunction+RZXExtensions.h>
 #import <RazeAnimation/RZXAnimationState.h>
 #import <RazeAnimation/RZXAnimatable.h>
 #import <RazeAnimation/RZXInterpolator.h>
@@ -34,8 +35,8 @@
 
 - (float)rzx_interpolationFactorForTime:(CFTimeInterval)currentTime
 {
-    // TODO: take into account timing functions. This is just linear.
-    return self.duration != 0.0 ? (self.speed * currentTime / self.duration) : 1.0f;
+    float t = (self.duration != 0.0) ? (currentTime / self.duration) : 1.0f;
+    return [self.timingFunction rzx_solveForNormalizedTime:t];
 }
 
 - (id)rzx_interpolateAtTime:(CFTimeInterval)time withInterpolator:(RZXInterpolator *)interpolator currentValue:(id)currentValue

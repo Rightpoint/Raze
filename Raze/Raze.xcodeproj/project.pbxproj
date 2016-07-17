@@ -52,6 +52,12 @@
 		D40F7EC21CD563F400C21979 /* RZXCubeMesh.m in Sources */ = {isa = PBXBuildFile; fileRef = D40F7EC01CD563F400C21979 /* RZXCubeMesh.m */; };
 		D44B8AE91D39794F000D7103 /* RZXAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = D44B8AE71D39794F000D7103 /* RZXAnimator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D44B8AEA1D39794F000D7103 /* RZXAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = D44B8AE81D39794F000D7103 /* RZXAnimator.m */; };
+		D44B8AF01D3BC40B000D7103 /* RZXPolyCurve.h in Headers */ = {isa = PBXBuildFile; fileRef = D44B8AEF1D3BC369000D7103 /* RZXPolyCurve.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		D44B8AF21D3BDA5B000D7103 /* RZXAnimationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D44B8AF11D3BDA5B000D7103 /* RZXAnimationTests.m */; };
+		D44B8AF51D3BDA7C000D7103 /* CAMediaTimingFunction+RZXExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = D44B8AF31D3BDA7C000D7103 /* CAMediaTimingFunction+RZXExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D44B8AF61D3BDA7C000D7103 /* CAMediaTimingFunction+RZXExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D44B8AF41D3BDA7C000D7103 /* CAMediaTimingFunction+RZXExtensions.m */; };
+		D44B8AF91D3BDF15000D7103 /* RazeAnimation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4EF0F3B1B50501F001EA85F /* RazeAnimation.framework */; };
+		D44B8AFA1D3BDF1A000D7103 /* RazePhysics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4C5B03D1C8A2B4F00256957 /* RazePhysics.framework */; };
 		D46EDCF31B5455A2002AD0B7 /* RZXNode+RZXAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = D46EDCF11B5455A2002AD0B7 /* RZXNode+RZXAnimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D46EDCF41B5455A2002AD0B7 /* RZXNode+RZXAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = D46EDCF21B5455A2002AD0B7 /* RZXNode+RZXAnimation.m */; };
 		D46EDCF61B545874002AD0B7 /* RZXAnimationBase.h in Headers */ = {isa = PBXBuildFile; fileRef = D46EDCF51B545874002AD0B7 /* RZXAnimationBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -172,6 +178,13 @@
 			remoteGlobalIDString = D4D00E531AE14D1300D007E4;
 			remoteInfo = RazeEffects;
 		};
+		D44B8AF71D3BDD80000D7103 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4D00E041AE14C9300D007E4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D4EF0F3A1B50501F001EA85F;
+			remoteInfo = RazeAnimation;
+		};
 		D47841691B5E838300CBFE49 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D4D00E041AE14C9300D007E4 /* Project object */;
@@ -263,6 +276,10 @@
 		D40F7EC01CD563F400C21979 /* RZXCubeMesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXCubeMesh.m; sourceTree = "<group>"; };
 		D44B8AE71D39794F000D7103 /* RZXAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXAnimator.h; sourceTree = "<group>"; };
 		D44B8AE81D39794F000D7103 /* RZXAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXAnimator.m; sourceTree = "<group>"; };
+		D44B8AEF1D3BC369000D7103 /* RZXPolyCurve.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RZXPolyCurve.h; sourceTree = "<group>"; };
+		D44B8AF11D3BDA5B000D7103 /* RZXAnimationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RZXAnimationTests.m; path = RazeAnimation/Private/RZXAnimationTests.m; sourceTree = SOURCE_ROOT; };
+		D44B8AF31D3BDA7C000D7103 /* CAMediaTimingFunction+RZXExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CAMediaTimingFunction+RZXExtensions.h"; sourceTree = "<group>"; };
+		D44B8AF41D3BDA7C000D7103 /* CAMediaTimingFunction+RZXExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CAMediaTimingFunction+RZXExtensions.m"; sourceTree = "<group>"; };
 		D46EDCF11B5455A2002AD0B7 /* RZXNode+RZXAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RZXNode+RZXAnimation.h"; sourceTree = "<group>"; };
 		D46EDCF21B5455A2002AD0B7 /* RZXNode+RZXAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RZXNode+RZXAnimation.m"; sourceTree = "<group>"; };
 		D46EDCF51B545874002AD0B7 /* RZXAnimationBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXAnimationBase.h; sourceTree = "<group>"; };
@@ -378,6 +395,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D44B8AFA1D3BDF1A000D7103 /* RazePhysics.framework in Frameworks */,
+				D44B8AF91D3BDF15000D7103 /* RazeAnimation.framework in Frameworks */,
 				00250CEB1D09B11200DFD96D /* RazeCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -442,6 +461,7 @@
 				D4F49AFC1D0B09DF0027AA8E /* Info.plist */,
 				D4F49AFD1D0B09DF0027AA8E /* RZXGeometryTests.m */,
 				D4F49AFE1D0B09DF0027AA8E /* RZXMathTests.m */,
+				D44B8AF11D3BDA5B000D7103 /* RZXAnimationTests.m */,
 			);
 			name = RazeTests;
 			path = RazeCoreTests;
@@ -685,6 +705,8 @@
 				D4EF0F8A1B5053F9001EA85F /* RazeCore+RZXAnimation.m */,
 				D4EF0F921B5055A8001EA85F /* CAAnimation+RZXExtensions.h */,
 				D4EF0F931B5055A8001EA85F /* CAAnimation+RZXExtensions.m */,
+				D44B8AF31D3BDA7C000D7103 /* CAMediaTimingFunction+RZXExtensions.h */,
+				D44B8AF41D3BDA7C000D7103 /* CAMediaTimingFunction+RZXExtensions.m */,
 				D4EF0F6E1B505197001EA85F /* Private */,
 				D4EF0F3D1B50501F001EA85F /* Supporting Files */,
 			);
@@ -708,6 +730,7 @@
 				D4EF0F971B50565A001EA85F /* RZXAnimationState.m */,
 				D4EF0F711B505197001EA85F /* RZXValueProxy.h */,
 				D4EF0F721B505197001EA85F /* RZXValueProxy.m */,
+				D44B8AEF1D3BC369000D7103 /* RZXPolyCurve.h */,
 			);
 			path = Private;
 			sourceTree = "<group>";
@@ -818,9 +841,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4EF0F981B50565A001EA85F /* RZXAnimationState.h in Headers */,
+				D44B8AF01D3BC40B000D7103 /* RZXPolyCurve.h in Headers */,
 				D4EF0F941B5055A8001EA85F /* CAAnimation+RZXExtensions.h in Headers */,
 				D4EF0F781B505197001EA85F /* CAAnimation+RZXPrivateExtensions.h in Headers */,
 				D46EDCFD1B545B30002AD0B7 /* RZXBasicAnimation.h in Headers */,
+				D44B8AF51D3BDA7C000D7103 /* CAMediaTimingFunction+RZXExtensions.h in Headers */,
 				D4EF0F7A1B505197001EA85F /* RZXValueProxy.h in Headers */,
 				D4EF0F7F1B505197001EA85F /* RZXInterpolator.h in Headers */,
 				D4EF0F7D1B505197001EA85F /* RZXAnimatable.h in Headers */,
@@ -845,6 +870,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D44B8AF81D3BDD80000D7103 /* PBXTargetDependency */,
 				D4F49B081D0B0D390027AA8E /* PBXTargetDependency */,
 			);
 			name = RazeTests;
@@ -1175,6 +1201,7 @@
 			files = (
 				D4F49B011D0B09DF0027AA8E /* RZXMathTests.m in Sources */,
 				D4F49B001D0B09DF0027AA8E /* RZXGeometryTests.m in Sources */,
+				D44B8AF21D3BDA5B000D7103 /* RZXAnimationTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1261,6 +1288,7 @@
 			files = (
 				D4EF0F791B505197001EA85F /* CAAnimation+RZXPrivateExtensions.m in Sources */,
 				D4EF0F951B5055A8001EA85F /* CAAnimation+RZXExtensions.m in Sources */,
+				D44B8AF61D3BDA7C000D7103 /* CAMediaTimingFunction+RZXExtensions.m in Sources */,
 				D4EF0F7B1B505197001EA85F /* RZXValueProxy.m in Sources */,
 				D4EF0F7E1B505197001EA85F /* RZXAnimatable.m in Sources */,
 				D46EDCFE1B545B30002AD0B7 /* RZXBasicAnimation.m in Sources */,
@@ -1283,6 +1311,11 @@
 			isa = PBXTargetDependency;
 			target = D4D00E531AE14D1300D007E4 /* RazeEffects */;
 			targetProxy = 8A6ECFB91B34602100743DBF /* PBXContainerItemProxy */;
+		};
+		D44B8AF81D3BDD80000D7103 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D4EF0F3A1B50501F001EA85F /* RazeAnimation */;
+			targetProxy = D44B8AF71D3BDD80000D7103 /* PBXContainerItemProxy */;
 		};
 		D478416A1B5E838300CBFE49 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1336,6 +1369,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1383,6 +1417,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";

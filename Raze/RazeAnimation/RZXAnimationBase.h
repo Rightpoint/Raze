@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <QuartzCore/CAAnimation.h>
+#import <QuartzCore/CAMediaTimingFunction.h>
 
 #ifndef RZXAnimationBase_h
 #define RZXAnimationBase_h
