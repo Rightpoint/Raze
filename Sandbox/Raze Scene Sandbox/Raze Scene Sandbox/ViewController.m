@@ -145,12 +145,12 @@
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
     animation.toValue = [NSValue rzx_valueWithQuaternion:GLKQuaternionMakeWithAngleAndAxis(0.0, 0.0, 0.0, 0.0)];
     animation.duration = 0.2;
-    [self.officeNode addAnimation:animation forKey:@"rotation"];
+    [self.officeNode.animator addAnimation:animation forKey:@"rotation"];
 
     CABasicAnimation *translationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.translation"];
     animation.toValue = [NSValue rzx_valueWithVec3:GLKVector3Make(0.0, 0.0, 0.0)];
     animation.duration = 0.2;
-    [self.officeNode addAnimation:translationAnimation forKey:@"translation"];
+    [self.officeNode.animator addAnimation:translationAnimation forKey:@"translation"];
 }
 
 - (void)handlePinch:(UIPinchGestureRecognizer *)pinchRecognizer
@@ -164,7 +164,7 @@
     animation.toValue = [NSValue rzx_valueWithVec3:GLKVector3Make(0.0, 0.74, 3.5)];
     animation.duration = 1.0;
 
-    [self.officeNode addAnimation:animation forKey:@"translation"];
+    [self.officeNode.animator addAnimation:animation forKey:@"translation"];
 }
 
 #pragma mark - UITableViewDataSource

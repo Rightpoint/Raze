@@ -5,6 +5,7 @@
 //  Created by Rob Visentin on 7/13/15.
 //
 
+#import <Foundation/Foundation.h>
 #import <QuartzCore/CAAnimation.h>
 
 #ifndef RZXAnimationBase_h

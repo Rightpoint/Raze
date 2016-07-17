@@ -10,6 +10,7 @@
 #import <RazeCore/NSValue+RZXExtensions.h>
 #import <RazeAnimation/RZXBasicAnimation.h>
 #import <RazeAnimation/CAAnimation+RZXExtensions.h>
+#import <RazeAnimation/RZXAnimator.h>
 #import <RazeScene/RZXNode+RZXAnimation.h>
 
 NSString* const kRZXTranslationAnimationKey = @"_transform.translation";
@@ -38,7 +39,7 @@ NSString* const kRZXRotationAnimationKey = @"_transform.rotation";
     animation.rzx_startBlock = start;
     animation.rzx_completionBlock = completion;
 
-    [self addAnimation:animation forKey:nil];
+    [self.animator addAnimation:animation forKey:nil];
 }
 
 - (void)scaleBy:(GLKVector3)scale withDuration:(NSTimeInterval)duration
@@ -59,7 +60,7 @@ NSString* const kRZXRotationAnimationKey = @"_transform.rotation";
     animation.rzx_startBlock = start;
     animation.rzx_completionBlock = completion;
 
-    [self addAnimation:animation forKey:nil];
+    [self.animator addAnimation:animation forKey:nil];
 }
 
 - (void)rotateBy:(GLKQuaternion)rotation withDuration:(NSTimeInterval)duration
@@ -82,7 +83,7 @@ NSString* const kRZXRotationAnimationKey = @"_transform.rotation";
     animation.rzx_startBlock = start;
     animation.rzx_completionBlock = completion;
 
-    [self addAnimation:animation forKey:nil];
+    [self.animator addAnimation:animation forKey:nil];
 }
 
 #pragma mark - Absolute Animations
@@ -105,7 +106,7 @@ NSString* const kRZXRotationAnimationKey = @"_transform.rotation";
     animation.rzx_startBlock = start;
     animation.rzx_completionBlock = completion;
 
-    [self addAnimation:animation forKey:kRZXTranslationAnimationKey];
+    [self.animator addAnimation:animation forKey:kRZXTranslationAnimationKey];
 }
 
 - (void)scaleTo:(GLKVector3)scale withDuration:(NSTimeInterval)duration
@@ -126,7 +127,7 @@ NSString* const kRZXRotationAnimationKey = @"_transform.rotation";
     animation.rzx_startBlock = start;
     animation.rzx_completionBlock = completion;
 
-    [self addAnimation:animation forKey:kRZXScaleAnimationKey];
+    [self.animator addAnimation:animation forKey:kRZXScaleAnimationKey];
 }
 
 - (void)rotateTo:(GLKQuaternion)rotation withDuration:(NSTimeInterval)duration
@@ -149,7 +150,7 @@ NSString* const kRZXRotationAnimationKey = @"_transform.rotation";
     animation.rzx_startBlock = start;
     animation.rzx_completionBlock = completion;
 
-    [self addAnimation:animation forKey:kRZXRotationAnimationKey];
+    [self.animator addAnimation:animation forKey:kRZXRotationAnimationKey];
 }
 
 @end

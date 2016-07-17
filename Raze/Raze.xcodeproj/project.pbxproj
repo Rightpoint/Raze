@@ -50,6 +50,8 @@
 		D40F5E7A1B617A32005A6394 /* RZXImageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = D40F5E781B617A32005A6394 /* RZXImageFilter.m */; };
 		D40F7EC11CD563F400C21979 /* RZXCubeMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = D40F7EBF1CD563F400C21979 /* RZXCubeMesh.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D40F7EC21CD563F400C21979 /* RZXCubeMesh.m in Sources */ = {isa = PBXBuildFile; fileRef = D40F7EC01CD563F400C21979 /* RZXCubeMesh.m */; };
+		D44B8AE91D39794F000D7103 /* RZXAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = D44B8AE71D39794F000D7103 /* RZXAnimator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D44B8AEA1D39794F000D7103 /* RZXAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = D44B8AE81D39794F000D7103 /* RZXAnimator.m */; };
 		D46EDCF31B5455A2002AD0B7 /* RZXNode+RZXAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = D46EDCF11B5455A2002AD0B7 /* RZXNode+RZXAnimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D46EDCF41B5455A2002AD0B7 /* RZXNode+RZXAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = D46EDCF21B5455A2002AD0B7 /* RZXNode+RZXAnimation.m */; };
 		D46EDCF61B545874002AD0B7 /* RZXAnimationBase.h in Headers */ = {isa = PBXBuildFile; fileRef = D46EDCF51B545874002AD0B7 /* RZXAnimationBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -259,6 +261,8 @@
 		D40F5E781B617A32005A6394 /* RZXImageFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXImageFilter.m; sourceTree = "<group>"; };
 		D40F7EBF1CD563F400C21979 /* RZXCubeMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXCubeMesh.h; sourceTree = "<group>"; };
 		D40F7EC01CD563F400C21979 /* RZXCubeMesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXCubeMesh.m; sourceTree = "<group>"; };
+		D44B8AE71D39794F000D7103 /* RZXAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXAnimator.h; sourceTree = "<group>"; };
+		D44B8AE81D39794F000D7103 /* RZXAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZXAnimator.m; sourceTree = "<group>"; };
 		D46EDCF11B5455A2002AD0B7 /* RZXNode+RZXAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RZXNode+RZXAnimation.h"; sourceTree = "<group>"; };
 		D46EDCF21B5455A2002AD0B7 /* RZXNode+RZXAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RZXNode+RZXAnimation.m"; sourceTree = "<group>"; };
 		D46EDCF51B545874002AD0B7 /* RZXAnimationBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZXAnimationBase.h; sourceTree = "<group>"; };
@@ -671,6 +675,8 @@
 				D46EDCF51B545874002AD0B7 /* RZXAnimationBase.h */,
 				D4EF0F741B505197001EA85F /* RZXAnimatable.h */,
 				D4EF0F751B505197001EA85F /* RZXAnimatable.m */,
+				D44B8AE71D39794F000D7103 /* RZXAnimator.h */,
+				D44B8AE81D39794F000D7103 /* RZXAnimator.m */,
 				D4EF0F761B505197001EA85F /* RZXInterpolator.h */,
 				D4EF0F771B505197001EA85F /* RZXInterpolator.m */,
 				D46EDCFB1B545B30002AD0B7 /* RZXBasicAnimation.h */,
@@ -819,6 +825,7 @@
 				D4EF0F7F1B505197001EA85F /* RZXInterpolator.h in Headers */,
 				D4EF0F7D1B505197001EA85F /* RZXAnimatable.h in Headers */,
 				D4EF0F401B50501F001EA85F /* RazeAnimation.h in Headers */,
+				D44B8AE91D39794F000D7103 /* RZXAnimator.h in Headers */,
 				D4EF0F8B1B5053F9001EA85F /* RazeCore+RZXAnimation.h in Headers */,
 				D46EDCF61B545874002AD0B7 /* RZXAnimationBase.h in Headers */,
 			);
@@ -1258,6 +1265,7 @@
 				D4EF0F7E1B505197001EA85F /* RZXAnimatable.m in Sources */,
 				D46EDCFE1B545B30002AD0B7 /* RZXBasicAnimation.m in Sources */,
 				D4EF0F991B50565A001EA85F /* RZXAnimationState.m in Sources */,
+				D44B8AEA1D39794F000D7103 /* RZXAnimator.m in Sources */,
 				D4EF0F8C1B5053F9001EA85F /* RazeCore+RZXAnimation.m in Sources */,
 				D4EF0F801B505197001EA85F /* RZXInterpolator.m in Sources */,
 			);
