@@ -1,5 +1,6 @@
 //
-//  RZXCamera.h
+//  RZXUIEffectCamera.h
+//  RazeUIKit
 //
 //  Created by Rob Visentin on 1/11/15.
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
@@ -10,12 +11,7 @@
 /**
  *  An object representing a projective camera.
  */
-@interface RZXCamera : NSObject <NSCopying>
-
-/**
- *  An identifier for use by your application.
- */
-@property (copy, nonatomic) NSString *name;
+@interface RZXUIEffectCamera : NSObject <NSCopying>
 
 @property (copy, nonatomic) RZXTransform3D *transform;
 

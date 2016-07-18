@@ -1,14 +1,24 @@
 //
 //  RZXCamera.m
+//  RazeScene
 //
 //  Created by Rob Visentin on 1/11/15.
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <RazeCore/RZXCamera.h>
+#import <RazeScene/RZXCamera.h>
+#import <RazeAnimation/RZXAnimatable.h>
 
 @implementation RZXCamera {
+    RZXAnimator *_animator;
     GLKMatrix4 *_cachedProjectionMatrix;
+}
+
++ (void)load
+{
+    @autoreleasepool {
+        [self rzx_addKVCComplianceForGLKTypes];
+    }
 }
 
 + (instancetype)cameraWithFieldOfView:(float)fov aspectRatio:(float)aspectRatio nearClipping:(float)near farClipping:(float)far
@@ -16,10 +26,20 @@
     return [[[self class] alloc] initWithFieldOfView:fov aspectRatio:aspectRatio nearClipping:near farClipping:far];
 }
 
+- (instancetype)initWithFieldOfView:(float)fov aspectRatio:(float)aspectRatio nearClipping:(float)near farClipping:(float)far
+{
+    if ( (self = [self init]) ) {
+        _fieldOfView = fov;
+        _aspectRatio = aspectRatio;
+        _near = near;
+        _far = far;
+    }
+    return self;
+}
+
 - (instancetype)init
 {
-    self = [super init];
-    if ( self ) {
+    if ( (self = [super init]) ) {
         _up = GLKVector3Make(0.0f, 1.0f, 0.0f);
     }
     return self;
@@ -36,6 +56,15 @@
         _transform = [RZXTransform3D transform];
     }
     return _transform;
+}
+
+- (RZXAnimator *)animator
+{
+    if ( _animator == nil ) {
+        _animator = [RZXAnimator animatorForObject:self];
+    }
+
+    return _animator;
 }
 
 - (void)setUp:(GLKVector3)up
@@ -127,19 +156,14 @@
     return copy;
 }
 
-#pragma mark - private methods
+#pragma mark - RZXUpdateable
 
-- (instancetype)initWithFieldOfView:(float)fov aspectRatio:(float)aspectRatio nearClipping:(float)near farClipping:(float)far
+- (void)rzx_update:(NSTimeInterval)dt
 {
-    self = [self init];
-    if ( self ) {
-        _fieldOfView = fov;
-        _aspectRatio = aspectRatio;
-        _near = near;
-        _far = far;
-    }
-    return self;
+    [self.animator rzx_update:dt];
 }
+
+#pragma mark - private methods
 
 - (void)invalidateProjectionMatrixCache
 {

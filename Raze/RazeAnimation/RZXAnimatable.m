@@ -128,10 +128,10 @@ static inline void rzx_setValueForGLKProperty(id self, id value, RZXObjcProperty
             strcmp(encoding, @encode(double)) == 0 ) {
             function = [RZXInterpolator floatInterpolator];
         }
-        else if ( property.typeSize == sizeof(GLKVector2) ) {
+        else if ( strcmp(encoding, @encode(GLKVector2)) == 0 ) {
             function = [RZXInterpolator vec2Interpolator];
         }
-        else if ( property.typeSize == sizeof(GLKVector3) ) {
+        else if ( strcmp(encoding, @encode(GLKVector3)) == 0 ) {
             function = [RZXInterpolator vec3Interpolator];
         }
         else if ( strcmp(encoding, @encode(GLKVector4)) == 0 ) {
@@ -139,6 +139,9 @@ static inline void rzx_setValueForGLKProperty(id self, id value, RZXObjcProperty
         }
         else if ( strcmp(encoding, @encode(GLKQuaternion)) == 0 ) {
             function = [RZXInterpolator quaternionInterpolator];
+        }
+        else if ( strcmp(encoding, "@\"RZXTransform3D\"") == 0 ) {
+            function = [RZXInterpolator transformInterpolator];
         }
     }
 

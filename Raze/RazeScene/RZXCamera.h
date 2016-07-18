@@ -1,16 +1,19 @@
 //
 //  RZXCamera.h
+//  RazeScene
 //
 //  Created by Rob Visentin on 1/11/15.
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
+#import <RazeCore/RZXUpdateable.h>
 #import <RazeCore/RZXTransform3D.h>
+#import <RazeAnimation/RZXAnimator.h>
 
 /**
  *  An object representing a projective camera.
  */
-@interface RZXCamera : NSObject <NSCopying>
+@interface RZXCamera : NSObject <NSCopying, RZXUpdateable>
 
 /**
  *  An identifier for use by your application.
@@ -18,6 +21,8 @@
 @property (copy, nonatomic) NSString *name;
 
 @property (copy, nonatomic) RZXTransform3D *transform;
+
+@property (nonatomic, readonly) RZXAnimator *animator;
 
 /** A unit vector in the "up" direction. Default is (0, 1, 0) */
 @property (nonatomic, assign) GLKVector3 up;
@@ -41,5 +46,6 @@
 @property (nonatomic, readonly) GLKMatrix4 projectionMatrix;
 
 + (instancetype)cameraWithFieldOfView:(float)fov aspectRatio:(float)aspectRatio nearClipping:(float)near farClipping:(float)far;
+- (instancetype)initWithFieldOfView:(float)fov aspectRatio:(float)aspectRatio nearClipping:(float)near farClipping:(float)far;
 
 @end

@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <QuartzCore/CAAnimation.h>
-
 #import <RazeCore/RZXGPUObject.h>
 #import <RazeCore/RZXRenderable.h>
 #import <RazeCore/RZXUpdateable.h>
@@ -17,6 +15,7 @@
 @class RZXTransform3D;
 @class RZXEffect;
 @class RZXCamera;
+@class RZXAnimator;
 
 /**
  *  The base class of any object in a scene.
@@ -36,6 +35,8 @@
 
 @property (copy, nonatomic, readonly) NSArray *children;
 @property (weak, nonatomic, readonly) RZXNode *parent;
+
+@property (nonatomic, readonly) RZXAnimator *animator;
 
 + (instancetype)node;
 
@@ -72,10 +73,6 @@
 
 - (RZXTransform3D *)convertTransform:(RZXTransform3D *)transform toNode:(RZXNode *)node;
 - (RZXTransform3D *)convertTransform:(RZXTransform3D *)transform fromNode:(RZXNode *)node;
-
-- (void)addAnimation:(CAAnimation *)animation forKey:(NSString *)key;
-- (CAAnimation *)animationForKey:(NSString *)key;
-- (void)removeAnimationForKey:(NSString *)key;
 
 @end
 

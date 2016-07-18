@@ -7,25 +7,28 @@
 //
 
 #import <RazeCore/RazeCore.h>
+
 #import <RazeEffects/RZXEffect.h>
-#import <RazeAnimation/CAAnimation+RZXExtensions.h>
+
 #import <RazeAnimation/RZXAnimatable.h>
+#import <RazeAnimation/RazeCore+RZXAnimation.h>
+#import <RazeAnimation/RZXAnimator.h>
 
 #import <RazeScene/RZXNode.h>
 #import <RazeScene/RZXNode_Private.h>
-
 #import <RazeScene/RZXScene.h>
+#import <RazeScene/RZXCamera.h>
 
 @interface RZXNode ()
 
 @property (strong, nonatomic) NSMutableArray *mutableChildren;
 @property (weak, nonatomic, readwrite) RZXNode *parent;
 
-@property (strong, nonatomic) NSMutableDictionary *mutableAnimations;
-
 @end
 
-@implementation RZXNode
+@implementation RZXNode {
+    RZXAnimator *_animator;
+}
 
 #pragma mark - lifecycle
 
@@ -45,7 +48,6 @@
 {
     if ( (self = [super init]) ) {
         _mutableChildren = [NSMutableArray array];
-        _mutableAnimations = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -69,6 +71,15 @@
     }
     
     return effect;
+}
+
+- (RZXAnimator *)animator
+{
+    if ( _animator == nil ) {
+        _animator = [RZXAnimator animatorForObject:self];
+    }
+
+    return _animator;
 }
 
 - (GLKVector2)resolution
@@ -272,27 +283,6 @@
     return [node convertTransform:transform toNode:self];
 }
 
-#pragma mark - Animation
-
-- (void)addAnimation:(CAAnimation *)animation forKey:(NSString *)key
-{
-    animation = [animation copy];
-    key = key ?: [NSString stringWithFormat:@"%p", animation];
-    [self removeAnimationForKey:key];
-    self.mutableAnimations[key] = animation;
-}
-
-- (CAAnimation *)animationForKey:(NSString *)key
-{
-    return [self.mutableAnimations[key] copy];
-}
-
-- (void)removeAnimationForKey:(NSString *)key
-{
-    [self.mutableAnimations[key] rzx_interrupt];
-    [self.mutableAnimations removeObjectForKey:key];
-}
-
 #pragma mark - Physics
 
 - (RZXTransform3D *)worldTransform
@@ -390,16 +380,8 @@
 
 - (void)rzx_update:(NSTimeInterval)dt
 {
-    for ( NSString *key in self.mutableAnimations.allKeys ) {
-        CAAnimation *animation = self.mutableAnimations[key];
-
-        [animation rzx_update:dt];
-        [animation rzx_applyToObject:self];
-
-        if ( animation.rzx_isFinished ) {
-            [self.mutableAnimations removeObjectForKey:key];
-        }
-    }
+    [self.animator rzx_update:dt];
+    [self.camera rzx_update:dt];
 
     for ( RZXNode *child in self.children ) {
         [child rzx_update:dt];

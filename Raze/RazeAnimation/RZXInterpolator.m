@@ -7,8 +7,9 @@
 
 #import <GLKit/GLKit.h>
 #import <RazeCore/NSValue+RZXExtensions.h>
+#import <RazeCore/RZXTransform3D.h>
 
-#import "RZXInterpolator.h"
+#import <RazeAnimation/RZXInterpolator.h>
 
 @interface RZXFloatInterpolator : RZXInterpolator
 @end
@@ -25,31 +26,39 @@
 @interface RZXQuaternionInterpolator : RZXInterpolator
 @end
 
+@interface RZXTransformInterpolator : RZXInterpolator
+@end
+
 @implementation RZXInterpolator
 
-+ (instancetype)floatInterpolator
++ (RZXInterpolator *)floatInterpolator
 {
     return [[RZXFloatInterpolator alloc] init];
 }
 
-+ (instancetype)vec2Interpolator
++ (RZXInterpolator *)vec2Interpolator
 {
     return [[RZXVec2Interpolator alloc] init];
 }
 
-+ (instancetype)vec3Interpolator
++ (RZXInterpolator *)vec3Interpolator
 {
     return [[RZXVec3Interpolator alloc] init];
 }
 
-+ (instancetype)vec4Interpolator
++ (RZXInterpolator *)vec4Interpolator
 {
     return [[RZXVec4Interpolator alloc] init];
 }
 
-+ (instancetype)quaternionInterpolator
++ (RZXInterpolator *)quaternionInterpolator
 {
     return [[RZXQuaternionInterpolator alloc] init];
+}
+
++ (RZXInterpolator *)transformInterpolator
+{
+    return [[RZXTransformInterpolator alloc] init];
 }
 
 - (id)invertValue:(id)value
@@ -185,6 +194,36 @@
     GLKQuaternion to = toValue ? [toValue rzx_quaternionValue] : GLKQuaternionIdentity;
 
     return [NSValue rzx_valueWithQuaternion:GLKQuaternionSlerp(from, to, t)];
+}
+
+@end
+
+@implementation RZXTransformInterpolator
+
+- (id)invertValue:(id)value
+{
+    return [(RZXTransform3D *)value invertedTransform];
+}
+
+- (id)addValue:(id)val1 toValue:(id)val2
+{
+    RZXTransform3D *result = [(RZXTransform3D *)val2 copy];
+    [result transformBy:val1];
+
+    return result;
+}
+
+- (id)interpolatedValueFrom:(id)fromValue to:(id)toValue t:(float)t
+{
+    RZXTransform3D *from = (RZXTransform3D *)fromValue;
+    RZXTransform3D *to = (RZXTransform3D *)toValue;
+    RZXTransform3D *interpolated = [RZXTransform3D transform];
+
+    interpolated.translation = GLKVector3Lerp(from.translation, to.translation, t);
+    interpolated.scale = GLKVector3Lerp(from.scale, to.scale, t);
+    interpolated.rotation = GLKQuaternionSlerp(from.rotation, to.rotation, t);
+
+    return interpolated;
 }
 
 @end

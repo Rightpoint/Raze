@@ -9,11 +9,12 @@
 
 @interface RZXInterpolator : NSObject
 
-+ (instancetype)floatInterpolator;
-+ (instancetype)vec2Interpolator;
-+ (instancetype)vec3Interpolator;
-+ (instancetype)vec4Interpolator;
-+ (instancetype)quaternionInterpolator;
++ (RZXInterpolator *)floatInterpolator;
++ (RZXInterpolator *)vec2Interpolator;
++ (RZXInterpolator *)vec3Interpolator;
++ (RZXInterpolator *)vec4Interpolator;
++ (RZXInterpolator *)quaternionInterpolator;
++ (RZXInterpolator *)transformInterpolator;
 
 - (id)invertValue:(id)value;
 

@@ -72,6 +72,7 @@ static NSString* const kRZXAnimationCompletionBlockKey = @"_RZXAnimationCompleti
 - (void)rzx_update:(NSTimeInterval)dt
 {
     RZXAnimationState *state = self.rzx_state;
+    dt = dt * self.speed;
 
     state.currentTime += dt;
 

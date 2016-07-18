@@ -8,8 +8,6 @@
 #import <RazeAnimation/RazeCore+RZXAnimation.h>
 
 #import <RazeCore/RZXTransform3D.h>
-#import <RazeCore/RZXCamera.h>
-#import <RazeEffects/RZXEffect.h>
 #import <RazeCore/RZXGLView.h>
 
 @implementation NSObject (RZXAnimation)
@@ -18,9 +16,10 @@
 {
     @autoreleasepool {
         [[RZXTransform3D class] rzx_addKVCComplianceForGLKTypes];
-        [[RZXCamera class] rzx_addKVCComplianceForGLKTypes];
-        [[RZXEffect class] rzx_addKVCComplianceForGLKTypes];
         [[RZXGLView class] rzx_addKVCComplianceForGLKTypes];
+
+        // RazeEffects integration
+        [NSClassFromString(@"RZXEffect") rzx_addKVCComplianceForGLKTypes];
     }
 }
 
