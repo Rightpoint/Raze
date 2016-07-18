@@ -18,4 +18,9 @@
  */
 - (float)rzx_solveForNormalizedTime:(float)t;
 
+/**
+ *  Returns the timing function that is inverse to the receiver.
+ */
+- (CAMediaTimingFunction *)rzx_inverseFunction;
+
 @end

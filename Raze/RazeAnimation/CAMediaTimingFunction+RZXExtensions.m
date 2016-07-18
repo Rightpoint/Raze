@@ -39,4 +39,16 @@ static void* const kRZXPolyCurveKey = (void *)&kRZXPolyCurveKey;
     return RZXPolyCurveSolve(curve, t);
 }
 
+- (CAMediaTimingFunction *)rzx_inverseFunction
+{
+    float cps[4];
+    memset(cps, 0, sizeof(cps));
+
+    [self getControlPointAtIndex:1 values:cps];
+    [self getControlPointAtIndex:2 values:cps + 2];
+
+    // flip around the line y = 1 - x
+    return [CAMediaTimingFunction functionWithControlPoints:1.0f - cps[2] :cps[1] :1.0f - cps[0] :cps[3]];
+}
+
 @end
