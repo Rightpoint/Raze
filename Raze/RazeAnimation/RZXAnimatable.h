@@ -17,6 +17,10 @@
 
 @interface NSObject (RZXAnimatable) <RZXAnimatable>
 
+/**
+ *  Adds KVC compliance for GLKit math types.
+ *  @note This function is called automatically for Raze types.
+ */
 + (void)rzx_addKVCComplianceForGLKTypes;
 
 @end

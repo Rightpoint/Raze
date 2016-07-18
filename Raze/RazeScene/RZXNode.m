@@ -11,7 +11,6 @@
 #import <RazeEffects/RZXEffect.h>
 
 #import <RazeAnimation/RZXAnimatable.h>
-#import <RazeAnimation/RazeCore+RZXAnimation.h>
 #import <RazeAnimation/RZXAnimator.h>
 
 #import <RazeScene/RZXNode.h>

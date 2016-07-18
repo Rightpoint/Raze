@@ -16,6 +16,4 @@
 
 - (float)rzx_interpolationFactorForTime:(CFTimeInterval)currentTime;
 
-- (id)rzx_interpolateAtTime:(CFTimeInterval)time withInterpolator:(RZXInterpolator *)interpolator currentValue:(id)currentValue;
-
 @end

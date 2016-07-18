@@ -74,6 +74,18 @@ static inline void rzx_setValueForGLKProperty(id self, id value, RZXObjcProperty
 
 @implementation NSObject (RZXAnimatable)
 
++ (void)load
+{
+    @autoreleasepool {
+        // RazeCore integration
+        [NSClassFromString(@"RZXTransform3D") rzx_addKVCComplianceForGLKTypes];
+        [NSClassFromString(@"RZXGLView") rzx_addKVCComplianceForGLKTypes];
+
+        // RazeEffects integration
+        [NSClassFromString(@"RZXEffect") rzx_addKVCComplianceForGLKTypes];
+    }
+}
+
 + (void)rzx_addKVCComplianceForGLKTypes
 {
     @synchronized (self) {
