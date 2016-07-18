@@ -14,11 +14,13 @@
 {
     BOOL reset = NO;
 
-    NSTimeInterval duration = animation.duration;
+    CFTimeInterval duration = animation.duration;
     float repeatCount = animation.repeatCount;
     CFTimeInterval repeatDuration = animation.repeatDuration;
+    CFTimeInterval beginTime = animation.beginTime;
 
-    if ( self.currentTime > 0.0 && !self.isStarted ) {
+    if ( self.currentTime > beginTime && !self.isStarted ) {
+        self.currentTime -= beginTime;
         self.started = YES;
         reset = YES;
     }
