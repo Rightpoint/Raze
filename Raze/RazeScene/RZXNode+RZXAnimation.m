@@ -8,7 +8,6 @@
 #import <RazeCore/RZXBase.h>
 #import <RazeCore/RZXTransform3D.h>
 #import <RazeCore/NSValue+RZXExtensions.h>
-#import <RazeAnimation/RZXBasicAnimation.h>
 #import <RazeAnimation/CAAnimation+RZXExtensions.h>
 #import <RazeAnimation/RZXAnimator.h>
 #import <RazeScene/RZXNode+RZXAnimation.h>
@@ -33,7 +32,7 @@ NSString* const kRZXRotationAnimationKey = @"_transform.rotation";
 
 - (void)translateBy:(GLKVector3)translation withDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(RZXAnimationOptions)options start:(RZXAnimationStartBlock)start completion:(RZXAnimationCompletionBlock)completion
 {
-    RZXBasicAnimation *animation = [RZXBasicAnimation animationWithKeyPath:RZX_KP_SELF(transform.translation) options:options];
+    CABasicAnimation *animation = [CABasicAnimation rzx_animationWithKeyPath:RZX_KP_SELF(transform.translation) options:options];
     animation.duration = duration;
     animation.byValue = [NSValue rzx_valueWithVec3:translation];
     animation.rzx_startBlock = start;
@@ -54,7 +53,7 @@ NSString* const kRZXRotationAnimationKey = @"_transform.rotation";
 
 - (void)scaleBy:(GLKVector3)scale withDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(RZXAnimationOptions)options start:(RZXAnimationStartBlock)start completion:(RZXAnimationCompletionBlock)completion
 {
-    RZXBasicAnimation *animation = [RZXBasicAnimation animationWithKeyPath:RZX_KP_SELF(transform.scale) options:options];
+    CABasicAnimation *animation = [CABasicAnimation rzx_animationWithKeyPath:RZX_KP_SELF(transform.scale) options:options];
     animation.duration = duration;
     animation.byValue = [NSValue rzx_valueWithVec3:scale];
     animation.rzx_startBlock = start;
@@ -77,7 +76,7 @@ NSString* const kRZXRotationAnimationKey = @"_transform.rotation";
 {
     rotation = GLKQuaternionNormalize(rotation);
 
-    RZXBasicAnimation *animation = [RZXBasicAnimation animationWithKeyPath:RZX_KP_SELF(transform.rotation) options:options];
+    CABasicAnimation *animation = [CABasicAnimation rzx_animationWithKeyPath:RZX_KP_SELF(transform.rotation) options:options];
     animation.duration = duration;
     animation.byValue = [NSValue rzx_valueWithQuaternion:rotation];
     animation.rzx_startBlock = start;
@@ -100,7 +99,7 @@ NSString* const kRZXRotationAnimationKey = @"_transform.rotation";
 
 - (void)translateTo:(GLKVector3)translation withDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(RZXAnimationOptions)options start:(RZXAnimationStartBlock)start completion:(RZXAnimationCompletionBlock)completion
 {
-    RZXBasicAnimation *animation = [RZXBasicAnimation animationWithKeyPath:RZX_KP_SELF(transform.translation) options:options];
+    CABasicAnimation *animation = [CABasicAnimation rzx_animationWithKeyPath:RZX_KP_SELF(transform.translation) options:options];
     animation.duration = duration;
     animation.toValue = [NSValue rzx_valueWithVec3:translation];
     animation.rzx_startBlock = start;
@@ -121,7 +120,7 @@ NSString* const kRZXRotationAnimationKey = @"_transform.rotation";
 
 - (void)scaleTo:(GLKVector3)scale withDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(RZXAnimationOptions)options start:(RZXAnimationStartBlock)start completion:(RZXAnimationCompletionBlock)completion
 {
-    RZXBasicAnimation *animation = [RZXBasicAnimation animationWithKeyPath:RZX_KP_SELF(transform.scale) options:options];
+    CABasicAnimation *animation = [CABasicAnimation rzx_animationWithKeyPath:RZX_KP_SELF(transform.scale) options:options];
     animation.duration = duration;
     animation.toValue = [NSValue rzx_valueWithVec3:scale];
     animation.rzx_startBlock = start;
@@ -144,7 +143,7 @@ NSString* const kRZXRotationAnimationKey = @"_transform.rotation";
 {
     rotation = GLKQuaternionNormalize(rotation);
 
-    RZXBasicAnimation *animation = [RZXBasicAnimation animationWithKeyPath:RZX_KP_SELF(transform.rotation) options:options];
+    CABasicAnimation *animation = [CABasicAnimation rzx_animationWithKeyPath:RZX_KP_SELF(transform.rotation) options:options];
     animation.duration = duration;
     animation.toValue = [NSValue rzx_valueWithQuaternion:rotation];
     animation.rzx_startBlock = start;

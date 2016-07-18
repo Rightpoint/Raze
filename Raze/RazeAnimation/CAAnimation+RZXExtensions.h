@@ -20,3 +20,9 @@
 - (void)rzx_interrupt;
 
 @end
+
+@interface CABasicAnimation (RZXOptions)
+
++ (instancetype)rzx_animationWithKeyPath:(NSString *)path options:(RZXAnimationOptions)options;
+
+@end

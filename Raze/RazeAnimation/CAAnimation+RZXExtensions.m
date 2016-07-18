@@ -85,3 +85,32 @@ static NSString* const kRZXAnimationCompletionBlockKey = @"_RZXAnimationCompleti
 }
 
 @end
+
+@implementation CABasicAnimation (RZXOptions)
+
++ (instancetype)rzx_animationWithKeyPath:(NSString *)path options:(RZXAnimationOptions)options
+{
+    CABasicAnimation *animation = [self animationWithKeyPath:path];
+
+    if ( options & kRZXAnimationOptionRepeat ) {
+        animation.repeatCount = HUGE_VALF;
+    }
+
+    if ( options & kRZXAnimationOptionAutoReverse ) {
+        animation.autoreverses = YES;
+    }
+
+    if ( options & kRZXAnimationOptionCurveEaseIn ) {
+        animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    }
+    else if ( options & kRZXAnimationOptionCurveEaseOut ) {
+        animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+    }
+    else if ( options & kRZXAnimationOptionCurveEaseInOut ) {
+        animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    }
+
+    return animation;
+}
+
+@end
