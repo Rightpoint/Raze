@@ -36,4 +36,30 @@
     return function ? [function rzx_solveForNormalizedTime:t] : t;
 }
 
+- (void)rzx_notifyStart
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ( [self.delegate respondsToSelector:@selector(animationDidStart:)] ) {
+            [self.delegate animationDidStart:self];
+        }
+
+        if ( self.rzx_startBlock != nil ) {
+            self.rzx_startBlock(self);
+        }
+    });
+}
+
+- (void)rzx_notifyStop:(BOOL)finished
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ( [self.delegate respondsToSelector:@selector(animationDidStop:finished:)] ) {
+            [self.delegate animationDidStop:self finished:finished];
+        }
+
+        if ( self.rzx_completionBlock != nil ) {
+            self.rzx_completionBlock(self, finished);
+        }
+    });
+}
+
 @end

@@ -12,8 +12,9 @@
 #import <RazeAnimation/RZXAnimationState.h>
 #import <RazeAnimation/RZXInterpolator.h>
 
-static NSString* const kRZXAnimationStartBlockKey = @"_RZXAnimationStartBlock";
-static NSString* const kRZXAnimationCompletionBlockKey = @"_RZXAnimationCompletionBlock";
+static NSString* const kRZXStartBlockKey = @"_RZXStartBlock";
+static NSString* const kRZXCompletionBlockKey = @"_RZXCompletionBlock";
+static NSString * const kRZXAnimationBlockKey = @"_RZXAnimationBlock";
 
 #pragma mark - NSObject+RZXAnimationExtensions
 
@@ -25,24 +26,32 @@ static NSString* const kRZXAnimationCompletionBlockKey = @"_RZXAnimationCompleti
 
 @implementation CAAnimation (RZXExtensions)
 
++ (instancetype)rzx_animationWithBlock:(RZXAnimationBlock)block
+{
+    CAAnimation *animation = [self animation];
+    [animation setValue:block forKey:kRZXAnimationBlockKey];
+
+    return animation;
+}
+
 - (RZXAnimationStartBlock)rzx_startBlock
 {
-    return [self valueForKey:kRZXAnimationStartBlockKey];
+    return [self valueForKey:kRZXStartBlockKey];
 }
 
 - (void)rzx_setStartBlock:(RZXAnimationStartBlock)rzx_startBlock
 {
-    [self setValue:rzx_startBlock forKey:kRZXAnimationStartBlockKey];
+    [self setValue:rzx_startBlock forKey:kRZXStartBlockKey];
 }
 
 - (RZXAnimationCompletionBlock)rzx_completionBlock
 {
-    return [self valueForKey:kRZXAnimationCompletionBlockKey];
+    return [self valueForKey:kRZXCompletionBlockKey];
 }
 
 - (void)rzx_setCompletionBlock:(RZXAnimationCompletionBlock)rzx_completion
 {
-    [self setValue:[rzx_completion copy] forKey:kRZXAnimationCompletionBlockKey];
+    [self setValue:[rzx_completion copy] forKey:kRZXCompletionBlockKey];
 }
 
 - (BOOL)rzx_isFinished
@@ -57,8 +66,30 @@ static NSString* const kRZXAnimationCompletionBlockKey = @"_RZXAnimationCompleti
 
 - (void)rzx_applyToObject:(id)object
 {
-    // base class is a no-op. subclasses override
-    self.rzx_state.finished = YES;
+    if ( self.rzx_isFinished ) {
+        return;
+    }
+
+    RZXAnimationState *state = [self rzx_state];
+    BOOL previouslyStarted = state.isStarted;
+
+    RZXAnimationBlock animationBlock = [self valueForKey:kRZXAnimationBlockKey];
+
+    if ( [state updateWithAnimation:self] && animationBlock != nil) {
+        animationBlock(object, 0.0f);
+    }
+
+    if ( state.isStarted && animationBlock != nil) {
+        animationBlock(object, [self rzx_interpolationFactorForTime:state.currentTime]);
+    }
+
+    if ( !previouslyStarted && state.isStarted ) {
+        [self rzx_notifyStart];
+    }
+
+    if ( state.isStarted && state.isFinished ) {
+        [self rzx_notifyStop:YES];
+    }
 }
 
 - (void)rzx_interrupt
@@ -66,15 +97,7 @@ static NSString* const kRZXAnimationCompletionBlockKey = @"_RZXAnimationCompleti
     RZXAnimationState *state = [self rzx_state];
 
     if ( state.isStarted && !state.isFinished ) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if ( [self.delegate respondsToSelector:@selector(animationDidStop:finished:)] ) {
-                [self.delegate animationDidStop:self finished:NO];
-            }
-
-            if ( self.rzx_completionBlock != nil ) {
-                self.rzx_completionBlock(self, NO);
-            }
-        });
+        [self rzx_notifyStop:NO];
     }
 }
 
@@ -108,52 +131,30 @@ static NSString* const kRZXAnimationCompletionBlockKey = @"_RZXAnimationCompleti
     }
 
     id animatedObject = [object valueForKeyPath:[self.keyPath stringByDeletingPathExtension]];
-
     NSString *animatedKey = [self.keyPath pathExtension];
-
     RZXInterpolator *interpolator = [[animatedObject class] rzx_cachedInterpolatorForKey:animatedKey];
 
     RZXAnimationState *state = [self rzx_state];
     BOOL previouslyStarted = state.isStarted;
 
-    if ( interpolator != nil ) {
-        id currentValue = [animatedObject valueForKey:animatedKey];
+    id currentValue = [animatedObject valueForKey:animatedKey];
 
-        if ( [state updateWithAnimation:self] ) {
-            [self rzx_seedInitialAndTargetValuesForState:state withInterpolator:interpolator currentValue:currentValue];
-        }
+    if ( [state updateWithAnimation:self] && interpolator != nil ) {
+        [self rzx_seedInitialAndTargetValuesForState:state withInterpolator:interpolator currentValue:currentValue];
+    }
 
+    if ( state.isStarted && interpolator != nil ) {
         id interpolatedValue = [self rzx_interpolateAtTime:state.currentTime withInterpolator:interpolator currentValue:currentValue];
 
         [animatedObject setValue:interpolatedValue forKey:animatedKey];
     }
-    else {
-        state.started = NO;
-        state.finished = YES;
-    }
 
     if ( !previouslyStarted && state.isStarted ) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if ( [self.delegate respondsToSelector:@selector(animationDidStart:)] ) {
-                [self.delegate animationDidStart:self];
-            }
-
-            if ( self.rzx_startBlock != nil ) {
-                self.rzx_startBlock(self);
-            }
-        });
+        [self rzx_notifyStart];
     }
 
-    if ( state.isStarted && state.finished ) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if ( [self.delegate respondsToSelector:@selector(animationDidStop:finished:)] ) {
-                [self.delegate animationDidStop:self finished:YES];
-            }
-
-            if ( self.rzx_completionBlock != nil ) {
-                self.rzx_completionBlock(self, YES);
-            }
-        });
+    if ( state.isStarted && state.isFinished ) {
+        [self rzx_notifyStop:YES];
     }
 }
 

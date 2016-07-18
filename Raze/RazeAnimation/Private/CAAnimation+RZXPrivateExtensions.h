@@ -16,4 +16,7 @@
 
 - (float)rzx_interpolationFactorForTime:(CFTimeInterval)currentTime;
 
+- (void)rzx_notifyStart;
+- (void)rzx_notifyStop:(BOOL)finished;
+
 @end
