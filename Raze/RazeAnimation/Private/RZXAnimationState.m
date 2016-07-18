@@ -19,34 +19,37 @@
     CFTimeInterval repeatDuration = animation.repeatDuration;
     CFTimeInterval beginTime = animation.beginTime;
 
-    if ( self.currentTime > beginTime && !self.isStarted ) {
-        self.currentTime -= beginTime;
-        self.started = YES;
+    if ( _currentTime > beginTime && !_started ) {
+        _currentTime -= beginTime;
+        _repetition = duration > 0.0 ? _currentTime / duration : 0.0;
+        _started = YES;
         reset = YES;
     }
 
-    if ( repeatCount > 0.0f && self.repetition >= repeatCount + 1 ) {
-        CFTimeInterval remainingTime = fmod(repeatCount * duration, duration);
+    if ( _started ) {
+        if ( repeatCount > 0.0f && _repetition >= repeatCount + 1 ) {
+            CFTimeInterval remainingTime = fmod(repeatCount * duration, duration);
 
-        self.currentTime = remainingTime > 0.0 ? remainingTime : duration;
-        self.repetition = repeatCount;
-        self.finished = YES;
-    }
-    else if ( repeatDuration > 0.0 && self.repetition * duration >= repeatDuration ) {
-        CFTimeInterval remainingTime = fmod(repeatDuration, duration);
-
-        self.currentTime = remainingTime > 0.0 ? remainingTime : duration;
-        self.repetition = repeatDuration / duration;
-        self.finished = YES;
-    }
-    else if ( self.currentTime >= duration ) {
-        if ( repeatCount > 0.0f || repeatDuration > 0.0 ) {
-            self.currentTime -= duration;
-            reset = YES;
+            _currentTime = remainingTime > 0.0 ? remainingTime : duration;
+            _repetition = repeatCount;
+            _finished = YES;
         }
-        else {
-            self.currentTime = duration;
-            self.finished = YES;
+        else if ( repeatDuration > 0.0 && _repetition * duration >= repeatDuration ) {
+            CFTimeInterval remainingTime = fmod(repeatDuration, duration);
+
+            _currentTime = remainingTime > 0.0 ? remainingTime : duration;
+            _repetition = repeatDuration / duration;
+            _finished = YES;
+        }
+        else if ( _currentTime >= duration ) {
+            if ( repeatCount > 0.0f || repeatDuration > 0.0 ) {
+                _currentTime -= duration;
+                reset = YES;
+            }
+            else {
+                _currentTime = duration;
+                _finished = YES;
+            }
         }
     }
     

@@ -110,7 +110,7 @@ static NSString * const kRZXAnimationBlockKey = @"_RZXAnimationBlock";
 
     state.currentTime += dt;
 
-    if ( self.duration != 0.0 ) {
+    if ( state.isStarted && self.duration != 0.0 ) {
         state.repetition += dt / self.duration;
     }
     else {
