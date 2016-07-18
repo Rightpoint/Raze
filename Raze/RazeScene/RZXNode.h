@@ -10,13 +10,12 @@
 #import <RazeCore/RZXRenderable.h>
 #import <RazeCore/RZXUpdateable.h>
 
-#import <RazeAnimation/RZXAnimator.h>
-
 #import <RazePhysics/RZXPhysicsBody.h>
 
 @class RZXTransform3D;
 @class RZXEffect;
 @class RZXCamera;
+@class RZXAnimator;
 
 /**
  *  The base class of any object in a scene.

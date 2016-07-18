@@ -17,7 +17,6 @@ FOUNDATION_EXPORT const unsigned char RazeCoreVersionString[];
 #import <RazeCore/RZXGLContext.h>
 #import <RazeCore/RZXGPUObject.h>
 #import <RazeCore/RZXTransform3D.h>
-#import <RazeCore/RZXCamera.h>
 #import <RazeCore/RZXMaterial.h>
 #import <RazeCore/RZXMesh.h>
 #import <RazeCore/RZXQuadMesh.h>

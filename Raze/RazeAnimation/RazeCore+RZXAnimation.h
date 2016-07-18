@@ -5,19 +5,10 @@
 //  Created by Rob Visentin on 7/10/15.
 //
 
-#import <RazeCore/RZXCamera.h>
-
 #import <RazeAnimation/RZXAnimatable.h>
-#import <RazeAnimation/RZXAnimator.h>
 
 /**
  *  Adds KVC compliance for GLKit math types for Raze objects.
  */
 @interface NSObject (RZXAnimation)
-@end
-
-@interface RZXCamera (RZXAnimation) <RZXUpdateable>
-
-@property (nonatomic, readonly) RZXAnimator *animator;
-
 @end

@@ -7,13 +7,17 @@
 //
 
 #import <RazeCore/RazeCore.h>
+
 #import <RazeEffects/RZXEffect.h>
+
 #import <RazeAnimation/RZXAnimatable.h>
 #import <RazeAnimation/RazeCore+RZXAnimation.h>
+#import <RazeAnimation/RZXAnimator.h>
 
 #import <RazeScene/RZXNode.h>
 #import <RazeScene/RZXNode_Private.h>
 #import <RazeScene/RZXScene.h>
+#import <RazeScene/RZXCamera.h>
 
 @interface RZXNode ()
 
@@ -22,7 +26,9 @@
 
 @end
 
-@implementation RZXNode
+@implementation RZXNode {
+    RZXAnimator *_animator;
+}
 
 #pragma mark - lifecycle
 
@@ -42,7 +48,6 @@
 {
     if ( (self = [super init]) ) {
         _mutableChildren = [NSMutableArray array];
-        _animator = [RZXAnimator animatorForObject:self];
     }
     return self;
 }
@@ -66,6 +71,15 @@
     }
     
     return effect;
+}
+
+- (RZXAnimator *)animator
+{
+    if ( _animator == nil ) {
+        _animator = [RZXAnimator animatorForObject:self];
+    }
+
+    return _animator;
 }
 
 - (GLKVector2)resolution

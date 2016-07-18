@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Raizlabs. All rights reserved.
 //
 
-#import <QuartzCore/CAAnimation.h>
-
 #import <RazeCore/RZXGPUObject.h>
 #import <RazeCore/RZXRenderable.h>
 #import <RazeCore/RZXUpdateable.h>
@@ -17,6 +15,7 @@
 @class RZXTransform3D;
 @class RZXEffect;
 @class RZXCamera;
+@class RZXAnimator;
 
 /**
  *  The base class of any object in a scene.
@@ -36,6 +35,8 @@
 
 @property (copy, nonatomic, readonly) NSArray *children;
 @property (weak, nonatomic, readonly) RZXNode *parent;
+
+@property (nonatomic, readonly) RZXAnimator *animator;
 
 + (instancetype)node;
 
@@ -61,21 +62,17 @@
 - (GLKMatrix4)viewMatrix;
 - (GLKMatrix4)projectionMatrix;
 
-- (GLKVector3)convertPoint:(GLKVector3)point fromNode:(RZXNode *)node;
 - (GLKVector3)convertPoint:(GLKVector3)point toNode:(RZXNode *)node;
+- (GLKVector3)convertPoint:(GLKVector3)point fromNode:(RZXNode *)node;
 
-- (GLKVector3)convertScale:(GLKVector3)scale fromNode:(RZXNode *)node;
 - (GLKVector3)convertScale:(GLKVector3)scale toNode:(RZXNode *)node;
+- (GLKVector3)convertScale:(GLKVector3)scale fromNode:(RZXNode *)node;
 
-- (GLKQuaternion)convertRotation:(GLKQuaternion)rotation fromNode:(RZXNode *)node;
 - (GLKQuaternion)convertRotation:(GLKQuaternion)rotation toNode:(RZXNode *)node;
+- (GLKQuaternion)convertRotation:(GLKQuaternion)rotation fromNode:(RZXNode *)node;
 
-- (RZXTransform3D *)convertTransform:(RZXTransform3D *)transform fromNode:(RZXNode *)node;
 - (RZXTransform3D *)convertTransform:(RZXTransform3D *)transform toNode:(RZXNode *)node;
-
-- (void)addAnimation:(CAAnimation *)animation forKey:(NSString *)key;
-- (CAAnimation *)animationForKey:(NSString *)key;
-- (void)removeAnimationForKey:(NSString *)key;
+- (RZXTransform3D *)convertTransform:(RZXTransform3D *)transform fromNode:(RZXNode *)node;
 
 @end
 

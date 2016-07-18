@@ -7,10 +7,10 @@
 
 #import <RazeCore/RZXGLContext.h>
 #import <RazeCore/RZXQuadMesh.h>
-#import <RazeCore/RZXCamera.h>
 #import <RazeCore/RZXGLContext.h>
 #import <RazeUIKit/RZXEffectView.h>
 #import <RazeUIKit/RZXViewTexture.h>
+#import <RazeUIKit/RZXUIEffectCamera.h>
 
 #define RZX_EFFECT_AUX_TEXTURES (RZX_EFFECT_MAX_DOWNSAMPLE + 1)
 
@@ -25,7 +25,7 @@
 
 @property (nonatomic, readonly) RZXGLContext *context;
 
-@property (strong, nonatomic) RZXCamera *effectCamera;
+@property (strong, nonatomic) RZXUIEffectCamera *effectCamera;
 
 @property (strong, nonatomic) IBOutlet UIView *sourceView;
 @property (strong, nonatomic) RZXViewTexture *viewTexture;
@@ -268,7 +268,7 @@
 {
     _sourceView = sourceView;
 
-    self.effectCamera = [RZXCamera cameraWithFieldOfView:GLKMathDegreesToRadians(30.0f) aspectRatio:1.0f nearClipping:0.001f farClipping:100.0f];
+    self.effectCamera = [RZXUIEffectCamera cameraWithFieldOfView:GLKMathDegreesToRadians(30.0f) aspectRatio:1.0f nearClipping:0.001f farClipping:100.0f];
 
     self.effectTransform = [RZXTransform3D transform];
 

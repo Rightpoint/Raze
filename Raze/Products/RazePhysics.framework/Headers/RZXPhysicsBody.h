@@ -10,7 +10,7 @@
 
 @protocol RZXPhysicsObject;
 
-@interface RZXPhysicsBody : NSObject
+@interface RZXPhysicsBody : NSObject <NSCopying>
 
 /**
  *  An identifier for use by your application.
