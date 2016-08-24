@@ -27,6 +27,7 @@
 }
 
 @synthesize context = _context;
+@synthesize paused = _paused;
 
 #pragma mark - lifecycle
 
@@ -57,7 +58,7 @@
 
 - (void)didMoveToSuperview
 {
-    if ( self.superview != nil && !self.isPaused ) {
+    if ( self.superview != nil && !_paused ) {
         [self.renderLoop run];
     }
 }
@@ -72,6 +73,11 @@
 + (Class)layerClass
 {
     return [CAEAGLLayer class];
+}
+
+- (BOOL)isPaused
+{
+    return (_paused || !self.renderLoop.isRunning);
 }
 
 - (GLKVector2)resolution
@@ -171,7 +177,7 @@
     [self.renderLoop setUpdateTarget:self];
     [self.renderLoop setRenderTarget:self];
 
-    if ( self.superview != nil && !self.isPaused ) {
+    if ( self.superview != nil && !_paused ) {
         [self.renderLoop run];
     }
 }
