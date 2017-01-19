@@ -289,9 +289,14 @@
 {
     if ( self.sourceView != nil ) {
         [self.context runBlock:^(RZXGLContext *context) {
-            self.viewTexture = [RZXViewTexture textureWithSize:self.sourceView.bounds.size];
-            [self.viewTexture setupGL];
-
+            if ( !CGRectIsEmpty(self.sourceView.bounds) ) {
+                self.viewTexture = [RZXViewTexture textureWithSize:self.sourceView.bounds.size];
+                [self.viewTexture setupGL];
+            }
+            else {
+                self.viewTexture = nil;
+            }
+            
             self.textureLoaded = NO;
         }];
     }

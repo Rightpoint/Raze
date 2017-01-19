@@ -39,10 +39,16 @@ void main()
 
 + (instancetype)effect
 {
-    RZXGrayscaleEffect *effect = [RZXGrayscaleEffect effectWithVertexShader:kRZXEffectIntensityVSH fragmentShader:kRZXEffectIntensityFSH];
-    effect.mvpUniform = @"u_MVPMatrix";
+    return [[self alloc] init];
+}
 
-    return effect;
+- (instancetype)init
+{
+    if ( (self = [self initWithVertexShader:kRZXEffectIntensityVSH fragmentShader:kRZXEffectIntensityFSH]) ) {
+        self.mvpUniform = @"u_MVPMatrix";
+    }
+
+    return self;
 }
 
 - (BOOL)link

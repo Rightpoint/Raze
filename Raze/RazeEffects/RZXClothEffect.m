@@ -102,23 +102,28 @@ varying highp vec3 v_lightPosition;
 
 + (instancetype)effect
 {
-    RZXClothEffect *effect = [super effectWithVertexShader:kRZXClothVSH fragmentShader:kRZXClothFSH];
-    
-    effect.anchors = GLKVector2Make(-1.0f, 1.0f);
-    
-    effect.waveCount = 8.0f;
-    effect.waveAmplitude = 0.05f;
-    effect.waveVelocity = 0.8f;
-    
-    effect.lightOffset = GLKVector3Make(0.0f, 1.0f, 4.0f);
-    effect.ambientLight = GLKVector3Make(1.0f, 1.0f, 1.0f);
-    effect.diffuseLight = GLKVector3Make(1.0f, 1.0f, 1.0f);
-    effect.specularLight = GLKVector3Make(0.6f, 0.6f, 0.6f);
-    
-    effect.mvpUniform = @"u_MVPMatrix";
-    effect.mvUniform = @"u_MVMatrix";
-    
-    return effect;
+    return [[self alloc] init];
+}
+
+- (instancetype)init
+{
+    if ( (self = [self initWithVertexShader:kRZXClothVSH fragmentShader:kRZXClothFSH]) ) {
+        self.anchors = GLKVector2Make(-1.0f, 1.0f);
+
+        self.waveCount = 8.0f;
+        self.waveAmplitude = 0.05f;
+        self.waveVelocity = 0.8f;
+
+        self.lightOffset = GLKVector3Make(0.0f, 1.0f, 4.0f);
+        self.ambientLight = GLKVector3Make(1.0f, 1.0f, 1.0f);
+        self.diffuseLight = GLKVector3Make(1.0f, 1.0f, 1.0f);
+        self.specularLight = GLKVector3Make(0.6f, 0.6f, 0.6f);
+
+        self.mvpUniform = @"u_MVPMatrix";
+        self.mvUniform = @"u_MVMatrix";
+    }
+
+    return self;
 }
 
 - (void)setAnchors:(GLKVector2)anchors

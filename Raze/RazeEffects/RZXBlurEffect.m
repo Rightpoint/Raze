@@ -67,19 +67,25 @@ void RZXGetGaussianBlurOffsets(GLfloat **offsets, GLint *n, const GLfloat *weigh
 
 + (instancetype)effectWithSigma:(GLfloat)sigma
 {
+    return [[self alloc] initWithSigma:sigma];
+}
+
+- (instancetype)initWithSigma:(GLfloat)sigma
+{
     RZXBlurEffectPartial *horizontal = [RZXBlurEffectPartial effectWithDirection:kRZXBlurDirectionHorizontal];
     RZXBlurEffectPartial *vertical = [RZXBlurEffectPartial effectWithDirection:kRZXBlurDirectionVertical];
 
     RZXBlurEffectFull *blur = [RZXBlurEffectFull compositeEffectWithFirstEffect:horizontal secondEffect:vertical];
 
-    RZXBlurEffect *effect = [[RZXBlurEffect alloc] init];
-    effect.horizontal = horizontal;
-    effect.vertical = vertical;
+    if ( (self = [self init]) ) {
+        self.horizontal = horizontal;
+        self.vertical = vertical;
 
-    effect.blurs = [NSMutableArray arrayWithObject:blur];
-    effect.sigma = sigma;
+        self.blurs = [NSMutableArray arrayWithObject:blur];
+        self.sigma = sigma;
+    }
 
-    return effect;
+    return self;
 }
 
 #pragma mark - overrides

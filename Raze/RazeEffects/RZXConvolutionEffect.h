@@ -19,5 +19,6 @@ OBJC_EXTERN NSString* const kRZXEffectConvolutionVSH;
 
 // Post processing src e.g. @"rgb = normalize(rgb);"
 + (instancetype)effectWithKernel:(GLKMatrix3)kernel postProcessing:(NSString *)postProcessingSrc;
+- (instancetype)initWithKernel:(GLKMatrix3)kernel postProcessing:(NSString *)postProcessingSrc;
 
 @end

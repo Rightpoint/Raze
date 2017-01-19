@@ -29,31 +29,22 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
 
 + (instancetype)effectWithVertexShader:(NSString *)vsh fragmentShader:(NSString *)fsh
 {
-    RZXEffect *effect = nil;
-
-    if ( vsh == nil ) {
-        RZXLog(@"%@ failed to intialize, missing vertex shader.", NSStringFromClass(self));
-    }
-    
-    if ( fsh == nil ) {
-        RZXLog(@"%@ failed to intialize, missing fragment shader.", NSStringFromClass(self));
-    }
-    
-    if ( vsh != nil && fsh != nil ) {
-        effect = [[self alloc] initWithVertexShader:vsh fragmentShader:fsh];
-    }
-    
-    return effect;
-}
-
-- (instancetype)init
-{
-    return [self initWithVertexShader:nil fragmentShader:nil];
+    return [[self alloc] initWithVertexShader:vsh fragmentShader:fsh];
 }
 
 - (instancetype)initWithVertexShader:(NSString *)vsh fragmentShader:(NSString *)fsh
 {
-    if ( (self = [super init]) ) {
+    if ( vsh == nil ) {
+        RZXLog(@"%@ failed to intialize, missing vertex shader.", [self class]);
+        self = nil;
+    }
+
+    if ( fsh == nil ) {
+        RZXLog(@"%@ failed to intialize, missing fragment shader.", [self class]);
+        self = nil;
+    }
+
+    if ( vsh != nil && fsh != nil && (self = [super init]) ) {
         _modelViewMatrix = GLKMatrix4Identity;
         _projectionMatrix = GLKMatrix4Identity;
         _normalMatrix = GLKMatrix3Identity;
@@ -63,6 +54,7 @@ GLuint RZXCompileShader(const GLchar *source, GLenum type);
         _vshSrc = vsh;
         _fshSrc = fsh;
     }
+
     return self;
 }
 

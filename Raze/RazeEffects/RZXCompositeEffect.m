@@ -20,12 +20,18 @@
 
 + (instancetype)compositeEffectWithFirstEffect:(RZXEffect *)first secondEffect:(RZXEffect *)second
 {
-    RZXCompositeEffect *effect = [[self alloc] init];
-    effect.firstEffect = first;
-    effect.secondEffect = second;
-    effect.currentEffect = effect.firstEffect;
-    
-    return effect;
+    return [[self alloc] initWithFirstEffect:first secondEffect:second];
+}
+
+- (instancetype)initWithFirstEffect:(RZXEffect *)first secondEffect:(RZXEffect *)second
+{
+    if ( (self = [self init]) ) {
+        self.firstEffect = first;
+        self.secondEffect = second;
+        self.currentEffect = first;
+    }
+
+    return self;
 }
 
 - (BOOL)isLinked

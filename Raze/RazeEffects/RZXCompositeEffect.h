@@ -18,5 +18,6 @@
 @property (strong, nonatomic, readonly) RZXEffect *currentEffect;
 
 + (instancetype)compositeEffectWithFirstEffect:(RZXEffect *)first secondEffect:(RZXEffect *)second;
+- (instancetype)initWithFirstEffect:(RZXEffect *)first secondEffect:(RZXEffect *)second;
 
 @end

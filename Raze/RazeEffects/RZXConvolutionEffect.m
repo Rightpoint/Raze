@@ -65,13 +65,19 @@ static NSString* const kRZXEffectConvolutionFSHEnd = RZX_SHADER_SRC(
 
 + (instancetype)effectWithKernel:(GLKMatrix3)kernel postProcessing:(NSString *)postProcessingSrc
 {
+    return [[self alloc] initWithKernel:kernel postProcessing:postProcessingSrc];
+}
+
+- (instancetype)initWithKernel:(GLKMatrix3)kernel postProcessing:(NSString *)postProcessingSrc
+{
     NSString *fsh = [NSString stringWithFormat:@"%@%@;\n%@", kRZXEffectConvolutionFSHStart, postProcessingSrc ?: @"", kRZXEffectConvolutionFSHEnd];
 
-    RZXConvolutionEffect *effect = [RZXConvolutionEffect effectWithVertexShader:kRZXEffectConvolutionVSH fragmentShader:fsh];
-    effect.mvpUniform = @"u_MVPMatrix";
-    effect.kernel = kernel;
+    if ( (self = [self initWithVertexShader:kRZXEffectConvolutionVSH fragmentShader:fsh]) ) {
+        self.mvpUniform = @"u_MVPMatrix";
+        self.kernel = kernel;
+    }
 
-    return effect;
+    return self;
 }
 
 - (BOOL)link

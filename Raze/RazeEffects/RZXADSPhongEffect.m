@@ -66,11 +66,9 @@ void main()
    return [[RZXADSPhongEffect alloc] init];
 }
 
-- (instancetype)init {
-
-    self = [super initWithVertexShader:kRZXADSPhongVSH fragmentShader:kRZXADSPhongFSH];
-
-    if (self) {
+- (instancetype)init
+{
+    if ( (self = [self initWithVertexShader:kRZXADSPhongVSH fragmentShader:kRZXADSPhongFSH]) ) {
         self.lightPosition = GLKVector3Make(0.0f, 0.0f, 10.0f);
         self.lightIntensity = GLKVector3Make(1.0f, 1.0f, 1.0f);
         self.ambientReflection = GLKVector3Make(0.5f, 0.5f, 0.5f);
