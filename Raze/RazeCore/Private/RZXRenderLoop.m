@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 
 #import "RZXRenderLoop.h"
+#import "RZXBase.h"
 
 static const NSInteger kRZRenderLoopDefaultFPS = 30;
 
@@ -84,6 +85,7 @@ static const NSInteger kRZRenderLoopDefaultFPS = 30;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
 
     self.valid = YES;
 }
@@ -118,6 +120,16 @@ static const NSInteger kRZRenderLoopDefaultFPS = 30;
     if ( self.pausedWhileInactive && self.automaticallyResumeWhenForegrounded ) {
         [self run];
     }
+}
+
+- (void)willResignActive:(NSNotification *)notification
+{
+	if ( self.isRunning ) {
+		[self stop];
+		self.pausedWhileInactive = YES;
+	}
+	
+	glFinish();
 }
 
 - (void)displayLinkTick:(CADisplayLink *)displayLink
